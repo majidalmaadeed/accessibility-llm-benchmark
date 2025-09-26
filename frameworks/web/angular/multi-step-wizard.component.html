@@ -1,0 +1,287 @@
+<div class="wizard-container">
+  <div class="wizard-header">
+    <h1>User Registration Wizard</h1>
+    <div class="progress-bar">
+      <div 
+        class="progress-fill" 
+        [style.width.%]="progressPercentage"
+      ></div>
+    </div>
+    <div class="progress-text">
+      Step {{ currentStep }} of {{ steps.length }}
+    </div>
+  </div>
+
+  <div class="wizard-steps">
+    <div 
+      *ngFor="let step of steps" 
+      [class]="getStepClass(step)"
+      (click)="currentStep = step.id"
+    >
+      <div class="step-number">
+        {{ getStepNumber(step) }}
+      </div>
+      <div class="step-info">
+        <div class="step-title">{{ step.title }}</div>
+        <div class="step-description">{{ step.description }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wizard-content">
+    <!-- Step 1: Personal Information -->
+    <div *ngIf="currentStep === 1" class="step-content">
+      <h3>Personal Information</h3>
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="First Name"
+          [(ngModel)]="formData.personalInfo.firstName"
+          [class.error]="hasError('firstName')"
+        />
+        <span *ngIf="hasError('firstName')" class="error-message">{{ getError('firstName') }}</span>
+      </div>
+      
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="Last Name"
+          [(ngModel)]="formData.personalInfo.lastName"
+          [class.error]="hasError('lastName')"
+        />
+        <span *ngIf="hasError('lastName')" class="error-message">{{ getError('lastName') }}</span>
+      </div>
+      
+      <div class="form-group">
+        <input
+          type="email"
+          placeholder="Email Address"
+          [(ngModel)]="formData.personalInfo.email"
+          [class.error]="hasError('email')"
+        />
+        <span *ngIf="hasError('email')" class="error-message">{{ getError('email') }}</span>
+      </div>
+      
+      <div class="form-group">
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          [(ngModel)]="formData.personalInfo.phone"
+          [class.error]="hasError('phone')"
+        />
+        <span *ngIf="hasError('phone')" class="error-message">{{ getError('phone') }}</span>
+      </div>
+      
+      <div class="form-group">
+        <input
+          type="date"
+          [(ngModel)]="formData.personalInfo.dateOfBirth"
+        />
+      </div>
+    </div>
+
+    <!-- Step 2: Address Information -->
+    <div *ngIf="currentStep === 2" class="step-content">
+      <h3>Address Information</h3>
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="Street Address"
+          [(ngModel)]="formData.addressInfo.street"
+          [class.error]="hasError('street')"
+        />
+        <span *ngIf="hasError('street')" class="error-message">{{ getError('street') }}</span>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <input
+            type="text"
+            placeholder="City"
+            [(ngModel)]="formData.addressInfo.city"
+            [class.error]="hasError('city')"
+          />
+          <span *ngIf="hasError('city')" class="error-message">{{ getError('city') }}</span>
+        </div>
+        
+        <div class="form-group">
+          <input
+            type="text"
+            placeholder="State"
+            [(ngModel)]="formData.addressInfo.state"
+            [class.error]="hasError('state')"
+          />
+          <span *ngIf="hasError('state')" class="error-message">{{ getError('state') }}</span>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <input
+            type="text"
+            placeholder="ZIP Code"
+            [(ngModel)]="formData.addressInfo.zipCode"
+            [class.error]="hasError('zipCode')"
+          />
+          <span *ngIf="hasError('zipCode')" class="error-message">{{ getError('zipCode') }}</span>
+        </div>
+        
+        <div class="form-group">
+          <select [(ngModel)]="formData.addressInfo.country">
+            <option value="">Select Country</option>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="UK">United Kingdom</option>
+            <option value="AU">Australia</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Preferences -->
+    <div *ngIf="currentStep === 3" class="step-content">
+      <h3>Preferences</h3>
+      <div class="form-group">
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="formData.preferences.newsletter"
+          />
+          Subscribe to newsletter
+        </label>
+      </div>
+      
+      <div class="form-group">
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="formData.preferences.notifications"
+          />
+          Enable push notifications
+        </label>
+      </div>
+      
+      <div class="form-group">
+        <label>Theme Preference</label>
+        <select [(ngModel)]="formData.preferences.theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="auto">Auto</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Language</label>
+        <select [(ngModel)]="formData.preferences.language">
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Step 4: Payment Information -->
+    <div *ngIf="currentStep === 4" class="step-content">
+      <h3>Payment Information</h3>
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="Card Number"
+          [(ngModel)]="formData.paymentInfo.cardNumber"
+          [class.error]="hasError('cardNumber')"
+        />
+        <span *ngIf="hasError('cardNumber')" class="error-message">{{ getError('cardNumber') }}</span>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <input
+            type="text"
+            placeholder="MM/YY"
+            [(ngModel)]="formData.paymentInfo.expiryDate"
+            [class.error]="hasError('expiryDate')"
+          />
+          <span *ngIf="hasError('expiryDate')" class="error-message">{{ getError('expiryDate') }}</span>
+        </div>
+        
+        <div class="form-group">
+          <input
+            type="text"
+            placeholder="CVV"
+            [(ngModel)]="formData.paymentInfo.cvv"
+            [class.error]="hasError('cvv')"
+          />
+          <span *ngIf="hasError('cvv')" class="error-message">{{ getError('cvv') }}</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="Billing Address (if different)"
+          [(ngModel)]="formData.paymentInfo.billingAddress"
+        />
+      </div>
+    </div>
+
+    <!-- Step 5: Review -->
+    <div *ngIf="currentStep === 5" class="step-content">
+      <h3>Review Your Information</h3>
+      <div class="review-section">
+        <h4>Personal Information</h4>
+        <p><strong>Name:</strong> {{ formData.personalInfo.firstName }} {{ formData.personalInfo.lastName }}</p>
+        <p><strong>Email:</strong> {{ formData.personalInfo.email }}</p>
+        <p><strong>Phone:</strong> {{ formData.personalInfo.phone }}</p>
+        <p><strong>Date of Birth:</strong> {{ formData.personalInfo.dateOfBirth }}</p>
+      </div>
+      
+      <div class="review-section">
+        <h4>Address</h4>
+        <p>{{ formData.addressInfo.street }}</p>
+        <p>{{ formData.addressInfo.city }}, {{ formData.addressInfo.state }} {{ formData.addressInfo.zipCode }}</p>
+        <p>{{ formData.addressInfo.country }}</p>
+      </div>
+      
+      <div class="review-section">
+        <h4>Preferences</h4>
+        <p><strong>Newsletter:</strong> {{ formData.preferences.newsletter ? 'Yes' : 'No' }}</p>
+        <p><strong>Notifications:</strong> {{ formData.preferences.notifications ? 'Yes' : 'No' }}</p>
+        <p><strong>Theme:</strong> {{ formData.preferences.theme }}</p>
+        <p><strong>Language:</strong> {{ formData.preferences.language }}</p>
+      </div>
+      
+      <div class="review-section">
+        <h4>Payment</h4>
+        <p><strong>Card:</strong> {{ getMaskedCardNumber() }}</p>
+        <p><strong>Expires:</strong> {{ formData.paymentInfo.expiryDate }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wizard-navigation">
+    <button 
+      (click)="handlePrevious()"
+      [disabled]="currentStep === 1"
+      class="btn-secondary"
+    >
+      Previous
+    </button>
+    
+    <button 
+      *ngIf="currentStep < steps.length"
+      (click)="handleNext()"
+      class="btn-primary"
+    >
+      Next
+    </button>
+    <button 
+      *ngIf="currentStep === steps.length"
+      (click)="handleSubmit()"
+      [disabled]="isSubmitting"
+      class="btn-primary"
+    >
+      {{ isSubmitting ? 'Submitting...' : 'Complete Registration' }}
+    </button>
+  </div>
+</div>

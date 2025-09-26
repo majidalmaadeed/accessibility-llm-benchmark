@@ -1,0 +1,181 @@
+<div class="social-media-feed">
+  <div class="feed-header">
+    <h1>Social Feed</h1>
+    <div class="header-actions">
+      <div class="notifications-container">
+        <button 
+          (click)="showNotifications = !showNotifications"
+          class="notifications-btn"
+        >
+          🔔
+          <span *ngIf="getUnreadNotificationCount() > 0" class="notification-badge">
+            {{ getUnreadNotificationCount() }}
+          </span>
+        </button>
+        
+        <div *ngIf="showNotifications" class="notifications-dropdown">
+          <div class="notifications-header">
+            <h3>Notifications</h3>
+            <button (click)="markAllNotificationsRead()" class="mark-read-btn">
+              Mark all read
+            </button>
+          </div>
+          <div class="notifications-list">
+            <div
+              *ngFor="let notification of notifications"
+              [class]="'notification-item ' + (notification.read ? 'read' : 'unread')"
+              (click)="handleNotificationClick(notification)"
+            >
+              <img [src]="notification.user.avatar" [alt]="notification.user.name" class="notification-avatar" />
+              <div class="notification-content">
+                <div class="notification-text">
+                  <strong>{{ notification.user.name }}</strong> {{ notification.message }}
+                </div>
+                <div class="notification-time">{{ formatTimestamp(notification.timestamp) }}</div>
+              </div>
+              <div class="notification-icon">{{ getNotificationIcon(notification.type) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button 
+        (click)="showComposer = !showComposer"
+        class="compose-btn"
+      >
+        + Create Post
+      </button>
+    </div>
+  </div>
+
+  <div class="feed-content">
+    <div class="feed-main">
+      <div *ngIf="showComposer" class="post-composer">
+        <div class="composer-header">
+          <img [src]="currentUser.avatar" [alt]="currentUser.name" class="composer-avatar" />
+          <div class="composer-info">
+            <div class="composer-name">{{ currentUser.name }}</div>
+            <div class="composer-privacy">Public</div>
+          </div>
+        </div>
+        <div class="composer-content">
+          <textarea
+            [(ngModel)]="newPostContent"
+            placeholder="What's on your mind?"
+            class="composer-textarea"
+          ></textarea>
+        </div>
+        <div class="composer-actions">
+          <button (click)="showComposer = false" class="cancel-btn">Cancel</button>
+          <button (click)="handleCreatePost()" class="post-btn">Post</button>
+        </div>
+      </div>
+
+      <div class="posts-container" (scroll)="onScroll($event)">
+        <div *ngFor="let post of posts" class="post-card">
+          <div class="post-header">
+            <div class="post-author">
+              <img [src]="post.author.avatar" [alt]="post.author.name" class="author-avatar" />
+              <div class="author-info">
+                <div class="author-name">
+                  {{ post.author.name }}
+                  <span *ngIf="post.author.verified" class="verified-badge">✓</span>
+                </div>
+                <div class="post-time">{{ formatTimestamp(post.timestamp) }}</div>
+              </div>
+            </div>
+            <div class="post-menu">
+              <button class="menu-btn">⋯</button>
+            </div>
+          </div>
+
+          <div class="post-content">
+            <p class="post-text">{{ post.content }}</p>
+            <img *ngIf="post.image" [src]="post.image" [alt]="post.content" class="post-image" />
+          </div>
+
+          <div class="post-stats">
+            <span *ngIf="post.likes > 0" class="stat-item">
+              {{ post.likes }} like{{ post.likes !== 1 ? 's' : '' }}
+            </span>
+            <span *ngIf="post.comments > 0" class="stat-item">
+              {{ post.comments }} comment{{ post.comments !== 1 ? 's' : '' }}
+            </span>
+            <span *ngIf="post.shares > 0" class="stat-item">
+              {{ post.shares }} share{{ post.shares !== 1 ? 's' : '' }}
+            </span>
+          </div>
+
+          <div class="post-actions">
+            <button 
+              (click)="handleLike(post.id)"
+              [class]="'action-btn ' + (post.isLiked ? 'liked' : '')"
+            >
+              {{ post.isLiked ? '❤️' : '🤍' }} Like
+            </button>
+            <button 
+              (click)="handleComment(post.id)"
+              class="action-btn"
+            >
+              💬 Comment
+            </button>
+            <button 
+              (click)="handleShare(post.id)"
+              class="action-btn"
+            >
+              🔄 Share
+            </button>
+            <button 
+              (click)="handleBookmark(post.id)"
+              [class]="'action-btn bookmark ' + (post.isBookmarked ? 'bookmarked' : '')"
+            >
+              {{ post.isBookmarked ? '🔖' : '🔗' }}
+            </button>
+          </div>
+
+          <div *ngIf="showComments[post.id]" class="comments-section">
+            <div class="comments-list">
+              <div *ngFor="let comment of post.commentsList" class="comment-item">
+                <img [src]="comment.author.avatar" [alt]="comment.author.name" class="comment-avatar" />
+                <div class="comment-content">
+                  <div class="comment-header">
+                    <span class="comment-author">{{ comment.author.name }}</span>
+                    <span class="comment-time">{{ formatTimestamp(comment.timestamp) }}</span>
+                  </div>
+                  <div class="comment-text">{{ comment.content }}</div>
+                  <div class="comment-actions">
+                    <button 
+                      (click)="handleLikeComment(post.id, comment.id)"
+                      [class]="'comment-like ' + (comment.isLiked ? 'liked' : '')"
+                    >
+                      {{ comment.isLiked ? '❤️' : '🤍' }} {{ comment.likes > 0 ? comment.likes : '' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="add-comment">
+              <img [src]="currentUser.avatar" [alt]="currentUser.name" class="comment-avatar" />
+              <div class="comment-input-container">
+                <input
+                  type="text"
+                  [(ngModel)]="newComment[post.id]"
+                  placeholder="Write a comment..."
+                  class="comment-input"
+                  (keyup.enter)="handleAddComment(post.id)"
+                />
+                <button (click)="handleAddComment(post.id)" class="comment-submit">Post</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="isLoading" class="loading-posts">
+          <div class="loading-spinner"></div>
+          <span>Loading more posts...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

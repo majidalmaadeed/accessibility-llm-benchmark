@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Filter</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        
+        .main-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 16px;
+        }
+        
+        .description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .filter-section {
+            margin-bottom: 30px;
+        }
+        
+        .filter-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+            width: 200px;
+        }
+        
+        .dropdown-trigger {
+            background-color: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease;
+        }
+        
+        .dropdown-trigger:hover {
+            border-color: #007bff;
+        }
+        
+        .dropdown-trigger:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        
+        .dropdown-trigger.open {
+            border-color: #007bff;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        
+        .dropdown-arrow {
+            transition: transform 0.2s ease;
+        }
+        
+        .dropdown-trigger.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #007bff;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .dropdown-menu.show {
+            display: block;
+        }
+        
+        .dropdown-option {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-option:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .dropdown-option.selected {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .dropdown-option.selected:hover {
+            background-color: #0056b3;
+        }
+        
+        .results-section {
+            margin-top: 30px;
+        }
+        
+        .results-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 16px;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .result-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .result-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        
+        .result-card p {
+            margin: 0;
+            color: #666;
+        }
+        
+        .accessibility-info {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 4px;
+        }
+        
+        .accessibility-info h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        
+        .accessibility-info ul {
+            margin-bottom: 12px;
+        }
+        
+        .accessibility-info li {
+            margin-bottom: 8px;
+        }
+        
+        .accessibility-info code {
+            background-color: #f8f9fa;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <h1 class="title">Product Filter</h1>
+        <p class="description">Filter products by category using the dropdown below.</p>
+        
+        <div class="filter-section">
+            <label class="filter-label" for="category-filter">Filter by Category:</label>
+            <div class="custom-dropdown">
+                <button 
+                    class="dropdown-trigger" 
+                    id="category-filter"
+                    onclick="toggleDropdown()"
+                    onkeydown="handleKeyDown(event)"
+                    aria-expanded="false"
+                    aria-haspopup="listbox"
+                    aria-labelledby="category-filter-label"
+                >
+                    <span id="selected-option">All Categories</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                
+                <div 
+                    class="dropdown-menu" 
+                    id="dropdown-menu"
+                    role="listbox"
+                    aria-labelledby="category-filter-label"
+                >
+                    <div 
+                        class="dropdown-option selected" 
+                        data-value="all"
+                        onclick="selectOption('all', 'All Categories')"
+                        onkeydown="handleOptionKeyDown(event, 'all', 'All Categories')"
+                        tabindex="0"
+                        role="option"
+                        aria-selected="true"
+                    >
+                        <span>All Categories</span>
+                        <span>✓</span>
+                    </div>
+                    <div 
+                        class="dropdown-option" 
+                        data-value="electronics"
+                        onclick="selectOption('electronics', 'Electronics')"
+                        onkeydown="handleOptionKeyDown(event, 'electronics', 'Electronics')"
+                        tabindex="-1"
+                        role="option"
+                        aria-selected="false"
+                    >
+                        <span>Electronics</span>
+                        <span></span>
+                    </div>
+                    <div 
+                        class="dropdown-option" 
+                        data-value="clothing"
+                        onclick="selectOption('clothing', 'Clothing')"
+                        onkeydown="handleOptionKeyDown(event, 'clothing', 'Clothing')"
+                        tabindex="-1"
+                        role="option"
+                        aria-selected="false"
+                    >
+                        <span>Clothing</span>
+                        <span></span>
+                    </div>
+                    <div 
+                        class="dropdown-option" 
+                        data-value="books"
+                        onclick="selectOption('books', 'Books')"
+                        onkeydown="handleOptionKeyDown(event, 'books', 'Books')"
+                        tabindex="-1"
+                        role="option"
+                        aria-selected="false"
+                    >
+                        <span>Books</span>
+                        <span></span>
+                    </div>
+                    <div 
+                        class="dropdown-option" 
+                        data-value="home"
+                        onclick="selectOption('home', 'Home & Garden')"
+                        onkeydown="handleOptionKeyDown(event, 'home', 'Home & Garden')"
+                        tabindex="-1"
+                        role="option"
+                        aria-selected="false"
+                    >
+                        <span>Home & Garden</span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-section">
+            <h2 class="results-title">Filtered Results</h2>
+            <div class="results-grid" id="results-grid">
+                <!-- Results will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <div class="accessibility-info">
+        <h3>Accessibility Issues:</h3>
+        <ul>
+            <li><strong>Incomplete keyboard navigation:</strong> Arrow keys don't navigate through options</li>
+            <li><strong>Missing ARIA attributes:</strong> No aria-activedescendant or proper role attributes</li>
+            <li><strong>Focus management:</strong> Focus doesn't move to options when dropdown opens</li>
+            <li><strong>Screen reader announcements:</strong> No announcements when selection changes</li>
+            <li><strong>Escape key handling:</strong> Escape doesn't close dropdown</li>
+            <li><strong>Tab order:</strong> Options are not in proper tab sequence</li>
+        </ul>
+        
+        <h3>How to Fix:</h3>
+        <ul>
+            <li>Add <code>aria-activedescendant</code> to track focused option</li>
+            <li>Implement arrow key navigation (Up/Down)</li>
+            <li>Add <code>aria-selected</code> to indicate selected state</li>
+            <li>Handle Escape key to close dropdown</li>
+            <li>Add <code>aria-live</code> region for selection announcements</li>
+            <li>Ensure proper focus management when opening/closing</li>
+        </ul>
+    </div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+        
+        let isOpen = false;
+        let selectedValue = 'all';
+        let currentIndex = 0;
+        
+        const products = {
+            all: [
+                { name: 'iPhone 15', category: 'Electronics' },
+                { name: 'MacBook Pro', category: 'Electronics' },
+                { name: 'Cotton T-Shirt', category: 'Clothing' },
+                { name: 'JavaScript Guide', category: 'Books' },
+                { name: 'Garden Tools', category: 'Home & Garden' }
+            ],
+            electronics: [
+                { name: 'iPhone 15', category: 'Electronics' },
+                { name: 'MacBook Pro', category: 'Electronics' }
+            ],
+            clothing: [
+                { name: 'Cotton T-Shirt', category: 'Clothing' }
+            ],
+            books: [
+                { name: 'JavaScript Guide', category: 'Books' }
+            ],
+            home: [
+                { name: 'Garden Tools', category: 'Home & Garden' }
+            ]
+        };
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown-menu');
+            const trigger = document.getElementById('category-filter');
+            
+            isOpen = !isOpen;
+            
+            if (isOpen) {
+                dropdown.classList.add('show');
+                trigger.classList.add('open');
+                trigger.setAttribute('aria-expanded', 'true');
+            } else {
+                dropdown.classList.remove('show');
+                trigger.classList.remove('open');
+                trigger.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        function selectOption(value, text) {
+            selectedValue = value;
+            
+            // Update selected option display
+            document.getElementById('selected-option').textContent = text;
+            
+            // Update ARIA attributes
+            document.querySelectorAll('.dropdown-option').forEach(option => {
+                option.classList.remove('selected');
+                option.setAttribute('aria-selected', 'false');
+                option.setAttribute('tabindex', '-1');
+                option.querySelector('span:last-child').textContent = '';
+            });
+            
+            const selectedOption = document.querySelector(`[data-value="${value}"]`);
+            selectedOption.classList.add('selected');
+            selectedOption.setAttribute('aria-selected', 'true');
+            selectedOption.setAttribute('tabindex', '0');
+            selectedOption.querySelector('span:last-child').textContent = '✓';
+            
+            // Close dropdown
+            toggleDropdown();
+            
+            // Update results
+            updateResults();
+            
+            // Announce selection change
+            announceSelection(text);
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleDropdown();
+            } else if (event.key === 'Escape' && isOpen) {
+                toggleDropdown();
+            }
+        }
+
+        function handleOptionKeyDown(event, value, text) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                selectOption(value, text);
+            } else if (event.key === 'Escape') {
+                toggleDropdown();
+            }
+        }
+
+        function updateResults() {
+            const resultsGrid = document.getElementById('results-grid');
+            const filteredProducts = products[selectedValue] || [];
+            
+            resultsGrid.innerHTML = filteredProducts.map(product => `
+                <div class="result-card">
+                    <h3>${product.name}</h3>
+                    <p>${product.category}</p>
+                </div>
+            `).join('');
+        }
+
+        function announceSelection(text) {
+            // Use Electron's accessibility features
+            const announcement = `Selected ${text}`;
+            
+            // Create a temporary element for screen reader announcement
+            const announcer = document.createElement('div');
+            announcer.setAttribute('aria-live', 'polite');
+            announcer.setAttribute('aria-atomic', 'true');
+            announcer.style.position = 'absolute';
+            announcer.style.left = '-10000px';
+            announcer.style.width = '1px';
+            announcer.style.height = '1px';
+            announcer.style.overflow = 'hidden';
+            announcer.textContent = announcement;
+            
+            document.body.appendChild(announcer);
+            
+            setTimeout(() => {
+                document.body.removeChild(announcer);
+            }, 1000);
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.querySelector('.custom-dropdown');
+            if (!dropdown.contains(event.target)) {
+                if (isOpen) {
+                    toggleDropdown();
+                }
+            }
+        });
+
+        // Listen for accessibility toggle from main process
+        ipcRenderer.on('toggle-accessibility-info', () => {
+            const info = document.querySelector('.accessibility-info');
+            info.style.display = info.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Initialize results
+        updateResults();
+    </script>
+</body>
+</html>

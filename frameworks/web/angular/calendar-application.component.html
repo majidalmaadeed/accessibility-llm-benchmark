@@ -1,0 +1,253 @@
+<div class="calendar-application">
+  <div class="calendar-toolbar">
+    <div class="view-controls">
+      <button 
+        [class.active]="view === 'month'"
+        (click)="view = 'month'"
+      >
+        Month
+      </button>
+      <button 
+        [class.active]="view === 'week'"
+        (click)="view = 'week'"
+      >
+        Week
+      </button>
+      <button 
+        [class.active]="view === 'day'"
+        (click)="view = 'day'"
+      >
+        Day
+      </button>
+    </div>
+
+    <div class="toolbar-actions">
+      <button 
+        class="new-event-btn"
+        (click)="showEventForm = true"
+      >
+        + New Event
+      </button>
+      
+      <div class="category-filter">
+        <button 
+          (click)="showCategoryFilter = !showCategoryFilter"
+          class="filter-btn"
+        >
+          Filter: {{ getCategoryName(categoryFilter) }}
+        </button>
+        
+        <div *ngIf="showCategoryFilter" class="category-dropdown">
+          <button 
+            [class.active]="categoryFilter === 'all'"
+            (click)="categoryFilter = 'all'"
+          >
+            All Categories
+          </button>
+          <button
+            *ngFor="let category of categories"
+            [class.active]="categoryFilter === category.id"
+            (click)="categoryFilter = category.id"
+          >
+            {{ category.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-content">
+    <!-- Month View -->
+    <div *ngIf="view === 'month'" class="month-view">
+      <div class="calendar-header">
+        <h2>{{ getMonthName() }}</h2>
+        <div class="navigation">
+          <button (click)="navigateMonth(-1)">‹</button>
+          <button (click)="currentDate = new Date()">Today</button>
+          <button (click)="navigateMonth(1)">›</button>
+        </div>
+      </div>
+
+      <div class="calendar-grid">
+        <div class="day-headers">
+          <div *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']" class="day-header">{{ day }}</div>
+        </div>
+        
+        <div class="days-grid">
+          <div
+            *ngFor="let day of getDaysInMonth(); let index = index"
+            [class]="'day-cell ' + (isToday(day) ? 'today' : '') + ' ' + (!isCurrentMonth(day) ? 'other-month' : '')"
+            (click)="day && handleDateClick(day)"
+          >
+            <div *ngIf="day" class="day-number">{{ day.getDate() }}</div>
+            <div *ngIf="day" class="day-events">
+              <div
+                *ngFor="let event of getEventsForDate(day).slice(0, 3)"
+                [class]="'event-dot ' + event.category"
+                (click)="handleEventClick(event); $event.stopPropagation()"
+              >
+                {{ event.title }}
+              </div>
+              <div *ngIf="getEventsForDate(day).length > 3" class="more-events">
+                +{{ getEventsForDate(day).length - 3 }} more
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Week View -->
+    <div *ngIf="view === 'week'" class="week-view">
+      <div class="calendar-header">
+        <h2>Week of {{ getStartOfWeek().toLocaleDateString() }}</h2>
+        <div class="navigation">
+          <button (click)="navigateWeek(-1)">‹</button>
+          <button (click)="currentDate = new Date()">Today</button>
+          <button (click)="navigateWeek(1)">›</button>
+        </div>
+      </div>
+
+      <div class="week-grid">
+        <div class="time-column">
+          <div *ngFor="let time of timeSlots" class="time-slot">{{ time }}</div>
+        </div>
+        
+        <div
+          *ngFor="let i of [1,2,3,4,5,6,7]"
+          [class]="'day-column ' + (isToday(getWeekDate(i)) ? 'today' : '')"
+        >
+          <div class="day-header">
+            <div class="day-name">{{ getWeekDate(i).toLocaleDateString('en-US', { weekday: 'short' }) }}</div>
+            <div class="day-number">{{ getWeekDate(i).getDate() }}</div>
+          </div>
+          
+          <div class="day-events">
+            <div
+              *ngFor="let event of getEventsForDate(getWeekDate(i))"
+              [class]="'event-block ' + event.category"
+              [ngStyle]="getEventStyle(event)"
+              (click)="handleEventClick(event)"
+            >
+              {{ event.title }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day View -->
+    <div *ngIf="view === 'day'" class="day-view">
+      <div class="calendar-header">
+        <h2>{{ getDayName() }}</h2>
+        <div class="navigation">
+          <button (click)="navigateDay(-1)">‹</button>
+          <button (click)="currentDate = new Date()">Today</button>
+          <button (click)="navigateDay(1)">›</button>
+        </div>
+      </div>
+
+      <div class="day-grid">
+        <div class="time-column">
+          <div *ngFor="let time of timeSlots" class="time-slot">{{ time }}</div>
+        </div>
+        
+        <div class="day-events">
+          <div
+            *ngFor="let event of getEventsForDate(currentDate)"
+            [class]="'event-block ' + event.category"
+            [ngStyle]="getEventStyle(event)"
+            (click)="handleEventClick(event)"
+          >
+            <div class="event-title">{{ event.title }}</div>
+            <div class="event-time">
+              {{ formatTime(event.start) }} - {{ formatTime(event.end) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Event Form Modal -->
+  <div *ngIf="showEventForm" class="event-form-overlay">
+    <div class="event-form">
+      <div class="form-header">
+        <h3>{{ selectedEvent ? 'Edit Event' : 'New Event' }}</h3>
+        <button (click)="closeEventForm()" class="close-btn">✕</button>
+      </div>
+
+      <div class="form-content">
+        <div class="form-group">
+          <label>Event Title</label>
+          <input
+            type="text"
+            [(ngModel)]="newEvent.title"
+            placeholder="Enter event title"
+          />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Start Time</label>
+            <input
+              type="datetime-local"
+              [(ngModel)]="newEvent.start"
+            />
+          </div>
+          <div class="form-group">
+            <label>End Time</label>
+            <input
+              type="datetime-local"
+              [(ngModel)]="newEvent.end"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select [(ngModel)]="newEvent.category">
+            <option *ngFor="let category of categories" [value]="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>
+              <input
+                type="checkbox"
+                [(ngModel)]="newEvent.recurring"
+              />
+              Recurring Event
+            </label>
+          </div>
+          <div class="form-group">
+            <label>Reminder (minutes)</label>
+            <select [(ngModel)]="newEvent.reminder">
+              <option value="5">5 minutes</option>
+              <option value="15">15 minutes</option>
+              <option value="30">30 minutes</option>
+              <option value="60">1 hour</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button *ngIf="selectedEvent" (click)="handleDeleteEvent()" class="delete-btn">
+          Delete
+        </button>
+        <div class="form-actions-right">
+          <button (click)="closeEventForm()" class="cancel-btn">
+            Cancel
+          </button>
+          <button (click)="handleSaveEvent()" class="save-btn">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

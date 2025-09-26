@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .login-form {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .login-button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .login-button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            border-color: #dc3545 !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Login Form</h1>
+    <p>Please enter your credentials to access your account.</p>
+    
+    <form class="login-form" id="loginForm">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <!-- Error message -->
+        <div class="error-message" id="errorMessage" style="display: none;">
+            Please fill in all required fields.
+        </div>
+        
+        <button type="submit" class="login-button">Login</button>
+    </form>
+
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username');
+            const password = document.getElementById('password');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Clear previous errors
+            username.classList.remove('error');
+            password.classList.remove('error');
+            errorMessage.style.display = 'none';
+            
+            // Check for empty fields
+            if (!username.value.trim() || !password.value.trim()) {
+                username.classList.add('error');
+                password.classList.add('error');
+                errorMessage.style.display = 'block';
+            } else {
+                alert('Form submitted successfully!');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<div [class]="'rich-text-editor ' + (isFullscreen ? 'fullscreen' : '')">
+  <div class="editor-toolbar">
+    <div class="toolbar-section">
+      <button 
+        (click)="undo()"
+        [disabled]="undoStack.length === 0"
+        title="Undo"
+      >
+        ↶
+      </button>
+      <button 
+        (click)="redo()"
+        [disabled]="redoStack.length === 0"
+        title="Redo"
+      >
+        ↷
+      </button>
+    </div>
+
+    <div class="toolbar-section">
+      <button 
+        (click)="execCommand('bold')"
+        [class.active]="isBold"
+        title="Bold"
+      >
+        <strong>B</strong>
+      </button>
+      <button 
+        (click)="execCommand('italic')"
+        [class.active]="isItalic"
+        title="Italic"
+      >
+        <em>I</em>
+      </button>
+      <button 
+        (click)="execCommand('underline')"
+        [class.active]="isUnderline"
+        title="Underline"
+      >
+        <u>U</u>
+      </button>
+    </div>
+
+    <div class="toolbar-section">
+      <select 
+        [value]="fontFamily"
+        (change)="handleFontFamilyChange($event)"
+        title="Font Family"
+      >
+        <option *ngFor="let font of fontFamilies" [value]="font">{{ font }}</option>
+      </select>
+      
+      <select 
+        [value]="fontSize"
+        (change)="handleFontSizeChange($event)"
+        title="Font Size"
+      >
+        <option *ngFor="let size of fontSizes" [value]="size">{{ size }}px</option>
+      </select>
+    </div>
+
+    <div class="toolbar-section">
+      <input
+        type="color"
+        [value]="textColor"
+        (change)="handleTextColorChange($event)"
+        title="Text Color"
+      />
+      <input
+        type="color"
+        [value]="backgroundColor"
+        (change)="handleBackgroundColorChange($event)"
+        title="Background Color"
+      />
+    </div>
+
+    <div class="toolbar-section">
+      <button 
+        (click)="setAlignment('left')"
+        [class.active]="alignment === 'left'"
+        title="Align Left"
+      >
+        ⬅
+      </button>
+      <button 
+        (click)="setAlignment('center')"
+        [class.active]="alignment === 'center'"
+        title="Align Center"
+      >
+        ↔
+      </button>
+      <button 
+        (click)="setAlignment('right')"
+        [class.active]="alignment === 'right'"
+        title="Align Right"
+      >
+        ➡
+      </button>
+      <button 
+        (click)="setAlignment('justify')"
+        [class.active]="alignment === 'justify'"
+        title="Justify"
+      >
+        ⬌
+      </button>
+    </div>
+
+    <div class="toolbar-section">
+      <button 
+        (click)="execCommand('insertUnorderedList')"
+        [class.active]="listType === 'unordered'"
+        title="Bullet List"
+      >
+        •
+      </button>
+      <button 
+        (click)="execCommand('insertOrderedList')"
+        [class.active]="listType === 'ordered'"
+        title="Numbered List"
+      >
+        1.
+      </button>
+    </div>
+
+    <div class="toolbar-section">
+      <button 
+        (click)="showStylePanel = !showStylePanel"
+        [class.active]="showStylePanel"
+        title="Styles"
+      >
+        Styles
+      </button>
+      <button 
+        (click)="showMediaPanel = !showMediaPanel"
+        [class.active]="showMediaPanel"
+        title="Media"
+      >
+        Media
+      </button>
+    </div>
+
+    <div class="toolbar-section">
+      <button 
+        (click)="exportContent('html')"
+        title="Export HTML"
+      >
+        Export HTML
+      </button>
+      <button 
+        (click)="exportContent('text')"
+        title="Export Text"
+      >
+        Export Text
+      </button>
+      <button 
+        (click)="toggleFullscreen()"
+        title="Toggle Fullscreen"
+      >
+        {{ isFullscreen ? '⤢' : '⤡' }}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="showStylePanel" class="style-panel">
+    <h4>Quick Styles</h4>
+    <div class="style-buttons">
+      <button (click)="execCommand('formatBlock', 'h1')">Heading 1</button>
+      <button (click)="execCommand('formatBlock', 'h2')">Heading 2</button>
+      <button (click)="execCommand('formatBlock', 'h3')">Heading 3</button>
+      <button (click)="execCommand('formatBlock', 'p')">Paragraph</button>
+      <button (click)="execCommand('formatBlock', 'blockquote')">Quote</button>
+      <button (click)="execCommand('formatBlock', 'pre')">Code</button>
+    </div>
+    
+    <h4>Text Colors</h4>
+    <div class="color-palette">
+      <button
+        *ngFor="let color of colors"
+        class="color-btn"
+        [style.background-color]="color"
+        (click)="setTextColor(color)"
+        [title]="color"
+      />
+    </div>
+  </div>
+
+  <div *ngIf="showMediaPanel" class="media-panel">
+    <h4>Insert Media</h4>
+    <div class="media-buttons">
+      <button (click)="insertImage()">Insert Image</button>
+      <button (click)="insertLink()">Insert Link</button>
+      <button (click)="insertTable()">Insert Table</button>
+      <button (click)="insertHorizontalRule()">Insert Line</button>
+    </div>
+  </div>
+
+  <div class="editor-container">
+    <div
+      #editorRef
+      class="editor-content"
+      contenteditable
+      [innerHTML]="content"
+      (input)="handleContentChange()"
+      (mouseup)="onEditorMouseUp()"
+      (keyup)="onEditorKeyUp()"
+      (focus)="onEditorFocus()"
+    ></div>
+  </div>
+
+  <div class="editor-footer">
+    <div class="word-count">
+      <span>Words: {{ wordCount }}</span>
+      <span>Characters: {{ charCount }}</span>
+    </div>
+    <div class="editor-status">
+      <span>Ready</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityApp.SearchWithSilentUpdatesPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Search Interface"
+             BackgroundColor="#F5F5F5">
+    
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            
+            <!-- Main Content Card -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="8" 
+                   Padding="30" 
+                   HasShadow="True">
+                <StackLayout Spacing="20">
+                    
+                    <!-- Title -->
+                    <Label Text="Search Interface"
+                           FontSize="24" 
+                           FontAttributes="Bold" 
+                           TextColor="#333333" />
+                    
+                    <!-- Description -->
+                    <Label Text="Search for content using the input field below. Suggestions will appear as you type."
+                           FontSize="16" 
+                           TextColor="#666666" />
+                    
+                    <!-- Search Input Section -->
+                    <StackLayout Spacing="8">
+                        <Label Text="Search for content:"
+                               FontSize="18" 
+                               FontAttributes="Bold" 
+                               TextColor="#333333" />
+                        
+                        <!-- Search Input -->
+                        <Entry x:Name="SearchEntry"
+                               Placeholder="Type to search..."
+                               FontSize="16"
+                               TextChanged="OnSearchTextChanged"
+                               Completed="OnSearchCompleted" />
+                        
+                        <!-- Suggestions List - MISSING ARIA ATTRIBUTES -->
+                        <CollectionView x:Name="SuggestionsCollectionView"
+                                        ItemsSource="{Binding Suggestions}"
+                                        IsVisible="False"
+                                        HeightRequest="200"
+                                        BackgroundColor="White"
+                                        SelectionMode="Single"
+                                        SelectionChanged="OnSuggestionSelected">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="12">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        
+                                        <Label Grid.Row="0"
+                                               Text="{Binding Title}"
+                                               FontAttributes="Bold"
+                                               FontSize="14"
+                                               TextColor="#333333" />
+                                        
+                                        <Label Grid.Row="1"
+                                               Text="{Binding Category}"
+                                               FontSize="12"
+                                               TextColor="#666666">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0} • {1}">
+                                                    <Binding Path="Category" />
+                                                    <Binding Path="Author" />
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        
+                        <!-- Search Button -->
+                        <Button x:Name="SearchButton"
+                                Text="Search"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                BackgroundColor="#007BFF"
+                                TextColor="White"
+                                CornerRadius="4"
+                                HeightRequest="44"
+                                Clicked="OnSearchButtonClicked"
+                                IsEnabled="False" />
+                    </StackLayout>
+                    
+                    <!-- Results Section -->
+                    <StackLayout Spacing="16">
+                        <Label Text="Search Results"
+                               FontSize="20" 
+                               FontAttributes="Bold" 
+                               TextColor="#333333" />
+                        
+                        <!-- Loading State -->
+                        <StackLayout x:Name="LoadingStackLayout"
+                                     IsVisible="False"
+                                     Orientation="Horizontal"
+                                     HorizontalOptions="Center"
+                                     Spacing="16">
+                            <ActivityIndicator x:Name="LoadingIndicator"
+                                                IsRunning="False"
+                                                Color="#007BFF" />
+                            <Label Text="Searching..."
+                                   FontSize="16"
+                                   TextColor="#666666" />
+                        </StackLayout>
+                        
+                        <!-- Results Count -->
+                        <Label x:Name="ResultsCountLabel"
+                               FontSize="14"
+                               TextColor="#666666"
+                               IsVisible="False" />
+                        
+                        <!-- Results List -->
+                        <CollectionView x:Name="ResultsCollectionView"
+                                        ItemsSource="{Binding Results}"
+                                        IsVisible="False"
+                                        HeightRequest="300">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BackgroundColor="#F8F9FA"
+                                           BorderColor="#DDDDDD"
+                                           CornerRadius="4"
+                                           Padding="16"
+                                           Margin="0,0,0,12">
+                                        <StackLayout Spacing="8">
+                                            <Label Text="{Binding Title}"
+                                                   FontSize="16" 
+                                                   FontAttributes="Bold" 
+                                                   TextColor="#333333" />
+                                            <Label Text="{Binding Category}"
+                                                   FontSize="12" 
+                                                   TextColor="#666666">
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="Category: {0}">
+                                                        <Binding Path="Category" />
+                                                    </MultiBinding>
+                                                </Label.Text>
+                                            </Label>
+                                            <Label Text="{Binding Author}"
+                                                   FontSize="12" 
+                                                   TextColor="#666666">
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="Author: {0}">
+                                                        <Binding Path="Author" />
+                                                    </MultiBinding>
+                                                </Label.Text>
+                                            </Label>
+                                        </StackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        
+                        <!-- No Results State -->
+                        <Label x:Name="NoResultsLabel"
+                               FontSize="16"
+                               TextColor="#666666"
+                               HorizontalOptions="Center"
+                               IsVisible="False" />
+                        
+                        <!-- Empty State -->
+                        <Label Text="Enter a search term to find content"
+                               FontSize="16"
+                               TextColor="#666666"
+                               HorizontalOptions="Center" />
+                    </StackLayout>
+                    
+                </StackLayout>
+            </Frame>
+            
+            
+        </StackLayout>
+    </ScrollView>
+    
+</ContentPage>

@@ -1,0 +1,166 @@
+<Page x:Class="AccessibilityApp.SearchWithSilentUpdatesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer>
+        <StackPanel Padding="20" Spacing="20">
+            
+            <!-- Main Content Card -->
+            <Border Background="White" 
+                    CornerRadius="8" 
+                    Padding="30" 
+                    Margin="0,0,0,20"
+                    Shadow="{ThemeResource CardShadow}">
+                <StackPanel Spacing="20">
+                    
+                    <!-- Title -->
+                    <TextBlock Text="Search Interface"
+                               FontSize="24" 
+                               FontWeight="Bold" 
+                               Foreground="#333333" />
+                    
+                    <!-- Description -->
+                    <TextBlock Text="Search for content using the input field below. Suggestions will appear as you type."
+                               FontSize="16" 
+                               Foreground="#666666" />
+                    
+                    <!-- Search Input Section -->
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Search for content:"
+                                   FontSize="18" 
+                                   FontWeight="Bold" 
+                                   Foreground="#333333" />
+                        
+                        <!-- Search Input -->
+                        <TextBox x:Name="SearchTextBox"
+                                 PlaceholderText="Type to search..."
+                                 FontSize="16"
+                                 TextChanged="OnSearchTextChanged"
+                                 KeyDown="OnSearchKeyDown" />
+                        
+                        <!-- Suggestions List - MISSING ARIA ATTRIBUTES -->
+                        <ListView x:Name="SuggestionsListView"
+                                  ItemsSource="{x:Bind Suggestions}"
+                                  Visibility="Collapsed"
+                                  Height="200"
+                                  Background="White"
+                                  SelectionMode="Single"
+                                  SelectionChanged="OnSuggestionSelected">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="local:SearchResult">
+                                    <StackPanel Padding="12">
+                                        <TextBlock Text="{x:Bind Title}"
+                                                   FontWeight="Bold"
+                                                   FontSize="14"
+                                                   Foreground="#333333" />
+                                        <TextBlock FontSize="12"
+                                                   Foreground="#666666">
+                                            <Run Text="{x:Bind Category}" />
+                                            <Run Text=" • " />
+                                            <Run Text="{x:Bind Author}" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        
+                        <!-- Search Button -->
+                        <Button x:Name="SearchButton"
+                                Content="Search"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Background="#007BFF"
+                                Foreground="White"
+                                CornerRadius="4"
+                                Height="44"
+                                Click="OnSearchButtonClicked"
+                                IsEnabled="False" />
+                    </StackPanel>
+                    
+                    <!-- Results Section -->
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Search Results"
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   Foreground="#333333" />
+                        
+                        <!-- Loading State -->
+                        <StackPanel x:Name="LoadingStackPanel"
+                                    Visibility="Collapsed"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    Spacing="16">
+                            <ProgressRing x:Name="LoadingProgressRing"
+                                          IsActive="False"
+                                          Foreground="#007BFF" />
+                            <TextBlock Text="Searching..."
+                                       FontSize="16"
+                                       Foreground="#666666" />
+                        </StackPanel>
+                        
+                        <!-- Results Count -->
+                        <TextBlock x:Name="ResultsCountTextBlock"
+                                   FontSize="14"
+                                   Foreground="#666666"
+                                   Visibility="Collapsed" />
+                        
+                        <!-- Results List -->
+                        <ListView x:Name="ResultsListView"
+                                  ItemsSource="{x:Bind Results}"
+                                  Visibility="Collapsed"
+                                  Height="300">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="local:SearchResult">
+                                    <Border Background="#F8F9FA"
+                                            BorderBrush="#DDDDDD"
+                                            BorderThickness="1"
+                                            CornerRadius="4"
+                                            Padding="16"
+                                            Margin="0,0,0,12">
+                                        <StackPanel Spacing="8">
+                                            <TextBlock Text="{x:Bind Title}"
+                                                       FontSize="16" 
+                                                       FontWeight="SemiBold" 
+                                                       Foreground="#333333" />
+                                            <TextBlock FontSize="12" 
+                                                       Foreground="#666666">
+                                                <Run Text="Category: " />
+                                                <Run Text="{x:Bind Category}" />
+                                            </TextBlock>
+                                            <TextBlock FontSize="12" 
+                                                       Foreground="#666666">
+                                                <Run Text="Author: " />
+                                                <Run Text="{x:Bind Author}" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        
+                        <!-- No Results State -->
+                        <TextBlock x:Name="NoResultsTextBlock"
+                                   FontSize="16"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center"
+                                   Visibility="Collapsed" />
+                        
+                        <!-- Empty State -->
+                        <TextBlock Text="Enter a search term to find content"
+                                   FontSize="16"
+                                   Foreground="#666666"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                    
+                </StackPanel>
+            </Border>
+            
+            
+        </StackPanel>
+    </ScrollViewer>
+    
+</Page>

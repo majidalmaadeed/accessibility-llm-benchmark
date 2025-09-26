@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Search With Silent Updates</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="main-content">
+    <h1>Search Interface</h1>
+    <p>Search for content using the input field below. Suggestions will appear as you type.</p>
+    
+    <!-- Search Input Section -->
+    <div class="search-section">
+      <ion-label class="search-label">Search for content:</ion-label>
+      
+      <div class="input-wrapper">
+        <ion-input
+          #searchInput
+          [(ngModel)]="query"
+          placeholder="Type to search..."
+          (ionInput)="handleInput()"
+          (ionFocus)="onSearchFocus()"
+          (ionBlur)="onSearchBlur()"
+          class="search-input">
+        </ion-input>
+        
+        <!-- Suggestions Dropdown - MISSING ARIA ATTRIBUTES -->
+        <ion-list *ngIf="showSuggestions && suggestions.length > 0" class="suggestions-list">
+          <ion-item 
+            *ngFor="let suggestion of suggestions; let i = index"
+            (click)="handleSuggestionClick(suggestion)"
+            [class.active]="i === activeSuggestionIndex"
+            class="suggestion-item">
+            <ion-label>
+              <h3>{{ suggestion.title }}</h3>
+              <p>{{ suggestion.category }} • {{ suggestion.author }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+      
+      <ion-button
+        (click)="handleSearch()"
+        [disabled]="isLoading || !query.trim()"
+        expand="block"
+        class="search-button">
+        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+        <span *ngIf="!isLoading">Search</span>
+        <span *ngIf="isLoading">Searching...</span>
+      </ion-button>
+    </div>
+
+    <!-- Results Section - MISSING LIVE REGION -->
+    <div class="results-section">
+      <h2>Search Results</h2>
+      
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-state">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Searching...</p>
+      </div>
+      
+      <!-- Results Content -->
+      <div *ngIf="!isLoading && results.length > 0" class="results-content">
+        <p class="results-count">Found {{ results.length }} result{{ results.length !== 1 ? 's' : '' }}</p>
+        
+        <ion-list>
+          <ion-item *ngFor="let result of results" class="result-item">
+            <ion-label>
+              <h3>{{ result.title }}</h3>
+              <p>Category: {{ result.category }}</p>
+              <p>Author: {{ result.author }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+      
+      <!-- No Results State -->
+      <div *ngIf="!isLoading && results.length === 0 && query" class="no-results">
+        <p>No results found for "{{ query }}"</p>
+      </div>
+      
+      <!-- Empty State -->
+      <div *ngIf="!isLoading && results.length === 0 && !query" class="empty-state">
+        <p>Enter a search term to find content</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accessibility Information -->
+  <ion-card class="accessibility-info">
+    <ion-card-header>
+      <ion-card-title>Accessibility Issues:</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ul>
+        <li><strong>Missing live region:</strong> No announcements when search results change</li>
+        <li><strong>Incomplete ARIA attributes:</strong> Suggestions lack proper aria-activedescendant</li>
+        <li><strong>No keyboard navigation:</strong> Arrow keys don't navigate through suggestions</li>
+        <li><strong>Missing announcements:</strong> Screen readers don't announce result count changes</li>
+        <li><strong>No loading state announcement:</strong> Loading state not announced to screen readers</li>
+        <li><strong>Missing suggestion selection:</strong> No aria-selected state management</li>
+      </ul>
+      
+      <h3>How to Fix:</h3>
+      <ul>
+        <li>Add <code>aria-live="polite"</code> region for result announcements</li>
+        <li>Implement <code>aria-activedescendant</code> for suggestion navigation</li>
+        <li>Add arrow key navigation (Up/Down) through suggestions</li>
+        <li>Announce result count changes ("Found X results")</li>
+        <li>Add loading state announcements</li>
+        <li>Implement proper <code>aria-selected</code> state management</li>
+      </ul>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

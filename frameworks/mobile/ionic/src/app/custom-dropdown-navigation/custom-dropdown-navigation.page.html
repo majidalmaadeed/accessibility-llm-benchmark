@@ -1,0 +1,109 @@
+<ion-content class="custom-dropdown-navigation">
+  <div class="main-container">
+    
+    <!-- Main Content Card -->
+    <ion-card class="main-content">
+      <ion-card-content>
+        
+        <!-- Title -->
+        <h1 class="title">Product Filter - Custom Dropdown Accessibility Violation</h1>
+        
+        <!-- Description -->
+        <p class="description">
+          Violation: Custom dropdown lacks proper keyboard navigation, ARIA attributes, and screen reader support.
+        </p>
+        
+        <!-- Filter Section -->
+        <div class="filter-section">
+          <label class="filter-label">Filter by Category:</label>
+          
+          <!-- Custom Dropdown -->
+          <div class="custom-dropdown">
+            <ion-button 
+              (click)="toggleDropdown()"
+              [class.open]="isOpen"
+              class="dropdown-trigger"
+              fill="outline"
+              size="default">
+              <span class="dropdown-text">{{ selectedText }}</span>
+              <ion-icon 
+                [name]="isOpen ? 'chevron-up' : 'chevron-down'" 
+                class="dropdown-arrow">
+              </ion-icon>
+            </ion-button>
+            
+            <ion-list 
+              *ngIf="isOpen" 
+              class="dropdown-menu"
+              role="listbox"
+              aria-labelledby="category-filter-label">
+              <ion-item 
+                *ngFor="let option of options; let i = index"
+                (click)="selectOption(option.value, option.text, i)"
+                [class.selected]="selectedValue === option.value"
+                class="dropdown-option"
+                role="option"
+                [attr.aria-selected]="selectedValue === option.value">
+                <ion-label>{{ option.text }}</ion-label>
+                <ion-icon 
+                  *ngIf="selectedValue === option.value" 
+                  name="checkmark" 
+                  color="primary">
+                </ion-icon>
+              </ion-item>
+            </ion-list>
+          </div>
+        </div>
+        
+        <!-- Results Section -->
+        <div class="results-section">
+          <h2 class="results-title">Filtered Results</h2>
+          
+          <ion-grid class="results-grid">
+            <ion-row>
+              <ion-col 
+                size="6" 
+                *ngFor="let product of filteredProducts">
+                <ion-card class="result-card">
+                  <ion-card-content>
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-category">{{ product.category }}</p>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        
+      </ion-card-content>
+    </ion-card>
+    
+    <!-- Accessibility Info Card -->
+    <ion-card class="accessibility-info">
+      <ion-card-content>
+        
+        <h3 class="info-title">Accessibility Issues:</h3>
+        <ul class="info-list">
+          <li><strong>Incomplete keyboard navigation:</strong> Arrow keys don't navigate through options</li>
+          <li><strong>Missing ARIA attributes:</strong> No aria-activedescendant or proper role attributes</li>
+          <li><strong>Focus management:</strong> Focus doesn't move to options when dropdown opens</li>
+          <li><strong>Screen reader announcements:</strong> No announcements when selection changes</li>
+          <li><strong>Escape key handling:</strong> Escape doesn't close dropdown</li>
+          <li><strong>Tab order:</strong> Options are not in proper tab sequence</li>
+        </ul>
+        
+        <h3 class="info-title">How to Fix:</h3>
+        <ul class="info-list">
+          <li>Add <code>aria-activedescendant</code> to track focused option</li>
+          <li>Implement arrow key navigation (Up/Down)</li>
+          <li>Add <code>aria-selected</code> to indicate selected state</li>
+          <li>Handle Escape key to close dropdown</li>
+          <li>Add <code>aria-live</code> region for selection announcements</li>
+          <li>Ensure proper focus management when opening/closing</li>
+        </ul>
+        
+      </ion-card-content>
+    </ion-card>
+    
+  </div>
+</ion-content>
