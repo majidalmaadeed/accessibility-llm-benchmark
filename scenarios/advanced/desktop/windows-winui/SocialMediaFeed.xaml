@@ -1,0 +1,110 @@
+<Page x:Class="AccessibilityBenchmark.SocialMediaFeed"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{ThemeResource SystemAccentColor}" Padding="20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Text="Social Media Feed" FontSize="28" FontWeight="Bold" 
+                          Foreground="White" VerticalAlignment="Center"/>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <ComboBox Name="FilterComboBox" Width="140" Margin="12,0" 
+                             SelectionChanged="FilterComboBox_SelectionChanged">
+                        <ComboBoxItem Content="All" IsSelected="True"/>
+                        <ComboBoxItem Content="Following"/>
+                        <ComboBoxItem Content="Trending"/>
+                    </ComboBox>
+                    <Button Name="NotificationsButton" Content="🔔" Width="48" Height="48" 
+                           Margin="12,0" Click="NotificationsButton_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Ellipse Fill="Red" Width="16" Height="16" 
+                                            HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                            Margin="0,-8,-8,0" Visibility="Collapsed" Name="NotificationBadge"/>
+                                    <ContentPresenter/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button Name="TrendingButton" Content="📈" Width="48" Height="48" 
+                           Margin="8,0" Click="TrendingButton_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        
+        <!-- Create Post -->
+        <Border Grid.Row="1" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+               Margin="24,16" Padding="20" CornerRadius="8" 
+               BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <Ellipse Grid.Column="0" Width="48" Height="48" Fill="{ThemeResource SystemAccentColor}" 
+                        Margin="0,0,16,0"/>
+                
+                <TextBox Grid.Column="1" Name="CreatePostTextBox" Height="48" 
+                        VerticalAlignment="Center" Padding="16,0" 
+                        TextChanged="CreatePostTextBox_TextChanged">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="PlaceholderText" Value="What's on your mind?"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                
+                <Button Grid.Column="2" Name="CreatePostButton" Content="Post" Width="100" 
+                       Height="40" Margin="16,0,0,0" Click="CreatePostButton_Click"/>
+            </Grid>
+        </Border>
+        
+        <!-- Posts Feed -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="24,0">
+            <StackPanel Name="PostsPanel" Spacing="16">
+                <!-- Posts will be added here programmatically -->
+            </StackPanel>
+        </ScrollViewer>
+        
+        <!-- Status Bar -->
+        <Border Grid.Row="3" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+               BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
+            <Grid Padding="16,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Name="StatusText" Text="Ready" VerticalAlignment="Center"/>
+                
+                <TextBlock Grid.Column="1" Name="PostCountText" Text="0 posts" 
+                          VerticalAlignment="Center" FontSize="12"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

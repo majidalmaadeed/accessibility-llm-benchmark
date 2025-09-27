@@ -1,0 +1,140 @@
+<Window x:Class="AccessibilityBenchmark.CreateEventDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Create Event" Height="500" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Title -->
+        <TextBlock Grid.Row="0" Text="Create New Event" FontSize="18" FontWeight="Bold" 
+                  Margin="0,0,0,20" HorizontalAlignment="Center"/>
+        
+        <!-- Event Title -->
+        <TextBlock Grid.Row="1" Text="Title:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+        <TextBox Grid.Row="2" Name="TitleTextBox" Margin="0,0,0,15" Height="25"/>
+        
+        <!-- Description -->
+        <TextBlock Grid.Row="3" Text="Description:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+        <TextBox Grid.Row="4" Name="DescriptionTextBox" Margin="0,0,0,15" Height="60" 
+                TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+        
+        <!-- Start Date/Time -->
+        <TextBlock Grid.Row="5" Text="Start Date & Time:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+        <Grid Grid.Row="6" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <DatePicker Grid.Column="0" Name="StartDatePicker" Margin="0,0,10,0"/>
+            <TextBlock Grid.Column="1" Text="at" VerticalAlignment="Center" Margin="5,0"/>
+            <ComboBox Grid.Column="2" Name="StartTimeComboBox" Margin="10,0,0,0">
+                <ComboBoxItem Content="12:00 AM" IsSelected="True"/>
+                <ComboBoxItem Content="1:00 AM"/>
+                <ComboBoxItem Content="2:00 AM"/>
+                <ComboBoxItem Content="3:00 AM"/>
+                <ComboBoxItem Content="4:00 AM"/>
+                <ComboBoxItem Content="5:00 AM"/>
+                <ComboBoxItem Content="6:00 AM"/>
+                <ComboBoxItem Content="7:00 AM"/>
+                <ComboBoxItem Content="8:00 AM"/>
+                <ComboBoxItem Content="9:00 AM"/>
+                <ComboBoxItem Content="10:00 AM"/>
+                <ComboBoxItem Content="11:00 AM"/>
+                <ComboBoxItem Content="12:00 PM"/>
+                <ComboBoxItem Content="1:00 PM"/>
+                <ComboBoxItem Content="2:00 PM"/>
+                <ComboBoxItem Content="3:00 PM"/>
+                <ComboBoxItem Content="4:00 PM"/>
+                <ComboBoxItem Content="5:00 PM"/>
+                <ComboBoxItem Content="6:00 PM"/>
+                <ComboBoxItem Content="7:00 PM"/>
+                <ComboBoxItem Content="8:00 PM"/>
+                <ComboBoxItem Content="9:00 PM"/>
+                <ComboBoxItem Content="10:00 PM"/>
+                <ComboBoxItem Content="11:00 PM"/>
+            </ComboBox>
+        </Grid>
+        
+        <!-- End Date/Time -->
+        <TextBlock Grid.Row="7" Text="End Date & Time:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+        <Grid Grid.Row="8" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <DatePicker Grid.Column="0" Name="EndDatePicker" Margin="0,0,10,0"/>
+            <TextBlock Grid.Column="1" Text="at" VerticalAlignment="Center" Margin="5,0"/>
+            <ComboBox Grid.Column="2" Name="EndTimeComboBox" Margin="10,0,0,0">
+                <ComboBoxItem Content="12:00 AM"/>
+                <ComboBoxItem Content="1:00 AM"/>
+                <ComboBoxItem Content="2:00 AM"/>
+                <ComboBoxItem Content="3:00 AM"/>
+                <ComboBoxItem Content="4:00 AM"/>
+                <ComboBoxItem Content="5:00 AM"/>
+                <ComboBoxItem Content="6:00 AM"/>
+                <ComboBoxItem Content="7:00 AM"/>
+                <ComboBoxItem Content="8:00 AM"/>
+                <ComboBoxItem Content="9:00 AM"/>
+                <ComboBoxItem Content="10:00 AM"/>
+                <ComboBoxItem Content="11:00 AM"/>
+                <ComboBoxItem Content="12:00 PM"/>
+                <ComboBoxItem Content="1:00 PM"/>
+                <ComboBoxItem Content="2:00 PM"/>
+                <ComboBoxItem Content="3:00 PM"/>
+                <ComboBoxItem Content="4:00 PM"/>
+                <ComboBoxItem Content="5:00 PM"/>
+                <ComboBoxItem Content="6:00 PM"/>
+                <ComboBoxItem Content="7:00 PM"/>
+                <ComboBoxItem Content="8:00 PM"/>
+                <ComboBoxItem Content="9:00 PM"/>
+                <ComboBoxItem Content="10:00 PM"/>
+                <ComboBoxItem Content="11:00 PM" IsSelected="True"/>
+            </ComboBox>
+        </Grid>
+        
+        <!-- Category -->
+        <TextBlock Grid.Row="9" Text="Category:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+        <ComboBox Grid.Row="10" Name="CategoryComboBox" Margin="0,0,0,15" Height="25">
+            <ComboBoxItem Content="personal" IsSelected="True"/>
+            <ComboBoxItem Content="work"/>
+            <ComboBoxItem Content="meeting"/>
+            <ComboBoxItem Content="appointment"/>
+            <ComboBoxItem Content="reminder"/>
+        </ComboBox>
+        
+        <!-- Location -->
+        <TextBlock Grid.Row="11" Text="Location:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+        <TextBox Grid.Row="12" Name="LocationTextBox" Margin="0,0,0,15" Height="25"/>
+        
+        <!-- All Day Checkbox -->
+        <CheckBox Grid.Row="13" Name="AllDayCheckBox" Content="All Day Event" Margin="0,0,0,15"/>
+        
+        <!-- Buttons -->
+        <StackPanel Grid.Row="14" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Name="SaveButton" Content="Save" Width="80" Height="30" 
+                   Margin="0,0,10,0" Click="SaveButton_Click"/>
+            <Button Name="CancelButton" Content="Cancel" Width="80" Height="30" 
+                   Click="CancelButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

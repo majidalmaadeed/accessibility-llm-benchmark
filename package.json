@@ -1,0 +1,65 @@
+{
+  "name": "accessibility-llm-benchmark",
+  "version": "1.0.0",
+  "description": "LLM Accessibility Benchmark Testing Framework",
+  "main": "automate.js",
+  "scripts": {
+    "install:all": "node automate.js install web advanced && node automate.js install mobile advanced && node automate.js install desktop advanced",
+    "build:all": "node automate.js build web advanced && node automate.js build mobile advanced && node automate.js build desktop advanced",
+    "test:all": "node automate.js test web advanced && node automate.js test mobile advanced && node automate.js test desktop advanced",
+    "start:all": "node automate.js start web advanced",
+    "full:test": "node automate.js full",
+    "install:web": "node automate.js install web advanced",
+    "build:web": "node automate.js build web advanced", 
+    "test:web": "node automate.js test web advanced",
+    "start:web": "node automate.js start web advanced",
+    "install:mobile": "node automate.js install mobile advanced",
+    "build:mobile": "node automate.js build mobile advanced",
+    "test:mobile": "node automate.js test mobile advanced",
+    "install:desktop": "node automate.js install desktop advanced",
+    "build:desktop": "node automate.js build desktop advanced",
+    "test:desktop": "node automate.js test desktop advanced",
+    "quick:install": "powershell -ExecutionPolicy Bypass -File run-tests.ps1 -Platform web -Complexity advanced -Install",
+    "quick:build": "powershell -ExecutionPolicy Bypass -File run-tests.ps1 -Platform web -Complexity advanced -Build",
+    "quick:test": "powershell -ExecutionPolicy Bypass -File run-tests.ps1 -Platform web -Complexity advanced -Test",
+    "batch:install": "quick-commands.bat install web advanced",
+    "batch:build": "quick-commands.bat build web advanced",
+    "batch:test": "quick-commands.bat test web advanced",
+    "batch:start": "quick-commands.bat start web advanced",
+    "git:status": "git status",
+    "git:add": "git add .",
+    "git:commit": "git commit -m",
+    "git:push": "git push",
+    "git:pull": "git pull",
+    "setup": "npm install && npm run install:all",
+    "clean": "node -e \"const fs=require('fs');['node_modules','dist','build','.next','.nuxt'].forEach(d=>{try{fs.rmSync(d,{recursive:true,force:true})}catch(e){}})\"",
+    "reset": "npm run clean && npm run setup"
+  },
+  "keywords": [
+    "accessibility",
+    "llm",
+    "benchmark",
+    "testing",
+    "wcag",
+    "a11y"
+  ],
+  "author": "Accessibility LLM Benchmark Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/accessibility-llm-benchmark.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/accessibility-llm-benchmark/issues"
+  },
+  "homepage": "https://github.com/your-org/accessibility-llm-benchmark#readme"
+}

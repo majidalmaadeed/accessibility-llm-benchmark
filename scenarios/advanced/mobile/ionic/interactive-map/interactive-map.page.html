@@ -1,0 +1,297 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Interactive Map</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Search Bar -->
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      placeholder="Search for places..."
+      (ionInput)="onSearchInput()"
+      (ionClear)="onSearchClear()"
+      show-clear-button="focus">
+    </ion-searchbar>
+    <ion-button slot="end" fill="solid" color="primary" (click)="onSearchClicked()">
+      Search
+    </ion-button>
+  </ion-toolbar>
+
+  <!-- Map Type Selector -->
+  <ion-toolbar class="map-type-toolbar">
+    <div class="map-type-content">
+      <ion-chip 
+        *ngFor="let type of mapTypes" 
+        [class.active]="mapType === type.value"
+        (click)="onMapTypeChanged(type.value)">
+        <ion-icon [name]="type.icon"></ion-icon>
+        <ion-label>{{ type.label }}</ion-label>
+      </ion-chip>
+    </div>
+  </ion-toolbar>
+
+  <!-- Map Area -->
+  <div class="map-container">
+    <div class="map-view">
+      <div class="map-placeholder">
+        <ion-icon name="map" size="large"></ion-icon>
+        <h3>Interactive Map</h3>
+        <p>{{ coordinatesText }}</p>
+        <p>Zoom: {{ zoomLevel }}</p>
+      </div>
+
+      <!-- Map Markers -->
+      <div class="map-markers">
+        <div 
+          class="map-marker" 
+          *ngFor="let location of sampleLocations"
+          [style.left.%]="getMarkerX(location.lng)"
+          [style.top.%]="getMarkerY(location.lat)"
+          [style.color]="getMarkerColor(location.type)"
+          (click)="onMarkerClicked(location)">
+          <ion-icon name="location"></ion-icon>
+        </div>
+
+        <!-- User Location Marker -->
+        <div 
+          class="user-location-marker" 
+          *ngIf="showUserLocation"
+          [style.left.%]="getMarkerX(userLocation.lng)"
+          [style.top.%]="getMarkerY(userLocation.lat)">
+          <ion-icon name="person"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Map Controls -->
+      <div class="map-controls" *ngIf="showMapControls">
+        <ion-button 
+          fill="solid" 
+          size="small" 
+          (click)="onZoomInClicked()">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+        <ion-button 
+          fill="solid" 
+          size="small" 
+          (click)="onZoomOutClicked()">
+          <ion-icon name="remove"></ion-icon>
+        </ion-button>
+        <ion-button 
+          fill="solid" 
+          size="small" 
+          (click)="onCenterMapClicked()">
+          <ion-icon name="locate"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Controls -->
+  <ion-toolbar class="bottom-controls">
+    <ion-button fill="clear" (click)="onLayersClicked()">
+      <ion-icon name="layers"></ion-icon>
+      <ion-label>Layers</ion-label>
+    </ion-button>
+    <ion-button fill="clear" (click)="onBookmarksClicked()">
+      <ion-icon name="bookmark"></ion-icon>
+      <ion-label>Bookmarks</ion-label>
+    </ion-button>
+    <ion-button fill="clear" (click)="onControlsClicked()">
+      <ion-icon name="settings"></ion-icon>
+      <ion-label>Controls</ion-label>
+    </ion-button>
+  </ion-toolbar>
+
+  <!-- Loading Indicator -->
+  <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+</ion-content>
+
+<!-- Search Results Modal -->
+<ion-modal [isOpen]="showSearchResults" (didDismiss)="onSearchResultsDismissed()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Search Results</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="onSearchResultsDismissed()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content>
+      <ion-list>
+        <ion-item 
+          *ngFor="let result of searchResults" 
+          (click)="onLocationSelected(result)">
+          <ion-icon name="location" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <h3>{{ result.name }}</h3>
+            <p>{{ result.address }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<!-- Location Details Modal -->
+<ion-modal [isOpen]="showLocationDetails" (didDismiss)="onLocationDetailsDismissed()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Location Details</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="onLocationDetailsDismissed()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content *ngIf="selectedLocation">
+      <ion-list>
+        <ion-item>
+          <ion-label>
+            <h2>{{ selectedLocation.name }}</h2>
+            <p>{{ selectedLocation.address }}</p>
+            <div class="rating">
+              <ion-icon name="star" color="warning"></ion-icon>
+              <span>{{ selectedLocation.rating }}</span>
+            </div>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>
+            <h3>Description</h3>
+            <p>{{ selectedLocation.description }}</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>
+            <h3>Category</h3>
+            <p>{{ selectedLocation.category }}</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item *ngIf="selectedLocation.price > 0">
+          <ion-label>
+            <h3>Price</h3>
+            <p>{{ selectedLocation.price | currency }}</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>
+            <h3>Hours</h3>
+            <p>{{ selectedLocation.hours }}</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item *ngIf="selectedLocation.phone !== 'N/A'">
+          <ion-label>
+            <h3>Phone</h3>
+            <p>{{ selectedLocation.phone }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+    
+    <ion-footer>
+      <ion-toolbar>
+        <ion-button expand="block" (click)="onGetDirections()">Get Directions</ion-button>
+        <ion-button expand="block" fill="outline" (click)="onBookmarkLocation()">Bookmark</ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+<!-- Layers Modal -->
+<ion-modal [isOpen]="showLayers" (didDismiss)="onLayersDismissed()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Map Layers</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="onLayersDismissed()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>Traffic</ion-label>
+          <ion-toggle [(ngModel)]="trafficEnabled"></ion-toggle>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>Transit</ion-label>
+          <ion-toggle [(ngModel)]="transitEnabled"></ion-toggle>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>Bike Lanes</ion-label>
+          <ion-toggle [(ngModel)]="bikeLanesEnabled"></ion-toggle>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>User Location</ion-label>
+          <ion-toggle [(ngModel)]="showUserLocation"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<!-- Bookmarks Modal -->
+<ion-modal [isOpen]="showBookmarks" (didDismiss)="onBookmarksDismissed()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Bookmarks</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="onBookmarksDismissed()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content>
+      <ion-list *ngIf="bookmarks.length > 0; else noBookmarks">
+        <ion-item 
+          *ngFor="let bookmark of bookmarks" 
+          (click)="onBookmarkSelected(bookmark)">
+          <ion-icon name="bookmark" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <h3>{{ bookmark.name }}</h3>
+            <p>{{ bookmark.address }}</p>
+          </ion-label>
+          <ion-button 
+            slot="end" 
+            fill="clear" 
+            color="danger" 
+            (click)="onRemoveBookmark(bookmark.id)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+      
+      <ng-template #noBookmarks>
+        <div class="no-bookmarks">
+          <ion-icon name="bookmark" size="large"></ion-icon>
+          <h3>No bookmarks yet</h3>
+          <p>Bookmark locations to see them here</p>
+        </div>
+      </ng-template>
+    </ion-content>
+  </ng-template>
+</ion-modal>

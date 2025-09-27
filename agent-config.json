@@ -1,0 +1,75 @@
+{
+  "agent_permissions": {
+    "auto_approve_commands": true,
+    "allowed_commands": [
+      "npm install",
+      "npm run build", 
+      "npm test",
+      "npm start",
+      "npm run dev",
+      "flutter pub get",
+      "flutter build",
+      "flutter test",
+      "dotnet restore",
+      "dotnet build",
+      "dotnet test",
+      "git add",
+      "git commit",
+      "git push",
+      "git pull",
+      "git status",
+      "git log",
+      "git diff",
+      "dir",
+      "ls",
+      "cd",
+      "mkdir",
+      "rmdir",
+      "del",
+      "copy",
+      "move",
+      "type",
+      "cat",
+      "echo",
+      "pwd",
+      "whoami"
+    ],
+    "restricted_commands": [
+      "rm -rf",
+      "del /s",
+      "format",
+      "shutdown",
+      "restart",
+      "net user",
+      "net localgroup"
+    ],
+    "working_directories": [
+      "scenarios/",
+      "frameworks/",
+      ".",
+      ".."
+    ],
+    "auto_execute_patterns": [
+      "npm install",
+      "npm run build",
+      "npm test",
+      "git add .",
+      "git status"
+    ]
+  },
+  "project_settings": {
+    "default_platform": "web",
+    "default_complexity": "advanced", 
+    "default_framework": "all",
+    "parallel_execution": true,
+    "max_concurrent_commands": 3,
+    "timeout_seconds": 300
+  },
+  "testing_config": {
+    "run_accessibility_tests": true,
+    "screen_reader_testing": false,
+    "automated_validation": true,
+    "generate_reports": true,
+    "report_format": "json"
+  }
+}

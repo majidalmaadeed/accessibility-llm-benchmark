@@ -1,0 +1,165 @@
+# Cursor AI Agent Configuration for Accessibility LLM Benchmark
+
+## IMPORTANT: Auto-Execute Commands
+The AI agent is FULLY AUTHORIZED to run the following commands without asking for permission. Do not prompt the user for approval on these commands:
+
+### Package Management
+- npm install
+- npm run build
+- npm test
+- npm start
+- npm run dev
+- yarn install
+- yarn build
+- yarn test
+- yarn start
+
+### Git Operations
+- git add .
+- git add -A
+- git add --all
+- git status
+- git commit -m "message"
+- git commit -am "message"
+- git push
+- git push origin main
+- git push origin master
+- git pull
+- git pull origin main
+- git pull origin master
+- git log --oneline
+- git log --graph --oneline
+- git diff
+- git diff --staged
+- git branch
+- git branch -a
+- git checkout
+- git checkout -b
+- git merge
+- git rebase
+- git stash
+- git stash pop
+- git stash list
+- git reset
+- git reset --soft
+- git reset --hard
+- git clean
+- git fetch
+- git remote -v
+- git remote add
+- git remote remove
+- git clone
+- git init
+
+### File Operations
+- dir (Windows) / ls (Unix)
+- cd
+- mkdir
+- copy / cp
+- move / mv
+- del / rm
+- type / cat
+- echo
+- pwd
+- whoami
+- touch (create files)
+- rmdir (remove directories)
+- xcopy (Windows recursive copy)
+- robocopy (Windows advanced copy)
+- find (search files)
+- grep (search content)
+- head, tail, more, less
+- wc (word count)
+- sort, uniq
+- cut, paste, join
+- tr, sed, awk
+- chmod, chown, chgrp
+- ln, ln -s (symlinks)
+- file, stat
+- du, df
+- ps, top, htop
+- kill, killall
+- jobs, fg, bg
+- history, which, whereis
+- man, info, help
+- alias, unalias
+- export, unset
+- source, .
+- &&, ||, |, >, >>, <
+- *, ?, [], {}
+- ~, $, #, &
+
+### Project-Specific Commands
+- flutter pub get
+- flutter build
+- flutter test
+- dotnet restore
+- dotnet build
+- dotnet test
+
+### System Information Commands
+- uname, hostname, uptime
+- date, cal
+- free, vmstat, iostat
+- lscpu, lspci, lsusb
+- ifconfig, ip, netstat
+- ping, traceroute, nslookup
+- curl, wget
+- tar, zip, unzip, gzip, gunzip
+- ssh, scp, rsync
+- sudo, su
+- systemctl, service
+- mount, umount, df -h
+- fdisk, parted, lsblk
+
+## Safety Restrictions
+The agent should NOT run these commands without explicit permission:
+- rm -rf (recursive force delete)
+- del /s /q (recursive delete)
+- format (disk formatting)
+- shutdown (system shutdown)
+- restart (system restart)
+- Any system-level commands
+- Commands that could damage the system
+- Commands that require administrator privileges
+
+## Working Directory
+The agent should operate within these directories:
+- Current project root
+- scenarios/
+- frameworks/
+- Any subdirectory of the project
+
+## Auto-Execution Patterns
+When the user asks for:
+- "Install dependencies" → Run npm install in relevant directories (NO PERMISSION NEEDED)
+- "Build the project" → Run npm run build (NO PERMISSION NEEDED)
+- "Run tests" → Run npm test (NO PERMISSION NEEDED)
+- "Start development server" → Run npm start (NO PERMISSION NEEDED)
+- "Check git status" → Run git status (NO PERMISSION NEEDED)
+- "Add files to git" → Run git add . (NO PERMISSION NEEDED)
+- "Commit changes" → Run git commit -m "message" (NO PERMISSION NEEDED)
+- "Push to GitHub" → Run git push (NO PERMISSION NEEDED)
+- "Pull from GitHub" → Run git pull (NO PERMISSION NEEDED)
+- "Check git status" → Run git status (NO PERMISSION NEEDED)
+- "Create new branch" → Run git checkout -b (NO PERMISSION NEEDED)
+- "Switch branch" → Run git checkout (NO PERMISSION NEEDED)
+- "Merge branch" → Run git merge (NO PERMISSION NEEDED)
+- "Create a file" → Use appropriate file creation commands (NO PERMISSION NEEDED)
+- "Copy files" → Use copy/cp commands (NO PERMISSION NEEDED)
+- "Delete files" → Use del/rm commands (NO PERMISSION NEEDED)
+- "Create directory" → Use mkdir commands (NO PERMISSION NEEDED)
+- "List files" → Use dir/ls commands (NO PERMISSION NEEDED)
+- "Move files" → Use move/mv commands (NO PERMISSION NEEDED)
+
+## Explicit Instructions
+- Execute these commands immediately when requested
+- Do not ask "Would you like me to run this command?"
+- Do not wait for user confirmation
+- Just run the command and report the results
+
+## Context Awareness
+- Always check if package.json exists before running npm commands
+- Verify the working directory is correct
+- Provide clear feedback about what commands are being executed
+- If a command fails, explain the error and suggest solutions

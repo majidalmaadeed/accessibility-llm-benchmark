@@ -1,0 +1,259 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Calendar</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onTodayClicked()">
+        <ion-icon name="today"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onCreateEventClicked()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- View Mode Selector -->
+  <ion-segment [(ngModel)]="viewMode" (ionChange)="onViewModeChanged()" class="view-mode-selector">
+    <ion-segment-button value="month">
+      <ion-label>MONTH</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="week">
+      <ion-label>WEEK</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="day">
+      <ion-label>DAY</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Navigation -->
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="onPreviousClicked()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
+    <ion-title>{{ currentDateText }}</ion-title>
+    
+    <ion-buttons slot="end">
+      <ion-button (click)="onNextClicked()">
+        <ion-icon name="chevron-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Calendar View -->
+  <div class="calendar-container">
+    <!-- Month View -->
+    <div *ngIf="viewMode === 'month'" class="month-view">
+      <!-- Week Days Header -->
+      <div class="week-days-header">
+        <div class="week-day" *ngFor="let day of weekDays">{{ day }}</div>
+      </div>
+      
+      <!-- Calendar Grid -->
+      <div class="calendar-grid">
+        <div class="day-cell" 
+             *ngFor="let day of calendarDays; let i = index"
+             [class.today]="day.isToday"
+             [class.selected]="day.isSelected"
+             [class.empty]="day.isEmpty"
+             (click)="onDayClicked(day)">
+          <div class="day-number" *ngIf="!day.isEmpty">{{ day.dayNumber }}</div>
+          <div class="event-indicators" *ngIf="day.hasEvents">
+            <div class="event-indicator" 
+                 *ngFor="let event of day.events; let j = index"
+                 [style.background-color]="getCategoryColor(event.category)"
+                 *ngIf="j < 3"></div>
+            <div class="more-events" *ngIf="day.events.length > 3">
+              +{{ day.events.length - 3 }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Week View -->
+    <div *ngIf="viewMode === 'week'" class="week-view">
+      <div class="week-header">
+        <div class="week-day-cell" 
+             *ngFor="let day of weekDaysData"
+             [class.today]="day.isToday"
+             [class.selected]="day.isSelected"
+             (click)="onDayClicked(day)">
+          <div class="week-day-name">{{ day.dayName }}</div>
+          <div class="week-day-number">{{ day.dayNumber }}</div>
+          <div class="week-event-indicators" *ngIf="day.hasEvents">
+            <div class="week-event-indicator" 
+                 *ngFor="let event of day.events; let j = index"
+                 [style.background-color]="getCategoryColor(event.category)"
+                 *ngIf="j < 2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day View -->
+    <div *ngIf="viewMode === 'day'" class="day-view">
+      <div class="day-header">
+        <div class="day-date">{{ currentDate.getDate() }}</div>
+        <div class="day-month-year">
+          <div class="day-month">{{ getMonthName(currentDate.getMonth()) }}</div>
+          <div class="day-year">{{ currentDate.getFullYear() }}</div>
+        </div>
+      </div>
+      
+      <div class="day-events" *ngIf="dayEvents.length > 0; else noEvents">
+        <ion-card *ngFor="let event of dayEvents" class="event-card">
+          <ion-card-content>
+            <div class="event-color-bar" [style.background-color]="getCategoryColor(event.category)"></div>
+            <div class="event-content">
+              <h3>{{ event.title }}</h3>
+              <p class="event-time">
+                {{ event.isAllDay ? 'All Day' : (event.startTime | date:'short') + ' - ' + (event.endTime | date:'short') }}
+              </p>
+              <p class="event-location" *ngIf="event.location">{{ event.location }}</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+      
+      <ng-template #noEvents>
+        <div class="no-events">
+          <ion-icon name="calendar-outline" size="large"></ion-icon>
+          <p>No events for this day</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+</ion-content>
+
+<!-- Event Modal -->
+<ion-modal [isOpen]="showEventModal" (didDismiss)="onEventModalDismissed()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>New Event</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="onEventModalDismissed()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Title *</ion-label>
+          <ion-input [(ngModel)]="newEvent.title" placeholder="Event title"></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">Description</ion-label>
+          <ion-textarea [(ngModel)]="newEvent.description" placeholder="Event description" rows="3"></ion-textarea>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">Start Time</ion-label>
+          <ion-datetime [(ngModel)]="newEvent.startTime" display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">End Time</ion-label>
+          <ion-datetime [(ngModel)]="newEvent.endTime" display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">Category</ion-label>
+          <ion-select [(ngModel)]="newEvent.category">
+            <ion-select-option value="personal">Personal</ion-select-option>
+            <ion-select-option value="work">Work</ion-select-option>
+            <ion-select-option value="meeting">Meeting</ion-select-option>
+            <ion-select-option value="appointment">Appointment</ion-select-option>
+            <ion-select-option value="reminder">Reminder</ion-select-option>
+          </ion-select>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">Location</ion-label>
+          <ion-input [(ngModel)]="newEvent.location" placeholder="Event location"></ion-input>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+    
+    <ion-footer>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="onEventModalDismissed()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button (click)="onSaveEvent()" [disabled]="!newEvent.title">Save</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+<!-- Event Details Modal -->
+<ion-modal [isOpen]="showEventDetails" (didDismiss)="onEventDetailsDismissed()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Event Details</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="onEventDetailsDismissed()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content *ngIf="selectedEvent">
+      <ion-list>
+        <ion-item>
+          <ion-label>
+            <h2>{{ selectedEvent.title }}</h2>
+            <p>{{ selectedEvent.isAllDay ? 'All Day' : (selectedEvent.startTime | date:'short') + ' - ' + (selectedEvent.endTime | date:'short') }}</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item *ngIf="selectedEvent.description">
+          <ion-label>
+            <h3>Description</h3>
+            <p>{{ selectedEvent.description }}</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item *ngIf="selectedEvent.location">
+          <ion-label>
+            <h3>Location</h3>
+            <p>{{ selectedEvent.location }}</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item *ngIf="selectedEvent.attendees.length > 0">
+          <ion-label>
+            <h3>Attendees</h3>
+            <p *ngFor="let attendee of selectedEvent.attendees">{{ attendee }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+    
+    <ion-footer>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="onEventDetailsDismissed()">Close</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button (click)="onDeleteEvent()" color="danger">Delete</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
