@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityBenchmark.DataTableComplexPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Employee Data Table"
+             BackgroundColor="#F5F5F5">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Filter" Clicked="OnFilterClicked" />
+        <ToolbarItem Text="Export" Clicked="OnExportClicked" />
+        <ToolbarItem Text="Refresh" Clicked="OnRefreshClicked" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Search Bar -->
+        <Frame Grid.Row="0" 
+               BackgroundColor="White" 
+               HasShadow="False" 
+               Margin="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <Entry Grid.Column="0"
+                       x:Name="SearchEntry"
+                       Placeholder="Search employees..."
+                       TextChanged="OnSearchTextChanged"
+                       BackgroundColor="White" />
+                
+                <Button Grid.Column="1"
+                        Text="Filter"
+                        Clicked="OnFilterClicked"
+                        BackgroundColor="#007AFF"
+                        TextColor="White"
+                        Margin="12,0,0,0" />
+            </Grid>
+        </Frame>
+
+        <!-- Filters -->
+        <Frame Grid.Row="1" 
+               x:Name="FiltersFrame"
+               BackgroundColor="White" 
+               HasShadow="False" 
+               Margin="0,0,0,1"
+               IsVisible="False">
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Label Grid.Column="0" 
+                           Text="Filters" 
+                           FontSize="18" 
+                           FontAttributes="Bold" />
+                    
+                    <Button Grid.Column="1"
+                            Text="Clear All"
+                            Clicked="OnClearFiltersClicked"
+                            BackgroundColor="Transparent"
+                            TextColor="#007AFF" />
+                </Grid>
+                
+                <Grid Margin="0,16,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackLayout Grid.Column="0" Margin="0,0,8,0">
+                        <Label Text="Department" FontAttributes="Bold" />
+                        <Picker x:Name="DepartmentPicker"
+                                Title="Select Department"
+                                SelectedIndexChanged="OnDepartmentChanged">
+                            <Picker.Items>
+                                <x:String>All</x:String>
+                                <x:String>Engineering</x:String>
+                                <x:String>Marketing</x:String>
+                                <x:String>Sales</x:String>
+                                <x:String>HR</x:String>
+                                <x:String>Finance</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </StackLayout>
+                    
+                    <StackLayout Grid.Column="1" Margin="8,0,0,0">
+                        <Label Text="Status" FontAttributes="Bold" />
+                        <Picker x:Name="StatusPicker"
+                                Title="Select Status"
+                                SelectedIndexChanged="OnStatusChanged">
+                            <Picker.Items>
+                                <x:String>All</x:String>
+                                <x:String>Active</x:String>
+                                <x:String>Inactive</x:String>
+                                <x:String>Pending</x:String>
+                                <x:String>Terminated</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+        </Frame>
+
+        <!-- Bulk Actions -->
+        <Frame Grid.Row="2" 
+               x:Name="BulkActionsFrame"
+               BackgroundColor="#E3F2FD" 
+               HasShadow="False" 
+               Margin="0,0,0,1"
+               IsVisible="False">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Column="0" 
+                       x:Name="BulkActionsLabel"
+                       Text="0 items selected" 
+                       FontAttributes="Bold"
+                       TextColor="#1976D2" />
+                
+                <StackLayout Grid.Column="1" Orientation="Horizontal">
+                    <Button Text="Edit" 
+                            Clicked="OnBulkEditClicked"
+                            BackgroundColor="White"
+                            TextColor="#1976D2"
+                            Margin="0,0,8,0" />
+                    <Button Text="Delete" 
+                            Clicked="OnBulkDeleteClicked"
+                            BackgroundColor="White"
+                            TextColor="Red"
+                            Margin="0,0,8,0" />
+                    <Button Text="Export" 
+                            Clicked="OnBulkExportClicked"
+                            BackgroundColor="White"
+                            TextColor="#1976D2" />
+                </StackLayout>
+            </Grid>
+        </Frame>
+
+        <!-- Data Table -->
+        <ScrollView Grid.Row="3" 
+                    x:Name="DataScrollView"
+                    Orientation="Both">
+            <StackLayout>
+                <!-- Table Header -->
+                <Frame BackgroundColor="#F8F9FA" 
+                       HasShadow="False" 
+                       Margin="16,16,16,8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <CheckBox Grid.Column="0" 
+                                  x:Name="SelectAllCheckBox"
+                                  CheckedChanged="OnSelectAllChanged" />
+                        
+                        <Button Grid.Column="1" 
+                                Text="Name" 
+                                Clicked="OnSortClicked"
+                                CommandParameter="name"
+                                BackgroundColor="Transparent"
+                                TextColor="Black"
+                                FontAttributes="Bold" />
+                        
+                        <Button Grid.Column="2" 
+                                Text="Email" 
+                                Clicked="OnSortClicked"
+                                CommandParameter="email"
+                                BackgroundColor="Transparent"
+                                TextColor="Black"
+                                FontAttributes="Bold" />
+                        
+                        <Button Grid.Column="3" 
+                                Text="Department" 
+                                Clicked="OnSortClicked"
+                                CommandParameter="department"
+                                BackgroundColor="Transparent"
+                                TextColor="Black"
+                                FontAttributes="Bold" />
+                        
+                        <Button Grid.Column="4" 
+                                Text="Salary" 
+                                Clicked="OnSortClicked"
+                                CommandParameter="salary"
+                                BackgroundColor="Transparent"
+                                TextColor="Black"
+                                FontAttributes="Bold" />
+                        
+                        <Button Grid.Column="5" 
+                                Text="Status" 
+                                Clicked="OnSortClicked"
+                                CommandParameter="status"
+                                BackgroundColor="Transparent"
+                                TextColor="Black"
+                                FontAttributes="Bold" />
+                        
+                        <Label Grid.Column="6" 
+                               Text="Actions" 
+                               FontAttributes="Bold" />
+                    </Grid>
+                </Frame>
+
+                <!-- Table Rows -->
+                <StackLayout x:Name="TableRowsContainer">
+                    <!-- Rows will be added dynamically -->
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Pagination -->
+        <Frame Grid.Row="4" 
+               BackgroundColor="White" 
+               HasShadow="False">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Column="0" 
+                       x:Name="PaginationLabel"
+                       Text="Showing 1-10 of 10 results" 
+                       TextColor="#666" />
+                
+                <StackLayout Grid.Column="1" Orientation="Horizontal">
+                    <Button Text="Previous" 
+                            Clicked="OnPreviousPageClicked"
+                            BackgroundColor="#007AFF"
+                            TextColor="White"
+                            Margin="0,0,8,0" />
+                    
+                    <Label x:Name="PageLabel"
+                           Text="Page 1 of 1" 
+                           VerticalOptions="Center"
+                           Margin="8,0" />
+                    
+                    <Button Text="Next" 
+                            Clicked="OnNextPageClicked"
+                            BackgroundColor="#007AFF"
+                            TextColor="White"
+                            Margin="8,0,0,0" />
+                    
+                    <Picker x:Name="ItemsPerPagePicker"
+                            Title="Items per page"
+                            SelectedIndexChanged="OnItemsPerPageChanged"
+                            Margin="16,0,0,0">
+                        <Picker.Items>
+                            <x:String>5</x:String>
+                            <x:String>10</x:String>
+                            <x:String>25</x:String>
+                            <x:String>50</x:String>
+                            <x:String>100</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </StackLayout>
+            </Grid>
+        </Frame>
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator x:Name="LoadingIndicator"
+                           Grid.Row="3"
+                           IsVisible="False"
+                           IsRunning="False"
+                           Color="#007AFF" />
+
+        <!-- Empty State -->
+        <StackLayout x:Name="EmptyStateStackLayout"
+                     Grid.Row="3"
+                     IsVisible="False"
+                     VerticalOptions="Center"
+                     HorizontalOptions="Center">
+            <Label Text="📊" 
+                   FontSize="64" 
+                   HorizontalOptions="Center" />
+            <Label Text="No data found" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" 
+                   Margin="0,16,0,8" />
+            <Label Text="Try adjusting your search or filter criteria" 
+                   TextColor="#666" 
+                   HorizontalOptions="Center" 
+                   Margin="0,0,0,16" />
+            <Button Text="Clear all filters" 
+                    Clicked="OnClearFiltersClicked"
+                    BackgroundColor="#007AFF"
+                    TextColor="White" />
+        </StackLayout>
+    </Grid>
+</ContentPage>

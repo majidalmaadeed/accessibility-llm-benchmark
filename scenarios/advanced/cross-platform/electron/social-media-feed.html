@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Feed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .feed-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .feed-header {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .profile-info h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .profile-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .compose-area {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .compose-input {
+            width: 100%;
+            min-height: 100px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        .compose-input::placeholder {
+            color: #999;
+        }
+        .compose-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .compose-options {
+            display: flex;
+            gap: 15px;
+        }
+        .compose-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #666;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+        .compose-btn:hover {
+            background: #f8f9fa;
+        }
+        .post-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .post-btn:hover {
+            background: #0056b3;
+        }
+        .post-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .feed-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .post-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            gap: 12px;
+        }
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .post-user-info {
+            flex: 1;
+        }
+        .post-username {
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+            font-size: 14px;
+        }
+        .post-timestamp {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
+        }
+        .post-menu {
+            position: relative;
+        }
+        .post-menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #666;
+            padding: 5px;
+        }
+        .post-menu-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+            min-width: 150px;
+        }
+        .post-menu-dropdown.show {
+            display: block;
+        }
+        .menu-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .menu-item:hover {
+            background: #f8f9fa;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .menu-item.danger {
+            color: #dc3545;
+        }
+        .post-content {
+            padding: 0 20px 15px;
+        }
+        .post-text {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .post-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #666;
+            transition: background 0.2s ease;
+        }
+        .action-btn:hover {
+            background: #f8f9fa;
+        }
+        .action-btn.liked {
+            color: #e74c3c;
+        }
+        .action-btn.retweeted {
+            color: #1abc9c;
+        }
+        .action-btn.bookmarked {
+            color: #f39c12;
+        }
+        .action-icon {
+            font-size: 16px;
+        }
+        .action-count {
+            font-size: 12px;
+        }
+        .comments-section {
+            padding: 15px 20px;
+            border-top: 1px solid #f0f0f0;
+            background: #f8f9fa;
+        }
+        .comment-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .comment-textarea {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 10px 15px;
+            resize: none;
+            font-size: 14px;
+            outline: none;
+        }
+        .comment-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .comment-btn:hover {
+            background: #0056b3;
+        }
+        .comment-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .comment-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .comment-item:last-child {
+            margin-bottom: 0;
+        }
+        .comment-content {
+            flex: 1;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+        }
+        .comment-author {
+            font-weight: 600;
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        .comment-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.4;
+        }
+        .comment-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        .comment-action {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            color: #666;
+            padding: 2px 4px;
+        }
+        .comment-action:hover {
+            color: #007bff;
+        }
+        .infinite-scroll-trigger {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .loading-spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .notification-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 1000;
+            display: none;
+        }
+        .notification-badge.show {
+            display: block;
+        }
+        .floating-action-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+        .floating-action-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="notification-badge" id="notificationBadge">3 new posts</div>
+
+    <div class="feed-container">
+        <div class="feed-header">
+            <div class="header-content">
+                <div class="profile-avatar">JD</div>
+                <div class="profile-info">
+                    <h2>John Doe</h2>
+                    <p>Welcome back! What's on your mind?</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="compose-area">
+            <textarea class="compose-input" id="composeInput" placeholder="What's happening?"></textarea>
+            <div class="compose-actions">
+                <div class="compose-options">
+                    <button class="compose-btn" onclick="attachImage()" title="Add Image">📷</button>
+                    <button class="compose-btn" onclick="attachVideo()" title="Add Video">🎥</button>
+                    <button class="compose-btn" onclick="attachGif()" title="Add GIF">🎬</button>
+                    <button class="compose-btn" onclick="addLocation()" title="Add Location">📍</button>
+                    <button class="compose-btn" onclick="addPoll()" title="Add Poll">📊</button>
+                </div>
+                <button class="post-btn" id="postBtn" onclick="createPost()" disabled>Post</button>
+            </div>
+        </div>
+
+        <div class="feed-posts" id="feedPosts">
+            <!-- Posts will be populated by JavaScript -->
+        </div>
+
+        <div class="infinite-scroll-trigger" id="infiniteScrollTrigger">
+            <div class="loading-spinner"></div>
+            <p>Loading more posts...</p>
+        </div>
+    </div>
+
+    <button class="floating-action-btn" onclick="scrollToTop()">↑</button>
+
+    <script>
+        let posts = [
+            {
+                id: 1,
+                username: 'Sarah Wilson',
+                avatar: 'SW',
+                timestamp: '2 hours ago',
+                text: 'Just finished an amazing hike in the mountains! The views were absolutely breathtaking. Nature never fails to amaze me. #hiking #nature #adventure',
+                image: '🏔️',
+                likes: 24,
+                retweets: 8,
+                comments: 12,
+                bookmarks: 5,
+                liked: false,
+                retweeted: false,
+                bookmarked: false,
+                commentsList: [
+                    { author: 'Mike Johnson', text: 'Looks incredible! Which trail was this?' },
+                    { author: 'Emma Davis', text: 'I need to go there! 😍' }
+                ]
+            },
+            {
+                id: 2,
+                username: 'Tech News',
+                avatar: 'TN',
+                timestamp: '4 hours ago',
+                text: 'Breaking: New AI breakthrough could revolutionize healthcare diagnostics. The technology shows 99% accuracy in early disease detection.',
+                image: '🤖',
+                likes: 156,
+                retweets: 89,
+                comments: 34,
+                bookmarks: 67,
+                liked: false,
+                retweeted: false,
+                bookmarked: false,
+                commentsList: [
+                    { author: 'Dr. Smith', text: 'This is a game-changer for medical diagnosis!' },
+                    { author: 'AI Researcher', text: 'The implications are enormous for patient care.' }
+                ]
+            },
+            {
+                id: 3,
+                username: 'Food Blogger',
+                avatar: 'FB',
+                timestamp: '6 hours ago',
+                text: 'Homemade pasta night! 🍝 Nothing beats fresh pasta with a rich tomato sauce and basil. Recipe in my bio! #cooking #pasta #homemade',
+                image: '🍝',
+                likes: 78,
+                retweets: 23,
+                comments: 18,
+                bookmarks: 12,
+                liked: false,
+                retweeted: false,
+                bookmarked: false,
+                commentsList: [
+                    { author: 'Chef Maria', text: 'That looks absolutely delicious!' },
+                    { author: 'Home Cook', text: 'I need to try this recipe!' }
+                ]
+            }
+        ];
+
+        let currentPostId = 4;
+        let isLoading = false;
+
+        function renderPosts() {
+            const feedPosts = document.getElementById('feedPosts');
+            feedPosts.innerHTML = '';
+
+            posts.forEach(post => {
+                const postElement = createPostElement(post);
+                feedPosts.appendChild(postElement);
+            });
+        }
+
+        function createPostElement(post) {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post-card';
+            postDiv.innerHTML = `
+                <div class="post-header">
+                    <div class="post-avatar">${post.avatar}</div>
+                    <div class="post-user-info">
+                        <h3 class="post-username">${post.username}</h3>
+                        <p class="post-timestamp">${post.timestamp}</p>
+                    </div>
+                    <div class="post-menu">
+                        <button class="post-menu-btn" onclick="togglePostMenu(${post.id})">⋯</button>
+                        <div class="post-menu-dropdown" id="menu-${post.id}">
+                            <div class="menu-item" onclick="followUser('${post.username}')">Follow @${post.username}</div>
+                            <div class="menu-item" onclick="muteUser('${post.username}')">Mute @${post.username}</div>
+                            <div class="menu-item" onclick="reportPost(${post.id})">Report Post</div>
+                            <div class="menu-item danger" onclick="blockUser('${post.username}')">Block @${post.username}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <div class="post-text">${post.text}</div>
+                    ${post.image ? `<div class="post-image">${post.image}</div>` : ''}
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
+                        <span class="action-icon">${post.liked ? '❤️' : '🤍'}</span>
+                        <span class="action-count">${post.likes}</span>
+                    </button>
+                    <button class="action-btn ${post.retweeted ? 'retweeted' : ''}" onclick="toggleRetweet(${post.id})">
+                        <span class="action-icon">🔄</span>
+                        <span class="action-count">${post.retweets}</span>
+                    </button>
+                    <button class="action-btn" onclick="toggleComments(${post.id})">
+                        <span class="action-icon">💬</span>
+                        <span class="action-count">${post.comments}</span>
+                    </button>
+                    <button class="action-btn ${post.bookmarked ? 'bookmarked' : ''}" onclick="toggleBookmark(${post.id})">
+                        <span class="action-icon">${post.bookmarked ? '🔖' : '📌'}</span>
+                    </button>
+                    <button class="action-btn" onclick="sharePost(${post.id})">
+                        <span class="action-icon">📤</span>
+                    </button>
+                </div>
+                <div class="comments-section" id="comments-${post.id}" style="display: none;">
+                    <div class="comment-input">
+                        <div class="comment-avatar">JD</div>
+                        <textarea class="comment-textarea" placeholder="Write a comment..." onkeyup="handleCommentInput(event, ${post.id})"></textarea>
+                        <button class="comment-btn" onclick="addComment(${post.id})">Reply</button>
+                    </div>
+                    <div class="comment-list" id="comment-list-${post.id}">
+                        ${post.commentsList.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-avatar">${comment.author.charAt(0)}</div>
+                                <div class="comment-content">
+                                    <div class="comment-author">${comment.author}</div>
+                                    <div class="comment-text">${comment.text}</div>
+                                    <div class="comment-actions">
+                                        <button class="comment-action" onclick="likeComment(${post.id}, '${comment.author}')">Like</button>
+                                        <button class="comment-action" onclick="replyToComment(${post.id}, '${comment.author}')">Reply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            return postDiv;
+        }
+
+        function togglePostMenu(postId) {
+            const menu = document.getElementById(`menu-${postId}`);
+            document.querySelectorAll('.post-menu-dropdown').forEach(dropdown => {
+                if (dropdown.id !== `menu-${postId}`) {
+                    dropdown.classList.remove('show');
+                }
+            });
+            menu.classList.toggle('show');
+        }
+
+        function toggleLike(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.liked = !post.liked;
+                post.likes += post.liked ? 1 : -1;
+                renderPosts();
+            }
+        }
+
+        function toggleRetweet(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.retweeted = !post.retweeted;
+                post.retweets += post.retweeted ? 1 : -1;
+                renderPosts();
+            }
+        }
+
+        function toggleBookmark(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.bookmarked = !post.bookmarked;
+                renderPosts();
+            }
+        }
+
+        function toggleComments(postId) {
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function addComment(postId) {
+            const post = posts.find(p => p.id === postId);
+            const textarea = document.querySelector(`#comments-${postId} .comment-textarea`);
+            const commentText = textarea.value.trim();
+            
+            if (commentText) {
+                post.commentsList.push({
+                    author: 'John Doe',
+                    text: commentText
+                });
+                post.comments++;
+                textarea.value = '';
+                renderPosts();
+            }
+        }
+
+        function handleCommentInput(event, postId) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                addComment(postId);
+            }
+        }
+
+        function sharePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                alert(`Sharing post: "${post.text.substring(0, 50)}..."`);
+            }
+        }
+
+        function followUser(username) {
+            alert(`Following @${username}`);
+        }
+
+        function muteUser(username) {
+            alert(`Muted @${username}`);
+        }
+
+        function reportPost(postId) {
+            alert(`Reported post ${postId}`);
+        }
+
+        function blockUser(username) {
+            alert(`Blocked @${username}`);
+        }
+
+        function createPost() {
+            const textarea = document.getElementById('composeInput');
+            const text = textarea.value.trim();
+            
+            if (text) {
+                const newPost = {
+                    id: currentPostId++,
+                    username: 'John Doe',
+                    avatar: 'JD',
+                    timestamp: 'Just now',
+                    text: text,
+                    image: null,
+                    likes: 0,
+                    retweets: 0,
+                    comments: 0,
+                    bookmarks: 0,
+                    liked: false,
+                    retweeted: false,
+                    bookmarked: false,
+                    commentsList: []
+                };
+                
+                posts.unshift(newPost);
+                textarea.value = '';
+                document.getElementById('postBtn').disabled = true;
+                renderPosts();
+                showNotification('Post created successfully!');
+            }
+        }
+
+        function attachImage() {
+            alert('Image attachment feature');
+        }
+
+        function attachVideo() {
+            alert('Video attachment feature');
+        }
+
+        function attachGif() {
+            alert('GIF attachment feature');
+        }
+
+        function addLocation() {
+            alert('Location feature');
+        }
+
+        function addPoll() {
+            alert('Poll feature');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showNotification(message) {
+            const badge = document.getElementById('notificationBadge');
+            badge.textContent = message;
+            badge.classList.add('show');
+            setTimeout(() => {
+                badge.classList.remove('show');
+            }, 3000);
+        }
+
+        function loadMorePosts() {
+            if (isLoading) return;
+            
+            isLoading = true;
+            const trigger = document.getElementById('infiniteScrollTrigger');
+            trigger.style.display = 'block';
+            
+            setTimeout(() => {
+                const newPosts = [
+                    {
+                        id: currentPostId++,
+                        username: 'Travel Enthusiast',
+                        avatar: 'TE',
+                        timestamp: '8 hours ago',
+                        text: 'Sunset in Santorini is absolutely magical! 🌅 #travel #santorini #sunset',
+                        image: '🌅',
+                        likes: 89,
+                        retweets: 34,
+                        comments: 22,
+                        bookmarks: 18,
+                        liked: false,
+                        retweeted: false,
+                        bookmarked: false,
+                        commentsList: []
+                    }
+                ];
+                
+                posts.push(...newPosts);
+                renderPosts();
+                isLoading = false;
+                trigger.style.display = 'none';
+            }, 1500);
+        }
+
+        document.getElementById('composeInput').addEventListener('input', function() {
+            const postBtn = document.getElementById('postBtn');
+            postBtn.disabled = this.value.trim().length === 0;
+        });
+
+        window.addEventListener('scroll', function() {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000) {
+                loadMorePosts();
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.post-menu')) {
+                document.querySelectorAll('.post-menu-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPosts();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="AccessibilityBenchmark.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:AccessibilityBenchmark.Views"
+    Title="Accessibility Benchmark"
+    FlyoutBehavior="Flyout">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+    <ShellContent
+        Title="Data Table"
+        ContentTemplate="{DataTemplate local:DataTablePage}"
+        Route="DataTablePage" />
+
+    <ShellContent
+        Title="Wizard"
+        ContentTemplate="{DataTemplate local:WizardPage}"
+        Route="WizardPage" />
+
+    <ShellContent
+        Title="Dashboard"
+        ContentTemplate="{DataTemplate local:DashboardPage}"
+        Route="DashboardPage" />
+
+    <ShellContent
+        Title="Media Player"
+        ContentTemplate="{DataTemplate local:MediaPlayerPage}"
+        Route="MediaPlayerPage" />
+
+    <ShellContent
+        Title="Shopping Cart"
+        ContentTemplate="{DataTemplate local:ShoppingCartPage}"
+        Route="ShoppingCartPage" />
+
+    <ShellContent
+        Title="Calendar"
+        ContentTemplate="{DataTemplate local:CalendarPage}"
+        Route="CalendarPage" />
+
+    <ShellContent
+        Title="Rich Text Editor"
+        ContentTemplate="{DataTemplate local:RichTextEditorPage}"
+        Route="RichTextEditorPage" />
+
+    <ShellContent
+        Title="Search Interface"
+        ContentTemplate="{DataTemplate local:SearchInterfacePage}"
+        Route="SearchInterfacePage" />
+
+    <ShellContent
+        Title="Interactive Map"
+        ContentTemplate="{DataTemplate local:InteractiveMapPage}"
+        Route="InteractiveMapPage" />
+
+    <ShellContent
+        Title="Social Feed"
+        ContentTemplate="{DataTemplate local:SocialFeedPage}"
+        Route="SocialFeedPage" />
+
+</Shell>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .controls {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .filter-group {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .filter-group input, .filter-group select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 150px;
+        }
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            cursor: pointer;
+            user-select: none;
+        }
+        th:hover {
+            background: #e9ecef;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .btn-edit {
+            background: #007bff;
+            color: white;
+        }
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-view {
+            background: #28a745;
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+        }
+        .pagination-info {
+            color: #666;
+        }
+        .pagination-controls {
+            display: flex;
+            gap: 10px;
+        }
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .pagination-btn:hover {
+            background: #e9ecef;
+        }
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .selected {
+            background: #e3f2fd !important;
+        }
+        .sort-indicator {
+            margin-left: 5px;
+        }
+        .toolbar {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toolbar-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .bulk-actions {
+            display: none;
+        }
+        .bulk-actions.show {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Employee Management System</h1>
+        <p>Manage your workforce efficiently</p>
+    </div>
+
+    <div class="controls">
+        <div class="filter-group">
+            <label>Search</label>
+            <input type="text" id="searchInput" placeholder="Search employees...">
+        </div>
+        <div class="filter-group">
+            <label>Department</label>
+            <select id="departmentFilter">
+                <option value="">All Departments</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Sales">Sales</option>
+                <option value="HR">HR</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Status</label>
+            <select id="statusFilter">
+                <option value="">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div class="toolbar">
+            <div class="toolbar-actions">
+                <button class="btn btn-view" onclick="exportData()">Export</button>
+                <button class="btn btn-edit" onclick="addEmployee()">Add Employee</button>
+            </div>
+            <div class="bulk-actions" id="bulkActions">
+                <button class="btn btn-delete" onclick="deleteSelected()">Delete Selected</button>
+                <button class="btn btn-edit" onclick="editSelected()">Edit Selected</button>
+            </div>
+        </div>
+        
+        <table id="employeeTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">
+                        <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                    </th>
+                    <th onclick="sortTable(1)">Name <span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(2)">Email <span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(3)">Department <span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(4)">Position <span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(5)">Salary <span class="sort-indicator">↕</span></th>
+                    <th onclick="sortTable(6)">Status <span class="sort-indicator">↕</span></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="employeeTableBody">
+                <!-- Data will be populated by JavaScript -->
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <div class="pagination-info">
+                Showing <span id="showingStart">1</span> to <span id="showingEnd">10</span> of <span id="totalRecords">50</span> entries
+            </div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)">Previous</button>
+                <span id="pageNumbers"></span>
+                <button class="pagination-btn" id="nextBtn" onclick="changePage(1)">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let employees = [
+            { id: 1, name: "John Smith", email: "john.smith@company.com", department: "Engineering", position: "Senior Developer", salary: 95000, status: "Active" },
+            { id: 2, name: "Sarah Johnson", email: "sarah.johnson@company.com", department: "Marketing", position: "Marketing Manager", salary: 78000, status: "Active" },
+            { id: 3, name: "Mike Wilson", email: "mike.wilson@company.com", department: "Sales", position: "Sales Representative", salary: 65000, status: "Active" },
+            { id: 4, name: "Emily Davis", email: "emily.davis@company.com", department: "HR", position: "HR Specialist", salary: 58000, status: "Active" },
+            { id: 5, name: "David Brown", email: "david.brown@company.com", department: "Engineering", position: "Junior Developer", salary: 72000, status: "Active" },
+            { id: 6, name: "Lisa Anderson", email: "lisa.anderson@company.com", department: "Marketing", position: "Content Writer", salary: 55000, status: "Inactive" },
+            { id: 7, name: "Tom Miller", email: "tom.miller@company.com", department: "Sales", position: "Sales Manager", salary: 85000, status: "Active" },
+            { id: 8, name: "Jennifer Taylor", email: "jennifer.taylor@company.com", department: "Engineering", position: "DevOps Engineer", salary: 88000, status: "Active" },
+            { id: 9, name: "Robert Garcia", email: "robert.garcia@company.com", department: "HR", position: "HR Manager", salary: 75000, status: "Active" },
+            { id: 10, name: "Amanda White", email: "amanda.white@company.com", department: "Marketing", position: "Digital Marketing Specialist", salary: 62000, status: "Active" }
+        ];
+
+        let filteredEmployees = [...employees];
+        let currentPage = 1;
+        let itemsPerPage = 10;
+        let sortColumn = -1;
+        let sortDirection = 'asc';
+
+        function renderTable() {
+            const tbody = document.getElementById('employeeTableBody');
+            tbody.innerHTML = '';
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageEmployees = filteredEmployees.slice(startIndex, endIndex);
+
+            pageEmployees.forEach(employee => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="checkbox" class="employee-checkbox" value="${employee.id}" onchange="updateBulkActions()"></td>
+                    <td>${employee.name}</td>
+                    <td>${employee.email}</td>
+                    <td>${employee.department}</td>
+                    <td>${employee.position}</td>
+                    <td>$${employee.salary.toLocaleString()}</td>
+                    <td><span class="status-${employee.status.toLowerCase()}">${employee.status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-view" onclick="viewEmployee(${employee.id})">View</button>
+                            <button class="btn btn-edit" onclick="editEmployee(${employee.id})">Edit</button>
+                            <button class="btn btn-delete" onclick="deleteEmployee(${employee.id})">Delete</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            updatePagination();
+        }
+
+        function sortTable(columnIndex) {
+            if (sortColumn === columnIndex) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = columnIndex;
+                sortDirection = 'asc';
+            }
+
+            filteredEmployees.sort((a, b) => {
+                let aVal, bVal;
+                switch(columnIndex) {
+                    case 1: aVal = a.name; bVal = b.name; break;
+                    case 2: aVal = a.email; bVal = b.email; break;
+                    case 3: aVal = a.department; bVal = b.department; break;
+                    case 4: aVal = a.position; bVal = b.position; break;
+                    case 5: aVal = a.salary; bVal = b.salary; break;
+                    case 6: aVal = a.status; bVal = b.status; break;
+                    default: return 0;
+                }
+
+                if (typeof aVal === 'string') {
+                    return sortDirection === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                } else {
+                    return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
+                }
+            });
+
+            renderTable();
+        }
+
+        function filterTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const departmentFilter = document.getElementById('departmentFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            filteredEmployees = employees.filter(employee => {
+                const matchesSearch = employee.name.toLowerCase().includes(searchTerm) || 
+                                    employee.email.toLowerCase().includes(searchTerm) ||
+                                    employee.position.toLowerCase().includes(searchTerm);
+                const matchesDepartment = !departmentFilter || employee.department === departmentFilter;
+                const matchesStatus = !statusFilter || employee.status === statusFilter;
+
+                return matchesSearch && matchesDepartment && matchesStatus;
+            });
+
+            currentPage = 1;
+            renderTable();
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredEmployees.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage + 1;
+            const endIndex = Math.min(currentPage * itemsPerPage, filteredEmployees.length);
+
+            document.getElementById('showingStart').textContent = startIndex;
+            document.getElementById('showingEnd').textContent = endIndex;
+            document.getElementById('totalRecords').textContent = filteredEmployees.length;
+
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+
+            const pageNumbers = document.getElementById('pageNumbers');
+            pageNumbers.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                pageBtn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                pageBtn.onclick = () => goToPage(i);
+                pageNumbers.appendChild(pageBtn);
+            }
+        }
+
+        function changePage(direction) {
+            const totalPages = Math.ceil(filteredEmployees.length / itemsPerPage);
+            const newPage = currentPage + direction;
+            
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                renderTable();
+            }
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderTable();
+        }
+
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.employee-checkbox');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+            
+            updateBulkActions();
+        }
+
+        function updateBulkActions() {
+            const checkboxes = document.querySelectorAll('.employee-checkbox:checked');
+            const bulkActions = document.getElementById('bulkActions');
+            
+            if (checkboxes.length > 0) {
+                bulkActions.classList.add('show');
+            } else {
+                bulkActions.classList.remove('show');
+            }
+        }
+
+        function deleteSelected() {
+            const checkboxes = document.querySelectorAll('.employee-checkbox:checked');
+            const idsToDelete = Array.from(checkboxes).map(cb => parseInt(cb.value));
+            
+            if (confirm(`Are you sure you want to delete ${idsToDelete.length} employee(s)?`)) {
+                employees = employees.filter(emp => !idsToDelete.includes(emp.id));
+                filterTable();
+                document.getElementById('selectAll').checked = false;
+                updateBulkActions();
+            }
+        }
+
+        function editSelected() {
+            const checkboxes = document.querySelectorAll('.employee-checkbox:checked');
+            if (checkboxes.length === 1) {
+                const id = parseInt(checkboxes[0].value);
+                editEmployee(id);
+            } else {
+                alert('Please select exactly one employee to edit.');
+            }
+        }
+
+        function viewEmployee(id) {
+            const employee = employees.find(emp => emp.id === id);
+            alert(`Employee Details:\nName: ${employee.name}\nEmail: ${employee.email}\nDepartment: ${employee.department}\nPosition: ${employee.position}\nSalary: $${employee.salary.toLocaleString()}\nStatus: ${employee.status}`);
+        }
+
+        function editEmployee(id) {
+            alert(`Edit employee with ID: ${id}`);
+        }
+
+        function deleteEmployee(id) {
+            if (confirm('Are you sure you want to delete this employee?')) {
+                employees = employees.filter(emp => emp.id !== id);
+                filterTable();
+            }
+        }
+
+        function addEmployee() {
+            alert('Add new employee functionality');
+        }
+
+        function exportData() {
+            alert('Export data functionality');
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterTable);
+        document.getElementById('departmentFilter').addEventListener('change', filterTable);
+        document.getElementById('statusFilter').addEventListener('change', filterTable);
+
+        renderTable();
+    </script>
+</body>
+</html>

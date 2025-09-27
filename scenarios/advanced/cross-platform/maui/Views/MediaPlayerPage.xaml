@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityBenchmark.Views.MediaPlayerPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Media Player Full Interface">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            
+            <Label Text="Media Player Full Interface" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <Frame Padding="20" HasShadow="True" CornerRadius="10">
+                <StackLayout Spacing="15">
+                    
+                    <Label Text="Now Playing" FontSize="18" FontAttributes="Bold" />
+                    <Label x:Name="NowPlayingLabel" Text="No media selected" FontSize="16" />
+                    
+                    <ProgressBar x:Name="ProgressBar" Progress="0.3" ProgressColor="{StaticResource Primary}" />
+                    
+                    <Grid ColumnDefinitions="*,*,*,*,*" RowDefinitions="Auto" ColumnSpacing="10">
+                        <Button Grid.Column="0" Text="⏮" FontSize="20" Clicked="OnPreviousClicked" />
+                        <Button Grid.Column="1" Text="⏸" FontSize="20" Clicked="OnPlayPauseClicked" />
+                        <Button Grid.Column="2" Text="⏹" FontSize="20" Clicked="OnStopClicked" />
+                        <Button Grid.Column="3" Text="⏭" FontSize="20" Clicked="OnNextClicked" />
+                        <Button Grid.Column="4" Text="🔀" FontSize="20" Clicked="OnShuffleClicked" />
+                    </Grid>
+                    
+                    <Slider x:Name="VolumeSlider" 
+                            Minimum="0" 
+                            Maximum="100" 
+                            Value="50" 
+                            ValueChanged="OnVolumeChanged" />
+                    
+                    <Label x:Name="VolumeLabel" Text="Volume: 50%" FontSize="14" />
+                    
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

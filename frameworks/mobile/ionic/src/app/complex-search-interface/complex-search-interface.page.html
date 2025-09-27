@@ -1,0 +1,235 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Search</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Search Bar -->
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      placeholder="Search for anything..."
+      (ionInput)="onSearchInput()"
+      (ionClear)="onSearchClear()"
+      show-clear-button="focus">
+    </ion-searchbar>
+    <ion-button slot="end" fill="solid" color="primary" (click)="onSearchClicked()">
+      Search
+    </ion-button>
+  </ion-toolbar>
+
+  <!-- Filters -->
+  <ion-toolbar class="filters-toolbar">
+    <div class="filters-content">
+      <ion-chip (click)="onFiltersClicked()" [class.active]="showAdvancedFilters">
+        <ion-icon name="filter"></ion-icon>
+        <ion-label>Filters</ion-label>
+        <ion-badge *ngIf="selectedFiltersCount > 0" color="danger">{{ selectedFiltersCount }}</ion-badge>
+      </ion-chip>
+
+      <ion-chip 
+        *ngFor="let filter of filters" 
+        [class.active]="isFilterSelected(filter.id)"
+        (click)="onFilterToggled(filter.id)">
+        <ion-label>{{ filter.name }}</ion-label>
+      </ion-chip>
+    </div>
+  </ion-toolbar>
+
+  <!-- Sort and View -->
+  <ion-toolbar class="sort-toolbar">
+    <div class="sort-content">
+      <div class="sort-section">
+        <ion-label>Sort by:</ion-label>
+        <ion-select [(ngModel)]="sortOption" (ionChange)="onSortChanged()" placeholder="Select sort option">
+          <ion-select-option value="relevance">Relevance</ion-select-option>
+          <ion-select-option value="date">Date</ion-select-option>
+          <ion-select-option value="name">Name</ion-select-option>
+          <ion-select-option value="size">Size</ion-select-option>
+          <ion-select-option value="type">Type</ion-select-option>
+          <ion-select-option value="rating">Rating</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="view-section">
+        <ion-button 
+          fill="clear" 
+          size="small" 
+          [class.active]="viewMode === 'list'"
+          (click)="onViewModeChanged('list')">
+          <ion-icon name="list"></ion-icon>
+        </ion-button>
+        <ion-button 
+          fill="clear" 
+          size="small" 
+          [class.active]="viewMode === 'grid'"
+          (click)="onViewModeChanged('grid')">
+          <ion-icon name="grid"></ion-icon>
+        </ion-button>
+        <ion-button 
+          fill="clear" 
+          size="small" 
+          [class.active]="viewMode === 'compact'"
+          (click)="onViewModeChanged('compact')">
+          <ion-icon name="menu"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </ion-toolbar>
+
+  <!-- Results -->
+  <div class="results-container">
+    <!-- Loading State -->
+    <div class="loading-container" *ngIf="isLoading">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Searching...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-container" *ngIf="!isLoading && searchResults.length === 0 && searchQuery">
+      <ion-icon name="search" size="large"></ion-icon>
+      <h2>No results found</h2>
+      <p>Try adjusting your search terms or filters</p>
+      <ion-button (click)="onClearFiltersClicked()">Clear all filters</ion-button>
+    </div>
+
+    <!-- Results List -->
+    <ion-list *ngIf="!isLoading && searchResults.length > 0" class="results-list">
+      <ion-item *ngFor="let result of searchResults" (click)="onResultClicked(result)" button>
+        <ion-avatar slot="start">
+          <div class="result-icon">{{ result.image }}</div>
+        </ion-avatar>
+        
+        <ion-label>
+          <h2>{{ result.title }}</h2>
+          <p>{{ result.description }}</p>
+          
+          <div class="result-meta">
+            <ion-chip size="small">
+              <ion-icon name="folder"></ion-icon>
+              <ion-label>{{ result.category }}</ion-label>
+            </ion-chip>
+            
+            <ion-chip size="small">
+              <ion-icon name="time"></ion-icon>
+              <ion-label>{{ result.date }}</ion-label>
+            </ion-chip>
+            
+            <ion-chip size="small">
+              <ion-icon name="star"></ion-icon>
+              <ion-label>{{ result.rating }}</ion-label>
+            </ion-chip>
+            
+            <ion-chip size="small">
+              <ion-icon name="document"></ion-icon>
+              <ion-label>{{ result.size }}</ion-label>
+            </ion-chip>
+          </div>
+          
+          <div class="result-price" *ngIf="result.price > 0">
+            <ion-text color="primary">
+              <strong>{{ result.price | currency }}</strong>
+            </ion-text>
+          </div>
+        </ion-label>
+        
+        <ion-icon name="chevron-forward" slot="end"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+
+<!-- Advanced Filters Modal -->
+<ion-modal [isOpen]="showAdvancedFilters" (didDismiss)="onAdvancedFiltersDismissed()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Filters</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="onClearAllFilters()">Clear All</ion-button>
+          <ion-button (click)="onAdvancedFiltersDismissed()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content>
+      <ion-list>
+        <!-- Category Filter -->
+        <ion-item>
+          <ion-label>
+            <h3>Category</h3>
+            <p>Filter by content type</p>
+          </ion-label>
+        </ion-item>
+        
+        <div class="category-chips">
+          <ion-chip 
+            *ngFor="let category of categories" 
+            [class.active]="selectedCategory === category"
+            (click)="onCategorySelected(category)">
+            <ion-label>{{ category }}</ion-label>
+          </ion-chip>
+        </div>
+
+        <!-- Price Range Filter -->
+        <ion-item>
+          <ion-label>
+            <h3>Price Range</h3>
+            <p>Set minimum and maximum price</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">Minimum Price</ion-label>
+          <ion-input 
+            type="number" 
+            [(ngModel)]="minPrice" 
+            placeholder="0">
+          </ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">Maximum Price</ion-label>
+          <ion-input 
+            type="number" 
+            [(ngModel)]="maxPrice" 
+            placeholder="1000">
+          </ion-input>
+        </ion-item>
+
+        <!-- Date Range Filter -->
+        <ion-item>
+          <ion-label>
+            <h3>Date Range</h3>
+            <p>Filter by publication date</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">Start Date</ion-label>
+          <ion-datetime 
+            [(ngModel)]="startDate" 
+            display-format="MMM DD, YYYY">
+          </ion-datetime>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">End Date</ion-label>
+          <ion-datetime 
+            [(ngModel)]="endDate" 
+            display-format="MMM DD, YYYY">
+          </ion-datetime>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+    
+    <ion-footer>
+      <ion-toolbar>
+        <ion-button expand="block" (click)="onApplyFilters()">Apply Filters</ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

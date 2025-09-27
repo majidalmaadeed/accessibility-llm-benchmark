@@ -1,0 +1,36 @@
+{
+  "name": "accessibility-benchmark-vue",
+  "version": "1.0.0",
+  "description": "Accessibility Benchmark Testing Application - Vue.js",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "vue": "^3.2.37",
+    "vue-router": "^4.0.12",
+    "axios": "^0.27.2",
+    "chart.js": "^3.9.1",
+    "vue-chartjs": "^5.2.0",
+    "date-fns": "^2.28.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/eslint-config-standard": "^6.1.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "eslint-plugin-vue": "^8.7.1"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

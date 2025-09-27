@@ -1,423 +1,398 @@
 import SwiftUI
 
 struct RichTextEditor: View {
-    @State private var text: String = ""
-    @State private var selectedRange: NSRange = NSRange(location: 0, length: 0)
-    @State private var isBold: Bool = false
-    @State private var isItalic: Bool = false
-    @State private var isUnderline: Bool = false
+    @State private var content = ""
+    @State private var isBold = false
+    @State private var isItalic = false
+    @State private var isUnderline = false
     @State private var fontSize: CGFloat = 16
-    @State private var textColor: Color = .primary
-    @State private var backgroundColor: Color = .clear
+    @State private var textColor = Color.primary
+    @State private var backgroundColor = Color(.systemBackground)
     @State private var alignment: TextAlignment = .leading
-    @State private var showStylePanel: Bool = false
-    @State private var showMediaPicker: Bool = false
-    @State private var showLinkDialog: Bool = false
-    @State private var linkURL: String = ""
-    @State private var linkText: String = ""
-    @State private var wordCount: Int = 0
-    @State private var characterCount: Int = 0
-    @State private var undoStack: [String] = []
-    @State private var redoStack: [String] = []
-    @State private var canUndo: Bool = false
-    @State private var canRedo: Bool = false
+    @State private var showWordCount = false
+    @State private var isUndoAvailable = false
+    @State private var isRedoAvailable = false
+    @State private var history: [String] = [""]
+    @State private var historyIndex = 0
+    @State private var showFontSizePicker = false
+    @State private var showColorPicker = false
+    @State private var showInsertMenu = false
+    @State private var colorPickerType: ColorPickerType = .text
     
-    let fontSizes: [CGFloat] = [12, 14, 16, 18, 20, 24, 28, 32, 36, 48]
-    let textColors: [Color] = [.primary, .red, .blue, .green, .orange, .purple, .pink, .brown]
-    let backgroundColors: [Color] = [.clear, .yellow, .green, .blue, .red, .orange, .purple, .gray]
+    enum TextAlignment: String, CaseIterable {
+        case leading = "leading"
+        case center = "center"
+        case trailing = "trailing"
+    }
+    
+    enum ColorPickerType {
+        case text
+        case background
+    }
+    
+    private let fontSizes: [CGFloat] = [12, 14, 16, 18, 20, 24, 28, 32, 36, 48]
+    private let colors: [Color] = [
+        .primary, .secondary, .red, .orange, .yellow, .green, .blue, .purple, .pink, .white
+    ]
     
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
+                // Toolbar
                 toolbarView
                 
-                if showStylePanel {
-                    stylePanelView
+                // Word Count Panel
+                if showWordCount {
+                    wordCountPanel
                 }
                 
+                // Editor
                 editorView
-                
-                statusBarView
             }
             .navigationTitle("Rich Text Editor")
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
-                        // Save document
+                    Button("Save") {
+                        onSaveClicked()
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Export") {
+                        onExportClicked()
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Stats") {
+                        onStatsClicked()
                     }
                 }
             }
-        }
-        .sheet(isPresented: $showMediaPicker) {
-            MediaPickerView { mediaType in
-                insertMedia(mediaType)
+            .sheet(isPresented: $showFontSizePicker) {
+                FontSizePickerView(selectedSize: $fontSize, isPresented: $showFontSizePicker)
             }
-        }
-        .alert("Insert Link", isPresented: $showLinkDialog) {
-            TextField("Link Text", text: $linkText)
-            TextField("URL", text: $linkURL)
-            Button("Insert") {
-                insertLink()
+            .sheet(isPresented: $showColorPicker) {
+                ColorPickerView(
+                    selectedColor: colorPickerType == .text ? $textColor : $backgroundColor,
+                    colorType: colorPickerType,
+                    isPresented: $showColorPicker
+                )
             }
-            Button("Cancel", role: .cancel) { }
+            .sheet(isPresented: $showInsertMenu) {
+                InsertMenuView(isPresented: $showInsertMenu) { insertType in
+                    onInsertItem(insertType)
+                }
+            }
+            .onAppear {
+                updateHistory()
+            }
         }
     }
     
     private var toolbarView: some View {
-        VStack(spacing: 0) {
+        ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
-                Button(action: { undo() }) {
-                    Image(systemName: "arrow.uturn.backward")
-                }
-                .buttonStyle(.bordered)
-                .disabled(!canUndo)
-                
-                Button(action: { redo() }) {
-                    Image(systemName: "arrow.uturn.forward")
-                }
-                .buttonStyle(.bordered)
-                .disabled(!canRedo)
+                // Undo/Redo Group
+                undoRedoGroup
                 
                 Divider()
                 
-                Button(action: { toggleBold() }) {
-                    Image(systemName: "bold")
-                }
-                .buttonStyle(.bordered)
-                .foregroundColor(isBold ? .blue : .primary)
-                
-                Button(action: { toggleItalic() }) {
-                    Image(systemName: "italic")
-                }
-                .buttonStyle(.bordered)
-                .foregroundColor(isItalic ? .blue : .primary)
-                
-                Button(action: { toggleUnderline() }) {
-                    Image(systemName: "underline")
-                }
-                .buttonStyle(.bordered)
-                .foregroundColor(isUnderline ? .blue : .primary)
+                // Formatting Group
+                formattingGroup
                 
                 Divider()
                 
-                Button(action: { showStylePanel.toggle() }) {
-                    Image(systemName: "textformat")
-                }
-                .buttonStyle(.bordered)
-                .foregroundColor(showStylePanel ? .blue : .primary)
+                // Font Size Group
+                fontSizeGroup
                 
-                Button(action: { showMediaPicker = true }) {
-                    Image(systemName: "photo")
-                }
-                .buttonStyle(.bordered)
+                Divider()
                 
-                Button(action: { showLinkDialog = true }) {
-                    Image(systemName: "link")
-                }
-                .buttonStyle(.bordered)
+                // Alignment Group
+                alignmentGroup
+                
+                Divider()
+                
+                // Insert Group
+                insertGroup
             }
-            .padding()
-            .background(Color(.systemGray6))
+            .padding(.horizontal)
+        }
+        .padding(.vertical, 8)
+        .background(Color(.systemGray6))
+    }
+    
+    private var undoRedoGroup: some View {
+        HStack(spacing: 8) {
+            Button(action: onUndoClicked) {
+                Image(systemName: "arrow.uturn.backward")
+                    .font(.title2)
+            }
+            .disabled(!isUndoAvailable)
+            .foregroundColor(isUndoAvailable ? .blue : .gray)
             
-            HStack(spacing: 16) {
-                Button(action: { setAlignment(.leading) }) {
-                    Image(systemName: "text.alignleft")
-                }
-                .buttonStyle(.bordered)
-                .foregroundColor(alignment == .leading ? .blue : .primary)
-                
-                Button(action: { setAlignment(.center) }) {
-                    Image(systemName: "text.aligncenter")
-                }
-                .buttonStyle(.bordered)
-                .foregroundColor(alignment == .center ? .blue : .primary)
-                
-                Button(action: { setAlignment(.trailing) }) {
-                    Image(systemName: "text.alignright")
-                }
-                .buttonStyle(.bordered)
-                .foregroundColor(alignment == .trailing ? .blue : .primary)
-                
-                Divider()
-                
-                Button(action: { insertBulletList() }) {
-                    Image(systemName: "list.bullet")
-                }
-                .buttonStyle(.bordered)
-                
-                Button(action: { insertNumberedList() }) {
-                    Image(systemName: "list.number")
-                }
-                .buttonStyle(.bordered)
-                
-                Button(action: { insertQuote() }) {
-                    Image(systemName: "quote.bubble")
-                }
-                .buttonStyle(.bordered)
+            Button(action: onRedoClicked) {
+                Image(systemName: "arrow.uturn.forward")
+                    .font(.title2)
             }
-            .padding()
-            .background(Color(.systemGray6))
+            .disabled(!isRedoAvailable)
+            .foregroundColor(isRedoAvailable ? .blue : .gray)
         }
     }
     
-    private var stylePanelView: some View {
-        VStack(spacing: 16) {
-            HStack {
-                Text("Font Size")
-                    .font(.headline)
-                
-                Spacer()
-                
-                Picker("Font Size", selection: $fontSize) {
-                    ForEach(fontSizes, id: \.self) { size in
-                        Text("\(Int(size))").tag(size)
-                    }
-                }
-                .pickerStyle(.menu)
+    private var formattingGroup: some View {
+        HStack(spacing: 8) {
+            Button(action: onBoldClicked) {
+                Image(systemName: "bold")
+                    .font(.title2)
+            }
+            .foregroundColor(isBold ? .blue : .primary)
+            .background(isBold ? Color.blue.opacity(0.1) : Color.clear)
+            .cornerRadius(4)
+            
+            Button(action: onItalicClicked) {
+                Image(systemName: "italic")
+                    .font(.title2)
+            }
+            .foregroundColor(isItalic ? .blue : .primary)
+            .background(isItalic ? Color.blue.opacity(0.1) : Color.clear)
+            .cornerRadius(4)
+            
+            Button(action: onUnderlineClicked) {
+                Image(systemName: "underline")
+                    .font(.title2)
+            }
+            .foregroundColor(isUnderline ? .blue : .primary)
+            .background(isUnderline ? Color.blue.opacity(0.1) : Color.clear)
+            .cornerRadius(4)
+        }
+    }
+    
+    private var fontSizeGroup: some View {
+        HStack(spacing: 8) {
+            Button(action: { showFontSizePicker = true }) {
+                Text("\(Int(fontSize))pt")
+                    .font(.caption)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color(.systemGray5))
+                    .cornerRadius(4)
             }
             
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Text Color")
-                    .font(.headline)
-                
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 8), spacing: 8) {
-                    ForEach(textColors, id: \.self) { color in
-                        Button(action: { textColor = color }) {
-                            Circle()
-                                .fill(color)
-                                .frame(width: 30, height: 30)
-                                .overlay(
-                                    Circle()
-                                        .stroke(textColor == color ? Color.blue : Color.clear, lineWidth: 3)
-                                )
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
+            Button(action: { 
+                colorPickerType = .text
+                showColorPicker = true 
+            }) {
+                Circle()
+                    .fill(textColor)
+                    .frame(width: 20, height: 20)
+                    .overlay(
+                        Circle()
+                            .stroke(Color(.systemGray4), lineWidth: 1)
+                    )
             }
             
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Background Color")
-                    .font(.headline)
-                
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 8), spacing: 8) {
-                    ForEach(backgroundColors, id: \.self) { color in
-                        Button(action: { backgroundColor = color }) {
-                            Circle()
-                                .fill(color)
-                                .frame(width: 30, height: 30)
-                                .overlay(
-                                    Circle()
-                                        .stroke(backgroundColor == color ? Color.blue : Color.clear, lineWidth: 3)
-                                )
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
+            Button(action: { 
+                colorPickerType = .background
+                showColorPicker = true 
+            }) {
+                Circle()
+                    .fill(backgroundColor)
+                    .frame(width: 20, height: 20)
+                    .overlay(
+                        Circle()
+                            .stroke(Color(.systemGray4), lineWidth: 1)
+                    )
             }
         }
-        .padding()
+    }
+    
+    private var alignmentGroup: some View {
+        HStack(spacing: 8) {
+            ForEach(TextAlignment.allCases, id: \.self) { align in
+                Button(action: { alignment = align }) {
+                    Image(systemName: alignmentIcon(for: align))
+                        .font(.title2)
+                }
+                .foregroundColor(alignment == align ? .blue : .primary)
+                .background(alignment == align ? Color.blue.opacity(0.1) : Color.clear)
+                .cornerRadius(4)
+            }
+        }
+    }
+    
+    private var insertGroup: some View {
+        HStack(spacing: 8) {
+            Button(action: { showInsertMenu = true }) {
+                Image(systemName: "plus")
+                    .font(.title2)
+            }
+            
+            Button(action: onStatsClicked) {
+                Image(systemName: "chart.bar")
+                    .font(.title2)
+            }
+        }
+    }
+    
+    private var wordCountPanel: some View {
+        HStack {
+            Spacer()
+            Text("Words: \(wordCount) | Characters: \(charCount)")
+                .font(.caption)
+                .foregroundColor(.secondary)
+            Spacer()
+        }
+        .padding(.vertical, 8)
         .background(Color(.systemGray6))
     }
     
     private var editorView: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                TextEditor(text: $text)
-                    .font(.system(size: fontSize))
-                    .foregroundColor(textColor)
-                    .background(backgroundColor)
-                    .multilineTextAlignment(alignment)
-                    .onChange(of: text) { newValue in
-                        updateCounts()
-                        saveToUndoStack()
-                    }
-                    .onTapGesture { location in
-                        handleTextSelection(at: location)
-                    }
-                    .frame(minHeight: 400)
-                    .padding()
-                    .background(Color(.systemBackground))
-                    .cornerRadius(8)
-                    .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-            }
+        TextEditor(text: $content)
+            .font(.system(size: fontSize))
+            .foregroundColor(textColor)
+            .background(backgroundColor)
+            .multilineTextAlignment(alignment)
             .padding()
+            .onChange(of: content) { _ in
+                onContentChanged()
+            }
+    }
+    
+    // MARK: - Computed Properties
+    
+    private var wordCount: Int {
+        let words = content.trimmingCharacters(in: .whitespacesAndNewlines)
+            .components(separatedBy: .whitespacesAndNewlines)
+            .filter { !$0.isEmpty }
+        return words.count
+    }
+    
+    private var charCount: Int {
+        content.count
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func alignmentIcon(for alignment: TextAlignment) -> String {
+        switch alignment {
+        case .leading: return "text.alignleft"
+        case .center: return "text.aligncenter"
+        case .trailing: return "text.alignright"
         }
     }
     
-    private var statusBarView: some View {
-        HStack {
-            Text("Words: \(wordCount)")
-                .font(.caption)
-                .foregroundColor(.secondary)
-            
-            Spacer()
-            
-            Text("Characters: \(characterCount)")
-                .font(.caption)
-                .foregroundColor(.secondary)
-            
-            Spacer()
-            
-            Text("Font: \(Int(fontSize))pt")
-                .font(.caption)
-                .foregroundColor(.secondary)
-        }
-        .padding()
-        .background(Color(.systemGray6))
+    private func updateHistory() {
+        let newHistory = Array(history.prefix(historyIndex + 1))
+        newHistory.append(content)
+        history = newHistory
+        historyIndex = newHistory.count - 1
+        isUndoAvailable = historyIndex > 0
+        isRedoAvailable = historyIndex < newHistory.count - 1
     }
     
-    // MARK: - Methods
+    private func onContentChanged() {
+        updateHistory()
+    }
     
-    private func toggleBold() {
+    // MARK: - Actions
+    
+    private func onSaveClicked() {
+        // Handle save
+        print("Save clicked")
+    }
+    
+    private func onExportClicked() {
+        // Handle export
+        print("Export clicked")
+    }
+    
+    private func onStatsClicked() {
+        showWordCount.toggle()
+    }
+    
+    private func onUndoClicked() {
+        if historyIndex > 0 {
+            historyIndex -= 1
+            content = history[historyIndex]
+            isUndoAvailable = historyIndex > 0
+            isRedoAvailable = true
+        }
+    }
+    
+    private func onRedoClicked() {
+        if historyIndex < history.count - 1 {
+            historyIndex += 1
+            content = history[historyIndex]
+            isUndoAvailable = true
+            isRedoAvailable = historyIndex < history.count - 1
+        }
+    }
+    
+    private func onBoldClicked() {
         isBold.toggle()
-        applyFormatting()
+        // In a real implementation, this would apply bold formatting to selected text
     }
     
-    private func toggleItalic() {
+    private func onItalicClicked() {
         isItalic.toggle()
-        applyFormatting()
+        // In a real implementation, this would apply italic formatting to selected text
     }
     
-    private func toggleUnderline() {
+    private func onUnderlineClicked() {
         isUnderline.toggle()
-        applyFormatting()
+        // In a real implementation, this would apply underline formatting to selected text
     }
     
-    private func setAlignment(_ newAlignment: TextAlignment) {
-        alignment = newAlignment
-    }
-    
-    private func insertBulletList() {
-        let bulletText = "• "
-        insertText(bulletText)
-    }
-    
-    private func insertNumberedList() {
-        let numberedText = "1. "
-        insertText(numberedText)
-    }
-    
-    private func insertQuote() {
-        let quoteText = "\"\""
-        insertText(quoteText)
-    }
-    
-    private func insertMedia(_ mediaType: MediaType) {
-        let mediaText = "[\(mediaType.rawValue.capitalized)]"
-        insertText(mediaText)
-    }
-    
-    private func insertLink() {
-        let linkText = "[\(linkText)](\(linkURL))"
-        insertText(linkText)
-        linkText = ""
-        linkURL = ""
-    }
-    
-    private func insertText(_ textToInsert: String) {
-        let newText = text + textToInsert
-        text = newText
-        updateCounts()
-        saveToUndoStack()
-    }
-    
-    private func applyFormatting() {
-        // Apply formatting to selected text
-        updateCounts()
-        saveToUndoStack()
-    }
-    
-    private func handleTextSelection(at location: CGPoint) {
-        // Handle text selection and cursor position
-    }
-    
-    private func updateCounts() {
-        wordCount = text.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }.count
-        characterCount = text.count
-    }
-    
-    private func saveToUndoStack() {
-        undoStack.append(text)
-        if undoStack.count > 50 {
-            undoStack.removeFirst()
+    private func onInsertItem(_ type: InsertType) {
+        switch type {
+        case .image:
+            content += "\n[Image placeholder]\n"
+        case .link:
+            content += "\n[Link placeholder]\n"
+        case .table:
+            content += "\n[Table placeholder]\n"
+        case .list:
+            content += "\n• List item\n"
         }
-        canUndo = undoStack.count > 1
-    }
-    
-    private func undo() {
-        guard undoStack.count > 1 else { return }
-        
-        let currentText = undoStack.removeLast()
-        redoStack.append(currentText)
-        
-        if let previousText = undoStack.last {
-            text = previousText
-            updateCounts()
-        }
-        
-        canUndo = undoStack.count > 1
-        canRedo = !redoStack.isEmpty
-    }
-    
-    private func redo() {
-        guard !redoStack.isEmpty else { return }
-        
-        let textToRedo = redoStack.removeLast()
-        undoStack.append(textToRedo)
-        text = textToRedo
-        updateCounts()
-        
-        canUndo = undoStack.count > 1
-        canRedo = !redoStack.isEmpty
+        updateHistory()
     }
 }
 
-struct MediaPickerView: View {
-    let onSelect: (MediaType) -> Void
-    @Environment(\.dismiss) private var dismiss
+// MARK: - Supporting Views
+
+struct FontSizePickerView: View {
+    @Binding var selectedSize: CGFloat
+    @Binding var isPresented: Bool
+    
+    private let fontSizes: [CGFloat] = [12, 14, 16, 18, 20, 24, 28, 32, 36, 48]
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                Text("Insert Media")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 20) {
-                    ForEach(MediaType.allCases, id: \.self) { mediaType in
-                        Button(action: {
-                            onSelect(mediaType)
-                            dismiss()
-                        }) {
-                            VStack(spacing: 12) {
-                                Image(systemName: mediaType.icon)
-                                    .font(.system(size: 40))
+            List {
+                ForEach(fontSizes, id: \.self) { size in
+                    Button(action: {
+                        selectedSize = size
+                        isPresented = false
+                    }) {
+                        HStack {
+                            Text("\(Int(size))pt")
+                                .font(.system(size: size))
+                            Spacer()
+                            if selectedSize == size {
+                                Image(systemName: "checkmark")
                                     .foregroundColor(.blue)
-                                
-                                Text(mediaType.rawValue.capitalized)
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
                             }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(12)
                         }
-                        .buttonStyle(.plain)
                     }
+                    .foregroundColor(.primary)
                 }
-                
-                Spacer()
             }
-            .padding()
-            .navigationTitle("Media")
+            .navigationTitle("Font Size")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cancel") {
-                        dismiss()
+                    Button("Done") {
+                        isPresented = false
                     }
                 }
             }
@@ -425,26 +400,129 @@ struct MediaPickerView: View {
     }
 }
 
-// MARK: - Supporting Types
-
-enum MediaType: String, CaseIterable {
-    case image = "image"
-    case video = "video"
-    case audio = "audio"
-    case file = "file"
+struct ColorPickerView: View {
+    @Binding var selectedColor: Color
+    let colorType: ColorPickerType
+    @Binding var isPresented: Bool
     
-    var icon: String {
-        switch self {
-        case .image: return "photo"
-        case .video: return "video"
-        case .audio: return "music.note"
-        case .file: return "doc"
+    private let colors: [Color] = [
+        .primary, .secondary, .red, .orange, .yellow, .green, .blue, .purple, .pink, .white
+    ]
+    
+    var body: some View {
+        NavigationView {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 16) {
+                ForEach(colors, id: \.self) { color in
+                    Button(action: {
+                        selectedColor = color
+                        isPresented = false
+                    }) {
+                        Circle()
+                            .fill(color)
+                            .frame(width: 60, height: 60)
+                            .overlay(
+                                Circle()
+                                    .stroke(Color(.systemGray4), lineWidth: 2)
+                            )
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.blue, lineWidth: 3)
+                                    .opacity(selectedColor == color ? 1 : 0)
+                            )
+                    }
+                }
+            }
+            .padding()
+            .navigationTitle(colorType == .text ? "Text Color" : "Background Color")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        isPresented = false
+                    }
+                }
+            }
         }
     }
 }
 
-struct RichTextEditor_Previews: PreviewProvider {
-    static var previews: some View {
-        RichTextEditor()
+struct InsertMenuView: View {
+    @Binding var isPresented: Bool
+    let onInsert: (InsertType) -> Void
+    
+    enum InsertType {
+        case image
+        case link
+        case table
+        case list
     }
+    
+    var body: some View {
+        NavigationView {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 20) {
+                InsertMenuItem(
+                    icon: "photo",
+                    title: "Image",
+                    action: { onInsert(.image); isPresented = false }
+                )
+                
+                InsertMenuItem(
+                    icon: "link",
+                    title: "Link",
+                    action: { onInsert(.link); isPresented = false }
+                )
+                
+                InsertMenuItem(
+                    icon: "table",
+                    title: "Table",
+                    action: { onInsert(.table); isPresented = false }
+                )
+                
+                InsertMenuItem(
+                    icon: "list.bullet",
+                    title: "List",
+                    action: { onInsert(.list); isPresented = false }
+                )
+            }
+            .padding()
+            .navigationTitle("Insert")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        isPresented = false
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct InsertMenuItem: View {
+    let icon: String
+    let title: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 12) {
+                Image(systemName: icon)
+                    .font(.system(size: 32))
+                    .foregroundColor(.blue)
+                
+                Text(title)
+                    .font(.headline)
+                    .foregroundColor(.primary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(12)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+#Preview {
+    RichTextEditor()
 }

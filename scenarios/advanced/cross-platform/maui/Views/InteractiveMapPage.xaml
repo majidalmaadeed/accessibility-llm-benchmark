@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityBenchmark.Views.InteractiveMapPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Interactive Map">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            
+            <Label Text="Interactive Map" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <Frame Padding="15" HasShadow="True" CornerRadius="10">
+                <StackLayout Spacing="10">
+                    
+                    <Entry x:Name="LocationEntry" 
+                           Placeholder="Search for a location..." />
+                    
+                    <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto" ColumnSpacing="10">
+                        <Button Grid.Column="0" Text="Search" Clicked="OnSearchClicked" />
+                        <Button Grid.Column="1" Text="Zoom In" Clicked="OnZoomInClicked" />
+                        <Button Grid.Column="2" Text="Zoom Out" Clicked="OnZoomOutClicked" />
+                    </Grid>
+                    
+                    <Frame HeightRequest="300" BackgroundColor="LightGray">
+                        <Label Text="Map View" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center" 
+                               FontSize="18" />
+                    </Frame>
+                    
+                    <Label x:Name="LocationLabel" Text="No location selected" FontSize="14" />
+                    
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

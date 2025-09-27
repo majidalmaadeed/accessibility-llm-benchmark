@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rich Text Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .editor-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .editor-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .editor-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        .editor-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .action-btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .action-btn:hover {
+            background: #f8f9fa;
+        }
+        .action-btn.primary {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .action-btn.primary:hover {
+            background: #0056b3;
+        }
+        .toolbar {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            align-items: center;
+        }
+        .toolbar-group {
+            display: flex;
+            gap: 2px;
+            margin-right: 15px;
+            padding-right: 15px;
+            border-right: 1px solid #ddd;
+        }
+        .toolbar-group:last-child {
+            border-right: none;
+            margin-right: 0;
+        }
+        .toolbar-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        .toolbar-btn:hover {
+            background: #e9ecef;
+        }
+        .toolbar-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .toolbar-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .toolbar-separator {
+            width: 1px;
+            height: 24px;
+            background: #ddd;
+            margin: 0 8px;
+        }
+        .toolbar-select {
+            padding: 6px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .editor-content {
+            display: flex;
+            min-height: 600px;
+        }
+        .editor-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .editor-textarea {
+            flex: 1;
+            border: none;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+            font-family: 'Times New Roman', serif;
+        }
+        .editor-textarea:focus {
+            outline: none;
+        }
+        .editor-sidebar {
+            width: 300px;
+            background: #f8f9fa;
+            border-left: 1px solid #e9ecef;
+            padding: 20px;
+        }
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .style-panel {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+        }
+        .style-group {
+            margin-bottom: 15px;
+        }
+        .style-group:last-child {
+            margin-bottom: 0;
+        }
+        .style-label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+        }
+        .style-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .color-picker {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .color-option {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        .color-option.selected {
+            border-color: #007bff;
+        }
+        .media-insert {
+            background: white;
+            border: 2px dashed #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .media-insert:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+        .media-insert-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .media-insert-text {
+            font-size: 14px;
+            color: #666;
+        }
+        .word-count {
+            background: #e9ecef;
+            padding: 10px 15px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+        }
+        .word-count-item {
+            display: flex;
+            gap: 20px;
+        }
+        .word-count-value {
+            font-weight: 600;
+            color: #333;
+        }
+        .insert-menu {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 10px 0;
+            z-index: 1000;
+            display: none;
+        }
+        .insert-menu.show {
+            display: block;
+        }
+        .insert-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s ease;
+        }
+        .insert-item:hover {
+            background: #f8f9fa;
+        }
+        .insert-item-icon {
+            margin-right: 10px;
+        }
+        .formatting-preview {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .preview-text {
+            margin: 0;
+        }
+        .history-controls {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        .history-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .history-btn:hover {
+            background: #f8f9fa;
+        }
+        .history-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .document-stats {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+        .stat-label {
+            color: #666;
+        }
+        .stat-value {
+            font-weight: 600;
+            color: #333;
+        }
+        .auto-save {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: none;
+        }
+        .auto-save.show {
+            display: block;
+        }
+        .spell-check {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .spell-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .spell-suggestions {
+            margin-top: 5px;
+        }
+        .spell-suggestion {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 2px 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .spell-suggestion:hover {
+            background: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="editor-container">
+        <div class="editor-header">
+            <h1 class="editor-title">Document Editor</h1>
+            <div class="editor-actions">
+                <button class="action-btn" onclick="openDocument()">Open</button>
+                <button class="action-btn" onclick="saveDocument()">Save</button>
+                <button class="action-btn" onclick="exportDocument()">Export</button>
+                <button class="action-btn primary" onclick="printDocument()">Print</button>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <button class="toolbar-btn" onclick="undo()" id="undoBtn" title="Undo">↶</button>
+                <button class="toolbar-btn" onclick="redo()" id="redoBtn" title="Redo">↷</button>
+            </div>
+            
+            <div class="toolbar-separator"></div>
+            
+            <div class="toolbar-group">
+                <button class="toolbar-btn" onclick="formatText('bold')" id="boldBtn" title="Bold">B</button>
+                <button class="toolbar-btn" onclick="formatText('italic')" id="italicBtn" title="Italic">I</button>
+                <button class="toolbar-btn" onclick="formatText('underline')" id="underlineBtn" title="Underline">U</button>
+                <button class="toolbar-btn" onclick="formatText('strikethrough')" id="strikeBtn" title="Strikethrough">S</button>
+            </div>
+            
+            <div class="toolbar-separator"></div>
+            
+            <div class="toolbar-group">
+                <button class="toolbar-btn" onclick="formatText('justifyLeft')" title="Align Left">⫸</button>
+                <button class="toolbar-btn" onclick="formatText('justifyCenter')" title="Align Center">⫷</button>
+                <button class="toolbar-btn" onclick="formatText('justifyRight')" title="Align Right">⫸</button>
+                <button class="toolbar-btn" onclick="formatText('justifyFull')" title="Justify">⫸</button>
+            </div>
+            
+            <div class="toolbar-separator"></div>
+            
+            <div class="toolbar-group">
+                <select class="toolbar-select" id="fontFamily" onchange="changeFontFamily()">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
+                <select class="toolbar-select" id="fontSize" onchange="changeFontSize()">
+                    <option value="12">12px</option>
+                    <option value="14">14px</option>
+                    <option value="16" selected>16px</option>
+                    <option value="18">18px</option>
+                    <option value="20">20px</option>
+                    <option value="24">24px</option>
+                    <option value="32">32px</option>
+                </select>
+            </div>
+            
+            <div class="toolbar-separator"></div>
+            
+            <div class="toolbar-group">
+                <button class="toolbar-btn" onclick="showColorMenu('text')" title="Text Color">A</button>
+                <button class="toolbar-btn" onclick="showColorMenu('highlight')" title="Highlight">🖍</button>
+            </div>
+            
+            <div class="toolbar-separator"></div>
+            
+            <div class="toolbar-group">
+                <button class="toolbar-btn" onclick="insertList('unordered')" title="Bullet List">•</button>
+                <button class="toolbar-btn" onclick="insertList('ordered')" title="Numbered List">1.</button>
+                <button class="toolbar-btn" onclick="insertTable()" title="Insert Table">⊞</button>
+            </div>
+            
+            <div class="toolbar-separator"></div>
+            
+            <div class="toolbar-group">
+                <button class="toolbar-btn" onclick="showInsertMenu()" title="Insert">+</button>
+                <button class="toolbar-btn" onclick="findReplace()" title="Find & Replace">🔍</button>
+                <button class="toolbar-btn" onclick="toggleSpellCheck()" title="Spell Check">✓</button>
+            </div>
+        </div>
+
+        <div class="editor-content">
+            <div class="editor-main">
+                <textarea class="editor-textarea" id="editorTextarea" placeholder="Start typing your document here..."></textarea>
+                <div class="word-count">
+                    <div class="word-count-item">
+                        <span>Words: <span class="word-count-value" id="wordCount">0</span></span>
+                        <span>Characters: <span class="word-count-value" id="charCount">0</span></span>
+                        <span>Pages: <span class="word-count-value" id="pageCount">1</span></span>
+                    </div>
+                    <div>
+                        <span>Last saved: <span class="word-count-value" id="lastSaved">Never</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="editor-sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Text Formatting</h3>
+                    <div class="style-panel">
+                        <div class="style-group">
+                            <label class="style-label">Font Family</label>
+                            <select class="style-input" id="sidebarFontFamily" onchange="changeFontFamily()">
+                                <option value="Arial">Arial</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Courier New">Courier New</option>
+                            </select>
+                        </div>
+                        <div class="style-group">
+                            <label class="style-label">Font Size</label>
+                            <input type="number" class="style-input" id="sidebarFontSize" value="16" min="8" max="72" onchange="changeFontSize()">
+                        </div>
+                        <div class="style-group">
+                            <label class="style-label">Text Color</label>
+                            <div class="color-picker">
+                                <div class="color-option" style="background: #000000;" onclick="setTextColor('#000000')"></div>
+                                <div class="color-option" style="background: #333333;" onclick="setTextColor('#333333')"></div>
+                                <div class="color-option" style="background: #666666;" onclick="setTextColor('#666666')"></div>
+                                <div class="color-option" style="background: #999999;" onclick="setTextColor('#999999')"></div>
+                                <div class="color-option" style="background: #ff0000;" onclick="setTextColor('#ff0000')"></div>
+                                <div class="color-option" style="background: #00ff00;" onclick="setTextColor('#00ff00')"></div>
+                                <div class="color-option" style="background: #0000ff;" onclick="setTextColor('#0000ff')"></div>
+                                <div class="color-option" style="background: #ffff00;" onclick="setTextColor('#ffff00')"></div>
+                            </div>
+                        </div>
+                        <div class="style-group">
+                            <label class="style-label">Highlight Color</label>
+                            <div class="color-picker">
+                                <div class="color-option" style="background: #ffff00;" onclick="setHighlightColor('#ffff00')"></div>
+                                <div class="color-option" style="background: #00ffff;" onclick="setHighlightColor('#00ffff')"></div>
+                                <div class="color-option" style="background: #ff00ff;" onclick="setHighlightColor('#ff00ff')"></div>
+                                <div class="color-option" style="background: #00ff00;" onclick="setHighlightColor('#00ff00')"></div>
+                                <div class="color-option" style="background: #ffa500;" onclick="setHighlightColor('#ffa500')"></div>
+                                <div class="color-option" style="background: #ffc0cb;" onclick="setHighlightColor('#ffc0cb')"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Insert Media</h3>
+                    <div class="media-insert" onclick="insertImage()">
+                        <div class="media-insert-icon">🖼️</div>
+                        <div class="media-insert-text">Insert Image</div>
+                    </div>
+                    <div class="media-insert" onclick="insertLink()" style="margin-top: 10px;">
+                        <div class="media-insert-icon">🔗</div>
+                        <div class="media-insert-text">Insert Link</div>
+                    </div>
+                    <div class="media-insert" onclick="insertTable()" style="margin-top: 10px;">
+                        <div class="media-insert-icon">📊</div>
+                        <div class="media-insert-text">Insert Table</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Document History</h3>
+                    <div class="history-controls">
+                        <button class="history-btn" onclick="undo()" id="sidebarUndoBtn">Undo</button>
+                        <button class="history-btn" onclick="redo()" id="sidebarRedoBtn">Redo</button>
+                    </div>
+                    <div class="document-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Created:</span>
+                            <span class="stat-value" id="createdDate">Today</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Modified:</span>
+                            <span class="stat-value" id="modifiedDate">Just now</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Version:</span>
+                            <span class="stat-value">1.0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Formatting Preview</h3>
+                    <div class="formatting-preview">
+                        <p class="preview-text" id="formatPreview">Sample text preview</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="insert-menu" id="insertMenu">
+        <div class="insert-item" onclick="insertImage()">
+            <span class="insert-item-icon">🖼️</span>Image
+        </div>
+        <div class="insert-item" onclick="insertLink()">
+            <span class="insert-item-icon">🔗</span>Link
+        </div>
+        <div class="insert-item" onclick="insertTable()">
+            <span class="insert-item-icon">📊</span>Table
+        </div>
+        <div class="insert-item" onclick="insertList('unordered')">
+            <span class="insert-item-icon">•</span>Bullet List
+        </div>
+        <div class="insert-item" onclick="insertList('ordered')">
+            <span class="insert-item-icon">1.</span>Numbered List
+        </div>
+        <div class="insert-item" onclick="insertHorizontalRule()">
+            <span class="insert-item-icon">—</span>Horizontal Rule
+        </div>
+    </div>
+
+    <div class="auto-save" id="autoSave">Auto-saved</div>
+
+    <script>
+        let documentHistory = [];
+        let currentHistoryIndex = -1;
+        let isSpellCheckEnabled = false;
+        let autoSaveInterval;
+
+        function updateWordCount() {
+            const text = document.getElementById('editorTextarea').value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const characters = text.length;
+            const pages = Math.ceil(characters / 2000);
+
+            document.getElementById('wordCount').textContent = words;
+            document.getElementById('charCount').textContent = characters;
+            document.getElementById('pageCount').textContent = pages;
+        }
+
+        function saveToHistory() {
+            const text = document.getElementById('editorTextarea').value;
+            if (text !== documentHistory[currentHistoryIndex]) {
+                documentHistory = documentHistory.slice(0, currentHistoryIndex + 1);
+                documentHistory.push(text);
+                currentHistoryIndex = documentHistory.length - 1;
+                updateHistoryButtons();
+            }
+        }
+
+        function updateHistoryButtons() {
+            document.getElementById('undoBtn').disabled = currentHistoryIndex <= 0;
+            document.getElementById('redoBtn').disabled = currentHistoryIndex >= documentHistory.length - 1;
+            document.getElementById('sidebarUndoBtn').disabled = currentHistoryIndex <= 0;
+            document.getElementById('sidebarRedoBtn').disabled = currentHistoryIndex >= documentHistory.length - 1;
+        }
+
+        function undo() {
+            if (currentHistoryIndex > 0) {
+                currentHistoryIndex--;
+                document.getElementById('editorTextarea').value = documentHistory[currentHistoryIndex];
+                updateWordCount();
+                updateHistoryButtons();
+            }
+        }
+
+        function redo() {
+            if (currentHistoryIndex < documentHistory.length - 1) {
+                currentHistoryIndex++;
+                document.getElementById('editorTextarea').value = documentHistory[currentHistoryIndex];
+                updateWordCount();
+                updateHistoryButtons();
+            }
+        }
+
+        function formatText(command) {
+            const textarea = document.getElementById('editorTextarea');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            let formattedText = selectedText;
+            
+            switch(command) {
+                case 'bold':
+                    formattedText = `**${selectedText}**`;
+                    break;
+                case 'italic':
+                    formattedText = `*${selectedText}*`;
+                    break;
+                case 'underline':
+                    formattedText = `<u>${selectedText}</u>`;
+                    break;
+                case 'strikethrough':
+                    formattedText = `~~${selectedText}~~`;
+                    break;
+                case 'justifyLeft':
+                    formattedText = `\n${selectedText}\n`;
+                    break;
+                case 'justifyCenter':
+                    formattedText = `\n<center>${selectedText}</center>\n`;
+                    break;
+                case 'justifyRight':
+                    formattedText = `\n<div align="right">${selectedText}</div>\n`;
+                    break;
+                case 'justifyFull':
+                    formattedText = `\n<div style="text-align: justify;">${selectedText}</div>\n`;
+                    break;
+            }
+            
+            textarea.value = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+            textarea.focus();
+            textarea.setSelectionRange(start + formattedText.length, start + formattedText.length);
+            saveToHistory();
+            updateWordCount();
+        }
+
+        function changeFontFamily() {
+            const fontFamily = document.getElementById('fontFamily').value;
+            document.getElementById('editorTextarea').style.fontFamily = fontFamily;
+            document.getElementById('sidebarFontFamily').value = fontFamily;
+            updateFormatPreview();
+        }
+
+        function changeFontSize() {
+            const fontSize = document.getElementById('fontSize').value;
+            document.getElementById('editorTextarea').style.fontSize = fontSize + 'px';
+            document.getElementById('sidebarFontSize').value = fontSize;
+            updateFormatPreview();
+        }
+
+        function setTextColor(color) {
+            document.getElementById('editorTextarea').style.color = color;
+            updateFormatPreview();
+        }
+
+        function setHighlightColor(color) {
+            document.getElementById('editorTextarea').style.backgroundColor = color;
+            updateFormatPreview();
+        }
+
+        function updateFormatPreview() {
+            const preview = document.getElementById('formatPreview');
+            const textarea = document.getElementById('editorTextarea');
+            preview.style.fontFamily = textarea.style.fontFamily || 'Arial';
+            preview.style.fontSize = textarea.style.fontSize || '16px';
+            preview.style.color = textarea.style.color || '#000000';
+            preview.style.backgroundColor = textarea.style.backgroundColor || 'transparent';
+        }
+
+        function insertList(type) {
+            const textarea = document.getElementById('editorTextarea');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            let listText = '';
+            if (type === 'unordered') {
+                listText = `• ${selectedText}\n• \n• `;
+            } else {
+                listText = `1. ${selectedText}\n2. \n3. `;
+            }
+            
+            textarea.value = textarea.value.substring(0, start) + listText + textarea.value.substring(end);
+            textarea.focus();
+            saveToHistory();
+            updateWordCount();
+        }
+
+        function insertTable() {
+            const textarea = document.getElementById('editorTextarea');
+            const start = textarea.selectionStart;
+            const tableText = `
+| Column 1 | Column 2 | Column 3 |
+|----------|----------|----------|
+| Row 1    | Data 1   | Data 2   |
+| Row 2    | Data 3   | Data 4   |
+`;
+            
+            textarea.value = textarea.value.substring(0, start) + tableText + textarea.value.substring(start);
+            textarea.focus();
+            saveToHistory();
+            updateWordCount();
+        }
+
+        function insertImage() {
+            const url = prompt('Enter image URL:');
+            if (url) {
+                const textarea = document.getElementById('editorTextarea');
+                const start = textarea.selectionStart;
+                const imageText = `![Image](${url})`;
+                
+                textarea.value = textarea.value.substring(0, start) + imageText + textarea.value.substring(start);
+                textarea.focus();
+                saveToHistory();
+                updateWordCount();
+            }
+        }
+
+        function insertLink() {
+            const url = prompt('Enter URL:');
+            const text = prompt('Enter link text:');
+            if (url && text) {
+                const textarea = document.getElementById('editorTextarea');
+                const start = textarea.selectionStart;
+                const linkText = `[${text}](${url})`;
+                
+                textarea.value = textarea.value.substring(0, start) + linkText + textarea.value.substring(start);
+                textarea.focus();
+                saveToHistory();
+                updateWordCount();
+            }
+        }
+
+        function insertHorizontalRule() {
+            const textarea = document.getElementById('editorTextarea');
+            const start = textarea.selectionStart;
+            const hrText = '\n---\n';
+            
+            textarea.value = textarea.value.substring(0, start) + hrText + textarea.value.substring(start);
+            textarea.focus();
+            saveToHistory();
+            updateWordCount();
+        }
+
+        function showInsertMenu() {
+            const menu = document.getElementById('insertMenu');
+            menu.classList.toggle('show');
+        }
+
+        function findReplace() {
+            const findText = prompt('Find:');
+            if (findText) {
+                const replaceText = prompt('Replace with:');
+                const textarea = document.getElementById('editorTextarea');
+                const text = textarea.value;
+                const newText = text.replace(new RegExp(findText, 'g'), replaceText);
+                textarea.value = newText;
+                saveToHistory();
+                updateWordCount();
+            }
+        }
+
+        function toggleSpellCheck() {
+            isSpellCheckEnabled = !isSpellCheckEnabled;
+            if (isSpellCheckEnabled) {
+                alert('Spell check enabled');
+            } else {
+                alert('Spell check disabled');
+            }
+        }
+
+        function openDocument() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt,.md,.html';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('editorTextarea').value = e.target.result;
+                        saveToHistory();
+                        updateWordCount();
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        function saveDocument() {
+            const text = document.getElementById('editorTextarea').value;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'document.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            document.getElementById('lastSaved').textContent = new Date().toLocaleTimeString();
+            showAutoSave();
+        }
+
+        function exportDocument() {
+            const format = prompt('Export format (html, pdf, docx):');
+            if (format) {
+                alert(`Exporting as ${format.toUpperCase()}...`);
+            }
+        }
+
+        function printDocument() {
+            window.print();
+        }
+
+        function showAutoSave() {
+            const autoSave = document.getElementById('autoSave');
+            autoSave.classList.add('show');
+            setTimeout(() => {
+                autoSave.classList.remove('show');
+            }, 2000);
+        }
+
+        function showColorMenu(type) {
+            alert(`Select ${type} color`);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.getElementById('editorTextarea');
+            
+            textarea.addEventListener('input', function() {
+                updateWordCount();
+                clearTimeout(autoSaveInterval);
+                autoSaveInterval = setTimeout(() => {
+                    saveToHistory();
+                }, 1000);
+            });
+            
+            textarea.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'z') {
+                    e.preventDefault();
+                    undo();
+                } else if (e.ctrlKey && e.key === 'y') {
+                    e.preventDefault();
+                    redo();
+                } else if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    saveDocument();
+                }
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('#insertMenu')) {
+                    document.getElementById('insertMenu').classList.remove('show');
+                }
+            });
+            
+            saveToHistory();
+            updateWordCount();
+            updateFormatPreview();
+        });
+    </script>
+</body>
+</html>

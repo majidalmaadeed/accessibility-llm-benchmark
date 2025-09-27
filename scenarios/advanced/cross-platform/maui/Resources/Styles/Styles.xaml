@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Style x:Key="BaseStyle" TargetType="Element">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.5" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="CornerRadius" Value="8" />
+    </Style>
+
+    <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="BackgroundColor" Value="{StaticResource Gray200}" />
+        <Setter Property="TextColor" Value="{StaticResource Dark}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="CornerRadius" Value="8" />
+    </Style>
+
+    <Style x:Key="EntryStyle" TargetType="Entry" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="TextColor" Value="{StaticResource Dark}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />
+    </Style>
+
+    <Style x:Key="EditorStyle" TargetType="Editor" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="TextColor" Value="{StaticResource Dark}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />
+    </Style>
+
+    <Style x:Key="LabelStyle" TargetType="Label" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="TextColor" Value="{StaticResource Dark}" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <Style x:Key="TitleLabelStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <Style x:Key="SubtitleLabelStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <Style x:Key="BodyLabelStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style x:Key="CaptionLabelStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="{StaticResource Gray600}" />
+    </Style>
+
+</ResourceDictionary>

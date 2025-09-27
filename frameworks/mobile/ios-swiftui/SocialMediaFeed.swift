@@ -1,707 +1,658 @@
 import SwiftUI
 
 struct SocialMediaFeed: View {
-    @State private var posts: [SocialPost] = []
-    @State private var showCreatePost: Bool = false
-    @State private var isLoading: Bool = false
-    @State private var currentFilter: FeedFilter = .all
-    @State private var unreadNotifications: Int = 3
-    @State private var newPost = PostDraft()
-    @State private var isPublishing: Bool = false
-    @State private var newComment: [UUID: String] = [:]
-    @State private var showPostMenu: UUID? = nil
-    @State private var selectedPost: SocialPost? = nil
+    @State private var posts: [Post] = []
+    @State private var currentFilter: FilterType = .all
+    @State private var unreadNotifications = 3
+    @State private var isLoading = false
+    @State private var showCreatePost = false
+    @State private var showPostDetails = false
+    @State private var selectedPost: Post?
+    @State private var newPost = NewPost()
     
-    let filters: [FeedFilter] = [.all, .following, .trending]
-    let trendingTopics = [
-        TrendingTopic(name: "technology", count: 12500),
-        TrendingTopic(name: "design", count: 8900),
-        TrendingTopic(name: "programming", count: 15600),
-        TrendingTopic(name: "startup", count: 6700),
-        TrendingTopic(name: "innovation", count: 4200)
-    ]
+    enum FilterType: String, CaseIterable {
+        case all = "all"
+        case following = "following"
+        case trending = "trending"
+    }
     
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                headerView
-                filterView
+                // Filter Tabs
+                filterTabsView
                 
+                // Posts List
                 if isLoading {
                     loadingView
                 } else if posts.isEmpty {
                     emptyStateView
                 } else {
-                    feedView
+                    postsListView
                 }
             }
             .navigationTitle("Social Feed")
             .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: onNotificationsClicked) {
+                        ZStack {
+                            Image(systemName: "bell")
+                            if unreadNotifications > 0 {
+                                Text("\(unreadNotifications)")
+                                    .font(.caption2)
+                                    .foregroundColor(.white)
+                                    .padding(4)
+                                    .background(Color.red)
+                                    .clipShape(Circle())
+                                    .offset(x: 8, y: -8)
+                            }
+                        }
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: onTrendingClicked) {
+                        Image(systemName: "chart.line.uptrend.xyaxis")
+                    }
+                }
+            }
+            .sheet(isPresented: $showCreatePost) {
+                CreatePostView(
+                    newPost: $newPost,
+                    isPresented: $showCreatePost
+                ) {
+                    publishPost()
+                }
+            }
+            .sheet(isPresented: $showPostDetails) {
+                if let post = selectedPost {
+                    PostDetailsView(
+                        post: post,
+                        isPresented: $showPostDetails
+                    )
+                }
+            }
             .onAppear {
                 loadPosts()
             }
         }
-        .sheet(isPresented: $showCreatePost) {
-            CreatePostView(
-                post: $newPost,
-                isPublishing: $isPublishing,
-                onPublish: { publishPost() }
-            )
-        }
-        .sheet(item: $selectedPost) { post in
-            PostDetailView(post: post)
-        }
-    }
-    
-    private var headerView: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Text("Social Feed")
-                    .font(.title)
-                    .fontWeight(.bold)
-                
+        .overlay(
+            // Floating Action Button
+            VStack {
                 Spacer()
-                
-                HStack(spacing: 12) {
+                HStack {
+                    Spacer()
                     Button(action: { showCreatePost = true }) {
                         Image(systemName: "plus")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                            .frame(width: 56, height: 56)
+                            .background(Color.blue)
+                            .clipShape(Circle())
+                            .shadow(radius: 4)
                     }
-                    .buttonStyle(.borderedProminent)
-                    
-                    Button(action: { loadPosts() }) {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                    .buttonStyle(.bordered)
-                    
-                    ZStack {
-                        Button(action: { /* Show notifications */ }) {
-                            Image(systemName: "bell")
-                        }
-                        .buttonStyle(.bordered)
-                        
-                        if unreadNotifications > 0 {
-                            Text("\(unreadNotifications)")
-                                .font(.caption2)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .frame(width: 16, height: 16)
-                                .background(Color.red)
-                                .clipShape(Circle())
-                                .offset(x: 12, y: -12)
-                        }
-                    }
+                    .padding(.trailing, 16)
+                    .padding(.bottom, 16)
                 }
             }
-            
-            Text("Stay connected with your network")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+        )
+    }
+    
+    private var filterTabsView: some View {
+        Picker("Filter", selection: $currentFilter) {
+            ForEach(FilterType.allCases, id: \.self) { filter in
+                Text(filter.rawValue.capitalized).tag(filter)
+            }
         }
+        .pickerStyle(SegmentedPickerStyle())
         .padding()
     }
     
-    private var filterView: some View {
-        HStack {
-            ForEach(filters, id: \.self) { filter in
-                Button(filter.displayName) {
-                    currentFilter = filter
-                    loadPosts()
-                }
-                .buttonStyle(filter == currentFilter ? .borderedProminent : .bordered)
-            }
-            
-            Spacer()
-        }
-        .padding(.horizontal)
-    }
-    
     private var loadingView: some View {
-        VStack(spacing: 16) {
+        VStack {
             ProgressView()
-                .scaleEffect(1.5)
+                .scaleEffect(1.2)
             Text("Loading posts...")
+                .font(.caption)
                 .foregroundColor(.secondary)
+                .padding(.top, 8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     private var emptyStateView: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "bubble.left.and.bubble.right")
-                .font(.system(size: 60))
-                .foregroundColor(.secondary)
+        VStack(spacing: 16) {
+            Image(systemName: "newspaper")
+                .font(.system(size: 48))
+                .foregroundColor(.gray)
             
             Text("No posts yet")
-                .font(.title2)
-                .fontWeight(.semibold)
+                .font(.headline)
+                .foregroundColor(.primary)
             
-            Text("Be the first to share something with your network")
+            Text("Be the first to share something!")
+                .font(.subheadline)
                 .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
             
             Button("Create Post") {
                 showCreatePost = true
             }
-            .buttonStyle(.borderedProminent)
+            .foregroundColor(.blue)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
     }
     
-    private var feedView: some View {
+    private var postsListView: some View {
         ScrollView {
-            LazyVStack(spacing: 16) {
-                ForEach(filteredPosts) { post in
-                    PostCardView(
-                        post: post,
-                        newComment: Binding(
-                            get: { newComment[post.id] ?? "" },
-                            set: { newComment[post.id] = $0 }
-                        ),
-                        showMenu: showPostMenu == post.id,
-                        onLike: { toggleLike(post.id) },
-                        onShare: { sharePost(post) },
-                        onComment: { toggleComment(post.id) },
-                        onAddComment: { addComment(post.id) },
-                        onShowMenu: { showPostMenu = showPostMenu == post.id ? nil : post.id },
-                        onSelectPost: { selectedPost = post }
-                    )
+            LazyVStack(spacing: 8) {
+                ForEach(posts, id: \.id) { post in
+                    PostCardView(post: post) {
+                        selectedPost = post
+                        showPostDetails = true
+                    } onLike: {
+                        toggleLike(post.id)
+                    } onComment: {
+                        selectedPost = post
+                        showPostDetails = true
+                    } onShare: {
+                        sharePost(post)
+                    } onBookmark: {
+                        toggleBookmark(post.id)
+                    }
                 }
             }
             .padding()
         }
     }
     
-    // MARK: - Computed Properties
-    
-    private var filteredPosts: [SocialPost] {
-        var filtered = posts
-        
-        switch currentFilter {
-        case .all:
-            break
-        case .following:
-            // Filter to show only posts from followed users
-            break
-        case .trending:
-            filtered = filtered.sorted { (post1, post2) in
-                let engagement1 = post1.likes + post1.shares + post1.comments.count
-                let engagement2 = post2.likes + post2.shares + post2.comments.count
-                return engagement1 > engagement2
-            }
-        }
-        
-        return filtered
-    }
-    
-    // MARK: - Methods
+    // MARK: - Helper Methods
     
     private func loadPosts() {
         isLoading = true
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        // Simulate API call
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             posts = generateSamplePosts()
             isLoading = false
         }
     }
     
-    private func publishPost() {
-        guard !newPost.content.isEmpty else { return }
-        
-        isPublishing = true
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            let newPostData = SocialPost(
-                id: UUID(),
-                user: currentUser,
-                content: newPost.content,
-                image: newPost.image,
-                location: newPost.location,
-                timestamp: Date(),
-                likes: 0,
-                shares: 0,
-                comments: [],
+    private func generateSamplePosts() -> [Post] {
+        [
+            Post(
+                id: "1",
+                user: User(
+                    id: "user1",
+                    name: "John Doe",
+                    username: "@johndoe",
+                    avatar: "👨‍💻",
+                    verified: true
+                ),
+                content: "Just finished building an amazing React Native app! The development process was challenging but incredibly rewarding. #ReactNative #MobileDev #Tech",
+                image: "📱",
+                location: "San Francisco, CA",
+                timestamp: "2h ago",
+                likes: 42,
+                comments: 8,
+                shares: 3,
                 isLiked: false,
-                isShared: false
+                isBookmarked: false,
+                privacy: "public"
+            ),
+            Post(
+                id: "2",
+                user: User(
+                    id: "user2",
+                    name: "Sarah Wilson",
+                    username: "@sarahw",
+                    avatar: "👩‍🎨",
+                    verified: false
+                ),
+                content: "Beautiful sunset from my office window today. Sometimes you need to stop and appreciate the little moments. 🌅",
+                image: "🌅",
+                location: "New York, NY",
+                timestamp: "4h ago",
+                likes: 28,
+                comments: 5,
+                shares: 1,
+                isLiked: true,
+                isBookmarked: false,
+                privacy: "public"
+            ),
+            Post(
+                id: "3",
+                user: User(
+                    id: "user3",
+                    name: "Mike Chen",
+                    username: "@mikechen",
+                    avatar: "👨‍💼",
+                    verified: true
+                ),
+                content: "Excited to announce our new product launch! After months of hard work, we're finally ready to share it with the world. #Startup #Innovation",
+                image: "🚀",
+                location: "Austin, TX",
+                timestamp: "6h ago",
+                likes: 156,
+                comments: 23,
+                shares: 12,
+                isLiked: false,
+                isBookmarked: true,
+                privacy: "public"
+            ),
+            Post(
+                id: "4",
+                user: User(
+                    id: "user4",
+                    name: "Emma Davis",
+                    username: "@emmad",
+                    avatar: "👩‍🔬",
+                    verified: false
+                ),
+                content: "Just read an amazing article about the future of AI in healthcare. The possibilities are endless! What are your thoughts on this?",
+                image: "🤖",
+                location: "Boston, MA",
+                timestamp: "8h ago",
+                likes: 73,
+                comments: 15,
+                shares: 7,
+                isLiked: true,
+                isBookmarked: false,
+                privacy: "public"
+            ),
+            Post(
+                id: "5",
+                user: User(
+                    id: "user5",
+                    name: "Alex Rodriguez",
+                    username: "@alexr",
+                    avatar: "👨‍🎓",
+                    verified: false
+                ),
+                content: "Coffee and code - the perfect combination for a productive day! ☕️💻",
+                image: "☕️",
+                location: "Seattle, WA",
+                timestamp: "10h ago",
+                likes: 34,
+                comments: 6,
+                shares: 2,
+                isLiked: false,
+                isBookmarked: false,
+                privacy: "public"
             )
-            
-            posts.insert(newPostData, at: 0)
-            newPost = PostDraft()
-            isPublishing = false
-            showCreatePost = false
-        }
+        ]
     }
     
-    private func toggleLike(_ postId: UUID) {
+    // MARK: - Actions
+    
+    private func onNotificationsClicked() {
+        // Handle notifications
+        print("Notifications clicked")
+    }
+    
+    private func onTrendingClicked() {
+        // Handle trending
+        print("Trending clicked")
+    }
+    
+    private func publishPost() {
+        let post = Post(
+            id: UUID().uuidString,
+            user: User(
+                id: "current-user",
+                name: "You",
+                username: "@you",
+                avatar: "👤",
+                verified: false
+            ),
+            content: newPost.content,
+            image: newPost.image,
+            location: newPost.location,
+            timestamp: "now",
+            likes: 0,
+            comments: 0,
+            shares: 0,
+            isLiked: false,
+            isBookmarked: false,
+            privacy: newPost.privacy
+        )
+        
+        posts.insert(post, at: 0)
+        newPost = NewPost()
+    }
+    
+    private func toggleLike(_ postId: String) {
         if let index = posts.firstIndex(where: { $0.id == postId }) {
             posts[index].isLiked.toggle()
             posts[index].likes += posts[index].isLiked ? 1 : -1
         }
     }
     
-    private func sharePost(_ post: SocialPost) {
-        if let index = posts.firstIndex(where: { $0.id == post.id }) {
-            posts[index].isShared.toggle()
-            posts[index].shares += posts[index].isShared ? 1 : -1
-        }
+    private func sharePost(_ post: Post) {
+        // Handle share
+        print("Sharing post: \(post.content)")
     }
     
-    private func toggleComment(_ postId: UUID) {
-        // Toggle comment section visibility
-    }
-    
-    private func addComment(_ postId: UUID) {
-        guard let commentText = newComment[postId], !commentText.isEmpty else { return }
-        
+    private func toggleBookmark(_ postId: String) {
         if let index = posts.firstIndex(where: { $0.id == postId }) {
-            let newCommentData = PostComment(
-                id: UUID(),
-                user: currentUser,
-                text: commentText,
-                timestamp: Date()
-            )
-            
-            posts[index].comments.append(newCommentData)
-            newComment[postId] = ""
+            posts[index].isBookmarked.toggle()
         }
-    }
-    
-    private func generateSamplePosts() -> [SocialPost] {
-        [
-            SocialPost(
-                id: UUID(),
-                user: User(
-                    id: UUID(),
-                    name: "Jane Smith",
-                    username: "janesmith",
-                    avatar: "person.circle.fill",
-                    isFollowing: false
-                ),
-                content: "Just finished building an amazing new feature for our app! The team collaboration has been incredible. #coding #teamwork #innovation",
-                image: "photo.fill",
-                location: "San Francisco, CA",
-                timestamp: Date().addingTimeInterval(-2 * 3600),
-                likes: 24,
-                shares: 8,
-                comments: [
-                    PostComment(
-                        id: UUID(),
-                        user: currentUser,
-                        text: "Great work! Looking forward to seeing it in action.",
-                        timestamp: Date().addingTimeInterval(-1 * 3600)
-                    )
-                ],
-                isLiked: false,
-                isShared: false
-            ),
-            SocialPost(
-                id: UUID(),
-                user: User(
-                    id: UUID(),
-                    name: "Mike Johnson",
-                    username: "mikej",
-                    avatar: "person.circle.fill",
-                    isFollowing: false
-                ),
-                content: "Beautiful sunset from my office window today. Sometimes you need to take a moment to appreciate the little things. 🌅",
-                image: "photo.fill",
-                location: "New York, NY",
-                timestamp: Date().addingTimeInterval(-4 * 3600),
-                likes: 156,
-                shares: 23,
-                comments: [],
-                isLiked: true,
-                isShared: false
-            ),
-            SocialPost(
-                id: UUID(),
-                user: User(
-                    id: UUID(),
-                    name: "Sarah Wilson",
-                    username: "sarahw",
-                    avatar: "person.circle.fill",
-                    isFollowing: true
-                ),
-                content: "Excited to announce that our startup just secured Series A funding! 🎉 Thank you to all our supporters and the amazing team that made this possible.",
-                image: nil,
-                location: "Austin, TX",
-                timestamp: Date().addingTimeInterval(-6 * 3600),
-                likes: 89,
-                shares: 45,
-                comments: [
-                    PostComment(
-                        id: UUID(),
-                        user: User(
-                            id: UUID(),
-                            name: "Jane Smith",
-                            username: "janesmith",
-                            avatar: "person.circle.fill",
-                            isFollowing: false
-                        ),
-                        text: "Congratulations! This is amazing news! 🎉",
-                        timestamp: Date().addingTimeInterval(-5 * 3600)
-                    ),
-                    PostComment(
-                        id: UUID(),
-                        user: User(
-                            id: UUID(),
-                            name: "Mike Johnson",
-                            username: "mikej",
-                            avatar: "person.circle.fill",
-                            isFollowing: false
-                        ),
-                        text: "Well deserved! Your product is incredible.",
-                        timestamp: Date().addingTimeInterval(-4 * 3600)
-                    )
-                ],
-                isLiked: false,
-                isShared: true
-            )
-        ]
-    }
-    
-    private var currentUser: User {
-        User(
-            id: UUID(),
-            name: "John Doe",
-            username: "johndoe",
-            avatar: "person.circle.fill",
-            isFollowing: false
-        )
     }
 }
 
 // MARK: - Supporting Views
 
 struct PostCardView: View {
-    let post: SocialPost
-    @Binding var newComment: String
-    let showMenu: Bool
+    let post: Post
+    let onTap: () -> Void
     let onLike: () -> Void
-    let onShare: () -> Void
     let onComment: () -> Void
-    let onAddComment: () -> Void
-    let onShowMenu: () -> Void
-    let onSelectPost: () -> Void
+    let onShare: () -> Void
+    let onBookmark: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             // Post Header
-            HStack {
-                Image(systemName: post.user.avatar)
-                    .font(.title2)
-                    .foregroundColor(.blue)
-                    .frame(width: 40, height: 40)
-                    .background(Color(.systemGray6))
-                    .clipShape(Circle())
-                
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(post.user.name)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                    
-                    Text("@\(post.user.username) • \(formatTime(post.timestamp))")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-                
-                Spacer()
-                
-                Button(action: onShowMenu) {
-                    Image(systemName: "ellipsis")
-                        .foregroundColor(.secondary)
-                }
-                .buttonStyle(.plain)
-            }
+            postHeaderView
             
             // Post Content
-            VStack(alignment: .leading, spacing: 8) {
-                Text(post.content)
-                    .font(.body)
-                    .lineLimit(nil)
-                
-                if let image = post.image {
-                    Image(systemName: image)
-                        .font(.system(size: 200))
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 200)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                }
-                
-                if let location = post.location {
-                    HStack {
-                        Image(systemName: "location")
-                            .foregroundColor(.secondary)
-                        Text(location)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-            }
+            postContentView
             
             // Post Actions
-            HStack(spacing: 20) {
-                Button(action: onLike) {
-                    HStack(spacing: 4) {
-                        Image(systemName: post.isLiked ? "heart.fill" : "heart")
-                            .foregroundColor(post.isLiked ? .red : .secondary)
-                        Text("\(post.likes)")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                .buttonStyle(.plain)
-                
-                Button(action: onComment) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "bubble.left")
-                            .foregroundColor(.secondary)
-                        Text("\(post.comments.count)")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                .buttonStyle(.plain)
-                
-                Button(action: onShare) {
-                    HStack(spacing: 4) {
-                        Image(systemName: post.isShared ? "arrow.2.squarepath.fill" : "arrow.2.squarepath")
-                            .foregroundColor(post.isShared ? .blue : .secondary)
-                        Text("\(post.shares)")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                .buttonStyle(.plain)
-                
-                Spacer()
-            }
-            
-            // Comments Section
-            if !post.comments.isEmpty {
-                VStack(alignment: .leading, spacing: 8) {
-                    ForEach(post.comments) { comment in
-                        CommentView(comment: comment)
-                    }
-                }
-            }
-            
-            // Add Comment
-            HStack {
-                Image(systemName: currentUser.avatar)
-                    .font(.caption)
-                    .foregroundColor(.blue)
-                    .frame(width: 24, height: 24)
-                    .background(Color(.systemGray6))
-                    .clipShape(Circle())
-                
-                TextField("Write a comment...", text: $newComment)
-                    .textFieldStyle(.roundedBorder)
-                
-                Button("Post") {
-                    onAddComment()
-                }
-                .buttonStyle(.bordered)
-                .disabled(newComment.isEmpty)
-            }
+            postActionsView
         }
         .padding()
         .background(Color(.systemBackground))
         .cornerRadius(12)
-        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+        .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         .onTapGesture {
-            onSelectPost()
+            onTap()
         }
     }
     
-    private var currentUser: User {
-        User(
-            id: UUID(),
-            name: "John Doe",
-            username: "johndoe",
-            avatar: "person.circle.fill",
-            isFollowing: false
-        )
-    }
-    
-    private func formatTime(_ date: Date) -> String {
-        let now = Date()
-        let timeInterval = now.timeIntervalSince(date)
-        
-        if timeInterval < 3600 {
-            let minutes = Int(timeInterval / 60)
-            return "\(minutes)m"
-        } else if timeInterval < 86400 {
-            let hours = Int(timeInterval / 3600)
-            return "\(hours)h"
-        } else {
-            let days = Int(timeInterval / 86400)
-            return "\(days)d"
-        }
-    }
-}
-
-struct CommentView: View {
-    let comment: PostComment
-    
-    var body: some View {
-        HStack(alignment: .top, spacing: 8) {
-            Image(systemName: comment.user.avatar)
-                .font(.caption)
-                .foregroundColor(.blue)
-                .frame(width: 24, height: 24)
+    private var postHeaderView: some View {
+        HStack(alignment: .top) {
+            // User Avatar
+            Text(post.user.avatar)
+                .font(.system(size: 32))
+                .frame(width: 48, height: 48)
                 .background(Color(.systemGray6))
-                .clipShape(Circle())
+                .cornerRadius(24)
             
+            // User Info
             VStack(alignment: .leading, spacing: 2) {
-                Text(comment.user.name)
-                    .font(.caption)
-                    .fontWeight(.semibold)
+                HStack {
+                    Text(post.user.name)
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    if post.user.verified {
+                        Image(systemName: "checkmark.seal.fill")
+                            .foregroundColor(.blue)
+                            .font(.caption)
+                    }
+                }
                 
-                Text(comment.text)
+                Text(post.user.username)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                
+                Text(post.timestamp)
                     .font(.caption)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.secondary)
             }
             
             Spacer()
             
-            Text(formatTime(comment.timestamp))
-                .font(.caption2)
-                .foregroundColor(.secondary)
+            // More Button
+            Button(action: {}) {
+                Image(systemName: "ellipsis")
+                    .foregroundColor(.gray)
+            }
         }
     }
     
-    private func formatTime(_ date: Date) -> String {
-        let now = Date()
-        let timeInterval = now.timeIntervalSince(date)
-        
-        if timeInterval < 3600 {
-            let minutes = Int(timeInterval / 60)
-            return "\(minutes)m"
-        } else if timeInterval < 86400 {
-            let hours = Int(timeInterval / 3600)
-            return "\(hours)h"
-        } else {
-            let days = Int(timeInterval / 86400)
-            return "\(days)d"
+    private var postContentView: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(post.content)
+                .font(.body)
+                .lineSpacing(2)
+            
+            if !post.image.isEmpty {
+                Text(post.image)
+                    .font(.system(size: 48))
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+            }
+            
+            if !post.location.isEmpty {
+                HStack {
+                    Image(systemName: "location")
+                        .foregroundColor(.gray)
+                        .font(.caption)
+                    Text(post.location)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
         }
+    }
+    
+    private var postActionsView: some View {
+        HStack(spacing: 24) {
+            Button(action: onLike) {
+                HStack(spacing: 4) {
+                    Image(systemName: post.isLiked ? "heart.fill" : "heart")
+                        .foregroundColor(post.isLiked ? .red : .gray)
+                    Text("\(post.likes)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            Button(action: onComment) {
+                HStack(spacing: 4) {
+                    Image(systemName: "bubble.right")
+                        .foregroundColor(.gray)
+                    Text("\(post.comments)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            Button(action: onShare) {
+                HStack(spacing: 4) {
+                    Image(systemName: "arrow.2.squarepath")
+                        .foregroundColor(.gray)
+                    Text("\(post.shares)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            Spacer()
+            
+            Button(action: onBookmark) {
+                Image(systemName: post.isBookmarked ? "bookmark.fill" : "bookmark")
+                    .foregroundColor(post.isBookmarked ? .blue : .gray)
+            }
+        }
+        .padding(.top, 8)
+        .padding(.horizontal, 4)
     }
 }
 
 struct CreatePostView: View {
-    @Binding var post: PostDraft
-    @Binding var isPublishing: Bool
+    @Binding var newPost: NewPost
+    @Binding var isPresented: Bool
     let onPublish: () -> Void
-    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: 16) {
+                // User Info
                 HStack {
-                    Image(systemName: "person.circle.fill")
-                        .font(.title2)
-                        .foregroundColor(.blue)
-                        .frame(width: 40, height: 40)
+                    Text("👤")
+                        .font(.system(size: 32))
+                        .frame(width: 48, height: 48)
                         .background(Color(.systemGray6))
-                        .clipShape(Circle())
+                        .cornerRadius(24)
                     
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("John Doe")
+                    VStack(alignment: .leading) {
+                        Text("You")
                             .font(.headline)
                             .fontWeight(.semibold)
-                        
-                        Text("@johndoe")
-                            .font(.caption)
+                        Text("What's on your mind?")
+                            .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
                     
                     Spacer()
                 }
+                .padding()
                 
-                TextEditor(text: $post.content)
+                // Content
+                TextEditor(text: $newPost.content)
                     .font(.body)
-                    .frame(minHeight: 100)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color(.systemGray4), lineWidth: 1)
-                    )
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                    .padding(.horizontal)
                 
-                if let image = post.image {
-                    Image(systemName: image)
-                        .font(.system(size: 100))
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 100)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                }
-                
+                // Location
                 HStack {
-                    Button("Add Photo") {
-                        // Add photo logic
-                    }
-                    .buttonStyle(.bordered)
-                    
-                    Button("Add Location") {
-                        post.location = "Current Location"
-                    }
-                    .buttonStyle(.bordered)
-                    
-                    Spacer()
-                    
-                    Text("\(post.content.count)/280")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                    Image(systemName: "location")
+                        .foregroundColor(.gray)
+                    TextField("Add location", text: $newPost.location)
+                        .textFieldStyle(PlainTextFieldStyle())
                 }
+                .padding(.horizontal)
+                
+                // Privacy
+                HStack {
+                    Image(systemName: "globe")
+                        .foregroundColor(.gray)
+                    Picker("Privacy", selection: $newPost.privacy) {
+                        Text("Public").tag("public")
+                        Text("Friends Only").tag("friends")
+                        Text("Private").tag("private")
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                }
+                .padding(.horizontal)
                 
                 Spacer()
             }
-            .padding()
             .navigationTitle("Create Post")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
-                        dismiss()
+                        isPresented = false
                     }
                 }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(isPublishing ? "Publishing..." : "Post") {
+                    Button("Post") {
                         onPublish()
+                        isPresented = false
                     }
-                    .disabled(post.content.isEmpty || isPublishing)
+                    .disabled(newPost.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
             }
         }
     }
 }
 
-struct PostDetailView: View {
-    let post: SocialPost
-    @Environment(\.dismiss) private var dismiss
+struct PostDetailsView: View {
+    let post: Post
+    @Binding var isPresented: Bool
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    // Post content would go here
-                    Text("Post Details")
-                        .font(.title)
-                        .fontWeight(.bold)
+                    // Post Header
+                    HStack {
+                        Text(post.user.avatar)
+                            .font(.system(size: 32))
+                            .frame(width: 48, height: 48)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(24)
+                        
+                        VStack(alignment: .leading) {
+                            Text(post.user.name)
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                            Text(post.user.username)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                            Text(post.timestamp)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        Spacer()
+                    }
                     
-                    Text(post.content)
-                        .font(.body)
+                    // Post Content
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(post.content)
+                            .font(.body)
+                            .lineSpacing(2)
+                        
+                        if !post.image.isEmpty {
+                            Text(post.image)
+                                .font(.system(size: 48))
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                        }
+                        
+                        if !post.location.isEmpty {
+                            HStack {
+                                Image(systemName: "location")
+                                    .foregroundColor(.gray)
+                                    .font(.caption)
+                                Text(post.location)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    }
+                    
+                    // Engagement Stats
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Engagement")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        
+                        HStack(spacing: 16) {
+                            Text("\(post.likes) likes")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                            Text("\(post.comments) comments")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                            Text("\(post.shares) shares")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
                 }
                 .padding()
             }
-            .navigationTitle("Post")
+            .navigationTitle("Post Details")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
-                        dismiss()
+                        isPresented = false
                     }
                 }
             }
@@ -709,62 +660,46 @@ struct PostDetailView: View {
     }
 }
 
-// MARK: - Supporting Types
-
-enum FeedFilter: CaseIterable {
-    case all, following, trending
-    
-    var displayName: String {
-        switch self {
-        case .all: return "All"
-        case .following: return "Following"
-        case .trending: return "Trending"
-        }
-    }
-}
+// MARK: - Data Models
 
 struct User {
-    let id: UUID
+    let id: String
     let name: String
     let username: String
     let avatar: String
-    let isFollowing: Bool
+    let verified: Bool
 }
 
-struct SocialPost: Identifiable {
-    let id: UUID
+struct Post: Identifiable {
+    let id: String
     let user: User
     let content: String
-    let image: String?
-    let location: String?
-    let timestamp: Date
-    let likes: Int
+    let image: String
+    let location: String
+    let timestamp: String
+    var likes: Int
+    let comments: Int
     let shares: Int
-    let comments: [PostComment]
-    let isLiked: Bool
-    let isShared: Bool
-}
-
-struct PostComment: Identifiable {
-    let id: UUID
-    let user: User
-    let text: String
-    let timestamp: Date
-}
-
-struct PostDraft {
-    var content: String = ""
-    var image: String? = nil
-    var location: String? = nil
-}
-
-struct TrendingTopic {
-    let name: String
-    let count: Int
-}
-
-struct SocialMediaFeed_Previews: PreviewProvider {
-    static var previews: some View {
-        SocialMediaFeed()
+    var isLiked: Bool
+    var isBookmarked: Bool
+    let privacy: String
+    
+    var hasImage: Bool {
+        !image.isEmpty
     }
+    
+    var hasLocation: Bool {
+        !location.isEmpty
+    }
+}
+
+struct NewPost {
+    var content: String = ""
+    var image: String = ""
+    var location: String = ""
+    var privacy: String = "public"
+}
+
+#Preview {
+    SocialMediaFeed()
 }

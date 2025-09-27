@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityBenchmark.Views.SocialFeedPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Social Media Feed">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            
+            <Label Text="Social Media Feed" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <Frame Padding="15" HasShadow="True" CornerRadius="10">
+                <StackLayout Spacing="10">
+                    
+                    <Editor x:Name="PostEditor" 
+                            HeightRequest="100" 
+                            Placeholder="What's on your mind?" />
+                    
+                    <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto" ColumnSpacing="10">
+                        <Button Grid.Column="0" Text="📷" Clicked="OnAttachImageClicked" />
+                        <Button Grid.Column="1" Text="🎥" Clicked="OnAttachVideoClicked" />
+                        <Button Grid.Column="2" Text="📍" Clicked="OnAddLocationClicked" />
+                        <Button Grid.Column="3" Text="Post" Clicked="OnPostClicked" />
+                    </Grid>
+                    
+                </StackLayout>
+            </Frame>
+
+            <Frame Padding="15" HasShadow="True" CornerRadius="10">
+                <StackLayout Spacing="10">
+                    <Label Text="Feed" FontSize="18" FontAttributes="Bold" />
+                    
+                    <ListView x:Name="FeedListView" HeightRequest="400">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="10">
+                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding User}" FontSize="16" FontAttributes="Bold" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding Time}" FontSize="12" />
+                                        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Content}" FontSize="14" />
+                                        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ColumnDefinitions="*,*,*" RowDefinitions="Auto">
+                                            <Button Grid.Column="0" Text="❤️ Like" FontSize="12" Clicked="OnLikeClicked" />
+                                            <Button Grid.Column="1" Text="💬 Comment" FontSize="12" Clicked="OnCommentClicked" />
+                                            <Button Grid.Column="2" Text="🔄 Share" FontSize="12" Clicked="OnShareClicked" />
+                                        </Grid>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

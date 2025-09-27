@@ -1,830 +1,692 @@
 import SwiftUI
 
 struct ComplexSearchInterface: View {
-    @State private var searchQuery: String = ""
+    @State private var searchQuery = ""
     @State private var searchResults: [SearchResult] = []
-    @State private var isLoading: Bool = false
-    @State private var selectedFilters: Set<SearchFilter> = []
-    @State private var sortOption: SortOption = .relevance
-    @State private var currentPage: Int = 1
-    @State private var totalPages: Int = 1
-    @State private var showFilters: Bool = false
-    @State private var searchHistory: [String] = []
-    @State private var showHistory: Bool = false
-    @State private var selectedResult: SearchResult? = nil
+    @State private var isLoading = false
+    @State private var selectedFilters = Set<String>()
+    @State private var sortOption = "relevance"
     @State private var viewMode: ViewMode = .list
-    @State private var selectedCategory: String = "All"
+    @State private var selectedCategory = "All"
+    @State private var minPrice = 0.0
+    @State private var maxPrice = 1000.0
+    @State private var showAdvancedFilters = false
+    @State private var showResultDetails = false
+    @State private var selectedResult: SearchResult?
     
-    let categories = ["All", "Documents", "Images", "Videos", "Audio", "Web Pages", "News", "Products"]
-    let sortOptions: [SortOption] = [.relevance, .date, .name, .size, .type]
-    let filters: [SearchFilter] = [
-        SearchFilter(id: "recent", name: "Recent", type: .date),
-        SearchFilter(id: "large", name: "Large Files", type: .size),
-        SearchFilter(id: "images", name: "Images Only", type: .type),
-        SearchFilter(id: "videos", name: "Videos Only", type: .type),
-        SearchFilter(id: "documents", name: "Documents Only", type: .type)
+    enum ViewMode: String, CaseIterable {
+        case list = "list"
+        case grid = "grid"
+        case compact = "compact"
+    }
+    
+    private let filters = [
+        Filter(id: "recent", name: "Recent", type: "date"),
+        Filter(id: "large", name: "Large Files", type: "size"),
+        Filter(id: "images", name: "Images Only", type: "type"),
+        Filter(id: "videos", name: "Videos Only", type: "type"),
+        Filter(id: "documents", name: "Documents Only", type: "type"),
+        Filter(id: "free", name: "Free", type: "price"),
+        Filter(id: "premium", name: "Premium", type: "price")
+    ]
+    
+    private let categories = [
+        "All", "Documents", "Images", "Videos", "Audio", "Web Pages",
+        "News", "Products", "People", "Locations"
+    ]
+    
+    private let sampleResults = [
+        SearchResult(
+            id: "1",
+            title: "React Native Development Guide",
+            description: "Comprehensive guide to building mobile apps with React Native",
+            type: "document",
+            category: "Documents",
+            size: "2.5 MB",
+            sizeValue: 2.5,
+            date: "2024-01-15",
+            rating: 4.8,
+            price: 0,
+            image: "📄",
+            url: "https://example.com/react-native-guide"
+        ),
+        SearchResult(
+            id: "2",
+            title: "Mobile UI Design Patterns",
+            description: "Best practices for mobile user interface design",
+            type: "image",
+            category: "Images",
+            size: "1.2 MB",
+            sizeValue: 1.2,
+            date: "2024-01-14",
+            rating: 4.6,
+            price: 29.99,
+            image: "🖼️",
+            url: "https://example.com/ui-patterns"
+        ),
+        SearchResult(
+            id: "3",
+            title: "JavaScript Tutorial Series",
+            description: "Complete JavaScript tutorial for beginners",
+            type: "video",
+            category: "Videos",
+            size: "150 MB",
+            sizeValue: 150,
+            date: "2024-01-13",
+            rating: 4.9,
+            price: 49.99,
+            image: "🎥",
+            url: "https://example.com/js-tutorial"
+        ),
+        SearchResult(
+            id: "4",
+            title: "Web Development News",
+            description: "Latest news and updates in web development",
+            type: "news",
+            category: "News",
+            size: "500 KB",
+            sizeValue: 0.5,
+            date: "2024-01-12",
+            rating: 4.3,
+            price: 0,
+            image: "📰",
+            url: "https://example.com/web-news"
+        ),
+        SearchResult(
+            id: "5",
+            title: "E-commerce Product Catalog",
+            description: "Complete product catalog for online store",
+            type: "product",
+            category: "Products",
+            size: "5.8 MB",
+            sizeValue: 5.8,
+            date: "2024-01-11",
+            rating: 4.5,
+            price: 99.99,
+            image: "🛍️",
+            url: "https://example.com/product-catalog"
+        )
     ]
     
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                searchHeaderView
+                // Search Bar
+                searchBarView
                 
-                if showFilters {
-                    filtersView
-                }
+                // Filters
+                filtersView
                 
-                if showHistory {
-                    historyView
-                } else if isLoading {
-                    loadingView
-                } else if searchResults.isEmpty && !searchQuery.isEmpty {
-                    noResultsView
-                } else if searchResults.isEmpty {
-                    emptyStateView
-                } else {
-                    resultsView
-                }
+                // Sort and View
+                sortAndViewView
                 
-                if !searchResults.isEmpty {
-                    paginationView
-                }
+                // Results
+                resultsView
             }
             .navigationTitle("Search")
             .navigationBarTitleDisplayMode(.large)
-        }
-        .sheet(item: $selectedResult) { result in
-            SearchResultDetailView(result: result)
+            .sheet(isPresented: $showAdvancedFilters) {
+                AdvancedFiltersView(
+                    selectedCategory: $selectedCategory,
+                    minPrice: $minPrice,
+                    maxPrice: $maxPrice,
+                    isPresented: $showAdvancedFilters
+                ) {
+                    applyFilters()
+                }
+            }
+            .sheet(isPresented: $showResultDetails) {
+                if let result = selectedResult {
+                    ResultDetailsView(result: result, isPresented: $showResultDetails)
+                }
+            }
         }
     }
     
-    private var searchHeaderView: some View {
-        VStack(spacing: 12) {
+    private var searchBarView: some View {
+        HStack {
             HStack {
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.secondary)
-                    
-                    TextField("Search everything...", text: $searchQuery)
-                        .textFieldStyle(.plain)
-                        .onSubmit {
-                            performSearch()
-                        }
-                        .onChange(of: searchQuery) { newValue in
-                            if newValue.isEmpty {
-                                searchResults = []
-                            }
-                        }
-                    
-                    if !searchQuery.isEmpty {
-                        Button(action: { clearSearch() }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.secondary)
-                        }
-                        .buttonStyle(.plain)
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(.gray)
+                
+                TextField("Search for anything...", text: $searchQuery)
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .onSubmit {
+                        performSearch()
+                    }
+                
+                if !searchQuery.isEmpty {
+                    Button(action: clearSearch) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.gray)
                     }
                 }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(Color(.systemGray6))
-                .cornerRadius(10)
-                
-                Button(action: { performSearch() }) {
-                    Text("Search")
-                        .fontWeight(.semibold)
-                }
-                .buttonStyle(.borderedProminent)
-                .disabled(searchQuery.isEmpty)
             }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(Color(.systemGray6))
+            .cornerRadius(8)
             
-            HStack {
-                Button(action: { showHistory.toggle() }) {
-                    HStack {
-                        Image(systemName: "clock")
-                        Text("History")
-                    }
-                }
-                .buttonStyle(.bordered)
-                
-                Button(action: { showFilters.toggle() }) {
-                    HStack {
-                        Image(systemName: "line.3.horizontal.decrease.circle")
-                        Text("Filters")
-                    }
-                }
-                .buttonStyle(.bordered)
-                
-                Spacer()
-                
-                Picker("Category", selection: $selectedCategory) {
-                    ForEach(categories, id: \.self) { category in
-                        Text(category).tag(category)
-                    }
-                }
-                .pickerStyle(.menu)
-                
-                Picker("Sort", selection: $sortOption) {
-                    ForEach(sortOptions, id: \.self) { option in
-                        Text(option.displayName).tag(option)
-                    }
-                }
-                .pickerStyle(.menu)
-                
-                Picker("View", selection: $viewMode) {
-                    Image(systemName: "list.bullet").tag(ViewMode.list)
-                    Image(systemName: "square.grid.2x2").tag(ViewMode.grid)
-                }
-                .pickerStyle(.segmented)
+            Button("Search") {
+                performSearch()
             }
+            .foregroundColor(.blue)
+            .fontWeight(.semibold)
         }
         .padding()
-        .background(Color(.systemBackground))
     }
     
     private var filtersView: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                Text("Filters")
-                    .font(.headline)
-                Spacer()
-                Button("Clear All") {
-                    selectedFilters.removeAll()
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                Button(action: { showAdvancedFilters = true }) {
+                    HStack {
+                        Image(systemName: "line.3.horizontal.decrease")
+                        Text("Filters")
+                        if selectedFiltersCount > 0 {
+                            Text("\(selectedFiltersCount)")
+                                .font(.caption)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .clipShape(Capsule())
+                        }
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(showAdvancedFilters ? Color.blue : Color(.systemGray5))
+                    .foregroundColor(showAdvancedFilters ? .white : .primary)
+                    .cornerRadius(16)
                 }
-                .buttonStyle(.bordered)
-            }
-            
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
+                
                 ForEach(filters, id: \.id) { filter in
                     FilterChip(
                         filter: filter,
-                        isSelected: selectedFilters.contains(filter)
+                        isSelected: selectedFilters.contains(filter.id)
                     ) {
-                        toggleFilter(filter)
+                        toggleFilter(filter.id)
                     }
                 }
             }
-            
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Date Range")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                
-                HStack {
-                    DatePicker("From", selection: .constant(Date().addingTimeInterval(-86400 * 30)), displayedComponents: .date)
-                        .datePickerStyle(.compact)
-                    
-                    DatePicker("To", selection: .constant(Date()), displayedComponents: .date)
-                        .datePickerStyle(.compact)
-                }
-            }
-            
-            VStack(alignment: .leading, spacing: 8) {
-                Text("File Size")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                
-                HStack {
-                    Text("0 MB")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    
-                    Slider(value: .constant(50), in: 0...100)
-                        .accentColor(.blue)
-                    
-                    Text("100+ MB")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-            }
+            .padding(.horizontal)
         }
-        .padding()
-        .background(Color(.systemGray6))
+        .padding(.vertical, 8)
     }
     
-    private var historyView: some View {
-        VStack(alignment: .leading, spacing: 12) {
+    private var sortAndViewView: some View {
+        HStack {
             HStack {
-                Text("Recent Searches")
-                    .font(.headline)
-                Spacer()
-                Button("Clear History") {
-                    searchHistory.removeAll()
+                Text("Sort by:")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
+                Picker("Sort", selection: $sortOption) {
+                    Text("Relevance").tag("relevance")
+                    Text("Date").tag("date")
+                    Text("Name").tag("name")
+                    Text("Size").tag("size")
+                    Text("Type").tag("type")
+                    Text("Rating").tag("rating")
                 }
-                .buttonStyle(.bordered)
+                .pickerStyle(MenuPickerStyle())
             }
             
-            if searchHistory.isEmpty {
-                Text("No recent searches")
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 8) {
-                        ForEach(searchHistory, id: \.self) { query in
-                            HStack {
-                                Image(systemName: "clock")
-                                    .foregroundColor(.secondary)
-                                
-                                Text(query)
-                                    .foregroundColor(.primary)
-                                
-                                Spacer()
-                                
-                                Button(action: { selectFromHistory(query) }) {
-                                    Image(systemName: "arrow.up.left")
-                                        .foregroundColor(.blue)
-                                }
-                                .buttonStyle(.plain)
-                            }
-                            .padding()
-                            .background(Color(.systemBackground))
-                            .cornerRadius(8)
-                            .onTapGesture {
-                                selectFromHistory(query)
-                            }
-                        }
+            Spacer()
+            
+            HStack(spacing: 4) {
+                ForEach(ViewMode.allCases, id: \.self) { mode in
+                    Button(action: { viewMode = mode }) {
+                        Image(systemName: viewModeIcon(for: mode))
+                            .font(.title3)
                     }
+                    .foregroundColor(viewMode == mode ? .blue : .gray)
+                    .padding(8)
+                    .background(viewMode == mode ? Color.blue.opacity(0.1) : Color.clear)
+                    .cornerRadius(6)
                 }
             }
         }
-        .padding()
+        .padding(.horizontal)
+        .padding(.vertical, 8)
+    }
+    
+    private var resultsView: some View {
+        Group {
+            if isLoading {
+                loadingView
+            } else if searchResults.isEmpty && !searchQuery.isEmpty {
+                emptyStateView
+            } else if searchResults.isEmpty {
+                initialStateView
+            } else {
+                resultsListView
+            }
+        }
     }
     
     private var loadingView: some View {
-        VStack(spacing: 16) {
+        VStack {
             ProgressView()
-                .scaleEffect(1.5)
+                .scaleEffect(1.2)
             Text("Searching...")
+                .font(.caption)
                 .foregroundColor(.secondary)
+                .padding(.top, 8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     private var emptyStateView: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 16) {
             Image(systemName: "magnifyingglass")
-                .font(.system(size: 60))
-                .foregroundColor(.secondary)
+                .font(.system(size: 48))
+                .foregroundColor(.gray)
             
-            Text("Search Everything")
-                .font(.title2)
-                .fontWeight(.semibold)
-            
-            Text("Enter a search term to find documents, images, videos, and more")
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-    
-    private var noResultsView: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "exclamationmark.magnifyingglass")
-                .font(.system(size: 60))
-                .foregroundColor(.secondary)
-            
-            Text("No Results Found")
-                .font(.title2)
-                .fontWeight(.semibold)
+            Text("No results found")
+                .font(.headline)
+                .foregroundColor(.primary)
             
             Text("Try adjusting your search terms or filters")
+                .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
             
-            Button("Clear Filters") {
-                selectedFilters.removeAll()
-                performSearch()
+            Button("Clear all filters") {
+                clearAllFilters()
             }
-            .buttonStyle(.borderedProminent)
+            .foregroundColor(.blue)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-    
-    private var resultsView: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text("\(searchResults.count) results for \"\(searchQuery)\"")
-                    .font(.headline)
-                
-                Spacer()
-                
-                Text("Page \(currentPage) of \(totalPages)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-            .padding(.horizontal)
-            
-            if viewMode == .list {
-                listResultsView
-            } else {
-                gridResultsView
-            }
-        }
-    }
-    
-    private var listResultsView: some View {
-        ScrollView {
-            LazyVStack(spacing: 12) {
-                ForEach(searchResults) { result in
-                    SearchResultRowView(result: result) {
-                        selectedResult = result
-                    }
-                }
-            }
-            .padding(.horizontal)
-        }
-    }
-    
-    private var gridResultsView: some View {
-        ScrollView {
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 16) {
-                ForEach(searchResults) { result in
-                    SearchResultGridView(result: result) {
-                        selectedResult = result
-                    }
-                }
-            }
-            .padding(.horizontal)
-        }
-    }
-    
-    private var paginationView: some View {
-        HStack {
-            Button("← Previous") {
-                previousPage()
-            }
-            .buttonStyle(.bordered)
-            .disabled(currentPage == 1)
-            
-            Spacer()
-            
-            HStack(spacing: 8) {
-                ForEach(visiblePages, id: \.self) { page in
-                    Button("\(page)") {
-                        goToPage(page)
-                    }
-                    .buttonStyle(page == currentPage ? .borderedProminent : .bordered)
-                }
-            }
-            
-            Spacer()
-            
-            Button("Next →") {
-                nextPage()
-            }
-            .buttonStyle(.bordered)
-            .disabled(currentPage == totalPages)
-        }
         .padding()
-        .background(Color(.systemGray6))
+    }
+    
+    private var initialStateView: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 48))
+                .foregroundColor(.gray)
+            
+            Text("Search for anything")
+                .font(.headline)
+                .foregroundColor(.primary)
+            
+            Text("Enter a search term to find documents, images, videos, and more")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
+    }
+    
+    private var resultsListView: some View {
+        ScrollView {
+            LazyVStack(spacing: 8) {
+                ForEach(searchResults, id: \.id) { result in
+                    ResultCardView(result: result) {
+                        selectedResult = result
+                        showResultDetails = true
+                    }
+                }
+            }
+            .padding()
+        }
     }
     
     // MARK: - Computed Properties
     
-    private var visiblePages: [Int] {
-        let start = max(1, currentPage - 2)
-        let end = min(totalPages, currentPage + 2)
-        return Array(start...end)
+    private var selectedFiltersCount: Int {
+        selectedFilters.count
     }
     
-    // MARK: - Methods
+    // MARK: - Helper Methods
+    
+    private func viewModeIcon(for mode: ViewMode) -> String {
+        switch mode {
+        case .list: return "list.bullet"
+        case .grid: return "square.grid.2x2"
+        case .compact: return "line.3.horizontal"
+        }
+    }
     
     private func performSearch() {
-        guard !searchQuery.isEmpty else { return }
+        guard !searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            searchResults = []
+            return
+        }
         
         isLoading = true
-        addToHistory(searchQuery)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            searchResults = generateSearchResults()
-            totalPages = Int(ceil(Double(searchResults.count) / 10.0))
-            currentPage = 1
+        // Simulate API call
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            searchResults = getFilteredResults()
             isLoading = false
         }
+    }
+    
+    private func getFilteredResults() -> [SearchResult] {
+        var filteredResults = sampleResults
+        
+        // Apply search query filter
+        if !searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            filteredResults = filteredResults.filter { result in
+                result.title.localizedCaseInsensitiveContains(searchQuery) ||
+                result.description.localizedCaseInsensitiveContains(searchQuery)
+            }
+        }
+        
+        // Apply category filter
+        if selectedCategory != "All" {
+            filteredResults = filteredResults.filter { $0.category == selectedCategory }
+        }
+        
+        // Apply price range filter
+        filteredResults = filteredResults.filter { result in
+            result.price >= minPrice && result.price <= maxPrice
+        }
+        
+        // Apply selected filters
+        for filterId in selectedFilters {
+            let filter = filters.first { $0.id == filterId }
+            guard let filter = filter else { continue }
+            
+            switch filter.type {
+            case "type":
+                let type = filterId.replacingOccurrences(of: "s", with: "")
+                filteredResults = filteredResults.filter { $0.type == type }
+            case "price":
+                if filterId == "free" {
+                    filteredResults = filteredResults.filter { $0.price == 0 }
+                } else if filterId == "premium" {
+                    filteredResults = filteredResults.filter { $0.price > 0 }
+                }
+            case "size":
+                if filterId == "large" {
+                    filteredResults = filteredResults.filter { $0.sizeValue > 1 }
+                }
+            case "date":
+                if filterId == "recent" {
+                    let recentDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+                    filteredResults = filteredResults.filter { result in
+                        let resultDate = ISO8601DateFormatter().date(from: result.date + "T00:00:00Z") ?? Date.distantPast
+                        return resultDate > recentDate
+                    }
+                }
+            default:
+                break
+            }
+        }
+        
+        // Apply sorting
+        switch sortOption {
+        case "date":
+            filteredResults.sort { $0.date > $1.date }
+        case "name":
+            filteredResults.sort { $0.title < $1.title }
+        case "size":
+            filteredResults.sort { $0.sizeValue > $1.sizeValue }
+        case "type":
+            filteredResults.sort { $0.type < $1.type }
+        case "rating":
+            filteredResults.sort { $0.rating > $1.rating }
+        default:
+            break // relevance - keep original order
+        }
+        
+        return filteredResults
     }
     
     private func clearSearch() {
         searchQuery = ""
         searchResults = []
-        currentPage = 1
     }
     
-    private func toggleFilter(_ filter: SearchFilter) {
-        if selectedFilters.contains(filter) {
-            selectedFilters.remove(filter)
+    private func toggleFilter(_ filterId: String) {
+        if selectedFilters.contains(filterId) {
+            selectedFilters.remove(filterId)
         } else {
-            selectedFilters.insert(filter)
+            selectedFilters.insert(filterId)
         }
         performSearch()
     }
     
-    private func selectFromHistory(_ query: String) {
-        searchQuery = query
-        showHistory = false
+    private func clearAllFilters() {
+        selectedFilters.removeAll()
+        selectedCategory = "All"
+        minPrice = 0
+        maxPrice = 1000
         performSearch()
     }
     
-    private func addToHistory(_ query: String) {
-        if !searchHistory.contains(query) {
-            searchHistory.insert(query, at: 0)
-            if searchHistory.count > 20 {
-                searchHistory.removeLast()
-            }
-        }
-    }
-    
-    private func previousPage() {
-        if currentPage > 1 {
-            currentPage -= 1
-        }
-    }
-    
-    private func nextPage() {
-        if currentPage < totalPages {
-            currentPage += 1
-        }
-    }
-    
-    private func goToPage(_ page: Int) {
-        currentPage = page
-    }
-    
-    private func generateSearchResults() -> [SearchResult] {
-        let sampleResults = [
-            SearchResult(
-                id: UUID(),
-                title: "Project Proposal Document",
-                description: "A comprehensive project proposal for the new mobile application development initiative.",
-                type: .document,
-                size: "2.4 MB",
-                date: Date().addingTimeInterval(-86400 * 2),
-                url: "https://example.com/proposal.pdf",
-                thumbnail: "doc.fill"
-            ),
-            SearchResult(
-                id: UUID(),
-                title: "Team Meeting Recording",
-                description: "Video recording of the weekly team meeting discussing project milestones and updates.",
-                type: .video,
-                size: "45.2 MB",
-                date: Date().addingTimeInterval(-86400 * 1),
-                url: "https://example.com/meeting.mp4",
-                thumbnail: "video.fill"
-            ),
-            SearchResult(
-                id: UUID(),
-                title: "Product Screenshots",
-                description: "High-resolution screenshots of the new user interface design and features.",
-                type: .image,
-                size: "8.7 MB",
-                date: Date().addingTimeInterval(-86400 * 3),
-                url: "https://example.com/screenshots.zip",
-                thumbnail: "photo.fill"
-            ),
-            SearchResult(
-                id: UUID(),
-                title: "User Research Report",
-                description: "Detailed analysis of user feedback and market research findings.",
-                type: .document,
-                size: "1.8 MB",
-                date: Date().addingTimeInterval(-86400 * 5),
-                url: "https://example.com/research.pdf",
-                thumbnail: "doc.fill"
-            ),
-            SearchResult(
-                id: UUID(),
-                title: "Marketing Presentation",
-                description: "PowerPoint presentation for the upcoming product launch and marketing strategy.",
-                type: .presentation,
-                size: "12.3 MB",
-                date: Date().addingTimeInterval(-86400 * 7),
-                url: "https://example.com/presentation.pptx",
-                thumbnail: "doc.richtext.fill"
-            )
-        ]
-        
-        return sampleResults
+    private func applyFilters() {
+        performSearch()
     }
 }
 
 // MARK: - Supporting Views
 
 struct FilterChip: View {
-    let filter: SearchFilter
+    let filter: Filter
     let isSelected: Bool
-    let onTap: () -> Void
+    let action: () -> Void
     
     var body: some View {
-        Button(action: onTap) {
-            HStack {
-                Image(systemName: filter.icon)
-                    .foregroundColor(isSelected ? .white : .blue)
-                
-                Text(filter.name)
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundColor(isSelected ? .white : .primary)
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(isSelected ? Color.blue : Color(.systemGray5))
-            .cornerRadius(16)
+        Button(action: action) {
+            Text(filter.name)
+                .font(.caption)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(isSelected ? Color.blue : Color(.systemGray5))
+                .foregroundColor(isSelected ? .white : .primary)
+                .cornerRadius(16)
         }
-        .buttonStyle(.plain)
     }
 }
 
-struct SearchResultRowView: View {
+struct ResultCardView: View {
     let result: SearchResult
-    let onTap: () -> Void
+    let action: () -> Void
     
     var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: result.thumbnail)
-                .font(.system(size: 24))
-                .foregroundColor(.blue)
-                .frame(width: 40, height: 40)
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text(result.title)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .lineLimit(1)
+        Button(action: action) {
+            HStack(spacing: 12) {
+                // Result Icon
+                Text(result.image)
+                    .font(.system(size: 32))
+                    .frame(width: 48, height: 48)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
                 
-                Text(result.description)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .lineLimit(2)
-                
-                HStack {
-                    Text(result.type.displayName)
-                        .font(.caption)
-                        .foregroundColor(.blue)
+                // Result Content
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(result.title)
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                        .lineLimit(2)
                     
-                    Text("•")
-                        .font(.caption)
+                    Text(result.description)
+                        .font(.subheadline)
                         .foregroundColor(.secondary)
+                        .lineLimit(2)
                     
-                    Text(result.size)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                    // Metadata
+                    HStack(spacing: 16) {
+                        Label(result.category, systemImage: "folder")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        Label(result.date, systemImage: "clock")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        Label(String(format: "%.1f", result.rating), systemImage: "star.fill")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        Label(result.size, systemImage: "doc")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                     
-                    Text("•")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    
-                    Text(formatDate(result.date))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                    if result.price > 0 {
+                        Text("$\(String(format: "%.2f", result.price))")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                    }
                 }
-            }
-            
-            Spacer()
-            
-            Button(action: onTap) {
+                
+                Spacer()
+                
                 Image(systemName: "chevron.right")
-                    .foregroundColor(.secondary)
-            }
-            .buttonStyle(.plain)
-        }
-        .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(8)
-        .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-        .onTapGesture {
-            onTap()
-        }
-    }
-    
-    private func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        return formatter.string(from: date)
-    }
-}
-
-struct SearchResultGridView: View {
-    let result: SearchResult
-    let onTap: () -> Void
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Image(systemName: result.thumbnail)
-                .font(.system(size: 40))
-                .foregroundColor(.blue)
-                .frame(maxWidth: .infinity)
-                .frame(height: 80)
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text(result.title)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .lineLimit(2)
-                
-                Text(result.description)
                     .font(.caption)
-                    .foregroundColor(.secondary)
-                    .lineLimit(3)
-                
-                HStack {
-                    Text(result.type.displayName)
-                        .font(.caption2)
-                        .foregroundColor(.blue)
-                    
-                    Spacer()
-                    
-                    Text(result.size)
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
+                    .foregroundColor(.gray)
             }
+            .padding()
+            .background(Color(.systemBackground))
+            .cornerRadius(8)
+            .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
         }
-        .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(8)
-        .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-        .onTapGesture {
-            onTap()
-        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
-struct SearchResultDetailView: View {
-    let result: SearchResult
-    @Environment(\.dismiss) private var dismiss
+struct AdvancedFiltersView: View {
+    @Binding var selectedCategory: String
+    @Binding var minPrice: Double
+    @Binding var maxPrice: Double
+    @Binding var isPresented: Bool
+    let onApply: () -> Void
+    
+    private let categories = [
+        "All", "Documents", "Images", "Videos", "Audio", "Web Pages",
+        "News", "Products", "People", "Locations"
+    ]
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    HStack {
-                        Image(systemName: result.thumbnail)
-                            .font(.system(size: 40))
-                            .foregroundColor(.blue)
-                            .frame(width: 60, height: 60)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(12)
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(result.title)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            
-                            Text(result.type.displayName)
-                                .font(.subheadline)
-                                .foregroundColor(.blue)
+            List {
+                Section("Category") {
+                    Picker("Category", selection: $selectedCategory) {
+                        ForEach(categories, id: \.self) { category in
+                            Text(category).tag(category)
                         }
-                        
-                        Spacer()
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                }
+                
+                Section("Price Range") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Minimum Price: $\(Int(minPrice))")
+                        Slider(value: $minPrice, in: 0...1000, step: 10)
                     }
                     
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Description")
-                            .font(.headline)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Maximum Price: $\(Int(maxPrice))")
+                        Slider(value: $maxPrice, in: 0...1000, step: 10)
+                    }
+                }
+            }
+            .navigationTitle("Filters")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Clear All") {
+                        selectedCategory = "All"
+                        minPrice = 0
+                        maxPrice = 1000
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Apply") {
+                        onApply()
+                        isPresented = false
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct ResultDetailsView: View {
+    let result: SearchResult
+    @Binding var isPresented: Bool
+    
+    var body: some View {
+        NavigationView {
+            List {
+                Section {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(result.title)
+                            .font(.title2)
+                            .fontWeight(.bold)
                         
                         Text(result.description)
                             .font(.body)
                             .foregroundColor(.secondary)
                     }
-                    
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Details")
-                            .font(.headline)
-                        
-                        VStack(spacing: 8) {
-                            DetailRow(label: "Type", value: result.type.displayName)
-                            DetailRow(label: "Size", value: result.size)
-                            DetailRow(label: "Date", value: formatDate(result.date))
-                            DetailRow(label: "URL", value: result.url)
-                        }
-                    }
-                    
-                    HStack(spacing: 16) {
-                        Button("Open") {
-                            // Open file
-                        }
-                        .buttonStyle(.borderedProminent)
-                        
-                        Button("Download") {
-                            // Download file
-                        }
-                        .buttonStyle(.bordered)
-                        
-                        Button("Share") {
-                            // Share file
-                        }
-                        .buttonStyle(.bordered)
-                    }
                 }
-                .padding()
+                
+                Section("Details") {
+                    DetailRow(title: "Type", value: result.type.capitalized)
+                    DetailRow(title: "Category", value: result.category)
+                    DetailRow(title: "Size", value: result.size)
+                    DetailRow(title: "Date", value: result.date)
+                    DetailRow(title: "Rating", value: String(format: "%.1f/5", result.rating))
+                    DetailRow(title: "Price", value: result.price > 0 ? "$\(String(format: "%.2f", result.price))" : "Free")
+                }
             }
-            .navigationTitle("Details")
+            .navigationTitle("Result Details")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
-                        dismiss()
+                        isPresented = false
                     }
                 }
             }
         }
     }
-    
-    private func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        return formatter.string(from: date)
-    }
 }
 
 struct DetailRow: View {
-    let label: String
+    let title: String
     let value: String
     
     var body: some View {
         HStack {
-            Text(label + ":")
-                .fontWeight(.semibold)
-                .frame(width: 80, alignment: .leading)
-            
-            Text(value)
+            Text(title)
                 .foregroundColor(.secondary)
-            
             Spacer()
+            Text(value)
+                .fontWeight(.medium)
         }
     }
 }
 
-// MARK: - Supporting Types
+// MARK: - Data Models
 
-enum ViewMode {
-    case list, grid
-}
-
-enum SortOption: CaseIterable {
-    case relevance, date, name, size, type
-    
-    var displayName: String {
-        switch self {
-        case .relevance: return "Relevance"
-        case .date: return "Date"
-        case .name: return "Name"
-        case .size: return "Size"
-        case .type: return "Type"
-        }
-    }
-}
-
-struct SearchFilter: Hashable {
+struct Filter {
     let id: String
     let name: String
-    let type: FilterType
-    
-    var icon: String {
-        switch type {
-        case .date: return "calendar"
-        case .size: return "doc"
-        case .type: return "folder"
-        }
-    }
-}
-
-enum FilterType {
-    case date, size, type
+    let type: String
 }
 
 struct SearchResult: Identifiable {
-    let id: UUID
+    let id: String
     let title: String
     let description: String
-    let type: ResultType
+    let type: String
+    let category: String
     let size: String
-    let date: Date
+    let sizeValue: Double
+    let date: String
+    let rating: Double
+    let price: Double
+    let image: String
     let url: String
-    let thumbnail: String
 }
 
-enum ResultType {
-    case document, image, video, audio, presentation, webPage
-    
-    var displayName: String {
-        switch self {
-        case .document: return "Document"
-        case .image: return "Image"
-        case .video: return "Video"
-        case .audio: return "Audio"
-        case .presentation: return "Presentation"
-        case .webPage: return "Web Page"
-        }
-    }
-}
-
-struct ComplexSearchInterface_Previews: PreviewProvider {
-    static var previews: some View {
-        ComplexSearchInterface()
-    }
+#Preview {
+    ComplexSearchInterface()
 }

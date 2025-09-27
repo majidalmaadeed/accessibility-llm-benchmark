@@ -1,0 +1,139 @@
+<div class="container">
+  <div class="page-header">
+    <h1 class="page-title">Data Table Complex</h1>
+    <p class="page-subtitle">
+      Complex data table with sorting, filtering, and pagination
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Search and Filters</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search all columns..."
+          [(ngModel)]="searchTerm"
+          (input)="applyFilters()"
+        />
+      </div>
+      <div class="form-group">
+        <select class="form-control" [(ngModel)]="categoryFilter" (change)="applyFilters()">
+          <option value="All">All Categories</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Books">Books</option>
+          <option value="Home">Home</option>
+          <option value="Sports">Sports</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control" [(ngModel)]="statusFilter" (change)="applyFilters()">
+          <option value="All">All Status</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+          <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-secondary" (click)="resetFilters()">
+        Reset Filters
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem">
+      <h2>Data Table</h2>
+      <div style="display: flex; gap: 1rem">
+        <button class="btn" (click)="addRow()">Add Row</button>
+        <button class="btn btn-secondary" (click)="removeSelected()" [disabled]="selectedItems.length === 0">
+          Remove Selected
+        </button>
+        <button class="btn btn-secondary" (click)="clearAll()">Clear All</button>
+        <button class="btn" (click)="exportData()">Export</button>
+      </div>
+    </div>
+    <p>Showing {{ filteredData.length }} of {{ data.length }} items</p>
+
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              <input
+                type="checkbox"
+                [checked]="selectedItems.length === currentPageData.length && currentPageData.length > 0"
+                (change)="handleSelectAll()"
+              />
+            </th>
+            <th (click)="handleSort('id')" style="cursor: pointer">
+              ID {{ sortField === 'id' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }}
+            </th>
+            <th (click)="handleSort('name')" style="cursor: pointer">
+              Name {{ sortField === 'name' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }}
+            </th>
+            <th (click)="handleSort('category')" style="cursor: pointer">
+              Category {{ sortField === 'category' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }}
+            </th>
+            <th (click)="handleSort('status')" style="cursor: pointer">
+              Status {{ sortField === 'status' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }}
+            </th>
+            <th (click)="handleSort('value')" style="cursor: pointer">
+              Value {{ sortField === 'value' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }}
+            </th>
+            <th (click)="handleSort('date')" style="cursor: pointer">
+              Date {{ sortField === 'date' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }}
+            </th>
+            <th (click)="handleSort('active')" style="cursor: pointer">
+              Active {{ sortField === 'active' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of currentPageData">
+            <td>
+              <input
+                type="checkbox"
+                [checked]="selectedItems.includes(item.id)"
+                (change)="handleSelectItem(item.id)"
+              />
+            </td>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.status }}</td>
+            <td>${{ item.value }}</td>
+            <td>{{ item.date }}</td>
+            <td>{{ item.active }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="totalPages > 1" class="pagination">
+      <button (click)="setCurrentPage(1)" [disabled]="currentPage === 1">
+        First
+      </button>
+      <button (click)="setCurrentPage(currentPage - 1)" [disabled]="currentPage === 1">
+        Previous
+      </button>
+      <button
+        *ngFor="let page of getPageNumbers()"
+        (click)="setCurrentPage(page)"
+        [class.active]="currentPage === page"
+      >
+        {{ page }}
+      </button>
+      <button (click)="setCurrentPage(currentPage + 1)" [disabled]="currentPage === totalPages">
+        Next
+      </button>
+      <button (click)="setCurrentPage(totalPages)" [disabled]="currentPage === totalPages">
+        Last
+      </button>
+    </div>
+  </div>
+</div>

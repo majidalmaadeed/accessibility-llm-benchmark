@@ -1,0 +1,58 @@
+cmake_minimum_required(VERSION 3.16)
+project(AccessibilityBenchmark)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
+
+qt6_standard_project_setup()
+
+set(SOURCES
+    main.cpp
+    mainwindow.cpp
+    datatablewidget.cpp
+    wizardwidget.cpp
+    dashboardwidget.cpp
+    mediaplayerwidget.cpp
+    shoppingcartwidget.cpp
+    calendarwidget.cpp
+    richtextwidget.cpp
+    searchwidget.cpp
+    mapwidget.cpp
+    socialfeedwidget.cpp
+)
+
+set(HEADERS
+    mainwindow.h
+    datatablewidget.h
+    wizardwidget.h
+    dashboardwidget.h
+    mediaplayerwidget.h
+    shoppingcartwidget.h
+    calendarwidget.h
+    richtextwidget.h
+    searchwidget.h
+    mapwidget.h
+    socialfeedwidget.h
+)
+
+qt6_add_executable(AccessibilityBenchmark ${SOURCES} ${HEADERS})
+
+target_link_libraries(AccessibilityBenchmark Qt6::Core Qt6::Widgets)
+
+qt6_add_resources(AccessibilityBenchmark "resources"
+    PREFIX "/"
+    FILES
+        resources/icons/app.png
+        resources/icons/data-table.png
+        resources/icons/wizard.png
+        resources/icons/dashboard.png
+        resources/icons/media-player.png
+        resources/icons/shopping-cart.png
+        resources/icons/calendar.png
+        resources/icons/rich-text.png
+        resources/icons/search.png
+        resources/icons/map.png
+        resources/icons/social-feed.png
+)

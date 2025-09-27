@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Map</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .map-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .map-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .map-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+        .map-controls {
+            display: flex;
+            gap: 10px;
+        }
+        .control-btn {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .control-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .map-content {
+            display: flex;
+            height: 600px;
+        }
+        .map-sidebar {
+            width: 300px;
+            background: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: #007bff;
+        }
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        .filter-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            background: white;
+        }
+        .layer-controls {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+        }
+        .layer-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+        .layer-checkbox {
+            margin-right: 10px;
+        }
+        .layer-name {
+            font-size: 14px;
+            color: #333;
+            flex: 1;
+        }
+        .layer-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+        .map-main {
+            flex: 1;
+            position: relative;
+            background: #e9ecef;
+        }
+        .map-canvas {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            position: relative;
+            overflow: hidden;
+        }
+        .map-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff0000;
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        .map-marker:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        .map-marker.selected {
+            background: #007bff;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.3);
+        }
+        .map-marker.restaurant {
+            background: #ff6b6b;
+        }
+        .map-marker.hotel {
+            background: #4ecdc4;
+        }
+        .map-marker.attraction {
+            background: #45b7d1;
+        }
+        .map-marker.shopping {
+            background: #96ceb4;
+        }
+        .map-marker.transport {
+            background: #feca57;
+        }
+        .map-info-window {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            max-width: 250px;
+            display: none;
+        }
+        .info-window-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .info-window-content {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .info-window-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .info-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .info-btn.primary {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .info-btn:hover {
+            background: #f8f9fa;
+        }
+        .map-zoom-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 100;
+        }
+        .zoom-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .zoom-btn:hover {
+            background: #f8f9fa;
+        }
+        .map-layers {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 10px;
+            z-index: 100;
+        }
+        .layer-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .layer-toggle:last-child {
+            margin-bottom: 0;
+        }
+        .layer-toggle input[type="checkbox"] {
+            margin: 0;
+        }
+        .layer-toggle label {
+            font-size: 12px;
+            color: #333;
+            cursor: pointer;
+        }
+        .map-legend {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            z-index: 100;
+        }
+        .legend-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .legend-item:last-child {
+            margin-bottom: 0;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .legend-text {
+            font-size: 12px;
+            color: #666;
+        }
+        .map-coordinates {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 100;
+        }
+        .map-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .search-results {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            max-height: 200px;
+            overflow-y: auto;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: none;
+        }
+        .search-results.show {
+            display: block;
+        }
+        .search-result-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .search-result-item:hover {
+            background: #f8f9fa;
+        }
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        .search-result-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        .search-result-address {
+            font-size: 12px;
+            color: #666;
+        }
+        .map-tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="map-container">
+        <div class="map-header">
+            <h1 class="map-title">Interactive Map</h1>
+            <div class="map-controls">
+                <button class="control-btn" onclick="toggleFullscreen()">⛶</button>
+                <button class="control-btn" onclick="resetMap()">🏠</button>
+                <button class="control-btn" onclick="shareMap()">📤</button>
+            </div>
+        </div>
+
+        <div class="map-content">
+            <div class="map-sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Search Location</h3>
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="locationSearch" placeholder="Search for places..." onkeyup="handleLocationSearch()">
+                        <button class="search-btn" onclick="performLocationSearch()">🔍</button>
+                        <div class="search-results" id="searchResults">
+                            <!-- Search results will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Filter by Category</h3>
+                    <div class="filter-group">
+                        <label class="filter-label">Category</label>
+                        <select class="filter-select" id="categoryFilter" onchange="filterMarkers()">
+                            <option value="">All Categories</option>
+                            <option value="restaurant">Restaurants</option>
+                            <option value="hotel">Hotels</option>
+                            <option value="attraction">Attractions</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="transport">Transport</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Distance</label>
+                        <select class="filter-select" id="distanceFilter" onchange="filterMarkers()">
+                            <option value="">All Distances</option>
+                            <option value="1">Within 1 km</option>
+                            <option value="5">Within 5 km</option>
+                            <option value="10">Within 10 km</option>
+                            <option value="25">Within 25 km</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Map Layers</h3>
+                    <div class="layer-controls">
+                        <div class="layer-item" onclick="toggleLayer('traffic')">
+                            <input type="checkbox" class="layer-checkbox" id="trafficLayer" checked>
+                            <span class="layer-name">Traffic</span>
+                            <div class="layer-color" style="background: #ff6b6b;"></div>
+                        </div>
+                        <div class="layer-item" onclick="toggleLayer('transit')">
+                            <input type="checkbox" class="layer-checkbox" id="transitLayer">
+                            <span class="layer-name">Transit</span>
+                            <div class="layer-color" style="background: #4ecdc4;"></div>
+                        </div>
+                        <div class="layer-item" onclick="toggleLayer('bike')">
+                            <input type="checkbox" class="layer-checkbox" id="bikeLayer">
+                            <span class="layer-name">Bike Routes</span>
+                            <div class="layer-color" style="background: #45b7d1;"></div>
+                        </div>
+                        <div class="layer-item" onclick="toggleLayer('satellite')">
+                            <input type="checkbox" class="layer-checkbox" id="satelliteLayer">
+                            <span class="layer-name">Satellite</span>
+                            <div class="layer-color" style="background: #96ceb4;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Quick Actions</h3>
+                    <button class="control-btn" onclick="getCurrentLocation()" style="width: 100%; margin-bottom: 10px;">📍 My Location</button>
+                    <button class="control-btn" onclick="showDirections()" style="width: 100%; margin-bottom: 10px;">🗺️ Directions</button>
+                    <button class="control-btn" onclick="exportMap()" style="width: 100%;">💾 Export Map</button>
+                </div>
+            </div>
+
+            <div class="map-main">
+                <div class="map-canvas" id="mapCanvas" onclick="handleMapClick(event)">
+                    <!-- Map markers will be added by JavaScript -->
+                </div>
+
+                <div class="map-zoom-controls">
+                    <button class="zoom-btn" onclick="zoomIn()">+</button>
+                    <button class="zoom-btn" onclick="zoomOut()">-</button>
+                </div>
+
+                <div class="map-layers">
+                    <div class="layer-toggle">
+                        <input type="checkbox" id="showMarkers" checked onchange="toggleMarkers()">
+                        <label for="showMarkers">Show Markers</label>
+                    </div>
+                    <div class="layer-toggle">
+                        <input type="checkbox" id="showLabels" checked onchange="toggleLabels()">
+                        <label for="showLabels">Show Labels</label>
+                    </div>
+                </div>
+
+                <div class="map-legend">
+                    <div class="legend-title">Legend</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ff6b6b;"></div>
+                        <span class="legend-text">Restaurants</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #4ecdc4;"></div>
+                        <span class="legend-text">Hotels</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #45b7d1;"></div>
+                        <span class="legend-text">Attractions</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #96ceb4;"></div>
+                        <span class="legend-text">Shopping</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #feca57;"></div>
+                        <span class="legend-text">Transport</span>
+                    </div>
+                </div>
+
+                <div class="map-coordinates" id="mapCoordinates">Lat: 0, Lng: 0</div>
+
+                <div class="map-info-window" id="infoWindow">
+                    <div class="info-window-title" id="infoTitle">Location</div>
+                    <div class="info-window-content" id="infoContent">Click on a marker to see details</div>
+                    <div class="info-window-actions">
+                        <button class="info-btn" onclick="getDirections()">Directions</button>
+                        <button class="info-btn primary" onclick="viewDetails()">View Details</button>
+                    </div>
+                </div>
+
+                <div class="map-tooltip" id="mapTooltip">Hover over markers for details</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let mapMarkers = [];
+        let selectedMarker = null;
+        let currentZoom = 1;
+        let mapCenter = { x: 50, y: 50 };
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+
+        const locations = [
+            { id: 1, name: 'Central Park', category: 'attraction', x: 30, y: 25, address: 'New York, NY' },
+            { id: 2, name: 'Times Square', category: 'attraction', x: 45, y: 30, address: 'New York, NY' },
+            { id: 3, name: 'Empire State Building', category: 'attraction', x: 40, y: 35, address: 'New York, NY' },
+            { id: 4, name: 'The Plaza Hotel', category: 'hotel', x: 35, y: 28, address: 'New York, NY' },
+            { id: 5, name: 'Grand Central Station', category: 'transport', x: 42, y: 40, address: 'New York, NY' },
+            { id: 6, name: 'Fifth Avenue Shopping', category: 'shopping', x: 38, y: 32, address: 'New York, NY' },
+            { id: 7, name: 'Central Park Restaurant', category: 'restaurant', x: 32, y: 27, address: 'New York, NY' },
+            { id: 8, name: 'Brooklyn Bridge', category: 'attraction', x: 50, y: 45, address: 'New York, NY' }
+        ];
+
+        function initializeMap() {
+            renderMarkers();
+            updateCoordinates();
+        }
+
+        function renderMarkers() {
+            const mapCanvas = document.getElementById('mapCanvas');
+            mapCanvas.innerHTML = '';
+            mapMarkers = [];
+
+            locations.forEach(location => {
+                const marker = document.createElement('div');
+                marker.className = `map-marker ${location.category}`;
+                marker.style.left = location.x + '%';
+                marker.style.top = location.y + '%';
+                marker.onclick = (e) => {
+                    e.stopPropagation();
+                    selectMarker(location);
+                };
+                marker.onmouseenter = () => showTooltip(location);
+                marker.onmouseleave = () => hideTooltip();
+                mapCanvas.appendChild(marker);
+                mapMarkers.push({ element: marker, data: location });
+            });
+        }
+
+        function selectMarker(location) {
+            if (selectedMarker) {
+                selectedMarker.element.classList.remove('selected');
+            }
+            
+            const marker = mapMarkers.find(m => m.data.id === location.id);
+            if (marker) {
+                marker.element.classList.add('selected');
+                selectedMarker = marker;
+                showInfoWindow(location);
+            }
+        }
+
+        function showInfoWindow(location) {
+            const infoWindow = document.getElementById('infoWindow');
+            document.getElementById('infoTitle').textContent = location.name;
+            document.getElementById('infoContent').textContent = location.address;
+            infoWindow.style.display = 'block';
+            infoWindow.style.left = (location.x * 4) + 'px';
+            infoWindow.style.top = (location.y * 4) + 'px';
+        }
+
+        function hideInfoWindow() {
+            document.getElementById('infoWindow').style.display = 'none';
+            if (selectedMarker) {
+                selectedMarker.element.classList.remove('selected');
+                selectedMarker = null;
+            }
+        }
+
+        function showTooltip(location) {
+            const tooltip = document.getElementById('mapTooltip');
+            tooltip.textContent = location.name;
+            tooltip.style.display = 'block';
+            tooltip.style.left = (location.x * 4) + 'px';
+            tooltip.style.top = (location.y * 4 - 30) + 'px';
+        }
+
+        function hideTooltip() {
+            document.getElementById('mapTooltip').style.display = 'none';
+        }
+
+        function handleMapClick(event) {
+            if (event.target === event.currentTarget) {
+                hideInfoWindow();
+            }
+        }
+
+        function handleLocationSearch() {
+            const query = document.getElementById('locationSearch').value;
+            if (query.length > 2) {
+                showSearchResults(query);
+            } else {
+                hideSearchResults();
+            }
+        }
+
+        function showSearchResults(query) {
+            const results = locations.filter(location =>
+                location.name.toLowerCase().includes(query.toLowerCase()) ||
+                location.address.toLowerCase().includes(query.toLowerCase())
+            );
+
+            const resultsContainer = document.getElementById('searchResults');
+            resultsContainer.innerHTML = '';
+
+            if (results.length > 0) {
+                results.forEach(location => {
+                    const item = document.createElement('div');
+                    item.className = 'search-result-item';
+                    item.onclick = () => selectLocation(location);
+                    item.innerHTML = `
+                        <div class="search-result-title">${location.name}</div>
+                        <div class="search-result-address">${location.address}</div>
+                    `;
+                    resultsContainer.appendChild(item);
+                });
+                resultsContainer.classList.add('show');
+            } else {
+                hideSearchResults();
+            }
+        }
+
+        function hideSearchResults() {
+            document.getElementById('searchResults').classList.remove('show');
+        }
+
+        function selectLocation(location) {
+            document.getElementById('locationSearch').value = location.name;
+            hideSearchResults();
+            selectMarker(location);
+        }
+
+        function performLocationSearch() {
+            const query = document.getElementById('locationSearch').value;
+            if (query) {
+                const location = locations.find(loc =>
+                    loc.name.toLowerCase().includes(query.toLowerCase())
+                );
+                if (location) {
+                    selectMarker(location);
+                } else {
+                    alert('Location not found');
+                }
+            }
+        }
+
+        function filterMarkers() {
+            const category = document.getElementById('categoryFilter').value;
+            const distance = document.getElementById('distanceFilter').value;
+
+            mapMarkers.forEach(marker => {
+                let show = true;
+
+                if (category && marker.data.category !== category) {
+                    show = false;
+                }
+
+                if (distance) {
+                    const distanceKm = parseFloat(distance);
+                    if (distanceKm < 5) {
+                        show = false;
+                    }
+                }
+
+                marker.element.style.display = show ? 'block' : 'none';
+            });
+        }
+
+        function toggleLayer(layerName) {
+            const checkbox = document.getElementById(layerName + 'Layer');
+            if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+                console.log(`${layerName} layer ${checkbox.checked ? 'enabled' : 'disabled'}`);
+            }
+        }
+
+        function toggleMarkers() {
+            const showMarkers = document.getElementById('showMarkers').checked;
+            mapMarkers.forEach(marker => {
+                marker.element.style.display = showMarkers ? 'block' : 'none';
+            });
+        }
+
+        function toggleLabels() {
+            console.log('Labels toggled');
+        }
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom * 1.2, 3);
+            updateMapTransform();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom / 1.2, 0.5);
+            updateMapTransform();
+        }
+
+        function updateMapTransform() {
+            const mapCanvas = document.getElementById('mapCanvas');
+            mapCanvas.style.transform = `scale(${currentZoom})`;
+        }
+
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        alert(`Current location: ${position.coords.latitude}, ${position.coords.longitude}`);
+                    },
+                    error => {
+                        alert('Unable to get current location');
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported');
+            }
+        }
+
+        function showDirections() {
+            if (selectedMarker) {
+                alert(`Getting directions to ${selectedMarker.data.name}`);
+            } else {
+                alert('Please select a location first');
+            }
+        }
+
+        function getDirections() {
+            if (selectedMarker) {
+                alert(`Directions to ${selectedMarker.data.name}`);
+            }
+        }
+
+        function viewDetails() {
+            if (selectedMarker) {
+                alert(`Viewing details for ${selectedMarker.data.name}`);
+            }
+        }
+
+        function exportMap() {
+            alert('Exporting map...');
+        }
+
+        function shareMap() {
+            alert('Sharing map...');
+        }
+
+        function resetMap() {
+            currentZoom = 1;
+            mapCenter = { x: 50, y: 50 };
+            updateMapTransform();
+            hideInfoWindow();
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function updateCoordinates() {
+            const coordinates = document.getElementById('mapCoordinates');
+            coordinates.textContent = `Lat: 40.7128, Lng: -74.0060`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMap();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityBenchmark.Views.MainPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Accessibility Benchmark">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            
+            <Label Text="Accessibility Benchmark Scenarios"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{StaticResource Primary}" />
+
+            <Label Text="Advanced Cross-Platform Desktop Testing"
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   TextColor="{StaticResource Gray900}" />
+
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Padding="10">
+                
+                <Frame Grid.Row="0" Grid.Column="0" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Data Table Complex" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="Complex data table with sorting, filtering, and pagination" FontSize="14" />
+                        <Button Text="Open" Clicked="OnDataTableClicked" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="0" Grid.Column="1" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Multi-Step Wizard" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="Multi-step form wizard with validation" FontSize="14" />
+                        <Button Text="Open" Clicked="OnWizardClicked" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="1" Grid.Column="0" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Dashboard Widget" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="Interactive dashboard with charts and metrics" FontSize="14" />
+                        <Button Text="Open" Clicked="OnDashboardClicked" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="1" Grid.Column="1" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Media Player" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="Full-featured media player interface" FontSize="14" />
+                        <Button Text="Open" Clicked="OnMediaPlayerClicked" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="2" Grid.Column="0" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Shopping Cart" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="E-commerce shopping cart system" FontSize="14" />
+                        <Button Text="Open" Clicked="OnShoppingCartClicked" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="2" Grid.Column="1" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Calendar App" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="Calendar application with events" FontSize="14" />
+                        <Button Text="Open" Clicked="OnCalendarClicked" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="3" Grid.Column="0" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Rich Text Editor" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="Advanced rich text editing interface" FontSize="14" />
+                        <Button Text="Open" Clicked="OnRichTextEditorClicked" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="3" Grid.Column="1" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Search Interface" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="Complex search and filtering interface" FontSize="14" />
+                        <Button Text="Open" Clicked="OnSearchInterfaceClicked" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="4" Grid.Column="0" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Interactive Map" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="Interactive map with markers and layers" FontSize="14" />
+                        <Button Text="Open" Clicked="OnInteractiveMapClicked" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="4" Grid.Column="1" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Social Media Feed" FontSize="18" FontAttributes="Bold" />
+                        <Label Text="Social media feed with posts and interactions" FontSize="14" />
+                        <Button Text="Open" Clicked="OnSocialFeedClicked" />
+                    </StackLayout>
+                </Frame>
+
+            </Grid>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

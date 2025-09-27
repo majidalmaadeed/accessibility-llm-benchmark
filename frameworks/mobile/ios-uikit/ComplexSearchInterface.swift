@@ -3,298 +3,382 @@ import UIKit
 class ComplexSearchInterfaceViewController: UIViewController {
     
     // MARK: - Properties
-    
-    private var searchBar: UISearchBar!
-    private var filterView: UIView!
-    private var resultsTableView: UITableView!
-    private var sortSegmentedControl: UISegmentedControl!
-    private var viewToggleSegmentedControl: UISegmentedControl!
-    private var paginationView: UIView!
-    private var loadingIndicator: UIActivityIndicatorView!
-    
-    private var searchQuery: String = ""
-    private var selectedFilters: [String: Any] = [:]
-    private var sortOption: String = "relevance"
-    private var viewMode: String = "list"
-    private var currentPage: Int = 1
-    private var totalPages: Int = 1
-    private var isLoading: Bool = false
+    private var searchQuery = ""
     private var searchResults: [SearchResult] = []
+    private var isLoading = false
+    private var selectedFilters = Set<String>()
+    private var sortOption = "relevance"
+    private var viewMode: ViewMode = .list
+    private var selectedCategory = "All"
     
-    let sortOptions = ["relevance", "date", "title", "rating"]
-    let viewModes = ["list", "grid", "compact"]
-    let filterCategories = ["category", "date", "rating", "price", "location"]
+    enum ViewMode: String, CaseIterable {
+        case list = "list"
+        case grid = "grid"
+        case compact = "compact"
+    }
+    
+    // MARK: - UI Components
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "Search for anything..."
+        searchBar.delegate = self
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        return searchBar
+    }()
+    
+    private lazy var filtersScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    private lazy var filtersStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private lazy var sortPicker: UIPickerView = {
+        let picker = UIPickerView()
+        picker.delegate = self
+        picker.dataSource = self
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        return picker
+    }()
+    
+    private lazy var viewModeSegmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: ViewMode.allCases.map { $0.rawValue.capitalized })
+        control.selectedSegmentIndex = 0
+        control.addTarget(self, action: #selector(viewModeChanged), for: .valueChanged)
+        control.translatesAutoresizingMaskIntoConstraints = false
+        return control
+    }()
+    
+    private lazy var resultsTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: "SearchResultTableViewCell")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
+    private lazy var emptyStateView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        let imageView = UIImageView(systemName: "magnifyingglass")
+        imageView.tintColor = .systemGray
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let titleLabel = UILabel()
+        titleLabel.text = "No results found"
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleLabel.textAlignment = .center
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let messageLabel = UILabel()
+        messageLabel.text = "Try adjusting your search terms or filters"
+        messageLabel.font = UIFont.systemFont(ofSize: 14)
+        messageLabel.textColor = .secondaryLabel
+        messageLabel.textAlignment = .center
+        messageLabel.numberOfLines = 0
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let clearButton = UIButton(type: .system)
+        clearButton.setTitle("Clear all filters", for: .normal)
+        clearButton.addTarget(self, action: #selector(clearFiltersTapped), for: .touchUpInside)
+        clearButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(imageView)
+        view.addSubview(titleLabel)
+        view.addSubview(messageLabel)
+        view.addSubview(clearButton)
+        
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -60),
+            imageView.widthAnchor.constraint(equalToConstant: 64),
+            imageView.heightAnchor.constraint(equalToConstant: 64),
+            
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            messageLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            messageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            clearButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 24),
+            clearButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        return view
+    }()
+    
+    // MARK: - Data
+    private let filters = [
+        Filter(id: "recent", name: "Recent", type: "date"),
+        Filter(id: "large", name: "Large Files", type: "size"),
+        Filter(id: "images", name: "Images Only", type: "type"),
+        Filter(id: "videos", name: "Videos Only", type: "type"),
+        Filter(id: "free", name: "Free", type: "price")
+    ]
+    
+    private let sortOptions = ["relevance", "date", "name", "size", "type", "rating"]
+    
+    private let sampleResults = [
+        SearchResult(
+            id: "1",
+            title: "React Native Development Guide",
+            description: "Comprehensive guide to building mobile apps with React Native",
+            type: "document",
+            category: "Documents",
+            size: "2.5 MB",
+            sizeValue: 2.5,
+            date: "2024-01-15",
+            rating: 4.8,
+            price: 0,
+            image: "📄",
+            url: "https://example.com/react-native-guide"
+        ),
+        SearchResult(
+            id: "2",
+            title: "Mobile UI Design Patterns",
+            description: "Best practices for mobile user interface design",
+            type: "image",
+            category: "Images",
+            size: "1.2 MB",
+            sizeValue: 1.2,
+            date: "2024-01-14",
+            rating: 4.6,
+            price: 29.99,
+            image: "🖼️",
+            url: "https://example.com/ui-patterns"
+        ),
+        SearchResult(
+            id: "3",
+            title: "JavaScript Tutorial Series",
+            description: "Complete JavaScript tutorial for beginners",
+            type: "video",
+            category: "Videos",
+            size: "150 MB",
+            sizeValue: 150,
+            date: "2024-01-13",
+            rating: 4.9,
+            price: 49.99,
+            image: "🎥",
+            url: "https://example.com/js-tutorial"
+        )
+    ]
     
     // MARK: - Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupSearchBar()
-        setupFilterView()
-        setupResultsTableView()
-        setupPaginationView()
-        setupConstraints()
     }
     
     // MARK: - UI Setup
-    
     private func setupUI() {
         view.backgroundColor = .systemBackground
         title = "Search"
         
-        setupNavigationBar()
-    }
-    
-    private func setupSearchBar() {
-        searchBar = UISearchBar()
-        searchBar.delegate = self
-        searchBar.placeholder = "Search..."
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        // Add subviews
         view.addSubview(searchBar)
-    }
-    
-    private func setupFilterView() {
-        filterView = UIView()
-        filterView.backgroundColor = .systemGray6
-        filterView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(filterView)
-        
-        let filterLabel = UILabel()
-        filterLabel.text = "Filters"
-        filterLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        filterLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        let categoryButton = createFilterButton(title: "Category", action: #selector(showCategoryFilter))
-        let dateButton = createFilterButton(title: "Date", action: #selector(showDateFilter))
-        let ratingButton = createFilterButton(title: "Rating", action: #selector(showRatingFilter))
-        let priceButton = createFilterButton(title: "Price", action: #selector(showPriceFilter))
-        let locationButton = createFilterButton(title: "Location", action: #selector(showLocationFilter))
-        
-        let stackView = UIStackView(arrangedSubviews: [categoryButton, dateButton, ratingButton, priceButton, locationButton])
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        [filterLabel, stackView].forEach {
-            filterView.addSubview($0)
-        }
-        
-        NSLayoutConstraint.activate([
-            filterLabel.topAnchor.constraint(equalTo: filterView.topAnchor, constant: 16),
-            filterLabel.leadingAnchor.constraint(equalTo: filterView.leadingAnchor, constant: 16),
-            filterLabel.trailingAnchor.constraint(equalTo: filterView.trailingAnchor, constant: -16),
-            
-            stackView.topAnchor.constraint(equalTo: filterLabel.bottomAnchor, constant: 8),
-            stackView.leadingAnchor.constraint(equalTo: filterView.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: filterView.trailingAnchor, constant: -16),
-            stackView.bottomAnchor.constraint(equalTo: filterView.bottomAnchor, constant: -16)
-        ])
-    }
-    
-    private func setupResultsTableView() {
-        resultsTableView = UITableView()
-        resultsTableView.delegate = self
-        resultsTableView.dataSource = self
-        resultsTableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: "SearchResultCell")
-        resultsTableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(filtersScrollView)
+        view.addSubview(sortPicker)
+        view.addSubview(viewModeSegmentedControl)
         view.addSubview(resultsTableView)
+        view.addSubview(loadingIndicator)
+        view.addSubview(emptyStateView)
         
-        setupSortAndViewControls()
+        filtersScrollView.addSubview(filtersStackView)
+        
+        setupFilters()
+        setupConstraints()
     }
     
-    private func setupSortAndViewControls() {
-        let controlView = UIView()
-        controlView.backgroundColor = .systemGray6
-        controlView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(controlView)
-        
-        let sortLabel = UILabel()
-        sortLabel.text = "Sort by:"
-        sortLabel.font = UIFont.systemFont(ofSize: 14)
-        sortLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        sortSegmentedControl = UISegmentedControl(items: sortOptions)
-        sortSegmentedControl.selectedSegmentIndex = 0
-        sortSegmentedControl.addTarget(self, action: #selector(sortChanged), for: .valueChanged)
-        sortSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        
-        let viewLabel = UILabel()
-        viewLabel.text = "View:"
-        viewLabel.font = UIFont.systemFont(ofSize: 14)
-        viewLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        viewToggleSegmentedControl = UISegmentedControl(items: viewModes)
-        viewToggleSegmentedControl.selectedSegmentIndex = 0
-        viewToggleSegmentedControl.addTarget(self, action: #selector(viewModeChanged), for: .valueChanged)
-        viewToggleSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        
-        [sortLabel, sortSegmentedControl, viewLabel, viewToggleSegmentedControl].forEach {
-            controlView.addSubview($0)
+    private func setupFilters() {
+        // Add filter buttons
+        for filter in filters {
+            let button = UIButton(type: .system)
+            button.setTitle(filter.name, for: .normal)
+            button.backgroundColor = .systemGray5
+            button.layer.cornerRadius = 16
+            button.addTarget(self, action: #selector(filterTapped(_:)), for: .touchUpInside)
+            button.tag = filters.firstIndex(where: { $0.id == filter.id }) ?? 0
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.heightAnchor.constraint(equalToConstant: 32).isActive = true
+            
+            filtersStackView.addArrangedSubview(button)
         }
-        
-        NSLayoutConstraint.activate([
-            sortLabel.topAnchor.constraint(equalTo: controlView.topAnchor, constant: 8),
-            sortLabel.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 16),
-            
-            sortSegmentedControl.centerYAnchor.constraint(equalTo: sortLabel.centerYAnchor),
-            sortSegmentedControl.leadingAnchor.constraint(equalTo: sortLabel.trailingAnchor, constant: 8),
-            sortSegmentedControl.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -16),
-            
-            viewLabel.topAnchor.constraint(equalTo: sortLabel.bottomAnchor, constant: 8),
-            viewLabel.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 16),
-            
-            viewToggleSegmentedControl.centerYAnchor.constraint(equalTo: viewLabel.centerYAnchor),
-            viewToggleSegmentedControl.leadingAnchor.constraint(equalTo: viewLabel.trailingAnchor, constant: 8),
-            viewToggleSegmentedControl.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -16),
-            viewToggleSegmentedControl.bottomAnchor.constraint(equalTo: controlView.bottomAnchor, constant: -8)
-        ])
-    }
-    
-    private func setupPaginationView() {
-        paginationView = UIView()
-        paginationView.backgroundColor = .systemGray6
-        paginationView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(paginationView)
-        
-        let prevButton = UIButton(type: .system)
-        prevButton.setTitle("Previous", for: .normal)
-        prevButton.addTarget(self, action: #selector(previousPage), for: .touchUpInside)
-        prevButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        let pageLabel = UILabel()
-        pageLabel.text = "Page 1 of 1"
-        pageLabel.font = UIFont.systemFont(ofSize: 14)
-        pageLabel.textAlignment = .center
-        pageLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        let nextButton = UIButton(type: .system)
-        nextButton.setTitle("Next", for: .normal)
-        nextButton.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
-        nextButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        [prevButton, pageLabel, nextButton].forEach {
-            paginationView.addSubview($0)
-        }
-        
-        NSLayoutConstraint.activate([
-            prevButton.leadingAnchor.constraint(equalTo: paginationView.leadingAnchor, constant: 16),
-            prevButton.centerYAnchor.constraint(equalTo: paginationView.centerYAnchor),
-            
-            pageLabel.centerXAnchor.constraint(equalTo: paginationView.centerXAnchor),
-            pageLabel.centerYAnchor.constraint(equalTo: paginationView.centerYAnchor),
-            
-            nextButton.trailingAnchor.constraint(equalTo: paginationView.trailingAnchor, constant: -16),
-            nextButton.centerYAnchor.constraint(equalTo: paginationView.centerYAnchor),
-            
-            paginationView.heightAnchor.constraint(equalToConstant: 44)
-        ])
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            // Search Bar
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            filterView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
-            filterView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            filterView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            // Filters Scroll View
+            filtersScrollView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 8),
+            filtersScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            filtersScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            filtersScrollView.heightAnchor.constraint(equalToConstant: 40),
             
-            resultsTableView.topAnchor.constraint(equalTo: filterView.bottomAnchor),
+            // Filters Stack View
+            filtersStackView.topAnchor.constraint(equalTo: filtersScrollView.topAnchor, constant: 4),
+            filtersStackView.leadingAnchor.constraint(equalTo: filtersScrollView.leadingAnchor, constant: 16),
+            filtersStackView.trailingAnchor.constraint(equalTo: filtersScrollView.trailingAnchor, constant: -16),
+            filtersStackView.bottomAnchor.constraint(equalTo: filtersScrollView.bottomAnchor, constant: -4),
+            
+            // Sort Picker
+            sortPicker.topAnchor.constraint(equalTo: filtersScrollView.bottomAnchor, constant: 8),
+            sortPicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            sortPicker.widthAnchor.constraint(equalToConstant: 120),
+            sortPicker.heightAnchor.constraint(equalToConstant: 100),
+            
+            // View Mode Segmented Control
+            viewModeSegmentedControl.topAnchor.constraint(equalTo: filtersScrollView.bottomAnchor, constant: 8),
+            viewModeSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            viewModeSegmentedControl.heightAnchor.constraint(equalToConstant: 32),
+            
+            // Results Table View
+            resultsTableView.topAnchor.constraint(equalTo: sortPicker.bottomAnchor, constant: 16),
             resultsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             resultsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            resultsTableView.bottomAnchor.constraint(equalTo: paginationView.topAnchor),
+            resultsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            paginationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            paginationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            paginationView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            // Loading Indicator
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            // Empty State View
+            emptyStateView.topAnchor.constraint(equalTo: sortPicker.bottomAnchor, constant: 16),
+            emptyStateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            emptyStateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            emptyStateView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
-    private func setupNavigationBar() {
-        let clearButton = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(clearFilters))
-        navigationItem.rightBarButtonItem = clearButton
-    }
-    
-    // MARK: - Helper Methods
-    
-    private func createFilterButton(title: String, action: Selector) -> UIButton {
-        let button = UIButton(type: .system)
-        button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.addTarget(self, action: action, for: .touchUpInside)
-        button.backgroundColor = .systemBackground
-        button.layer.cornerRadius = 4
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        return button
-    }
-    
-    private func performSearch() {
-        isLoading = true
-        // Simulate search
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.isLoading = false
-            self.resultsTableView.reloadData()
-        }
-    }
-    
     // MARK: - Actions
-    
-    @objc private func showCategoryFilter() {
-        // Show category filter
-    }
-    
-    @objc private func showDateFilter() {
-        // Show date filter
-    }
-    
-    @objc private func showRatingFilter() {
-        // Show rating filter
-    }
-    
-    @objc private func showPriceFilter() {
-        // Show price filter
-    }
-    
-    @objc private func showLocationFilter() {
-        // Show location filter
-    }
-    
-    @objc private func sortChanged() {
-        sortOption = sortOptions[sortSegmentedControl.selectedSegmentIndex]
+    @objc private func filterTapped(_ sender: UIButton) {
+        let filter = filters[sender.tag]
+        
+        if selectedFilters.contains(filter.id) {
+            selectedFilters.remove(filter.id)
+            sender.backgroundColor = .systemGray5
+        } else {
+            selectedFilters.insert(filter.id)
+            sender.backgroundColor = .systemBlue
+            sender.setTitleColor(.white, for: .normal)
+        }
+        
         performSearch()
     }
     
     @objc private func viewModeChanged() {
-        viewMode = viewModes[viewToggleSegmentedControl.selectedSegmentIndex]
-        resultsTableView.reloadData()
+        viewMode = ViewMode.allCases[viewModeSegmentedControl.selectedSegmentIndex]
+        // In a real implementation, this would change the view mode
     }
     
-    @objc private func previousPage() {
-        guard currentPage > 1 else { return }
-        currentPage -= 1
-        performSearch()
-    }
-    
-    @objc private func nextPage() {
-        guard currentPage < totalPages else { return }
-        currentPage += 1
-        performSearch()
-    }
-    
-    @objc private func clearFilters() {
+    @objc private func clearFiltersTapped() {
         selectedFilters.removeAll()
-        performSearch()
+        searchQuery = ""
+        searchBar.text = ""
+        searchResults = []
+        resultsTableView.reloadData()
+        updateEmptyState()
+    }
+    
+    // MARK: - Helper Methods
+    private func performSearch() {
+        guard !searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            searchResults = []
+            resultsTableView.reloadData()
+            updateEmptyState()
+            return
+        }
+        
+        isLoading = true
+        loadingIndicator.startAnimating()
+        resultsTableView.isHidden = true
+        emptyStateView.isHidden = true
+        
+        // Simulate API call
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.searchResults = self.getFilteredResults()
+            self.isLoading = false
+            self.loadingIndicator.stopAnimating()
+            self.resultsTableView.isHidden = false
+            self.resultsTableView.reloadData()
+            self.updateEmptyState()
+        }
+    }
+    
+    private func getFilteredResults() -> [SearchResult] {
+        var filteredResults = sampleResults
+        
+        // Apply search query filter
+        if !searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            filteredResults = filteredResults.filter { result in
+                result.title.localizedCaseInsensitiveContains(self.searchQuery) ||
+                result.description.localizedCaseInsensitiveContains(self.searchQuery)
+            }
+        }
+        
+        // Apply selected filters
+        for filterId in selectedFilters {
+            let filter = filters.first { $0.id == filterId }
+            guard let filter = filter else { continue }
+            
+            switch filter.type {
+            case "type":
+                let type = filterId.replacingOccurrences(of: "s", with: "")
+                filteredResults = filteredResults.filter { $0.type == type }
+            case "price":
+                if filterId == "free" {
+                    filteredResults = filteredResults.filter { $0.price == 0 }
+                }
+            case "size":
+                if filterId == "large" {
+                    filteredResults = filteredResults.filter { $0.sizeValue > 1 }
+                }
+            case "date":
+                if filterId == "recent" {
+                    let recentDate = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+                    filteredResults = filteredResults.filter { result in
+                        let resultDate = ISO8601DateFormatter().date(from: result.date + "T00:00:00Z") ?? Date.distantPast
+                        return resultDate > recentDate
+                    }
+                }
+            default:
+                break
+            }
+        }
+        
+        return filteredResults
+    }
+    
+    private func updateEmptyState() {
+        emptyStateView.isHidden = !searchResults.isEmpty || searchQuery.isEmpty
     }
 }
 
 // MARK: - UISearchBarDelegate
-
 extension ComplexSearchInterfaceViewController: UISearchBarDelegate {
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchQuery = searchText
         performSearch()
@@ -306,51 +390,65 @@ extension ComplexSearchInterfaceViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - UITableViewDataSource & UITableViewDelegate
-
-extension ComplexSearchInterfaceViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: - UIPickerViewDataSource
+extension ComplexSearchInterfaceViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
     
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return sortOptions.count
+    }
+}
+
+// MARK: - UIPickerViewDelegate
+extension ComplexSearchInterfaceViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return sortOptions[row].capitalized
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        sortOption = sortOptions[row]
+        performSearch()
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension ComplexSearchInterfaceViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as! SearchResultTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultTableViewCell", for: indexPath) as! SearchResultTableViewCell
         let result = searchResults[indexPath.row]
         cell.configure(with: result)
         return cell
     }
-    
+}
+
+// MARK: - UITableViewDelegate
+extension ComplexSearchInterfaceViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        // Handle result selection
+        let result = searchResults[indexPath.row]
+        
+        let alert = UIAlertController(title: result.title, message: result.description, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Open", style: .default) { _ in
+            // Handle open action
+        })
+        present(alert, animated: true)
     }
 }
 
-// MARK: - Supporting Models
-
-struct SearchResult {
-    let id: String
-    let title: String
-    let description: String
-    let category: String
-    let date: Date
-    let rating: Double
-    let price: Double?
-    let location: String?
-    let imageURL: String?
-}
-
-// MARK: - Supporting Views
-
+// MARK: - Search Result Table View Cell
 class SearchResultTableViewCell: UITableViewCell {
-    
+    private let iconLabel = UILabel()
     private let titleLabel = UILabel()
     private let descriptionLabel = UILabel()
-    private let categoryLabel = UILabel()
-    private let ratingLabel = UILabel()
+    private let metadataLabel = UILabel()
     private let priceLabel = UILabel()
-    private let dateLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -362,58 +460,83 @@ class SearchResultTableViewCell: UITableViewCell {
     }
     
     private func setupUI() {
-        [titleLabel, descriptionLabel, categoryLabel, ratingLabel, priceLabel, dateLabel].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            contentView.addSubview($0)
-        }
+        iconLabel.font = UIFont.systemFont(ofSize: 32)
+        iconLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        titleLabel.numberOfLines = 2
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         descriptionLabel.font = UIFont.systemFont(ofSize: 14)
         descriptionLabel.textColor = .secondaryLabel
         descriptionLabel.numberOfLines = 2
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        categoryLabel.font = UIFont.systemFont(ofSize: 12)
-        categoryLabel.textColor = .systemBlue
+        metadataLabel.font = UIFont.systemFont(ofSize: 12)
+        metadataLabel.textColor = .tertiaryLabel
+        metadataLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        ratingLabel.font = UIFont.systemFont(ofSize: 12)
-        ratingLabel.textColor = .systemOrange
+        priceLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        priceLabel.textColor = .systemBlue
+        priceLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        priceLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        priceLabel.textColor = .systemGreen
-        
-        dateLabel.font = UIFont.systemFont(ofSize: 12)
-        dateLabel.textColor = .secondaryLabel
+        contentView.addSubview(iconLabel)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(descriptionLabel)
+        contentView.addSubview(metadataLabel)
+        contentView.addSubview(priceLabel)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            iconLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            iconLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            iconLabel.widthAnchor.constraint(equalToConstant: 48),
+            iconLabel.heightAnchor.constraint(equalToConstant: 48),
+            
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            titleLabel.leadingAnchor.constraint(equalTo: iconLabel.trailingAnchor, constant: 12),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            descriptionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             
-            categoryLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 4),
-            categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            metadataLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 8),
+            metadataLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            metadataLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             
-            ratingLabel.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor),
-            ratingLabel.leadingAnchor.constraint(equalTo: categoryLabel.trailingAnchor, constant: 16),
-            
-            priceLabel.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor),
-            priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            
-            dateLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 4),
-            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            priceLabel.topAnchor.constraint(equalTo: metadataLabel.bottomAnchor, constant: 4),
+            priceLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            priceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ])
     }
     
     func configure(with result: SearchResult) {
+        iconLabel.text = result.image
         titleLabel.text = result.title
         descriptionLabel.text = result.description
-        categoryLabel.text = result.category
-        ratingLabel.text = "★ \(result.rating)"
-        priceLabel.text = result.price != nil ? "$\(result.price!)" : nil
-        dateLabel.text = DateFormatter.localizedString(from: result.date, dateStyle: .short, timeStyle: .none)
+        metadataLabel.text = "\(result.category) • \(result.date) • ⭐ \(String(format: "%.1f", result.rating)) • \(result.size)"
+        priceLabel.text = result.price > 0 ? "$\(String(format: "%.2f", result.price))" : "Free"
     }
+}
+
+// MARK: - Data Models
+struct Filter {
+    let id: String
+    let name: String
+    let type: String
+}
+
+struct SearchResult {
+    let id: String
+    let title: String
+    let description: String
+    let type: String
+    let category: String
+    let size: String
+    let sizeValue: Double
+    let date: String
+    let rating: Double
+    let price: Double
+    let image: String
+    let url: String
 }

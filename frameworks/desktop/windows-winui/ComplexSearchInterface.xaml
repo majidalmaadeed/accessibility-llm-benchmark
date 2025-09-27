@@ -1,0 +1,280 @@
+<Page x:Class="AccessibilityBenchmark.ComplexSearchInterface"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{ThemeResource SystemAccentColor}" Padding="20">
+            <TextBlock Text="Advanced Search" FontSize="28" FontWeight="Bold" 
+                      Foreground="White" HorizontalAlignment="Center"/>
+        </Border>
+        
+        <!-- Search Bar -->
+        <Grid Grid.Row="1" Margin="24,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Name="SearchTextBox" Grid.Column="0" Height="40" FontSize="16" 
+                    TextChanged="SearchTextBox_TextChanged" 
+                    VerticalAlignment="Center" Padding="12,0">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="PlaceholderText" Value="Search for files, documents, images..."/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            
+            <Button Name="SearchButton" Grid.Column="1" Content="🔍" Width="40" Height="40" 
+                   Margin="12,0" Click="SearchButton_Click"/>
+            
+            <Button Name="AdvancedSearchButton" Grid.Column="2" Content="Advanced" Width="100" Height="40" 
+                   Margin="8,0" Click="AdvancedSearchButton_Click"/>
+        </Grid>
+        
+        <!-- Filters -->
+        <Border Grid.Row="2" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+               Padding="20" Margin="24,0">
+            <StackPanel>
+                <TextBlock Text="Filters" FontWeight="Bold" FontSize="18" Margin="0,0,0,12"/>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Category Filter -->
+                    <TextBlock Grid.Column="0" Text="Category:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <ComboBox Grid.Column="1" Name="CategoryComboBox" Width="140" Margin="0,0,24,0" 
+                             SelectionChanged="CategoryComboBox_SelectionChanged">
+                        <ComboBoxItem Content="All" IsSelected="True"/>
+                        <ComboBoxItem Content="Documents"/>
+                        <ComboBoxItem Content="Images"/>
+                        <ComboBoxItem Content="Videos"/>
+                        <ComboBoxItem Content="Audio"/>
+                        <ComboBoxItem Content="Archives"/>
+                    </ComboBox>
+                    
+                    <!-- Sort Filter -->
+                    <TextBlock Grid.Column="2" Text="Sort by:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <ComboBox Grid.Column="3" Name="SortComboBox" Width="140" Margin="0,0,24,0" 
+                             SelectionChanged="SortComboBox_SelectionChanged">
+                        <ComboBoxItem Content="Relevance" IsSelected="True"/>
+                        <ComboBoxItem Content="Date"/>
+                        <ComboBoxItem Content="Name"/>
+                        <ComboBoxItem Content="Size"/>
+                        <ComboBoxItem Content="Type"/>
+                        <ComboBoxItem Content="Rating"/>
+                    </ComboBox>
+                    
+                    <!-- View Mode -->
+                    <TextBlock Grid.Column="4" Text="View:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <ComboBox Grid.Column="5" Name="ViewModeComboBox" Width="120" 
+                             SelectionChanged="ViewModeComboBox_SelectionChanged">
+                        <ComboBoxItem Content="List" IsSelected="True"/>
+                        <ComboBoxItem Content="Grid"/>
+                        <ComboBoxItem Content="Compact"/>
+                    </ComboBox>
+                    
+                    <Button Grid.Column="6" Name="ClearFiltersButton" Content="Clear All" Width="100" 
+                           Margin="24,0,0,0" Click="ClearFiltersButton_Click"/>
+                </Grid>
+                
+                <!-- Quick Filters -->
+                <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                    <TextBlock Text="Quick Filters:" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <Button Name="RecentFilterButton" Content="Recent" Width="80" Height="32" 
+                           Margin="4" Click="RecentFilterButton_Click"/>
+                    <Button Name="LargeFilesFilterButton" Content="Large Files" Width="100" Height="32" 
+                           Margin="4" Click="LargeFilesFilterButton_Click"/>
+                    <Button Name="ImagesFilterButton" Content="Images Only" Width="110" Height="32" 
+                           Margin="4" Click="ImagesFilterButton_Click"/>
+                    <Button Name="VideosFilterButton" Content="Videos Only" Width="110" Height="32" 
+                           Margin="4" Click="VideosFilterButton_Click"/>
+                    <Button Name="FreeFilterButton" Content="Free" Width="70" Height="32" 
+                           Margin="4" Click="FreeFilterButton_Click"/>
+                    <Button Name="PremiumFilterButton" Content="Premium" Width="90" Height="32" 
+                           Margin="4" Click="PremiumFilterButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        
+        <!-- Results -->
+        <Grid Grid.Row="2" Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Results Header -->
+            <Grid Grid.Row="0" Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Name="ResultsCountText" Text="0 results found" 
+                          FontWeight="SemiBold" VerticalAlignment="Center"/>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Text="Results per page:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <ComboBox Name="ResultsPerPageComboBox" Width="80" 
+                             SelectionChanged="ResultsPerPageComboBox_SelectionChanged">
+                        <ComboBoxItem Content="10"/>
+                        <ComboBoxItem Content="25" IsSelected="True"/>
+                        <ComboBoxItem Content="50"/>
+                        <ComboBoxItem Content="100"/>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+            
+            <!-- Results List -->
+            <ListView Grid.Row="1" Name="ResultsListView" 
+                     SelectionChanged="ResultsListView_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                               Margin="0,4" Padding="16" CornerRadius="8" 
+                               BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+                               BorderThickness="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <!-- Icon -->
+                                <TextBlock Grid.Column="0" Text="{Binding Icon}" FontSize="32" 
+                                          VerticalAlignment="Center" Margin="0,0,16,0"/>
+                                
+                                <!-- Content -->
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="18" 
+                                              Margin="0,0,0,4"/>
+                                    <TextBlock Text="{Binding Description}" FontSize="14" 
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}" 
+                                              TextWrapping="Wrap" Margin="0,0,0,8"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Category}" FontSize="12" 
+                                                  Foreground="{ThemeResource SystemAccentColor}" 
+                                                  Margin="0,0,16,0"/>
+                                        <TextBlock Text="{Binding Date}" FontSize="12" 
+                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}" 
+                                                  Margin="0,0,16,0"/>
+                                        <TextBlock Text="⭐" FontSize="12" Margin="0,0,4,0"/>
+                                        <TextBlock Text="{Binding Rating}" FontSize="12" 
+                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}" 
+                                                  Margin="0,0,16,0"/>
+                                        <TextBlock Text="{Binding Size}" FontSize="12" 
+                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                
+                                <!-- Price/Actions -->
+                                <StackPanel Grid.Column="2" Orientation="Vertical" 
+                                           HorizontalAlignment="Right">
+                                    <TextBlock Text="{Binding Price}" FontWeight="Bold" 
+                                              FontSize="16" HorizontalAlignment="Right" 
+                                              Margin="0,0,0,8"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Name="PreviewButton" Content="👁" Width="32" Height="32" 
+                                               Margin="4" Click="PreviewButton_Click" Tag="{Binding}"/>
+                                        <Button Name="DownloadButton" Content="⬇" Width="32" Height="32" 
+                                               Margin="4" Click="DownloadButton_Click" Tag="{Binding}"/>
+                                        <Button Name="BookmarkButton" Content="🔖" Width="32" Height="32" 
+                                               Margin="4" Click="BookmarkButton_Click" Tag="{Binding}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <!-- Empty State -->
+            <Grid Grid.Row="1" Name="EmptyStateGrid" Visibility="Collapsed">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="🔍" FontSize="64" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+                    <TextBlock Text="No results found" FontSize="20" FontWeight="Bold" 
+                              HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                    <TextBlock Text="Try adjusting your search terms or filters" FontSize="16" 
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}" 
+                              HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        
+        <!-- Pagination -->
+        <Border Grid.Row="3" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+               Padding="20" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+               BorderThickness="0,1,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Name="FirstPageButton" Content="⏮" Width="36" Height="36" 
+                           Margin="4" Click="FirstPageButton_Click"/>
+                    <Button Name="PreviousPageButton" Content="◀" Width="36" Height="36" 
+                           Margin="4" Click="PreviousPageButton_Click"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Name="PageInfoText" Text="Page 1 of 1" VerticalAlignment="Center" 
+                              Margin="24,0"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" 
+                           HorizontalAlignment="Right">
+                    <Button Name="NextPageButton" Content="▶" Width="36" Height="36" 
+                           Margin="4" Click="NextPageButton_Click"/>
+                    <Button Name="LastPageButton" Content="⏭" Width="36" Height="36" 
+                           Margin="4" Click="LastPageButton_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        
+        <!-- Status Bar -->
+        <Border Grid.Row="4" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+               BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
+            <Grid Padding="16,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Name="StatusText" Text="Ready" VerticalAlignment="Center"/>
+                
+                <ProgressBar Grid.Column="1" Name="LoadingProgressBar" Width="120" Height="16" 
+                            Visibility="Collapsed" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
