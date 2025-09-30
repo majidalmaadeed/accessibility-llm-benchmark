@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.LowContrastWarningText"
+             Title="Session Management">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Secure Portal"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="🔒 Logout"
+                                BackgroundColor="#dc3545"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="⚙️ Settings"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="20">
+                    
+                    <!-- Dashboard Section -->
+                    <Border Grid.Row="0" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="15">
+                            <Label Grid.Row="0" 
+                                   Text="Dashboard Overview"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Grid.Row="1" 
+                                   Text="Welcome back! Here's what's happening with your account today."
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <Grid Grid.Row="2" ColumnDefinitions="*,*,*" ColumnSpacing="15">
+                                <Border Grid.Column="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="📊"
+                                               FontSize="32"
+                                               HorizontalOptions="Center"/>
+                                        <Label Text="Active Sessions"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"
+                                               HorizontalOptions="Center"/>
+                                        <Label Text="3"
+                                               FontSize="24"
+                                               FontAttributes="Bold"
+                                               TextColor="#007bff"
+                                               HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                                
+                                <Border Grid.Column="1" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="🔐"
+                                               FontSize="32"
+                                               HorizontalOptions="Center"/>
+                                        <Label Text="Security Score"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"
+                                               HorizontalOptions="Center"/>
+                                        <Label Text="85%"
+                                               FontSize="24"
+                                               FontAttributes="Bold"
+                                               TextColor="#28a745"
+                                               HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                                
+                                <Border Grid.Column="2" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="📈"
+                                               FontSize="32"
+                                               HorizontalOptions="Center"/>
+                                        <Label Text="Last Login"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"
+                                               HorizontalOptions="Center"/>
+                                        <Label Text="2 min ago"
+                                               FontSize="24"
+                                               FontAttributes="Bold"
+                                               TextColor="#6c757d"
+                                               HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- LOW CONTRAST WARNING TEXT - Session timeout warning with insufficient color contrast -->
+                    <Border Grid.Row="1" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="25">
+                        <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="15">
+                            <Label Grid.Row="0" 
+                                   Text="⚠️ Session Warning"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <!-- LOW CONTRAST WARNING TEXT - Session timeout warning with insufficient color contrast -->
+                            <Label Grid.Row="1" 
+                                   Text="Your session will expire in 5 minutes due to inactivity. Please save your work and refresh the page to continue."
+                                   FontSize="16"
+                                   TextColor="#999999"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <HorizontalStackLayout Grid.Row="2" Spacing="15">
+                                <Button Text="Refresh Session"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="Extend Session"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="Save & Logout"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Security Settings Section -->
+                    <Border Grid.Row="2" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="15">
+                            <Label Grid.Row="0" 
+                                   Text="Security Settings"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Grid.Row="1" 
+                                   Text="Manage your account security preferences and session settings."
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <VerticalStackLayout Grid.Row="2" Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Enable two-factor authentication"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Require password change every 90 days"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                    <Label Text="Allow remember me for 30 days"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Send security alerts via email"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Activity Log Section -->
+                    <Border Grid.Row="3" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="15">
+                            <Label Grid.Row="0" 
+                                   Text="Recent Activity"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Grid.Row="1" 
+                                   Text="Your recent account activity and security events."
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <VerticalStackLayout Grid.Row="2" Spacing="10">
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="🔐"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="Successful login from Chrome on Windows"
+                                           FontSize="14"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="2 minutes ago"
+                                           FontSize="12"
+                                           TextColor="#666666"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="🔒"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="Password changed successfully"
+                                           FontSize="14"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="1 hour ago"
+                                           FontSize="12"
+                                           TextColor="#666666"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="📧"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="Security alert email sent"
+                                           FontSize="14"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="3 hours ago"
+                                           FontSize="12"
+                                           TextColor="#666666"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="⚠️"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="Failed login attempt from unknown device"
+                                           FontSize="14"
+                                           TextColor="#dc3545"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="Yesterday"
+                                           FontSize="12"
+                                           TextColor="#666666"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Security"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Privacy Policy"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Terms of Service"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Security Center"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Support"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Help Center"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Contact Security"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Report Issue"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Account"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Profile Settings"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Security Settings"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Session Management"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>

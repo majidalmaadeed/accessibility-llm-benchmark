@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.KeyboardTrapInWidget"
+             Title="Event Scheduler">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Event Scheduler"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="❓ Help"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="⚙️ Settings"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="30">
+                    
+                    <!-- Form Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="25">
+                            <Label Text="Create New Event"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="Fill in the details below to schedule your event"
+                                   FontSize="16"
+                                   TextColor="#666666"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="30">
+                                
+                                <!-- Left Column -->
+                                <VerticalStackLayout Grid.Column="0" Spacing="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Event Title *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter event title"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Event Date *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Entry Placeholder="Click to select date"
+                                                   BackgroundColor="#F8F9FA"
+                                                   TextColor="#333333"
+                                                   Padding="15,12"
+                                                   CornerRadius="6"
+                                                   IsReadOnly="True"/>
+                                            
+                                            <!-- KEYBOARD TRAP IN WIDGET - Custom date picker that traps keyboard focus inside -->
+                                            <Button Text="📅"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="15,12"
+                                                    CornerRadius="6"
+                                                    FontSize="16"
+                                                    FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Event Time"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter time (e.g., 14:30)"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Location"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter event location"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                                
+                                <!-- Right Column -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Event Type"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>Select event type</x:String>
+                                                <x:String>Meeting</x:String>
+                                                <x:String>Conference</x:String>
+                                                <x:String>Workshop</x:String>
+                                                <x:String>Social</x:String>
+                                                <x:String>Other</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Priority"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>Select priority</x:String>
+                                                <x:String>Low</x:String>
+                                                <x:String>Medium</x:String>
+                                                <x:String>High</x:String>
+                                                <x:String>Urgent</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Duration (hours)"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter duration"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Attendees"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter number of attendees"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                            
+                            <!-- Description Section -->
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="Event Description"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"/>
+                                
+                                <Editor Placeholder="Enter event description..."
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        HeightRequest="100"
+                                        FontSize="16"/>
+                            </VerticalStackLayout>
+                            
+                            <!-- KEYBOARD TRAP IN WIDGET - Custom date picker that traps keyboard focus inside -->
+                            <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="20">
+                                <VerticalStackLayout Spacing="15">
+                                    <Label Text="📅 Date Picker Widget"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Select your preferred date from the calendar below"
+                                           FontSize="16"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                    
+                                    <!-- KEYBOARD TRAP IN WIDGET - Custom date picker that traps keyboard focus inside -->
+                                    <Border BackgroundColor="White" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="200">
+                                        <Label Text="🗓️ CALENDAR WIDGET - Keyboard focus is trapped inside this date picker widget, preventing users from navigating away using keyboard"
+                                               FontSize="14"
+                                               TextColor="#6C757D"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               LineBreakMode="WordWrap"
+                                               BackgroundColor="#F8F9FA"
+                                               Padding="20"/>
+                                    </Border>
+                                    
+                                    <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                                        <Button Text="Cancel"
+                                                BackgroundColor="#6c757d"
+                                                TextColor="White"
+                                                Padding="15,12"
+                                                CornerRadius="6"
+                                                FontSize="16"
+                                                FontAttributes="Bold"/>
+                                        
+                                        <Button Text="Confirm"
+                                                BackgroundColor="#007bff"
+                                                TextColor="White"
+                                                Padding="15,12"
+                                                CornerRadius="6"
+                                                FontSize="16"
+                                                FontAttributes="Bold"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                            
+                            <!-- Reminder Settings Section -->
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="Reminder Settings"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"/>
+                                
+                                <VerticalStackLayout Spacing="10">
+                                    <HorizontalStackLayout Spacing="15">
+                                        <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                        <Label Text="Email reminder"
+                                               FontSize="16"
+                                               TextColor="#333333"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    
+                                    <HorizontalStackLayout Spacing="15">
+                                        <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                        <Label Text="Push notification"
+                                               FontSize="16"
+                                               TextColor="#333333"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    
+                                    <HorizontalStackLayout Spacing="15">
+                                        <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                        <Label Text="SMS reminder"
+                                               FontSize="16"
+                                               TextColor="#333333"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    
+                                    <HorizontalStackLayout Spacing="15">
+                                        <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                        <Label Text="Desktop notification"
+                                               FontSize="16"
+                                               TextColor="#333333"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                                
+                                <VerticalStackLayout Spacing="10">
+                                    <Label Text="Reminder Time"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"/>
+                                    
+                                    <Picker BackgroundColor="#F8F9FA"
+                                            TextColor="#333333"
+                                            Padding="15,12"
+                                            CornerRadius="6">
+                                        <Picker.Items>
+                                            <x:String>Select reminder time</x:String>
+                                            <x:String>15 minutes before</x:String>
+                                            <x:String>30 minutes before</x:String>
+                                            <x:String>1 hour before</x:String>
+                                            <x:String>2 hours before</x:String>
+                                            <x:String>1 day before</x:String>
+                                            <x:String>1 week before</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                            
+                            <!-- Submit Buttons -->
+                            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                                <Button Text="Save Draft"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="20,15"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="Create Event"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="20,15"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="Preview"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="20,15"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Event List Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Upcoming Events"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="Your scheduled events for the next 30 days"
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <VerticalStackLayout Spacing="15">
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="15">
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="📅"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="Team Meeting"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Tomorrow at 2:00 PM • Conference Room A"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                                            <Button Text="Edit"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <Button Text="Delete"
+                                                    BackgroundColor="#dc3545"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="15">
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="🎯"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="Project Review"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Friday at 10:00 AM • Online Meeting"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                                            <Button Text="Edit"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <Button Text="Delete"
+                                                    BackgroundColor="#dc3545"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="15">
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="🎉"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="Company Party"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Next week at 6:00 PM • Main Hall"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                                            <Button Text="Edit"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <Button Text="Delete"
+                                                    BackgroundColor="#dc3545"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Events"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Create"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Edit"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Delete"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Calendar"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="View"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Export"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Import"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Settings"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Preferences"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Notifications"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Help"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

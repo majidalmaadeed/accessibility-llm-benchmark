@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityTest.SmallTouchTarget"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Social Feed">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="0">
+                <!-- Tab Navigation -->
+                <StackLayout Orientation="Horizontal" BackgroundColor="White">
+                    <Button Text="Following" 
+                            BackgroundColor="Transparent" 
+                            TextColor="Blue" 
+                            FontAttributes="Bold" 
+                            BorderWidth="0" 
+                            Padding="20,16" />
+                    <Button Text="Discover" 
+                            BackgroundColor="Transparent" 
+                            TextColor="Gray" 
+                            BorderWidth="0" 
+                            Padding="20,16" />
+                    <Button Text="Trending" 
+                            BackgroundColor="Transparent" 
+                            TextColor="Gray" 
+                            BorderWidth="0" 
+                            Padding="20,16" />
+                </StackLayout>
+                
+                <!-- Posts Feed -->
+                <StackLayout Padding="16" Spacing="16">
+                    <CollectionView ItemsSource="{Binding Posts}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame BackgroundColor="White" 
+                                       CornerRadius="12" 
+                                       Padding="0" 
+                                       HasShadow="True">
+                                    <StackLayout>
+                                        <!-- Post Header -->
+                                        <StackLayout Padding="16" Orientation="Horizontal">
+                                            <Image Source="{Binding UserAvatar}" 
+                                                   WidthRequest="40" 
+                                                   HeightRequest="40" 
+                                                   Aspect="AspectFill" />
+                                            <StackLayout Margin="12,0,0,0">
+                                                <Label Text="{Binding Username}" 
+                                                       FontSize="16" 
+                                                       FontAttributes="Bold" />
+                                                <Label Text="{Binding TimeAgo}" 
+                                                       FontSize="12" 
+                                                       TextColor="Gray" />
+                                            </StackLayout>
+                                            <Label Text="⋯" 
+                                                   FontSize="20" 
+                                                   TextColor="Gray" 
+                                                   HorizontalOptions="EndAndExpand" 
+                                                   VerticalOptions="Center"
+                                                   // SMALL TOUCH TARGET - Only 20x20px on mobile interface
+                                                   WidthRequest="20"
+                                                   HeightRequest="20"
+                                                   BackgroundColor="LightGray"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalTextAlignment="Center" />
+                                        </StackLayout>
+                                        
+                                        <!-- Post Image -->
+                                        <Image Source="{Binding PostImage}" 
+                                               Aspect="AspectFill" 
+                                               HeightRequest="200" />
+                                        
+                                        <!-- Post Actions -->
+                                        <StackLayout Padding="16" Spacing="8">
+                                            <!-- Action Buttons Row -->
+                                            <StackLayout Orientation="Horizontal" Spacing="16">
+                                                <!-- Like Button - SMALL TOUCH TARGET -->
+                                                <Button Text="♡" 
+                                                        FontSize="16" 
+                                                        BackgroundColor="Transparent" 
+                                                        TextColor="Gray" 
+                                                        BorderWidth="0"
+                                                        // SMALL TOUCH TARGET - Only 20x20px
+                                                        WidthRequest="20"
+                                                        HeightRequest="20"
+                                                        Clicked="OnLikeClicked" />
+                                                
+                                                <!-- Comment Button - SMALL TOUCH TARGET -->
+                                                <Button Text="💬" 
+                                                        FontSize="16" 
+                                                        BackgroundColor="Transparent" 
+                                                        TextColor="Gray" 
+                                                        BorderWidth="0"
+                                                        // SMALL TOUCH TARGET - Only 20x20px
+                                                        WidthRequest="20"
+                                                        HeightRequest="20"
+                                                        Clicked="OnCommentClicked" />
+                                                
+                                                <!-- Share Button - SMALL TOUCH TARGET -->
+                                                <Button Text="↗️" 
+                                                        FontSize="16" 
+                                                        BackgroundColor="Transparent" 
+                                                        TextColor="Gray" 
+                                                        BorderWidth="0"
+                                                        // SMALL TOUCH TARGET - Only 20x20px
+                                                        WidthRequest="20"
+                                                        HeightRequest="20"
+                                                        Clicked="OnShareClicked" />
+                                                
+                                                <Label Text="🔖" 
+                                                       FontSize="16" 
+                                                       TextColor="Gray" 
+                                                       HorizontalOptions="EndAndExpand" 
+                                                       VerticalOptions="Center"
+                                                       // SMALL TOUCH TARGET - Only 20x20px
+                                                       WidthRequest="20"
+                                                       HeightRequest="20"
+                                                       BackgroundColor="LightGray"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center" />
+                                            </StackLayout>
+                                            
+                                            <!-- Like Count -->
+                                            <Label Text="{Binding Likes}" 
+                                                   FontSize="14" 
+                                                   FontAttributes="Bold" />
+                                            
+                                            <!-- Caption -->
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding Username}" 
+                                                       FontSize="14" 
+                                                       FontAttributes="Bold" />
+                                                <Label Text="{Binding Caption}" 
+                                                       FontSize="14" />
+                                            </StackLayout>
+                                            
+                                            <!-- View Comments -->
+                                            <Label Text="{Binding Comments}" 
+                                                   FontSize="12" 
+                                                   TextColor="Gray" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

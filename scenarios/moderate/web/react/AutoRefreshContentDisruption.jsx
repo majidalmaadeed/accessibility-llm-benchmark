@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
-
 const AutoRefreshContentDisruption = () => {
   const [articles, setArticles] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [showNotification, setShowNotification] = useState(false);
-  const [userFocus, setUserFocus] = useState(null);
-
   const mockArticles = [
     {
       id: 1,
-      title: 'Breaking: New Technology Breakthrough Announced',
       summary: 'Scientists have made a significant discovery that could revolutionize the industry.',
       timestamp: new Date(Date.now() - 300000), // 5 minutes ago
       category: 'Technology',
@@ -41,22 +37,17 @@ const AutoRefreshContentDisruption = () => {
       read: false
     }
   ];
-
   useEffect(() => {
     // Initial load
     setArticles(mockArticles);
-    
     // Auto-refresh every 30 seconds
     const refreshInterval = setInterval(() => {
       refreshContent();
     }, 30000);
-
     return () => clearInterval(refreshInterval);
   }, []);
-
   const refreshContent = async () => {
     setIsRefreshing(true);
-    
     // Simulate API call
     setTimeout(() => {
       // Simulate new articles being added
@@ -68,24 +59,17 @@ const AutoRefreshContentDisruption = () => {
         timestamp: new Date()
       };
       newArticles[randomIndex] = updatedArticle;
-      
       setArticles(newArticles);
       setLastUpdate(new Date());
       setIsRefreshing(false);
-      
       // Show notification
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 5000);
-      
-      // MISSING: Screen reader announcement of content changes
-      // Should announce "Content updated" or "New articles available"
     }, 1000);
   };
-
   const handleManualRefresh = () => {
     refreshContent();
   };
-
   const markAsRead = (articleId) => {
     setArticles(prevArticles =>
       prevArticles.map(article =>
@@ -93,24 +77,19 @@ const AutoRefreshContentDisruption = () => {
       )
     );
   };
-
   const formatTimestamp = (timestamp) => {
     const now = new Date();
     const diff = now - timestamp;
     const minutes = Math.floor(diff / 60000);
-    
     if (minutes < 1) return 'Just now';
     if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
     const hours = Math.floor(minutes / 60);
     return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
   };
-
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '800px', margin: '50px auto', padding: '20px', backgroundColor: '#f5f5f5' }}>
       <div style={{ background: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
         <h1>News Feed</h1>
         <p>Stay updated with the latest news and articles.</p>
-        
         {/* Header with Refresh Controls */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', paddingBottom: '15px', borderBottom: '1px solid #eee' }}>
           <div>
@@ -119,7 +98,6 @@ const AutoRefreshContentDisruption = () => {
               Last updated: {formatTimestamp(lastUpdate)}
             </p>
           </div>
-          
           <button
             onClick={handleManualRefresh}
             disabled={isRefreshing}
@@ -149,8 +127,7 @@ const AutoRefreshContentDisruption = () => {
             )}
           </button>
         </div>
-
-        {/* Update Notification - MISSING PROPER ARIA ATTRIBUTES */}
+        {}
         {showNotification && (
           <div
             style={{
@@ -164,8 +141,6 @@ const AutoRefreshContentDisruption = () => {
               justifyContent: 'space-between',
               alignItems: 'center'
             }}
-            role="alert"
-            aria-live="polite"
           >
             <span>✓ Content has been updated with new articles</span>
             <button
@@ -179,13 +154,11 @@ const AutoRefreshContentDisruption = () => {
                 padding: '0',
                 marginLeft: '10px'
               }}
-              aria-label="Dismiss notification"
             >
               ×
             </button>
           </div>
         )}
-
         {/* Articles List */}
         <div style={{ marginBottom: '20px' }}>
           {articles.map((article, index) => (
@@ -224,7 +197,6 @@ const AutoRefreshContentDisruption = () => {
                     <span>{formatTimestamp(article.timestamp)}</span>
                   </div>
                 </div>
-                
                 {!article.read && (
                   <button
                     onClick={() => markAsRead(article.id)}
@@ -246,7 +218,6 @@ const AutoRefreshContentDisruption = () => {
             </article>
           ))}
         </div>
-
         {/* Auto-refresh Indicator */}
         <div style={{ 
           textAlign: 'center', 
@@ -264,30 +235,9 @@ const AutoRefreshContentDisruption = () => {
           )}
         </div>
       </div>
-
       <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#e9ecef', borderRadius: '4px' }}>
-        <h3>Accessibility Issues:</h3>
-        <ul>
-          <li><strong>Content disruption:</strong> Auto-refresh interrupts user reading without warning</li>
-          <li><strong>Missing announcements:</strong> Screen readers don't announce content updates</li>
-          <li><strong>No user control:</strong> Users can't disable auto-refresh or control timing</li>
-          <li><strong>Focus disruption:</strong> Page refreshes can move focus unexpectedly</li>
-          <li><strong>Missing live regions:</strong> Dynamic content changes not properly announced</li>
-          <li><strong>No pause mechanism:</strong> No way to pause auto-refresh during reading</li>
-        </ul>
-        
-        <h3>How to Fix:</h3>
-        <ul>
-          <li>Add <code>aria-live="polite"</code> regions for content announcements</li>
-          <li>Provide user control to disable/pause auto-refresh</li>
-          <li>Announce updates without disrupting current reading</li>
-          <li>Add <code>aria-atomic="false"</code> for granular updates</li>
-          <li>Implement focus management during content updates</li>
-          <li>Provide clear indicators of auto-refresh status</li>
-        </ul>
       </div>
     </div>
   );
 };
-
 export default AutoRefreshContentDisruption;

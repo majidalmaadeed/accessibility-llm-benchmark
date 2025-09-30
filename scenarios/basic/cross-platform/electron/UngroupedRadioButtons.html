@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Preferences</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .header-subtitle {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .radio-input {
+            width: 18px;
+            height: 18px;
+            accent-color: #007bff;
+        }
+        
+        .radio-label {
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+        }
+        
+        .radio-label:hover {
+            color: #007bff;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon">📧</div>
+            <h1 class="header-title">Contact Preferences</h1>
+            <p class="header-subtitle">How would you like us to contact you?</p>
+        </div>
+        
+        <div class="form-section">
+            <div class="form-group">
+                <div class="form-group-title">Preferred Contact Method</div>
+                <!-- UNGROUPED RADIO BUTTONS - Contact preference radio buttons without fieldset grouping -->
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="email" name="contactMethod" value="email" class="radio-input" checked>
+                        <label for="email" class="radio-label">Email</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="phone" name="contactMethod" value="phone" class="radio-input">
+                        <label for="phone" class="radio-label">Phone</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="sms" name="contactMethod" value="sms" class="radio-input">
+                        <label for="sms" class="radio-label">SMS</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="mail" name="contactMethod" value="mail" class="radio-input">
+                        <label for="mail" class="radio-label">Mail</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-group-title">Newsletter Subscription</div>
+                <!-- UNGROUPED RADIO BUTTONS - Newsletter preference radio buttons without fieldset grouping -->
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="newsletter_yes" name="newsletter" value="yes" class="radio-input" checked>
+                        <label for="newsletter_yes" class="radio-label">Yes, send me newsletters</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="newsletter_no" name="newsletter" value="no" class="radio-input">
+                        <label for="newsletter_no" class="radio-label">No, don't send newsletters</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-group-title">Notification Preferences</div>
+                <!-- UNGROUPED RADIO BUTTONS - Notification preference radio buttons without fieldset grouping -->
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="notifications_all" name="notifications" value="all" class="radio-input" checked>
+                        <label for="notifications_all" class="radio-label">All notifications</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="notifications_important" name="notifications" value="important" class="radio-input">
+                        <label for="notifications_important" class="radio-label">Important only</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="notifications_none" name="notifications" value="none" class="radio-input">
+                        <label for="notifications_none" class="radio-label">No notifications</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <button class="btn btn-primary" onclick="savePreferences()">Save Preferences</button>
+            <button class="btn btn-secondary" onclick="resetToDefaults()">Reset to Defaults</button>
+        </div>
+    </div>
+
+    <script>
+        function savePreferences() {
+            const contactMethod = document.querySelector('input[name="contactMethod"]:checked').value;
+            const newsletter = document.querySelector('input[name="newsletter"]:checked').value;
+            const notifications = document.querySelector('input[name="notifications"]:checked').value;
+            
+            alert(`Preferences saved!\n\nContact Method: ${contactMethod}\nNewsletter: ${newsletter}\nNotifications: ${notifications}`);
+        }
+        
+        function resetToDefaults() {
+            // Reset to defaults
+            document.getElementById('email').checked = true;
+            document.getElementById('newsletter_yes').checked = true;
+            document.getElementById('notifications_all').checked = true;
+            
+            alert('Preferences reset to defaults!');
+        }
+        
+        // Add change listeners for better UX
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                console.log(`${this.name}: ${this.value}`);
+            });
+        });
+    </script>
+</body>
+</html>

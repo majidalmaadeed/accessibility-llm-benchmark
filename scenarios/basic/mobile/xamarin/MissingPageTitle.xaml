@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityTest.MissingPageTitle"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Settings">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="0">
+                <!-- Settings Header -->
+                <Frame BackgroundColor="Blue" 
+                       CornerRadius="0" 
+                       Padding="24" 
+                       HasShadow="False">
+                    <StackLayout Spacing="8">
+                        <Label Text="Settings" 
+                               FontSize="28" 
+                               FontAttributes="Bold" 
+                               TextColor="White" />
+                        <Label Text="Customize your app experience" 
+                               FontSize="16" 
+                               TextColor="White" 
+                               Opacity="0.7" />
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Settings Sections -->
+                <StackLayout Padding="16" Spacing="16">
+                    <!-- Account Section -->
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="12" 
+                           Padding="0" 
+                           HasShadow="True">
+                        <StackLayout>
+                            <StackLayout Padding="16" 
+                                         BackgroundColor="LightGray" 
+                                         CornerRadius="12,12,0,0">
+                                <Label Text="Account" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" />
+                            </StackLayout>
+                            
+                            <StackLayout Padding="16" Spacing="16">
+                                <StackLayout Orientation="Horizontal" 
+                                             Spacing="12">
+                                    <Frame BackgroundColor="LightBlue" 
+                                           CornerRadius="20" 
+                                           Padding="8" 
+                                           WidthRequest="40" 
+                                           HeightRequest="40"
+                                           HasShadow="False">
+                                        <Label Text="👤" 
+                                               FontSize="20" 
+                                               HorizontalTextAlignment="Center" 
+                                               VerticalTextAlignment="Center" />
+                                    </Frame>
+                                    <StackLayout>
+                                        <Label Text="Profile Information" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" />
+                                        <Label Text="Manage your personal details" 
+                                               FontSize="14" 
+                                               TextColor="Gray" />
+                                    </StackLayout>
+                                    <Label Text=">" 
+                                           FontSize="20" 
+                                           TextColor="Gray" 
+                                           HorizontalOptions="EndAndExpand" 
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                                
+                                <StackLayout Orientation="Horizontal" 
+                                             Spacing="12">
+                                    <Frame BackgroundColor="LightGreen" 
+                                           CornerRadius="20" 
+                                           Padding="8" 
+                                           WidthRequest="40" 
+                                           HeightRequest="40"
+                                           HasShadow="False">
+                                        <Label Text="🔐" 
+                                               FontSize="20" 
+                                               HorizontalTextAlignment="Center" 
+                                               VerticalTextAlignment="Center" />
+                                    </Frame>
+                                    <StackLayout>
+                                        <Label Text="Security & Privacy" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" />
+                                        <Label Text="Password, 2FA, and privacy settings" 
+                                               FontSize="14" 
+                                               TextColor="Gray" />
+                                    </StackLayout>
+                                    <Label Text=">" 
+                                           FontSize="20" 
+                                           TextColor="Gray" 
+                                           HorizontalOptions="EndAndExpand" 
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                                
+                                <StackLayout Orientation="Horizontal" 
+                                             Spacing="12">
+                                    <Frame BackgroundColor="LightYellow" 
+                                           CornerRadius="20" 
+                                           Padding="8" 
+                                           WidthRequest="40" 
+                                           HeightRequest="40"
+                                           HasShadow="False">
+                                        <Label Text="💳" 
+                                               FontSize="20" 
+                                               HorizontalTextAlignment="Center" 
+                                               VerticalTextAlignment="Center" />
+                                    </Frame>
+                                    <StackLayout>
+                                        <Label Text="Billing & Subscription" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" />
+                                        <Label Text="Manage your subscription and payment" 
+                                               FontSize="14" 
+                                               TextColor="Gray" />
+                                    </StackLayout>
+                                    <Label Text=">" 
+                                           FontSize="20" 
+                                           TextColor="Gray" 
+                                           HorizontalOptions="EndAndExpand" 
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                    
+                    <!-- Preferences Section -->
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="12" 
+                           Padding="0" 
+                           HasShadow="True">
+                        <StackLayout>
+                            <StackLayout Padding="16" 
+                                         BackgroundColor="LightGray" 
+                                         CornerRadius="12,12,0,0">
+                                <Label Text="Preferences" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" />
+                            </StackLayout>
+                            
+                            <StackLayout Padding="16" Spacing="16">
+                                <StackLayout Orientation="Horizontal" 
+                                             Spacing="12">
+                                    <Frame BackgroundColor="LightPurple" 
+                                           CornerRadius="20" 
+                                           Padding="8" 
+                                           WidthRequest="40" 
+                                           HeightRequest="40"
+                                           HasShadow="False">
+                                        <Label Text="🌙" 
+                                               FontSize="20" 
+                                               HorizontalTextAlignment="Center" 
+                                               VerticalTextAlignment="Center" />
+                                    </Frame>
+                                    <StackLayout>
+                                        <Label Text="Theme & Appearance" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" />
+                                        <Label Text="Dark mode, colors, and display settings" 
+                                               FontSize="14" 
+                                               TextColor="Gray" />
+                                    </StackLayout>
+                                    <Label Text=">" 
+                                           FontSize="20" 
+                                           TextColor="Gray" 
+                                           HorizontalOptions="EndAndExpand" 
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                                
+                                <StackLayout Orientation="Horizontal" 
+                                             Spacing="12">
+                                    <Frame BackgroundColor="LightOrange" 
+                                           CornerRadius="20" 
+                                           Padding="8" 
+                                           WidthRequest="40" 
+                                           HeightRequest="40"
+                                           HasShadow="False">
+                                        <Label Text="🔔" 
+                                               FontSize="20" 
+                                               HorizontalTextAlignment="Center" 
+                                               VerticalTextAlignment="Center" />
+                                    </Frame>
+                                    <StackLayout>
+                                        <Label Text="Notifications" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" />
+                                        <Label Text="Push notifications and alerts" 
+                                               FontSize="14" 
+                                               TextColor="Gray" />
+                                    </StackLayout>
+                                    <Label Text=">" 
+                                           FontSize="20" 
+                                           TextColor="Gray" 
+                                           HorizontalOptions="EndAndExpand" 
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                                
+                                <StackLayout Orientation="Horizontal" 
+                                             Spacing="12">
+                                    <Frame BackgroundColor="LightPink" 
+                                           CornerRadius="20" 
+                                           Padding="8" 
+                                           WidthRequest="40" 
+                                           HeightRequest="40"
+                                           HasShadow="False">
+                                        <Label Text="🌍" 
+                                               FontSize="20" 
+                                               HorizontalTextAlignment="Center" 
+                                               VerticalTextAlignment="Center" />
+                                    </Frame>
+                                    <StackLayout>
+                                        <Label Text="Language & Region" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" />
+                                        <Label Text="Language, timezone, and regional settings" 
+                                               FontSize="14" 
+                                               TextColor="Gray" />
+                                    </StackLayout>
+                                    <Label Text=">" 
+                                           FontSize="20" 
+                                           TextColor="Gray" 
+                                           HorizontalOptions="EndAndExpand" 
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                    
+                    <!-- Support Section -->
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="12" 
+                           Padding="0" 
+                           HasShadow="True">
+                        <StackLayout>
+                            <StackLayout Padding="16" 
+                                         BackgroundColor="LightGray" 
+                                         CornerRadius="12,12,0,0">
+                                <Label Text="Support" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" />
+                            </StackLayout>
+                            
+                            <StackLayout Padding="16" Spacing="16">
+                                <StackLayout Orientation="Horizontal" 
+                                             Spacing="12">
+                                    <Frame BackgroundColor="LightCyan" 
+                                           CornerRadius="20" 
+                                           Padding="8" 
+                                           WidthRequest="40" 
+                                           HeightRequest="40"
+                                           HasShadow="False">
+                                        <Label Text="❓" 
+                                               FontSize="20" 
+                                               HorizontalTextAlignment="Center" 
+                                               VerticalTextAlignment="Center" />
+                                    </Frame>
+                                    <StackLayout>
+                                        <Label Text="Help Center" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" />
+                                        <Label Text="FAQs, guides, and tutorials" 
+                                               FontSize="14" 
+                                               TextColor="Gray" />
+                                    </StackLayout>
+                                    <Label Text=">" 
+                                           FontSize="20" 
+                                           TextColor="Gray" 
+                                           HorizontalOptions="EndAndExpand" 
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                                
+                                <StackLayout Orientation="Horizontal" 
+                                             Spacing="12">
+                                    <Frame BackgroundColor="LightSalmon" 
+                                           CornerRadius="20" 
+                                           Padding="8" 
+                                           WidthRequest="40" 
+                                           HeightRequest="40"
+                                           HasShadow="False">
+                                        <Label Text="📞" 
+                                               FontSize="20" 
+                                               HorizontalTextAlignment="Center" 
+                                               VerticalTextAlignment="Center" />
+                                    </Frame>
+                                    <StackLayout>
+                                        <Label Text="Contact Support" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" />
+                                        <Label Text="Get help from our support team" 
+                                               FontSize="14" 
+                                               TextColor="Gray" />
+                                    </StackLayout>
+                                    <Label Text=">" 
+                                           FontSize="20" 
+                                           TextColor="Gray" 
+                                           HorizontalOptions="EndAndExpand" 
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                                
+                                <StackLayout Orientation="Horizontal" 
+                                             Spacing="12">
+                                    <Frame BackgroundColor="LightSteelBlue" 
+                                           CornerRadius="20" 
+                                           Padding="8" 
+                                           WidthRequest="40" 
+                                           HeightRequest="40"
+                                           HasShadow="False">
+                                        <Label Text="ℹ️" 
+                                               FontSize="20" 
+                                               HorizontalTextAlignment="Center" 
+                                               VerticalTextAlignment="Center" />
+                                    </Frame>
+                                    <StackLayout>
+                                        <Label Text="About" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" />
+                                        <Label Text="App version, terms, and privacy policy" 
+                                               FontSize="14" 
+                                               TextColor="Gray" />
+                                    </StackLayout>
+                                    <Label Text=">" 
+                                           FontSize="20" 
+                                           TextColor="Gray" 
+                                           HorizontalOptions="EndAndExpand" 
+                                           VerticalOptions="Center" />
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            <!-- Main Content Card -->
+            <Frame BackgroundColor="#f8f9fa" 
+                   BorderColor="#dee2e6" 
+                   CornerRadius="8" 
+                   Padding="30">
+                <StackLayout Spacing="20">
+                    <!-- Title -->
+                           FontSize="24" 
+                           FontAttributes="Bold" 
+                           TextColor="#333333" />
+                    <!-- Description -->
+                           FontSize="16" 
+                           TextColor="#666666" />
+                    <!-- FAQ Accordion -->
+                    <StackLayout x:Name="AccordionContainer" Spacing="10">
+                        <!-- FAQ Item 1 -->
+                        <Frame BackgroundColor="#f8f9fa" 
+                               BorderColor="#dee2e6" 
+                               CornerRadius="8" 
+                               Padding="0">
+                            <StackLayout Spacing="0">
+                                <Button x:Name="QuestionButton1" 
+                                        BackgroundColor="#f8f9fa" 
+                                        TextColor="#333333" 
+                                        FontSize="16" 
+                                        FontAttributes="Bold" 
+                                        HorizontalOptions="FillAndExpand" 
+                                        Padding="20" 
+                                        Clicked="OnQuestionClicked" />
+                                       TextColor="#666666" 
+                                       FontSize="14" 
+                                       Padding="20" 
+                                       BackgroundColor="White" 
+                                       IsVisible="False" />
+                            </StackLayout>
+                        </Frame>
+                        <!-- FAQ Item 2 -->
+                        <Frame BackgroundColor="#f8f9fa" 
+                               BorderColor="#dee2e6" 
+                               CornerRadius="8" 
+                               Padding="0">
+                            <StackLayout Spacing="0">
+                                <Button x:Name="QuestionButton2" 
+                                        BackgroundColor="#f8f9fa" 
+                                        TextColor="#333333" 
+                                        FontSize="16" 
+                                        FontAttributes="Bold" 
+                                        HorizontalOptions="FillAndExpand" 
+                                        Padding="20" 
+                                        Clicked="OnQuestionClicked" />
+                                       TextColor="#666666" 
+                                       FontSize="14" 
+                                       Padding="20" 
+                                       BackgroundColor="White" 
+                                       IsVisible="False" />
+                            </StackLayout>
+                        </Frame>
+                        <!-- FAQ Item 3 -->
+                        <Frame BackgroundColor="#f8f9fa" 
+                               BorderColor="#dee2e6" 
+                               CornerRadius="8" 
+                               Padding="0">
+                            <StackLayout Spacing="0">
+                                <Button x:Name="QuestionButton3" 
+                                        Text="What are the WCAG guidelines? ▼" 
+                                        BackgroundColor="#f8f9fa" 
+                                        TextColor="#333333" 
+                                        FontSize="16" 
+                                        FontAttributes="Bold" 
+                                        HorizontalOptions="FillAndExpand" 
+                                        Padding="20" 
+                                        Clicked="OnQuestionClicked" />
+                                       TextColor="#666666" 
+                                       FontSize="14" 
+                                       Padding="20" 
+                                       BackgroundColor="White" 
+                                       IsVisible="False" />
+                            </StackLayout>
+                        </Frame>
+                        <!-- FAQ Item 4 -->
+                        <Frame BackgroundColor="#f8f9fa" 
+                               BorderColor="#dee2e6" 
+                               CornerRadius="8" 
+                               Padding="0">
+                            <StackLayout Spacing="0">
+                                <Button x:Name="QuestionButton4" 
+                                        BackgroundColor="#f8f9fa" 
+                                        TextColor="#333333" 
+                                        FontSize="16" 
+                                        FontAttributes="Bold" 
+                                        HorizontalOptions="FillAndExpand" 
+                                        Padding="20" 
+                                        Clicked="OnQuestionClicked" />
+                                       TextColor="#666666" 
+                                       FontSize="14" 
+                                       Padding="20" 
+                                       BackgroundColor="White" 
+                                       IsVisible="False" />
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="#e9ecef" 
+                   BorderColor="#dee2e6" 
+                   CornerRadius="4" 
+                   Padding="20">
+                <StackLayout Spacing="15">
+                           FontSize="12" 
+                           TextColor="#666666" />
+                    <!-- How to Fix -->
+                           FontSize="16" 
+                           FontAttributes="Bold" 
+                           TextColor="#333333" />
+                           FontSize="12" 
+                           TextColor="#666666" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

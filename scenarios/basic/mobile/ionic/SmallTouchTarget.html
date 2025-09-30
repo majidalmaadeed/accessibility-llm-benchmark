@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Feed</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .tab-navigation {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tab-button {
+            background: transparent;
+            border: none;
+            padding: 16px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab-button.active {
+            color: blue;
+            font-weight: bold;
+            border-bottom-color: blue;
+        }
+        
+        .tab-button:not(.active) {
+            color: gray;
+        }
+        
+        .posts-container {
+            padding: 16px;
+        }
+        
+        .post-card {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            gap: 12px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: lightblue;
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .username {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .time-ago {
+            font-size: 12px;
+            color: gray;
+        }
+        
+        .more-button {
+            font-size: 20px;
+            color: gray;
+            background: lightgray;
+            border: none;
+            border-radius: 10px;
+            /* SMALL TOUCH TARGET - Only 20x20px on mobile interface */
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .post-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .post-actions {
+            padding: 16px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .action-button {
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            color: gray;
+            cursor: pointer;
+            /* SMALL TOUCH TARGET - Only 20x20px */
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .likes-count {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .post-caption {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .caption-username {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .caption-text {
+            font-size: 14px;
+        }
+        
+        .comments-link {
+            font-size: 12px;
+            color: gray;
+        }
+        
+        .bookmark-button {
+            font-size: 16px;
+            color: gray;
+            background: lightgray;
+            border: none;
+            border-radius: 10px;
+            /* SMALL TOUCH TARGET - Only 20x20px */
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Social Feed</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-button active">Following</button>
+                <button class="tab-button">Discover</button>
+                <button class="tab-button">Trending</button>
+            </div>
+            
+            <!-- Posts Feed -->
+            <div class="posts-container">
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="user-avatar"></div>
+                        <div class="user-info">
+                            <div class="username">john_doe</div>
+                            <div class="time-ago">2h</div>
+                        </div>
+                        <!-- SMALL TOUCH TARGET - Only 20x20px on mobile interface -->
+                        <button class="more-button" onclick="showMoreOptions()">⋯</button>
+                    </div>
+                    
+                    <img src="https://via.placeholder.com/400x300" alt="" class="post-image">
+                    
+                    <div class="post-actions">
+                        <div class="action-buttons">
+                            <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                            <button class="action-button" onclick="toggleLike(this)">♡</button>
+                            <button class="action-button" onclick="openComments()">💬</button>
+                            <button class="action-button" onclick="sharePost()">↗️</button>
+                            <button class="bookmark-button" onclick="toggleBookmark(this)">🔖</button>
+                        </div>
+                        
+                        <div class="likes-count">42 likes</div>
+                        
+                        <div class="post-caption">
+                            <span class="caption-username">john_doe</span>
+                            <span class="caption-text">Beautiful sunset from my hike today! 🏔️ #nature #photography</span>
+                        </div>
+                        
+                        <div class="comments-link">View all 8 comments</div>
+                    </div>
+                </div>
+                
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="user-avatar"></div>
+                        <div class="user-info">
+                            <div class="username">sarah_j</div>
+                            <div class="time-ago">4h</div>
+                        </div>
+                        <!-- SMALL TOUCH TARGET - Only 20x20px on mobile interface -->
+                        <button class="more-button" onclick="showMoreOptions()">⋯</button>
+                    </div>
+                    
+                    <img src="https://via.placeholder.com/400x300" alt="" class="post-image">
+                    
+                    <div class="post-actions">
+                        <div class="action-buttons">
+                            <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                            <button class="action-button" onclick="toggleLike(this)">♡</button>
+                            <button class="action-button" onclick="openComments()">💬</button>
+                            <button class="action-button" onclick="sharePost()">↗️</button>
+                            <button class="bookmark-button" onclick="toggleBookmark(this)">🔖</button>
+                        </div>
+                        
+                        <div class="likes-count">28 likes</div>
+                        
+                        <div class="post-caption">
+                            <span class="caption-username">sarah_j</span>
+                            <span class="caption-text">Just finished reading an amazing book! Highly recommend it to everyone.</span>
+                        </div>
+                        
+                        <div class="comments-link">View all 12 comments</div>
+                    </div>
+                </div>
+                
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="user-avatar"></div>
+                        <div class="user-info">
+                            <div class="username">mike_chen</div>
+                            <div class="time-ago">6h</div>
+                        </div>
+                        <!-- SMALL TOUCH TARGET - Only 20x20px on mobile interface -->
+                        <button class="more-button" onclick="showMoreOptions()">⋯</button>
+                    </div>
+                    
+                    <img src="https://via.placeholder.com/400x300" alt="" class="post-image">
+                    
+                    <div class="post-actions">
+                        <div class="action-buttons">
+                            <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                            <button class="action-button" onclick="toggleLike(this)">♡</button>
+                            <button class="action-button" onclick="openComments()">💬</button>
+                            <button class="action-button" onclick="sharePost()">↗️</button>
+                            <button class="bookmark-button" onclick="toggleBookmark(this)">🔖</button>
+                        </div>
+                        
+                        <div class="likes-count">15 likes</div>
+                        
+                        <div class="post-caption">
+                            <span class="caption-username">mike_chen</span>
+                            <span class="caption-text">Working on a new project. Can't wait to share the results!</span>
+                        </div>
+                        
+                        <div class="comments-link">View all 3 comments</div>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        function showMoreOptions() {
+            alert('More options');
+        }
+        
+        function toggleLike(button) {
+            if (button.textContent === '♡') {
+                button.textContent = '♥';
+                button.style.color = 'red';
+            } else {
+                button.textContent = '♡';
+                button.style.color = 'gray';
+            }
+        }
+        
+        function openComments() {
+            alert('Opening comments...');
+        }
+        
+        function sharePost() {
+            alert('Sharing post...');
+        }
+        
+        function toggleBookmark(button) {
+            if (button.textContent === '🔖') {
+                button.textContent = '🔖';
+                button.style.color = 'blue';
+            } else {
+                button.textContent = '🔖';
+                button.style.color = 'gray';
+            }
+        }
+    </script>
+</body>
+</html>

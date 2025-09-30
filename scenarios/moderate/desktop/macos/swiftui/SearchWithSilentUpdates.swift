@@ -1,5 +1,4 @@
 import SwiftUI
-
 struct SearchWithSilentUpdates: View {
     @State private var query = ""
     @State private var suggestions: [SearchResult] = []
@@ -7,8 +6,6 @@ struct SearchWithSilentUpdates: View {
     @State private var isLoading = false
     @State private var showSuggestions = false
     @State private var activeSuggestionIndex = -1
-    @FocusState private var isSearchFocused: Bool
-    
     let mockData = [
         SearchResult(id: 1, title: "React Development Guide", category: "Books", author: "John Doe"),
         SearchResult(id: 2, title: "Vue.js Tutorial", category: "Books", author: "Jane Smith"),
@@ -19,35 +16,29 @@ struct SearchWithSilentUpdates: View {
         SearchResult(id: 7, title: "Angular Services", category: "Tutorials", author: "Eve Davis"),
         SearchResult(id: 8, title: "JavaScript ES6", category: "Tutorials", author: "Frank Miller")
     ]
-    
     var body: some View {
         VStack(spacing: 20) {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Search Interface")
                     .font(.title)
                     .fontWeight(.bold)
-                
                 Text("Search for content using the input field below. Suggestions will appear as you type.")
                     .font(.body)
                     .foregroundColor(.secondary)
-                
                 // Search Input Section
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Search for content:")
                         .font(.headline)
                         .fontWeight(.bold)
-                    
                     VStack(alignment: .leading, spacing: 0) {
                         TextField("Type to search...", text: $query)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .focused($isSearchFocused)
                             .onChange(of: query) { _ in
                                 handleInput()
                             }
                             .onSubmit {
                                 handleSearch()
                             }
-                        
                         // Suggestions Dropdown
                         if showSuggestions && !suggestions.isEmpty {
                             VStack(spacing: 0) {
@@ -68,7 +59,6 @@ struct SearchWithSilentUpdates: View {
                                         .background(index == activeSuggestionIndex ? Color(.systemGray5) : Color.clear)
                                     }
                                     .buttonStyle(PlainButtonStyle())
-                                    
                                     if index < suggestions.count - 1 {
                                         Divider()
                                     }
@@ -83,7 +73,6 @@ struct SearchWithSilentUpdates: View {
                             .shadow(radius: 4)
                         }
                     }
-                    
                     Button(action: handleSearch) {
                         HStack {
                             if isLoading {
@@ -100,13 +89,11 @@ struct SearchWithSilentUpdates: View {
                     }
                     .disabled(isLoading || query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
-                
                 // Results Section
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Search Results")
                         .font(.title2)
                         .fontWeight(.bold)
-                    
                     if isLoading {
                         VStack {
                             ProgressView()
@@ -120,7 +107,6 @@ struct SearchWithSilentUpdates: View {
                             Text("Found \(results.count) result\(results.count == 1 ? "" : "s")")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
-                            
                             ScrollView {
                                 LazyVStack(spacing: 12) {
                                     ForEach(results) { result in
@@ -165,7 +151,6 @@ struct SearchWithSilentUpdates: View {
             .background(Color(.systemBackground))
             .cornerRadius(12)
             .shadow(radius: 4)
-            
         }
         .padding()
         .background(Color(.systemGroupedBackground))
@@ -176,7 +161,6 @@ struct SearchWithSilentUpdates: View {
             }
         }
     }
-    
     private func handleInput() {
         if query.count > 1 {
             let filtered = mockData.filter { item in
@@ -193,10 +177,8 @@ struct SearchWithSilentUpdates: View {
             activeSuggestionIndex = -1
         }
     }
-    
     private func handleSearch() {
         isLoading = true
-        
         // Simulate API call
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             let filtered = mockData.filter { item in
@@ -208,26 +190,21 @@ struct SearchWithSilentUpdates: View {
             isLoading = false
             showSuggestions = false
             activeSuggestionIndex = -1
-            
         }
     }
-    
     private func handleSuggestionClick(_ suggestion: SearchResult) {
         query = suggestion.title
         showSuggestions = false
         activeSuggestionIndex = -1
         handleSearch()
     }
-    
 }
-
 struct SearchResult: Identifiable {
     let id: Int
     let title: String
     let category: String
     let author: String
 }
-
 // MARK: - Preview
 struct SearchWithSilentUpdates_Previews: PreviewProvider {
     static var previews: some View {

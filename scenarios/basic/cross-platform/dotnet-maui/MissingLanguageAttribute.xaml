@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.MissingLanguageAttribute"
+             Title="Multilingual Content">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="International News"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="🌐 Language"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="⚙️ Settings"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="20">
+                    
+                    <!-- MISSING LANGUAGE ATTRIBUTE - HTML page with mixed English/French content without lang attributes -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Breaking News / Actualités"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Technology Advances in Artificial Intelligence / Les avancées technologiques en intelligence artificielle"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#007bff"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Scientists have made significant breakthroughs in machine learning algorithms. / Les scientifiques ont réalisé des percées significatives dans les algorithmes d'apprentissage automatique."
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="The new system can process data 10x faster than previous models. / Le nouveau système peut traiter les données 10 fois plus rapidement que les modèles précédents."
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <HorizontalStackLayout Spacing="15">
+                                <Button Text="Read More / Lire la suite"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="Share / Partager"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Business Update / Mise à jour des affaires"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Global Markets Show Strong Growth / Les marchés mondiaux montrent une forte croissance"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#28a745"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Stock markets around the world are experiencing unprecedented growth. / Les marchés boursiers du monde entier connaissent une croissance sans précédent."
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Investors are optimistic about the future prospects. / Les investisseurs sont optimistes quant aux perspectives d'avenir."
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <HorizontalStackLayout Spacing="15">
+                                <Button Text="View Details / Voir les détails"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="Download Report / Télécharger le rapport"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Health & Wellness / Santé et bien-être"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="New Study Reveals Benefits of Exercise / Une nouvelle étude révèle les bienfaits de l'exercice"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#dc3545"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Regular physical activity has been proven to improve mental health. / Il a été prouvé que l'activité physique régulière améliore la santé mentale."
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Doctors recommend at least 30 minutes of exercise daily. / Les médecins recommandent au moins 30 minutes d'exercice par jour."
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <HorizontalStackLayout Spacing="15">
+                                <Button Text="Learn More / En savoir plus"
+                                        BackgroundColor="#dc3545"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="Book Appointment / Prendre rendez-vous"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Cultural Events / Événements culturels"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Art Exhibition Opens This Weekend / L'exposition d'art ouvre ce week-end"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#6f42c1"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Local artists showcase their latest works at the downtown gallery. / Les artistes locaux présentent leurs dernières œuvres à la galerie du centre-ville."
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Admission is free for all visitors. / L'entrée est gratuite pour tous les visiteurs."
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <HorizontalStackLayout Spacing="15">
+                                <Button Text="Get Tickets / Obtenir des billets"
+                                        BackgroundColor="#6f42c1"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="View Gallery / Voir la galerie"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Weather Forecast / Prévisions météorologiques"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Sunny Skies Expected This Week / Ciel ensoleillé attendu cette semaine"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#ffc107"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Temperatures will reach 25°C with clear skies. / Les températures atteindront 25°C avec un ciel dégagé."
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <!-- MISSING LANGUAGE ATTRIBUTE - Mixed English/French content without lang attributes -->
+                            <Label Text="Perfect weather for outdoor activities. / Temps parfait pour les activités de plein air."
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <HorizontalStackLayout Spacing="15">
+                                <Button Text="Full Forecast / Prévisions complètes"
+                                        BackgroundColor="#ffc107"
+                                        TextColor="Black"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="Set Alerts / Définir des alertes"
+                                        BackgroundColor="#17a2b8"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="News / Actualités"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="World / Monde"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Politics / Politique"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Technology / Technologie"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Services / Services"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Subscribe / S'abonner"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Newsletter / Bulletin"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Mobile App / Application mobile"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="About / À propos"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Contact / Contact"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Privacy / Confidentialité"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Terms / Conditions"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>

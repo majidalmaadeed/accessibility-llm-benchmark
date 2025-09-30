@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityTest.KeyboardTrapInWidget"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Event Scheduler">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="20" Spacing="24">
+                <!-- Header -->
+                <StackLayout HorizontalOptions="Center" Spacing="8">
+                    <Label Text="Schedule Event" 
+                           FontSize="28" 
+                           FontAttributes="Bold" />
+                    <Label Text="Create and manage your events" 
+                           FontSize="16" 
+                           TextColor="Gray" />
+                </StackLayout>
+                
+                <!-- Event Form -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="24" 
+                       HasShadow="True">
+                    <StackLayout Spacing="20">
+                        <!-- Event Title -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Event Title *" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Entry Placeholder="Enter event title" 
+                                   FontSize="16" />
+                        </StackLayout>
+                        
+                        <!-- Event Description -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Description" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Editor Placeholder="Enter event description" 
+                                    FontSize="16" 
+                                    HeightRequest="100" />
+                        </StackLayout>
+                        
+                        <!-- Event Date and Time -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Event Date & Time *" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            
+                            <!-- KEYBOARD TRAP IN WIDGET - Custom date picker that traps keyboard focus inside -->
+                            <Frame BackgroundColor="LightGray" 
+                                   CornerRadius="8" 
+                                   Padding="16" 
+                                   HasShadow="False">
+                                <StackLayout Spacing="12">
+                                    <Label Text="Select Date and Time" 
+                                           FontSize="14" 
+                                           FontAttributes="Bold" 
+                                           HorizontalTextAlignment="Center" />
+                                    
+                                    <!-- Date Selection -->
+                                    <StackLayout Orientation="Horizontal" 
+                                                 Spacing="8" 
+                                                 HorizontalOptions="Center">
+                                        <Button Text="<" 
+                                                FontSize="18" 
+                                                BackgroundColor="Blue" 
+                                                TextColor="White" 
+                                                WidthRequest="40" 
+                                                HeightRequest="40" 
+                                                CornerRadius="20" 
+                                                Clicked="OnPreviousMonthClicked" />
+                                        
+                                        <Label x:Name="MonthYearLabel" 
+                                               Text="January 2024" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" 
+                                               VerticalOptions="Center" 
+                                               WidthRequest="120" 
+                                               HorizontalTextAlignment="Center" />
+                                        
+                                        <Button Text=">" 
+                                                FontSize="18" 
+                                                BackgroundColor="Blue" 
+                                                TextColor="White" 
+                                                WidthRequest="40" 
+                                                HeightRequest="40" 
+                                                CornerRadius="20" 
+                                                Clicked="OnNextMonthClicked" />
+                                    </StackLayout>
+                                    
+                                    <!-- Calendar Grid -->
+                                    <Grid x:Name="CalendarGrid" 
+                                          RowSpacing="4" 
+                                          ColumnSpacing="4">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="30" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <!-- Day Headers -->
+                                        <Label Grid.Row="0" Grid.Column="0" Text="S" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                        <Label Grid.Row="0" Grid.Column="1" Text="M" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                        <Label Grid.Row="0" Grid.Column="2" Text="T" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                        <Label Grid.Row="0" Grid.Column="3" Text="W" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                        <Label Grid.Row="0" Grid.Column="4" Text="T" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                        <Label Grid.Row="0" Grid.Column="5" Text="F" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                        <Label Grid.Row="0" Grid.Column="6" Text="S" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                        
+                                        <!-- Calendar Days - KEYBOARD TRAP IN WIDGET -->
+                                        <Button Grid.Row="1" Grid.Column="0" Text="1" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="1" Grid.Column="1" Text="2" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="1" Grid.Column="2" Text="3" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="1" Grid.Column="3" Text="4" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="1" Grid.Column="4" Text="5" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="1" Grid.Column="5" Text="6" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="1" Grid.Column="6" Text="7" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        
+                                        <Button Grid.Row="2" Grid.Column="0" Text="8" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="2" Grid.Column="1" Text="9" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="2" Grid.Column="2" Text="10" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="2" Grid.Column="3" Text="11" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="2" Grid.Column="4" Text="12" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="2" Grid.Column="5" Text="13" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="2" Grid.Column="6" Text="14" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        
+                                        <Button Grid.Row="3" Grid.Column="0" Text="15" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="3" Grid.Column="1" Text="16" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="3" Grid.Column="2" Text="17" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="3" Grid.Column="3" Text="18" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="3" Grid.Column="4" Text="19" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="3" Grid.Column="5" Text="20" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="3" Grid.Column="6" Text="21" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        
+                                        <Button Grid.Row="4" Grid.Column="0" Text="22" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="4" Grid.Column="1" Text="23" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="4" Grid.Column="2" Text="24" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="4" Grid.Column="3" Text="25" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="4" Grid.Column="4" Text="26" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="4" Grid.Column="5" Text="27" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="4" Grid.Column="6" Text="28" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        
+                                        <Button Grid.Row="5" Grid.Column="0" Text="29" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="5" Grid.Column="1" Text="30" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                        <Button Grid.Row="5" Grid.Column="2" Text="31" FontSize="12" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnDateClicked" />
+                                    </Grid>
+                                    
+                                    <!-- Time Selection -->
+                                    <StackLayout Orientation="Horizontal" 
+                                                 Spacing="8" 
+                                                 HorizontalOptions="Center">
+                                        <Label Text="Time:" 
+                                               FontSize="14" 
+                                               FontAttributes="Bold" 
+                                               VerticalOptions="Center" />
+                                        <Picker x:Name="HourPicker" 
+                                                Title="Hour" 
+                                                WidthRequest="80">
+                                            <Picker.Items>
+                                                <x:String>00</x:String>
+                                                <x:String>01</x:String>
+                                                <x:String>02</x:String>
+                                                <x:String>03</x:String>
+                                                <x:String>04</x:String>
+                                                <x:String>05</x:String>
+                                                <x:String>06</x:String>
+                                                <x:String>07</x:String>
+                                                <x:String>08</x:String>
+                                                <x:String>09</x:String>
+                                                <x:String>10</x:String>
+                                                <x:String>11</x:String>
+                                                <x:String>12</x:String>
+                                                <x:String>13</x:String>
+                                                <x:String>14</x:String>
+                                                <x:String>15</x:String>
+                                                <x:String>16</x:String>
+                                                <x:String>17</x:String>
+                                                <x:String>18</x:String>
+                                                <x:String>19</x:String>
+                                                <x:String>20</x:String>
+                                                <x:String>21</x:String>
+                                                <x:String>22</x:String>
+                                                <x:String>23</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                        <Label Text=":" 
+                                               FontSize="14" 
+                                               FontAttributes="Bold" 
+                                               VerticalOptions="Center" />
+                                        <Picker x:Name="MinutePicker" 
+                                                Title="Min" 
+                                                WidthRequest="80">
+                                            <Picker.Items>
+                                                <x:String>00</x:String>
+                                                <x:String>15</x:String>
+                                                <x:String>30</x:String>
+                                                <x:String>45</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </StackLayout>
+                                    
+                                    <!-- Action Buttons - KEYBOARD TRAP IN WIDGET -->
+                                    <StackLayout Orientation="Horizontal" 
+                                                 Spacing="8" 
+                                                 HorizontalOptions="Center">
+                                        <Button Text="Cancel" 
+                                                BackgroundColor="Gray" 
+                                                TextColor="White" 
+                                                FontSize="12" 
+                                                Padding="16,8" 
+                                                CornerRadius="6" 
+                                                Clicked="OnCancelDateClicked" />
+                                        <Button Text="OK" 
+                                                BackgroundColor="Blue" 
+                                                TextColor="White" 
+                                                FontSize="12" 
+                                                Padding="16,8" 
+                                                CornerRadius="6" 
+                                                Clicked="OnConfirmDateClicked" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                        
+                        <!-- Event Location -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Location" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Entry Placeholder="Enter event location" 
+                                   FontSize="16" />
+                        </StackLayout>
+                        
+                        <!-- Event Type -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Event Type" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Picker Title="Select event type">
+                                <Picker.Items>
+                                    <x:String>Meeting</x:String>
+                                    <x:String>Conference</x:String>
+                                    <x:String>Workshop</x:String>
+                                    <x:String>Social</x:String>
+                                    <x:String>Other</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Action Buttons -->
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="16" 
+                             HorizontalOptions="Center">
+                    <Button Text="Cancel" 
+                            BackgroundColor="Transparent" 
+                            TextColor="Gray" 
+                            FontSize="16" 
+                            Padding="24,12" 
+                            BorderColor="Gray" 
+                            BorderWidth="1" 
+                            CornerRadius="8" 
+                            Clicked="OnCancelClicked" />
+                    <Button Text="Create Event" 
+                            BackgroundColor="Blue" 
+                            TextColor="White" 
+                            FontSize="16" 
+                            Padding="24,12" 
+                            CornerRadius="8" 
+                            Clicked="OnCreateEventClicked" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

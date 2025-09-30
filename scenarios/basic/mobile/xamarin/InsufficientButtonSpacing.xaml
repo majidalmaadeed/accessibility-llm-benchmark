@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityTest.InsufficientButtonSpacing"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Action Center">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="20" Spacing="24">
+                <!-- Header -->
+                <StackLayout HorizontalOptions="Center" Spacing="8">
+                    <Label Text="Action Center" 
+                           FontSize="28" 
+                           FontAttributes="Bold" />
+                    <Label Text="Manage your tasks and actions" 
+                           FontSize="16" 
+                           TextColor="Gray" />
+                </StackLayout>
+                
+                <!-- Quick Actions - INSUFFICIENT BUTTON SPACING -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="16" 
+                       HasShadow="True">
+                    <StackLayout Spacing="16">
+                        <Label Text="Quick Actions" 
+                               FontSize="18" 
+                               FontAttributes="Bold" />
+                        
+                        <!-- INSUFFICIENT BUTTON SPACING - Only 2px apart instead of minimum 44px -->
+                        <StackLayout Orientation="Horizontal" 
+                                     Spacing="2" 
+                                     HorizontalOptions="Center">
+                            <Button Text="Save" 
+                                    BackgroundColor="Green" 
+                                    TextColor="White" 
+                                    FontSize="14" 
+                                    Padding="16,12" 
+                                    CornerRadius="8" 
+                                    Clicked="OnSaveClicked" />
+                            <Button Text="Edit" 
+                                    BackgroundColor="Blue" 
+                                    TextColor="White" 
+                                    FontSize="14" 
+                                    Padding="16,12" 
+                                    CornerRadius="8" 
+                                    Clicked="OnEditClicked" />
+                            <Button Text="Delete" 
+                                    BackgroundColor="Red" 
+                                    TextColor="White" 
+                                    FontSize="14" 
+                                    Padding="16,12" 
+                                    CornerRadius="8" 
+                                    Clicked="OnDeleteClicked" />
+                            <Button Text="Share" 
+                                    BackgroundColor="Orange" 
+                                    TextColor="White" 
+                                    FontSize="14" 
+                                    Padding="16,12" 
+                                    CornerRadius="8" 
+                                    Clicked="OnShareClicked" />
+                        </StackLayout>
+                        
+                        <!-- Another row with insufficient spacing -->
+                        <StackLayout Orientation="Horizontal" 
+                                     Spacing="2" 
+                                     HorizontalOptions="Center">
+                            <Button Text="Copy" 
+                                    BackgroundColor="Gray" 
+                                    TextColor="White" 
+                                    FontSize="14" 
+                                    Padding="16,12" 
+                                    CornerRadius="8" 
+                                    Clicked="OnCopyClicked" />
+                            <Button Text="Move" 
+                                    BackgroundColor="Purple" 
+                                    TextColor="White" 
+                                    FontSize="14" 
+                                    Padding="16,12" 
+                                    CornerRadius="8" 
+                                    Clicked="OnMoveClicked" />
+                            <Button Text="Archive" 
+                                    BackgroundColor="Teal" 
+                                    TextColor="White" 
+                                    FontSize="14" 
+                                    Padding="16,12" 
+                                    CornerRadius="8" 
+                                    Clicked="OnArchiveClicked" />
+                            <Button Text="Export" 
+                                    BackgroundColor="Brown" 
+                                    TextColor="White" 
+                                    FontSize="14" 
+                                    Padding="16,12" 
+                                    CornerRadius="8" 
+                                    Clicked="OnExportClicked" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Document Actions -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="16" 
+                       HasShadow="True">
+                    <StackLayout Spacing="16">
+                        <Label Text="Document Actions" 
+                               FontSize="18" 
+                               FontAttributes="Bold" />
+                        
+                        <!-- INSUFFICIENT BUTTON SPACING - Only 2px apart -->
+                        <StackLayout Orientation="Horizontal" 
+                                     Spacing="2" 
+                                     HorizontalOptions="Center">
+                            <Button Text="📄" 
+                                    FontSize="16" 
+                                    BackgroundColor="LightBlue" 
+                                    TextColor="Blue" 
+                                    WidthRequest="40" 
+                                    HeightRequest="40" 
+                                    CornerRadius="20" 
+                                    Clicked="OnNewDocumentClicked" />
+                            <Button Text="📁" 
+                                    FontSize="16" 
+                                    BackgroundColor="LightGreen" 
+                                    TextColor="Green" 
+                                    WidthRequest="40" 
+                                    HeightRequest="40" 
+                                    CornerRadius="20" 
+                                    Clicked="OnOpenFolderClicked" />
+                            <Button Text="🔍" 
+                                    FontSize="16" 
+                                    BackgroundColor="LightYellow" 
+                                    TextColor="Orange" 
+                                    WidthRequest="40" 
+                                    HeightRequest="40" 
+                                    CornerRadius="20" 
+                                    Clicked="OnSearchClicked" />
+                            <Button Text="⚙️" 
+                                    FontSize="16" 
+                                    BackgroundColor="LightGray" 
+                                    TextColor="Gray" 
+                                    WidthRequest="40" 
+                                    HeightRequest="40" 
+                                    CornerRadius="20" 
+                                    Clicked="OnSettingsClicked" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Media Controls -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="16" 
+                       HasShadow="True">
+                    <StackLayout Spacing="16">
+                        <Label Text="Media Controls" 
+                               FontSize="18" 
+                               FontAttributes="Bold" />
+                        
+                        <!-- INSUFFICIENT BUTTON SPACING - Only 2px apart -->
+                        <StackLayout Orientation="Horizontal" 
+                                     Spacing="2" 
+                                     HorizontalOptions="Center">
+                            <Button Text="⏮️" 
+                                    FontSize="20" 
+                                    BackgroundColor="LightGray" 
+                                    TextColor="Gray" 
+                                    WidthRequest="50" 
+                                    HeightRequest="50" 
+                                    CornerRadius="25" 
+                                    Clicked="OnPreviousClicked" />
+                            <Button Text="⏸️" 
+                                    FontSize="24" 
+                                    BackgroundColor="Blue" 
+                                    TextColor="White" 
+                                    WidthRequest="60" 
+                                    HeightRequest="60" 
+                                    CornerRadius="30" 
+                                    Clicked="OnPlayPauseClicked" />
+                            <Button Text="⏭️" 
+                                    FontSize="20" 
+                                    BackgroundColor="LightGray" 
+                                    TextColor="Gray" 
+                                    WidthRequest="50" 
+                                    HeightRequest="50" 
+                                    CornerRadius="25" 
+                                    Clicked="OnNextClicked" />
+                            <Button Text="🔀" 
+                                    FontSize="20" 
+                                    BackgroundColor="LightGray" 
+                                    TextColor="Gray" 
+                                    WidthRequest="50" 
+                                    HeightRequest="50" 
+                                    CornerRadius="25" 
+                                    Clicked="OnShuffleClicked" />
+                            <Button Text="🔁" 
+                                    FontSize="20" 
+                                    BackgroundColor="LightGray" 
+                                    TextColor="Gray" 
+                                    WidthRequest="50" 
+                                    HeightRequest="50" 
+                                    CornerRadius="25" 
+                                    Clicked="OnRepeatClicked" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Navigation Actions -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="16" 
+                       HasShadow="True">
+                    <StackLayout Spacing="16">
+                        <Label Text="Navigation" 
+                               FontSize="18" 
+                               FontAttributes="Bold" />
+                        
+                        <!-- INSUFFICIENT BUTTON SPACING - Only 2px apart -->
+                        <StackLayout Orientation="Horizontal" 
+                                     Spacing="2" 
+                                     HorizontalOptions="Center">
+                            <Button Text="←" 
+                                    FontSize="18" 
+                                    BackgroundColor="LightBlue" 
+                                    TextColor="Blue" 
+                                    WidthRequest="44" 
+                                    HeightRequest="44" 
+                                    CornerRadius="22" 
+                                    Clicked="OnBackClicked" />
+                            <Button Text="↑" 
+                                    FontSize="18" 
+                                    BackgroundColor="LightBlue" 
+                                    TextColor="Blue" 
+                                    WidthRequest="44" 
+                                    HeightRequest="44" 
+                                    CornerRadius="22" 
+                                    Clicked="OnUpClicked" />
+                            <Button Text="→" 
+                                    FontSize="18" 
+                                    BackgroundColor="LightBlue" 
+                                    TextColor="Blue" 
+                                    WidthRequest="44" 
+                                    HeightRequest="44" 
+                                    CornerRadius="22" 
+                                    Clicked="OnForwardClicked" />
+                            <Button Text="↓" 
+                                    FontSize="18" 
+                                    BackgroundColor="LightBlue" 
+                                    TextColor="Blue" 
+                                    WidthRequest="44" 
+                                    HeightRequest="44" 
+                                    CornerRadius="22" 
+                                    Clicked="OnDownClicked" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

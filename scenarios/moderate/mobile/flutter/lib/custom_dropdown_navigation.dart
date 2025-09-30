@@ -1,33 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
-
 class Product {
   final String name;
   final String category;
-
   Product({required this.name, required this.category});
 }
-
 class Option {
   final String value;
   final String text;
-
   Option({required this.value, required this.text});
 }
-
-class CustomDropdownNavigation extends StatefulWidget {
-  const CustomDropdownNavigation({Key? key}) : super(key: key);
-
   @override
-  State<CustomDropdownNavigation> createState() => _CustomDropdownNavigationState();
 }
-
-class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
   bool isOpen = false;
   String selectedValue = 'all';
   String selectedText = 'All Categories';
   int currentIndex = 0;
-
   final List<Option> options = [
     Option(value: 'all', text: 'All Categories'),
     Option(value: 'electronics', text: 'Electronics'),
@@ -35,7 +22,6 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
     Option(value: 'books', text: 'Books'),
     Option(value: 'home', text: 'Home & Garden'),
   ];
-
   final Map<String, List<Product>> products = {
     'all': [
       Product(name: 'iPhone 15', category: 'Electronics'),
@@ -58,15 +44,12 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
       Product(name: 'Garden Tools', category: 'Home & Garden'),
     ],
   };
-
   List<Product> get filteredProducts => products[selectedValue] ?? [];
-
   void toggleDropdown() {
     setState(() {
       isOpen = !isOpen;
     });
   }
-
   void selectOption(String value, String text, int index) {
     setState(() {
       selectedValue = value;
@@ -74,10 +57,7 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
       currentIndex = index;
       isOpen = false;
     });
-
-    SemanticsService.announce('Selected $text', TextDirection.ltr);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,7 +87,6 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    
                     // Description
                     const Text(
                       'Filter products by category using the dropdown below.',
@@ -117,7 +96,6 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    
                     // Filter Section
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,15 +109,12 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        
                         // Custom Dropdown
                         SizedBox(
                           width: 200,
                           child: Stack(
                             children: [
                               // Dropdown Button
-                              Semantics(
-                                label: 'Category filter, $selectedText, double tap to open dropdown',
                                 hint: 'Opens category selection dropdown',
                                 button: true,
                                 child: Material(
@@ -175,7 +150,6 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
                                               turns: isOpen ? 0.5 : 0,
                                               duration: const Duration(milliseconds: 200),
                                               child: const Icon(
-                                                Icons.keyboard_arrow_down,
                                                 color: Color(0xFF666666),
                                               ),
                                             ),
@@ -186,7 +160,6 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
                                   ),
                                 ),
                               ),
-                              
                               // Dropdown Menu
                               if (isOpen)
                                 Positioned(
@@ -216,9 +189,6 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
                                           int index = entry.key;
                                           Option option = entry.value;
                                           bool isSelected = selectedValue == option.value;
-                                          
-                                          return Semantics(
-                                            label: option.text,
                                             selected: isSelected,
                                             button: true,
                                             child: Material(
@@ -275,7 +245,6 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
                       ],
                     ),
                     const SizedBox(height: 30),
-                    
                     // Results Section
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -289,7 +258,6 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        
                         SizedBox(
                           height: 200,
                           child: GridView.builder(
@@ -302,8 +270,6 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
                             itemCount: filteredProducts.length,
                             itemBuilder: (context, index) {
                               final product = filteredProducts[index];
-                              return Semantics(
-                                label: '${product.name}, ${product.category}',
                                 child: Card(
                                   elevation: 2,
                                   shape: RoundedRectangleBorder(
@@ -347,7 +313,6 @@ class _CustomDropdownNavigationState extends State<CustomDropdownNavigation> {
               ),
             ),
             const SizedBox(height: 20),
-            
           ],
         ),
       ),

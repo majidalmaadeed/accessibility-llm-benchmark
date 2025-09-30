@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.InsufficientButtonSpacing"
+             Title="Document Editor">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Document Editor"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="💾 Save"
+                                BackgroundColor="#28a745"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="📤 Export"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="🖨️ Print"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="20">
+                    
+                    <!-- Toolbar Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Formatting Tools"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <!-- INSUFFICIENT BUTTON SPACING - Action buttons placed 2px apart -->
+                            <HorizontalStackLayout Spacing="2">
+                                <Button Text="📄 New"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="8,12"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="📁 Open"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="8,12"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="💾 Save"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="8,12"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="💾 Save As"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="8,12"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="❌ Close"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="8,12"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                            
+                            <!-- INSUFFICIENT BUTTON SPACING - Formatting buttons placed 2px apart -->
+                            <HorizontalStackLayout Spacing="2">
+                                <Button Text="B"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="I"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        FontStyle="Italic"/>
+                                
+                                <Button Text="U"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="S"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="X²"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="X₂"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                            
+                            <!-- INSUFFICIENT BUTTON SPACING - Alignment buttons placed 2px apart -->
+                            <HorizontalStackLayout Spacing="2">
+                                <Button Text="⬅️"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="↔️"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="➡️"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="⬅️➡️"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                            </HorizontalStackLayout>
+                            
+                            <!-- INSUFFICIENT BUTTON SPACING - Color buttons placed 2px apart -->
+                            <HorizontalStackLayout Spacing="2">
+                                <Button Text="🔴"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="🟢"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="🔵"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="🟡"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="⚫"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="⚪"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                            </HorizontalStackLayout>
+                            
+                            <!-- INSUFFICIENT BUTTON SPACING - List buttons placed 2px apart -->
+                            <HorizontalStackLayout Spacing="2">
+                                <Button Text="📝"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="🔢"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="📋"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="📊"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="🔗"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                                
+                                <Button Text="📎"
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="12,12"
+                                        CornerRadius="4"
+                                        FontSize="16"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Document Editor Area -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Document Content"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Editor Placeholder="Start typing your document here..."
+                                    BackgroundColor="#F8F9FA"
+                                    TextColor="#333333"
+                                    Padding="15,12"
+                                    CornerRadius="6"
+                                    HeightRequest="300"
+                                    FontSize="16"/>
+                            
+                            <Label Text="Word Count: 0 | Character Count: 0 | Line Count: 1"
+                                   FontSize="14"
+                                   TextColor="#666666"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Quick Actions Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Quick Actions"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <!-- INSUFFICIENT BUTTON SPACING - Action buttons placed 2px apart -->
+                            <HorizontalStackLayout Spacing="2">
+                                <Button Text="📋 Copy"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="12,10"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="✂️ Cut"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="12,10"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="📋 Paste"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="12,10"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="↩️ Undo"
+                                        BackgroundColor="#ffc107"
+                                        TextColor="Black"
+                                        Padding="12,10"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="↪️ Redo"
+                                        BackgroundColor="#fd7e14"
+                                        TextColor="White"
+                                        Padding="12,10"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                            
+                            <!-- INSUFFICIENT BUTTON SPACING - Search buttons placed 2px apart -->
+                            <HorizontalStackLayout Spacing="2">
+                                <Button Text="🔍 Find"
+                                        BackgroundColor="#17a2b8"
+                                        TextColor="White"
+                                        Padding="12,10"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="🔄 Replace"
+                                        BackgroundColor="#6f42c1"
+                                        TextColor="White"
+                                        Padding="12,10"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="📍 Go To"
+                                        BackgroundColor="#20c997"
+                                        TextColor="White"
+                                        Padding="12,10"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="🔤 Spell Check"
+                                        BackgroundColor="#e83e8c"
+                                        TextColor="White"
+                                        Padding="12,10"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="📖 Word Count"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="12,10"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Document Properties Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Document Properties"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                                <VerticalStackLayout Grid.Column="0" Spacing="15">
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="Document Title"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter document title"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="12,10"
+                                               CornerRadius="4"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="Author"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter author name"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="12,10"
+                                               CornerRadius="4"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="Subject"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter subject"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="12,10"
+                                               CornerRadius="4"/>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                                
+                                <VerticalStackLayout Grid.Column="1" Spacing="15">
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="Keywords"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter keywords"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="12,10"
+                                               CornerRadius="4"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="Comments"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Editor Placeholder="Enter comments"
+                                                BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="12,10"
+                                                CornerRadius="4"
+                                                HeightRequest="80"/>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="File"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="New"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Open"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Save"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Edit"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Copy"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Paste"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Find"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="View"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Zoom"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Full Screen"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Properties"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

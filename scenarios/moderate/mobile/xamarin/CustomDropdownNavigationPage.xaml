@@ -1,38 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AccessibilityApp.CustomDropdownNavigationPage"
-             Title="Custom Dropdown Navigation"
              BackgroundColor="#F5F5F5">
-    
     <ScrollView Padding="20">
         <StackLayout Spacing="20">
-            
             <!-- Main Content Card -->
             <Frame BackgroundColor="White" 
                    CornerRadius="8" 
                    HasShadow="True" 
                    Padding="30">
                 <StackLayout Spacing="20">
-                    
                     <!-- Title -->
-                    <Label Text="Product Filter"
                            FontSize="24"
                            FontAttributes="Bold"
                            TextColor="#333333" />
-                    
                     <!-- Description -->
-                    <Label Text="Filter products by category using the dropdown below."
                            FontSize="16"
                            TextColor="#666666" />
-                    
                     <!-- Filter Section -->
                     <StackLayout Spacing="8">
-                        <Label Text="Filter by Category:"
                                FontSize="18"
                                FontAttributes="Bold"
                                TextColor="#333333" />
-                        
                         <!-- Custom Dropdown -->
                         <StackLayout WidthRequest="200">
                             <Button x:Name="DropdownButton"
@@ -46,7 +35,6 @@
                                     HeightRequest="44"
                                     HorizontalOptions="Start"
                                     Clicked="OnDropdownButtonClicked" />
-                            
                             <CollectionView x:Name="DropdownList"
                                            IsVisible="{Binding IsOpen}"
                                            BackgroundColor="White"
@@ -64,14 +52,10 @@
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            
-                                            <Label Grid.Column="0"
                                                    Text="{Binding Text}"
                                                    FontSize="16"
                                                    TextColor="#333333"
                                                    VerticalOptions="Center" />
-                                            
-                                            <Label Grid.Column="1"
                                                    Text="✓"
                                                    FontSize="16"
                                                    TextColor="White"
@@ -84,14 +68,11 @@
                             </CollectionView>
                         </StackLayout>
                     </StackLayout>
-                    
                     <!-- Results Section -->
                     <StackLayout Spacing="16">
-                        <Label Text="Filtered Results"
                                FontSize="20"
                                FontAttributes="Bold"
                                TextColor="#333333" />
-                        
                         <CollectionView ItemsSource="{Binding FilteredProducts}"
                                        HeightRequest="200">
                             <CollectionView.ItemsLayout>
@@ -106,27 +87,19 @@
                                            Padding="20"
                                            Margin="8">
                                         <StackLayout Spacing="8">
-                                            <Label Text="{Binding Name}"
                                                    FontSize="16"
                                                    FontAttributes="Bold"
                                                    TextColor="#333333"
-                                                   HorizontalTextAlignment="Center" />
-                                            <Label Text="{Binding Category}"
                                                    FontSize="12"
                                                    TextColor="#666666"
-                                                   HorizontalTextAlignment="Center" />
                                         </StackLayout>
                                     </Frame>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
                     </StackLayout>
-                    
                 </StackLayout>
             </Frame>
-            
-            
         </StackLayout>
     </ScrollView>
-    
 </ContentPage>

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.GenericLinkText"
+             Title="News Portal">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Daily News"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="🔍 Search"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="⚙️ Settings"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="20">
+                    
+                    <!-- Breaking News Section -->
+                    <Border BackgroundColor="#dc3545" Stroke="#c82333" StrokeThickness="2" Padding="20">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="🚨 BREAKING NEWS"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"/>
+                            
+                            <Label Text="Major breakthrough in renewable energy technology announced today"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <Label Text="Scientists have developed a new solar panel technology that could revolutionize the industry"
+                                   FontSize="16"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <!-- GENERIC LINK TEXT - "Read more" link without context about destination -->
+                            <Button Text="Read more"
+                                    BackgroundColor="White"
+                                    TextColor="#dc3545"
+                                    Padding="20,12"
+                                    CornerRadius="6"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- News Articles -->
+                    <VerticalStackLayout Spacing="20">
+                        
+                        <!-- Article 1 -->
+                        <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="Technology"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#007bff"
+                                       BackgroundColor="#E3F2FD"
+                                       Padding="8,4"
+                                       HorizontalOptions="Start"/>
+                                
+                                <Label Text="New AI System Can Predict Weather Patterns with 95% Accuracy"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <Label Text="Researchers at leading universities have developed an artificial intelligence system that can predict weather patterns with unprecedented accuracy. The system uses machine learning algorithms to analyze vast amounts of meteorological data and provide forecasts up to two weeks in advance."
+                                       FontSize="16"
+                                       TextColor="#333333"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="By Sarah Johnson"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="•"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="2 hours ago"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="•"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="5 min read"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                </HorizontalStackLayout>
+                                
+                                <!-- GENERIC LINK TEXT - "Read more" link without context about destination -->
+                                <Button Text="Read more"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#007bff"
+                                        Padding="0,10"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Start"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <!-- Article 2 -->
+                        <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="Business"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#28a745"
+                                       BackgroundColor="#E8F5E8"
+                                       Padding="8,4"
+                                       HorizontalOptions="Start"/>
+                                
+                                <Label Text="Stock Market Reaches All-Time High Amid Economic Recovery"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <Label Text="The stock market has reached a new all-time high as investors show confidence in the ongoing economic recovery. Major indices have seen significant gains this quarter, with technology and healthcare sectors leading the way."
+                                       FontSize="16"
+                                       TextColor="#333333"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="By Michael Chen"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="•"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="4 hours ago"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="•"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="3 min read"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                </HorizontalStackLayout>
+                                
+                                <!-- GENERIC LINK TEXT - "Read more" link without context about destination -->
+                                <Button Text="Read more"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#007bff"
+                                        Padding="0,10"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Start"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <!-- Article 3 -->
+                        <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="Health"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#dc3545"
+                                       BackgroundColor="#FFEBEE"
+                                       Padding="8,4"
+                                       HorizontalOptions="Start"/>
+                                
+                                <Label Text="New Study Shows Benefits of Regular Exercise on Mental Health"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <Label Text="A comprehensive study involving over 10,000 participants has revealed that regular exercise significantly improves mental health outcomes. The research shows that even moderate physical activity can reduce symptoms of anxiety and depression."
+                                       FontSize="16"
+                                       TextColor="#333333"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="By Dr. Emily Rodriguez"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="•"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="6 hours ago"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="•"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="4 min read"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                </HorizontalStackLayout>
+                                
+                                <!-- GENERIC LINK TEXT - "Read more" link without context about destination -->
+                                <Button Text="Read more"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#007bff"
+                                        Padding="0,10"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Start"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <!-- Article 4 -->
+                        <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="Sports"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#6f42c1"
+                                       BackgroundColor="#F3E5F5"
+                                       Padding="8,4"
+                                       HorizontalOptions="Start"/>
+                                
+                                <Label Text="Championship Game Ends in Overtime Thriller"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <Label Text="The championship game went into overtime with both teams tied at the end of regulation. The final minutes were filled with dramatic plays and incredible athleticism as both teams fought for the title."
+                                       FontSize="16"
+                                       TextColor="#333333"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="By James Wilson"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="•"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="8 hours ago"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="•"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="6 min read"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                </HorizontalStackLayout>
+                                
+                                <!-- GENERIC LINK TEXT - "Read more" link without context about destination -->
+                                <Button Text="Read more"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#007bff"
+                                        Padding="0,10"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Start"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <!-- Article 5 -->
+                        <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="Entertainment"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#fd7e14"
+                                       BackgroundColor="#FFF3E0"
+                                       Padding="8,4"
+                                       HorizontalOptions="Start"/>
+                                
+                                <Label Text="Award-Winning Film Director Announces New Project"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <Label Text="The acclaimed director, known for their previous award-winning films, has announced their next project. The new film is expected to begin production next year and will feature an all-star cast."
+                                       FontSize="16"
+                                       TextColor="#333333"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="By Lisa Thompson"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="•"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="12 hours ago"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="•"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                    
+                                    <Label Text="2 min read"
+                                          FontSize="14"
+                                          TextColor="#666666"/>
+                                </HorizontalStackLayout>
+                                
+                                <!-- GENERIC LINK TEXT - "Read more" link without context about destination -->
+                                <Button Text="Read more"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#007bff"
+                                        Padding="0,10"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Start"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <!-- Load More Section -->
+                    <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="More Stories"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"
+                                   HorizontalOptions="Center"/>
+                            
+                            <Label Text="Discover more news and updates from around the world"
+                                   FontSize="16"
+                                   TextColor="#666666"
+                                   HorizontalOptions="Center"/>
+                            
+                            <!-- GENERIC LINK TEXT - "Read more" link without context about destination -->
+                            <Button Text="Read more"
+                                    BackgroundColor="#007bff"
+                                    TextColor="White"
+                                    Padding="20,15"
+                                    CornerRadius="6"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="News"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="World"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Politics"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Technology"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Categories"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Business"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Health"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Sports"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="About"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Contact"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Privacy"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Terms"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

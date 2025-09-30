@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityTest.FlashingAdvertisement"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Electronics Store">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="0">
+                <!-- FLASHING ADVERTISEMENT - FLASHING 5 TIMES PER SECOND -->
+                <Frame x:Name="FlashBanner" 
+                       BackgroundColor="Red" 
+                       CornerRadius="0" 
+                       Padding="16" 
+                       HeightRequest="80"
+                       HasShadow="True">
+                    <StackLayout Orientation="Horizontal" 
+                                 HorizontalOptions="Center" 
+                                 VerticalOptions="Center" 
+                                 Spacing="12">
+                        <Label Text="🔥" FontSize="24" />
+                        <Label Text="FLASH SALE!" 
+                               FontSize="24" 
+                               FontAttributes="Bold" 
+                               TextColor="White" />
+                        <Label Text="Up to 50% OFF!" 
+                               FontSize="18" 
+                               TextColor="White" />
+                        <Label x:Name="FlashCountLabel" 
+                               Text="Flashes: 0" 
+                               FontSize="12" 
+                               FontAttributes="Bold" 
+                               TextColor="White" 
+                               BackgroundColor="White" 
+                               Opacity="0.2" 
+                               Padding="8,4" 
+                               CornerRadius="12" />
+                        <Button Text="⏸️" 
+                                FontSize="20" 
+                                BackgroundColor="Transparent" 
+                                TextColor="White" 
+                                BorderWidth="0" 
+                                Clicked="OnPlayPauseClicked" />
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Products Section -->
+                <StackLayout Padding="16" Spacing="16">
+                    <CollectionView ItemsSource="{Binding Products}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame BackgroundColor="White" 
+                                       CornerRadius="12" 
+                                       Padding="0" 
+                                       Margin="0,0,0,16"
+                                       HasShadow="True">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <!-- Product Image -->
+                                        <Frame Grid.Column="0" 
+                                               BackgroundColor="LightGray" 
+                                               CornerRadius="12,0,0,12" 
+                                               Padding="0"
+                                               HasShadow="False">
+                                            <Grid>
+                                                <Image Source="{Binding Image}" 
+                                                       Aspect="AspectFill" />
+                                                
+                                                <!-- Out of Stock Overlay -->
+                                                <Frame BackgroundColor="Black" 
+                                                       Opacity="0.7" 
+                                                       CornerRadius="12,0,0,12" 
+                                                       HorizontalOptions="Fill" 
+                                                       VerticalOptions="Fill"
+                                                       IsVisible="{Binding IsOutOfStock}"
+                                                       HasShadow="False">
+                                                    <Label Text="Out of Stock" 
+                                                           TextColor="White" 
+                                                           FontSize="12" 
+                                                           FontAttributes="Bold" 
+                                                           HorizontalOptions="Center" 
+                                                           VerticalOptions="Center" />
+                                                </Frame>
+                                            </Grid>
+                                        </Frame>
+                                        
+                                        <!-- Product Info -->
+                                        <StackLayout Grid.Column="1" 
+                                                     Padding="16" 
+                                                     Spacing="8">
+                                            <!-- Product Name -->
+                                            <Label Text="{Binding Name}" 
+                                                   FontSize="16" 
+                                                   FontAttributes="Bold" 
+                                                   MaxLines="2" />
+                                            
+                                            <!-- Rating -->
+                                            <StackLayout Orientation="Horizontal" Spacing="4">
+                                                <Label Text="⭐" FontSize="12" />
+                                                <Label Text="⭐" FontSize="12" />
+                                                <Label Text="⭐" FontSize="12" />
+                                                <Label Text="⭐" FontSize="12" />
+                                                <Label Text="☆" FontSize="12" />
+                                                <Label Text="{Binding Rating}" FontSize="10" TextColor="Gray" />
+                                            </StackLayout>
+                                            
+                                            <!-- Price -->
+                                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                                <Label Text="{Binding Price}" 
+                                                       FontSize="18" 
+                                                       FontAttributes="Bold" 
+                                                       TextColor="Green" />
+                                                <Label Text="{Binding OriginalPrice}" 
+                                                       FontSize="14" 
+                                                       TextColor="Gray" 
+                                                       IsVisible="{Binding HasOriginalPrice}" />
+                                                <Frame BackgroundColor="Green" 
+                                                       CornerRadius="4" 
+                                                       Padding="6,2" 
+                                                       HasShadow="False">
+                                                    <Label Text="{Binding SaveText}" 
+                                                           FontSize="10" 
+                                                           FontAttributes="Bold" 
+                                                           TextColor="White" />
+                                                </Frame>
+                                            </StackLayout>
+                                            
+                                            <!-- Action Buttons -->
+                                            <StackLayout Orientation="Horizontal" 
+                                                         Spacing="8" 
+                                                         Margin="0,8,0,0">
+                                                <Button Text="Add to Cart" 
+                                                        BackgroundColor="Blue" 
+                                                        TextColor="White" 
+                                                        CornerRadius="6" 
+                                                        FontSize="12" 
+                                                        IsEnabled="{Binding InStock}" />
+                                                <Button Text="♡" 
+                                                        FontSize="16" 
+                                                        BackgroundColor="LightGray" 
+                                                        TextColor="Gray" 
+                                                        WidthRequest="32" 
+                                                        HeightRequest="32" 
+                                                        CornerRadius="16" />
+                                                <Button Text="↗️" 
+                                                        FontSize="16" 
+                                                        BackgroundColor="LightGray" 
+                                                        TextColor="Gray" 
+                                                        WidthRequest="32" 
+                                                        HeightRequest="32" 
+                                                        CornerRadius="16" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Registration</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 24px;
+        }
+        
+        .step {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .step.active {
+            background: blue;
+            color: white;
+        }
+        
+        .step.inactive {
+            background: lightgray;
+            color: gray;
+        }
+        
+        .step-connector {
+            height: 2px;
+            width: 50px;
+            background: blue;
+        }
+        
+        .step-connector.inactive {
+            background: lightgray;
+        }
+        
+        .form-container {
+            padding: 24px;
+        }
+        
+        .form-section {
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .section-description {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .section-subtitle {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .radio-group {
+            margin-bottom: 16px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .radio-button {
+            width: 20px;
+            height: 20px;
+            border: 2px solid gray;
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: gray;
+        }
+        
+        .radio-button.checked {
+            background: blue;
+            color: white;
+        }
+        
+        .radio-label {
+            font-size: 16px;
+        }
+        
+        .checkbox-group {
+            margin-bottom: 16px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid gray;
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: gray;
+        }
+        
+        .checkbox.checked {
+            background: blue;
+            color: white;
+        }
+        
+        .checkbox-label {
+            font-size: 16px;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+        
+        .nav-button {
+            flex: 1;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .nav-button.previous {
+            background: transparent;
+            color: gray;
+            border: 1px solid gray;
+        }
+        
+        .nav-button.next {
+            background: blue;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Account Registration</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step active">1</div>
+                <div class="step-connector"></div>
+                <div class="step inactive">2</div>
+                <div class="step-connector inactive"></div>
+                <div class="step inactive">3</div>
+            </div>
+            
+            <div class="form-container">
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h2 class="section-title">Personal Information</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">First Name *</label>
+                        <input type="text" class="form-input" placeholder="Enter your first name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Last Name *</label>
+                        <input type="text" class="form-input" placeholder="Enter your last name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email Address *</label>
+                        <input type="email" class="form-input" placeholder="Enter your email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" placeholder="Enter your phone number">
+                    </div>
+                </div>
+                
+                <!-- Contact Preferences - UNGROUPED RADIO BUTTONS -->
+                <div class="form-section">
+                    <h3 class="section-description">Contact Preferences</h3>
+                    <p class="section-subtitle">How would you like us to contact you? (Select all that apply)</p>
+                    
+                    <!-- UNGROUPED RADIO BUTTONS - No fieldset grouping -->
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <button class="radio-button" onclick="toggleRadio(this)">☐</button>
+                            <span class="radio-label">Email notifications</span>
+                        </div>
+                        
+                        <div class="radio-item">
+                            <button class="radio-button" onclick="toggleRadio(this)">☐</button>
+                            <span class="radio-label">SMS messages</span>
+                        </div>
+                        
+                        <div class="radio-item">
+                            <button class="radio-button" onclick="toggleRadio(this)">☐</button>
+                            <span class="radio-label">Phone calls</span>
+                        </div>
+                        
+                        <div class="radio-item">
+                            <button class="radio-button" onclick="toggleRadio(this)">☐</button>
+                            <span class="radio-label">Push notifications</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Newsletter Preferences - UNGROUPED RADIO BUTTONS -->
+                <div class="form-section">
+                    <h3 class="section-description">Newsletter Frequency</h3>
+                    <p class="section-subtitle">How often would you like to receive our newsletter?</p>
+                    
+                    <!-- UNGROUPED RADIO BUTTONS - No fieldset grouping -->
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <button class="radio-button" onclick="toggleNewsletterRadio(this, 'daily')">☐</button>
+                            <span class="radio-label">Daily</span>
+                        </div>
+                        
+                        <div class="radio-item">
+                            <button class="radio-button" onclick="toggleNewsletterRadio(this, 'weekly')">☐</button>
+                            <span class="radio-label">Weekly</span>
+                        </div>
+                        
+                        <div class="radio-item">
+                            <button class="radio-button" onclick="toggleNewsletterRadio(this, 'monthly')">☐</button>
+                            <span class="radio-label">Monthly</span>
+                        </div>
+                        
+                        <div class="radio-item">
+                            <button class="radio-button" onclick="toggleNewsletterRadio(this, 'never')">☐</button>
+                            <span class="radio-label">Never</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Account Type - UNGROUPED RADIO BUTTONS -->
+                <div class="form-section">
+                    <h3 class="section-description">Account Type</h3>
+                    <p class="section-subtitle">What type of account are you creating?</p>
+                    
+                    <!-- UNGROUPED RADIO BUTTONS - No fieldset grouping -->
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <button class="radio-button" onclick="toggleAccountRadio(this, 'personal')">☐</button>
+                            <span class="radio-label">Personal Account</span>
+                        </div>
+                        
+                        <div class="radio-item">
+                            <button class="radio-button" onclick="toggleAccountRadio(this, 'business')">☐</button>
+                            <span class="radio-label">Business Account</span>
+                        </div>
+                        
+                        <div class="radio-item">
+                            <button class="radio-button" onclick="toggleAccountRadio(this, 'enterprise')">☐</button>
+                            <span class="radio-label">Enterprise Account</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Terms and Conditions -->
+                <div class="form-section">
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <button class="checkbox" onclick="toggleCheckbox(this)">☐</button>
+                            <span class="checkbox-label">I agree to the Terms and Conditions</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Newsletter Subscription -->
+                <div class="form-section">
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <button class="checkbox" onclick="toggleCheckbox(this)">☐</button>
+                            <span class="checkbox-label">Subscribe to our newsletter</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons">
+                    <button class="nav-button previous" onclick="previousStep()">Previous</button>
+                    <button class="nav-button next" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        function toggleRadio(button) {
+            if (button.textContent === '☐') {
+                button.textContent = '☑';
+                button.classList.add('checked');
+            } else {
+                button.textContent = '☐';
+                button.classList.remove('checked');
+            }
+        }
+        
+        function toggleNewsletterRadio(button, value) {
+            // Reset all newsletter options
+            const newsletterButtons = document.querySelectorAll('.radio-group:nth-of-type(2) .radio-button');
+            newsletterButtons.forEach(btn => {
+                btn.textContent = '☐';
+                btn.classList.remove('checked');
+            });
+            
+            // Set selected option
+            button.textContent = '☑';
+            button.classList.add('checked');
+        }
+        
+        function toggleAccountRadio(button, value) {
+            // Reset all account type options
+            const accountButtons = document.querySelectorAll('.radio-group:nth-of-type(3) .radio-button');
+            accountButtons.forEach(btn => {
+                btn.textContent = '☐';
+                btn.classList.remove('checked');
+            });
+            
+            // Set selected option
+            button.textContent = '☑';
+            button.classList.add('checked');
+        }
+        
+        function toggleCheckbox(button) {
+            if (button.textContent === '☐') {
+                button.textContent = '☑';
+                button.classList.add('checked');
+            } else {
+                button.textContent = '☐';
+                button.classList.remove('checked');
+            }
+        }
+        
+        function previousStep() {
+            alert('Previous step');
+        }
+        
+        function nextStep() {
+            alert('Next step');
+        }
+    </script>
+</body>
+</html>

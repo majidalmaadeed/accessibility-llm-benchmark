@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.UngroupedRadioButtons"
+             Title="User Preferences">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Account Settings"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="💾 Save"
+                                BackgroundColor="#28a745"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="↩️ Cancel"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="30">
+                    
+                    <!-- Personal Information Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Personal Information"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="30">
+                                
+                                <!-- Left Column -->
+                                <VerticalStackLayout Grid.Column="0" Spacing="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="First Name *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter your first name"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Last Name *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter your last name"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Email Address *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter your email address"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                                
+                                <!-- Right Column -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Phone Number"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="Enter your phone number"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Date of Birth"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Entry Placeholder="MM/DD/YYYY"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Country"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>Select Country</x:String>
+                                                <x:String>United States</x:String>
+                                                <x:String>Canada</x:String>
+                                                <x:String>United Kingdom</x:String>
+                                                <x:String>Australia</x:String>
+                                                <x:String>Germany</x:String>
+                                                <x:String>France</x:String>
+                                                <x:String>Other</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Communication Preferences Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Communication Preferences"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="How would you like to receive updates and notifications?"
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <!-- UNGROUPED RADIO BUTTONS - Contact preference radio buttons without fieldset grouping -->
+                            <VerticalStackLayout Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="True"/>
+                                    <Label Text="Email"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="SMS Text Message"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Phone Call"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Push Notifications"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="No Communications"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Marketing Preferences Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Marketing Communications"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="What type of marketing content would you like to receive?"
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <!-- UNGROUPED RADIO BUTTONS - Contact preference radio buttons without fieldset grouping -->
+                            <VerticalStackLayout Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="True"/>
+                                    <Label Text="Product Updates"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Newsletter"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Promotional Offers"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Event Invitations"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="All Marketing Communications"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="No Marketing Communications"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Privacy Settings Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Privacy Settings"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="Control how your data is used and shared"
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <!-- UNGROUPED RADIO BUTTONS - Contact preference radio buttons without fieldset grouping -->
+                            <VerticalStackLayout Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="True"/>
+                                    <Label Text="Share data with trusted partners"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Share data for analytics only"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Minimal data sharing"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="No data sharing"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Notification Frequency Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Notification Frequency"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="How often would you like to receive notifications?"
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <!-- UNGROUPED RADIO BUTTONS - Contact preference radio buttons without fieldset grouping -->
+                            <VerticalStackLayout Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Immediately"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="True"/>
+                                    <Label Text="Daily"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Weekly"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Monthly"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Never"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Language Preferences Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Language Preferences"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="Select your preferred language for the interface"
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <!-- UNGROUPED RADIO BUTTONS - Contact preference radio buttons without fieldset grouping -->
+                            <VerticalStackLayout Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="True"/>
+                                    <Label Text="English"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Spanish"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="French"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="German"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Chinese"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <RadioButton IsChecked="False"/>
+                                    <Label Text="Japanese"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Account"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Profile"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Security"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Privacy"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Preferences"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Notifications"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Language"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Theme"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Support"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Help Center"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Contact"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Feedback"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

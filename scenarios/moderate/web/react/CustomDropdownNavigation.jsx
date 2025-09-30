@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-
-const CustomDropdownNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState('all');
   const [selectedText, setSelectedText] = useState('All Categories');
@@ -8,7 +6,6 @@ const CustomDropdownNavigation = () => {
   const dropdownRef = useRef(null);
   const triggerRef = useRef(null);
   const optionsRef = useRef([]);
-
   const options = [
     { value: 'all', text: 'All Categories' },
     { value: 'electronics', text: 'Electronics' },
@@ -16,7 +13,6 @@ const CustomDropdownNavigation = () => {
     { value: 'books', text: 'Books' },
     { value: 'home', text: 'Home & Garden' }
   ];
-
   const products = {
     all: [
       { name: 'iPhone 15', category: 'Electronics' },
@@ -39,30 +35,23 @@ const CustomDropdownNavigation = () => {
       { name: 'Garden Tools', category: 'Home & Garden' }
     ]
   };
-
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
     if (!isOpen) {
-      // Focus first option when opening
       setTimeout(() => {
         if (optionsRef.current[0]) {
-          optionsRef.current[0].focus();
         }
       }, 0);
     }
   };
-
   const selectOption = (value, text, index) => {
     setSelectedValue(value);
     setSelectedText(text);
     setCurrentIndex(index);
     setIsOpen(false);
-    // Return focus to trigger
     if (triggerRef.current) {
-      triggerRef.current.focus();
     }
   };
-
   const handleKeyDown = (event) => {
     if (!isOpen) {
       if (event.key === 'Enter' || event.key === ' ') {
@@ -71,14 +60,12 @@ const CustomDropdownNavigation = () => {
       }
       return;
     }
-
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
         const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
         setCurrentIndex(nextIndex);
         if (optionsRef.current[nextIndex]) {
-          optionsRef.current[nextIndex].focus();
         }
         break;
       case 'ArrowUp':
@@ -86,7 +73,6 @@ const CustomDropdownNavigation = () => {
         const prevIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
         setCurrentIndex(prevIndex);
         if (optionsRef.current[prevIndex]) {
-          optionsRef.current[prevIndex].focus();
         }
         break;
       case 'Enter':
@@ -97,12 +83,10 @@ const CustomDropdownNavigation = () => {
       case 'Escape':
         setIsOpen(false);
         if (triggerRef.current) {
-          triggerRef.current.focus();
         }
         break;
     }
   };
-
   const handleOptionKeyDown = (event, value, text, index) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
@@ -110,11 +94,9 @@ const CustomDropdownNavigation = () => {
     } else if (event.key === 'Escape') {
       setIsOpen(false);
       if (triggerRef.current) {
-        triggerRef.current.focus();
       }
     }
   };
-
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -122,26 +104,20 @@ const CustomDropdownNavigation = () => {
         setIsOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '800px', margin: '50px auto', padding: '20px', backgroundColor: '#f5f5f5' }}>
       <div style={{ background: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
         <h1>Product Filter</h1>
         <p>Filter products by category using the dropdown below.</p>
-        
         <div style={{ marginBottom: '30px' }}>
-          <label 
             htmlFor="category-filter" 
             style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold', color: '#333' }}
           >
             Filter by Category:
-          </label>
           <div style={{ position: 'relative', display: 'inline-block', width: '200px' }} ref={dropdownRef}>
             <button
               ref={triggerRef}
@@ -166,7 +142,6 @@ const CustomDropdownNavigation = () => {
               <span>{selectedText}</span>
               <span style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}>▼</span>
             </button>
-            
             {isOpen && (
               <div
                 style={{
@@ -206,7 +181,6 @@ const CustomDropdownNavigation = () => {
             )}
           </div>
         </div>
-        
         <div style={{ marginTop: '30px' }}>
           <h2>Filtered Results</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '20px', marginTop: '20px' }}>
@@ -219,9 +193,6 @@ const CustomDropdownNavigation = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
-};
-
-export default CustomDropdownNavigation;
+};

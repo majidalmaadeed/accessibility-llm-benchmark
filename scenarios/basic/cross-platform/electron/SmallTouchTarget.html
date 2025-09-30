@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Feed</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 1px solid #ddd;
+            padding: 0;
+        }
+        
+        .tabs {
+            display: flex;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        
+        .tab.active {
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .tab:hover:not(.active) {
+            background: #f8f9fa;
+        }
+        
+        .main-content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .post {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            gap: 15px;
+        }
+        
+        .profile-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .username {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        
+        .time-ago {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .more-btn {
+            /* SMALL TOUCH TARGET - Only 20x20px on mobile interface */
+            width: 20px;
+            height: 20px;
+            border: none;
+            background: #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .post-image {
+            height: 200px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+        
+        .post-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 15px;
+        }
+        
+        .action-btn {
+            /* SMALL TOUCH TARGET - Only 20x20px */
+            width: 20px;
+            height: 20px;
+            border: none;
+            background: #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: #d0d0d0;
+        }
+        
+        .likes-count {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .post-content {
+            padding: 0 15px 15px;
+        }
+        
+        .post-text {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .comments-link {
+            color: #666;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .comments-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="tabs">
+            <button class="tab active">Following</button>
+            <button class="tab">Discover</button>
+            <button class="tab">Trending</button>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="post">
+            <div class="post-header">
+                <div class="profile-image">👤</div>
+                <div class="user-info">
+                    <div class="username">john_doe</div>
+                    <div class="time-ago">2h</div>
+                </div>
+                <!-- SMALL TOUCH TARGET - Only 20x20px on mobile interface -->
+                <button class="more-btn">⋯</button>
+            </div>
+            
+            <div class="post-image">🖼️</div>
+            
+            <div class="post-actions">
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">♡</button>
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">💬</button>
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">↗️</button>
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">🔖</button>
+            </div>
+            
+            <div class="post-content">
+                <div class="likes-count">42 likes</div>
+                <div class="post-text">john_doe Beautiful sunset from my hike today! 🏔️ #nature #photography</div>
+                <a href="#" class="comments-link">View all 8 comments</a>
+            </div>
+        </div>
+        
+        <div class="post">
+            <div class="post-header">
+                <div class="profile-image">👤</div>
+                <div class="user-info">
+                    <div class="username">sarah_j</div>
+                    <div class="time-ago">4h</div>
+                </div>
+                <!-- SMALL TOUCH TARGET - Only 20x20px on mobile interface -->
+                <button class="more-btn">⋯</button>
+            </div>
+            
+            <div class="post-image">🖼️</div>
+            
+            <div class="post-actions">
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">♡</button>
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">💬</button>
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">↗️</button>
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">🔖</button>
+            </div>
+            
+            <div class="post-content">
+                <div class="likes-count">28 likes</div>
+                <div class="post-text">sarah_j Just finished reading an amazing book! Highly recommend it to everyone.</div>
+                <a href="#" class="comments-link">View all 12 comments</a>
+            </div>
+        </div>
+        
+        <div class="post">
+            <div class="post-header">
+                <div class="profile-image">👤</div>
+                <div class="user-info">
+                    <div class="username">mike_chen</div>
+                    <div class="time-ago">6h</div>
+                </div>
+                <!-- SMALL TOUCH TARGET - Only 20x20px on mobile interface -->
+                <button class="more-btn">⋯</button>
+            </div>
+            
+            <div class="post-image">🖼️</div>
+            
+            <div class="post-actions">
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">♡</button>
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">💬</button>
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">↗️</button>
+                <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                <button class="action-btn">🔖</button>
+            </div>
+            
+            <div class="post-content">
+                <div class="likes-count">15 likes</div>
+                <div class="post-text">mike_chen Working on a new project. Excited to share the results soon!</div>
+                <a href="#" class="comments-link">View all 3 comments</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Action button functionality
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Simple toggle for like button
+                if (this.textContent === '♡') {
+                    this.textContent = '♥';
+                    this.style.color = '#e91e63';
+                } else if (this.textContent === '♥') {
+                    this.textContent = '♡';
+                    this.style.color = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

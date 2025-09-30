@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityTest.InaccessibleTooltip"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Form Builder">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="24" Spacing="24">
+                <!-- Header -->
+                <StackLayout HorizontalOptions="Center" Spacing="8">
+                    <Label Text="Create New Form" 
+                           FontSize="28" 
+                           FontAttributes="Bold" />
+                    <Label Text="Build custom forms for your organization" 
+                           FontSize="16" 
+                           TextColor="Gray" />
+                </StackLayout>
+                
+                <!-- Form Fields -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="20" 
+                       HasShadow="True">
+                    <StackLayout Spacing="20">
+                        <!-- Form Title -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Form Title *" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Entry Placeholder="Enter form title" 
+                                   FontSize="16" />
+                        </StackLayout>
+                        
+                        <!-- Form Description -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Description" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Editor Placeholder="Enter form description" 
+                                    FontSize="16" 
+                                    HeightRequest="100" />
+                        </StackLayout>
+                        
+                        <!-- Form Type -->
+                        <StackLayout Spacing="8">
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <Label Text="Form Type *" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold" />
+                                <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                <Button Text="?" 
+                                        FontSize="14" 
+                                        BackgroundColor="LightBlue" 
+                                        TextColor="Blue" 
+                                        WidthRequest="24" 
+                                        HeightRequest="24" 
+                                        CornerRadius="12" 
+                                        Clicked="OnFormTypeHelpClicked" />
+                            </StackLayout>
+                            <Picker x:Name="FormTypePicker" 
+                                    Title="Select form type">
+                                <Picker.Items>
+                                    <x:String>Survey</x:String>
+                                    <x:String>Registration</x:String>
+                                    <x:String>Feedback</x:String>
+                                    <x:String>Application</x:String>
+                                    <x:String>Other</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </StackLayout>
+                        
+                        <!-- Response Collection -->
+                        <StackLayout Spacing="8">
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <Label Text="Response Collection" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold" />
+                                <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                <Button Text="?" 
+                                        FontSize="14" 
+                                        BackgroundColor="LightBlue" 
+                                        TextColor="Blue" 
+                                        WidthRequest="24" 
+                                        HeightRequest="24" 
+                                        CornerRadius="12" 
+                                        Clicked="OnResponseCollectionHelpClicked" />
+                            </StackLayout>
+                            <Switch x:Name="CollectResponsesSwitch" 
+                                    IsToggled="True" />
+                            <Label Text="Enable response collection for this form" 
+                                   FontSize="14" 
+                                   TextColor="Gray" />
+                        </StackLayout>
+                        
+                        <!-- Privacy Settings -->
+                        <StackLayout Spacing="8">
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <Label Text="Privacy Settings" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold" />
+                                <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                <Button Text="?" 
+                                        FontSize="14" 
+                                        BackgroundColor="LightBlue" 
+                                        TextColor="Blue" 
+                                        WidthRequest="24" 
+                                        HeightRequest="24" 
+                                        CornerRadius="12" 
+                                        Clicked="OnPrivacySettingsHelpClicked" />
+                            </StackLayout>
+                            <Picker x:Name="PrivacyPicker" 
+                                    Title="Select privacy level">
+                                <Picker.Items>
+                                    <x:String>Public</x:String>
+                                    <x:String>Internal</x:String>
+                                    <x:String>Private</x:String>
+                                    <x:String>Confidential</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </StackLayout>
+                        
+                        <!-- Submission Deadline -->
+                        <StackLayout Spacing="8">
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <Label Text="Submission Deadline" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold" />
+                                <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                <Button Text="?" 
+                                        FontSize="14" 
+                                        BackgroundColor="LightBlue" 
+                                        TextColor="Blue" 
+                                        WidthRequest="24" 
+                                        HeightRequest="24" 
+                                        CornerRadius="12" 
+                                        Clicked="OnDeadlineHelpClicked" />
+                            </StackLayout>
+                            <DatePicker x:Name="DeadlinePicker" />
+                        </StackLayout>
+                        
+                        <!-- Email Notifications -->
+                        <StackLayout Spacing="8">
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <Label Text="Email Notifications" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold" />
+                                <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                <Button Text="?" 
+                                        FontSize="14" 
+                                        BackgroundColor="LightBlue" 
+                                        TextColor="Blue" 
+                                        WidthRequest="24" 
+                                        HeightRequest="24" 
+                                        CornerRadius="12" 
+                                        Clicked="OnEmailNotificationsHelpClicked" />
+                            </StackLayout>
+                            <Switch x:Name="EmailNotificationsSwitch" 
+                                    IsToggled="True" />
+                            <Label Text="Send email notifications for form submissions" 
+                                   FontSize="14" 
+                                   TextColor="Gray" />
+                        </StackLayout>
+                        
+                        <!-- Advanced Options -->
+                        <StackLayout Spacing="8">
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <Label Text="Advanced Options" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold" />
+                                <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                <Button Text="?" 
+                                        FontSize="14" 
+                                        BackgroundColor="LightBlue" 
+                                        TextColor="Blue" 
+                                        WidthRequest="24" 
+                                        HeightRequest="24" 
+                                        CornerRadius="12" 
+                                        Clicked="OnAdvancedOptionsHelpClicked" />
+                            </StackLayout>
+                            <Switch x:Name="AdvancedOptionsSwitch" 
+                                    IsToggled="False" />
+                            <Label Text="Enable advanced form customization options" 
+                                   FontSize="14" 
+                                   TextColor="Gray" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Action Buttons -->
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="16" 
+                             HorizontalOptions="Center">
+                    <Button Text="Cancel" 
+                            BackgroundColor="Transparent" 
+                            TextColor="Gray" 
+                            FontSize="16" 
+                            Padding="24,12" 
+                            BorderColor="Gray" 
+                            BorderWidth="1" 
+                            CornerRadius="8" 
+                            Clicked="OnCancelClicked" />
+                    <Button Text="Create Form" 
+                            BackgroundColor="Blue" 
+                            TextColor="White" 
+                            FontSize="16" 
+                            Padding="24,12" 
+                            CornerRadius="8" 
+                            Clicked="OnCreateFormClicked" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

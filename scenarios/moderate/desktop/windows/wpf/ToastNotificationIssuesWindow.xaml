@@ -1,0 +1,126 @@
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="800" Width="700"
+        Background="#F5F5F5"
+        WindowStartupLocation="CenterScreen">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20">
+        <StackPanel>
+            <!-- Main Content Card -->
+            <Border Background="White" 
+                    CornerRadius="8" 
+                    Padding="30" 
+                    Margin="0,0,0,20"
+                    Effect="{StaticResource DropShadowEffect}">
+                <StackPanel>
+                    <!-- Title -->
+                    <TextBlock Text="Toast Notifications Demo"
+                               FontSize="24" 
+                               FontWeight="Bold" 
+                               Foreground="#333333"
+                               Margin="0,0,0,16" />
+                    <!-- Description -->
+                               FontSize="16" 
+                               Foreground="#666666"
+                               Margin="0,0,0,30" />
+                    <!-- Notification Controls -->
+                    <StackPanel>
+                        <!-- Success Notification -->
+                        <StackPanel Margin="0,0,0,20">
+                            <Button x:Name="ShowSuccessButton"
+                                    Content="Show Success Notification"
+                                    Height="50"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Background="#28A745"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    CornerRadius="4"
+                                    Click="OnShowSuccessClicked"
+                                    Margin="0,0,0,10" />
+                        </StackPanel>
+                        <!-- Error Notification -->
+                        <StackPanel Margin="0,0,0,20">
+                            <Button x:Name="ShowErrorButton"
+                                    Content="Show Error Notification"
+                                    Height="50"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Background="#DC3545"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    CornerRadius="4"
+                                    Click="OnShowErrorClicked"
+                                    Margin="0,0,0,10" />
+                        </StackPanel>
+                        <!-- Warning Notification -->
+                        <StackPanel Margin="0,0,0,20">
+                            <Button x:Name="ShowWarningButton"
+                                    Content="Show Warning Notification"
+                                    Height="50"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Background="#FFC107"
+                                    Foreground="#212529"
+                                    BorderThickness="0"
+                                    CornerRadius="4"
+                                    Click="OnShowWarningClicked"
+                                    Margin="0,0,0,10" />
+                        </StackPanel>
+                        <!-- Info Notification -->
+                        <StackPanel Margin="0,0,0,20">
+                            <Button x:Name="ShowInfoButton"
+                                    Content="Show Info Notification"
+                                    Height="50"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Background="#17A2B8"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    CornerRadius="4"
+                                    Click="OnShowInfoClicked"
+                                    Margin="0,0,0,10" />
+                        </StackPanel>
+                        <!-- Clear All Button -->
+                        <Button x:Name="ClearAllButton"
+                                Content="Clear All Notifications"
+                                Height="40"
+                                FontSize="14"
+                                Background="#6C757D"
+                                Foreground="White"
+                                BorderThickness="0"
+                                CornerRadius="4"
+                                Click="OnClearAllClicked"
+                                Margin="0,0,0,20" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <!-- Toast Notifications Container -->
+            <StackPanel x:Name="ToastContainer"
+                        Margin="0,0,0,20">
+                <!-- Toast notifications will be added here dynamically -->
+            </StackPanel>
+            <Border Background="#E9ECEF" 
+                    CornerRadius="4" 
+                    Padding="20"
+                    Margin="0,0,0,20">
+                <StackPanel>
+                        <LineBreak />
+                        <Run Text="• Implement auto-hide timer with configurable duration" />
+                        <LineBreak />
+                        <LineBreak />
+                        <Run Text="• Set AutomationProperties.AutomationId and Name for each notification" />
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+    <!-- Resources -->
+    <Window.Resources>
+        <DropShadowEffect x:Key="DropShadowEffect" 
+                          Color="Black" 
+                          Direction="270" 
+                          ShadowDepth="2" 
+                          Opacity="0.1" 
+                          BlurRadius="10" />
+    </Window.Resources>
+</Window>

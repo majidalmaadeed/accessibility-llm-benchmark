@@ -6,7 +6,6 @@
     <title>Product Filter</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
@@ -18,12 +17,10 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        
         /* Custom Dropdown Styles */
         .filter-section {
             margin-bottom: 30px;
         }
-        .filter-label {
             display: block;
             margin-bottom: 10px;
             font-weight: bold;
@@ -50,7 +47,6 @@
         .dropdown-trigger:hover {
             border-color: #007bff;
         }
-        .dropdown-trigger:focus {
             outline: none;
             border-color: #007bff;
             box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
@@ -101,7 +97,6 @@
         .dropdown-option.selected:hover {
             background-color: #0056b3;
         }
-        
         /* Results Section */
         .results-section {
             margin-top: 30px;
@@ -128,8 +123,6 @@
             margin: 0;
             color: #666;
         }
-        
-        .accessibility-info {
             margin-top: 30px;
             padding: 20px;
             background-color: #e9ecef;
@@ -141,9 +134,7 @@
     <div class="main-content">
         <h1>Product Filter</h1>
         <p>Filter products by category using the dropdown below.</p>
-        
         <div class="filter-section">
-            <label class="filter-label" for="category-filter">Filter by Category:</label>
             <div class="custom-dropdown">
                 <button 
                     class="dropdown-trigger" 
@@ -154,7 +145,6 @@
                     <span id="selected-option">All Categories</span>
                     <span class="dropdown-arrow">▼</span>
                 </button>
-                
                 <div 
                     class="dropdown-menu" 
                     id="dropdown-menu"
@@ -202,7 +192,6 @@
                 </div>
             </div>
         </div>
-        
         <div class="results-section">
             <h2>Filtered Results</h2>
             <div class="results-grid" id="results-grid">
@@ -210,13 +199,10 @@
             </div>
         </div>
     </div>
-
-
     <script>
         let isOpen = false;
         let selectedValue = 'all';
         let currentIndex = 0;
-        
         const products = {
             all: [
                 { name: 'iPhone 15', category: 'Electronics' },
@@ -239,45 +225,33 @@
                 { name: 'Garden Tools', category: 'Home & Garden' }
             ]
         };
-
         function toggleDropdown() {
             const dropdown = document.getElementById('dropdown-menu');
             const trigger = document.getElementById('category-filter');
-            
             isOpen = !isOpen;
-            
             if (isOpen) {
                 dropdown.classList.add('show');
                 trigger.classList.add('open');
-                
             } else {
                 dropdown.classList.remove('show');
                 trigger.classList.remove('open');
             }
         }
-
         function selectOption(value, text) {
             selectedValue = value;
-            
             // Update selected option display
             document.getElementById('selected-option').textContent = text;
-            
             // Update selected state
             document.querySelectorAll('.dropdown-option').forEach(option => {
                 option.classList.remove('selected');
             });
-            
             const selectedOption = document.querySelector(`[data-value="${value}"]`);
             selectedOption.classList.add('selected');
-            
             // Close dropdown
             toggleDropdown();
-            
             // Update results
             updateResults();
-            
         }
-
         function handleKeyDown(event) {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
@@ -285,9 +259,7 @@
             } else if (event.key === 'Escape' && isOpen) {
                 toggleDropdown();
             }
-            // MISSING: Arrow key navigation
         }
-
         function handleOptionKeyDown(event, value, text) {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
@@ -296,11 +268,9 @@
                 toggleDropdown();
             }
         }
-
         function updateResults() {
             const resultsGrid = document.getElementById('results-grid');
             const filteredProducts = products[selectedValue] || [];
-            
             resultsGrid.innerHTML = filteredProducts.map(product => `
                 <div class="result-card">
                     <h3>${product.name}</h3>
@@ -308,7 +278,6 @@
                 </div>
             `).join('');
         }
-
         // Close dropdown when clicking outside
         document.addEventListener('click', function(event) {
             const dropdown = document.querySelector('.custom-dropdown');
@@ -318,7 +287,6 @@
                 }
             }
         });
-
         // Initialize results
         updateResults();
     </script>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Platform</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .video-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        /* AUTO-PLAYING BACKGROUND VIDEO - Hero section video autoplays without user control */
+        .video-placeholder {
+            width: 100%;
+            height: 300px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+        
+        .video-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .video-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .play-pause-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+        }
+        
+        .play-pause-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid white;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .play-pause-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .main-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .category-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .category-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .category-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .category-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .videos-section {
+            margin-bottom: 40px;
+        }
+        
+        .videos-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .videos-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .video-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            transition: transform 0.2s;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .video-thumbnail {
+            width: 120px;
+            height: 80px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+        
+        .video-content {
+            flex: 1;
+        }
+        
+        .video-title-card {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .video-description {
+            color: #666;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .video-meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .video-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .video-btn {
+            background: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .video-btn:hover {
+            background: #0056b3;
+        }
+        
+        .share-btn {
+            background: #6c757d;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .share-btn:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="video-container">
+                <!-- AUTO-PLAYING BACKGROUND VIDEO - Hero section video autoplays without user control -->
+                <div class="video-placeholder">🎬</div>
+                <div class="play-pause-overlay">
+                    <button class="play-pause-btn" id="playPauseBtn" onclick="togglePlay()">⏸️</button>
+                </div>
+            </div>
+            <h1 class="video-title">Auto-playing Video</h1>
+            <p class="video-subtitle">This video plays automatically</p>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <h1 class="section-title">Featured Content</h1>
+        <p class="section-subtitle">Discover our latest videos and tutorials</p>
+        
+        <div class="categories-grid">
+            <div class="category-card">
+                <div class="category-icon">🎥</div>
+                <div class="category-title">Tutorials</div>
+                <div class="category-subtitle">Learn new skills</div>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">🎬</div>
+                <div class="category-title">Documentaries</div>
+                <div class="category-subtitle">Explore the world</div>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">🎭</div>
+                <div class="category-title">Entertainment</div>
+                <div class="category-subtitle">Fun and games</div>
+            </div>
+        </div>
+        
+        <div class="videos-section">
+            <h2 class="videos-title">Recent Videos</h2>
+            <div class="videos-list">
+                <div class="video-card">
+                    <div class="video-thumbnail">📱</div>
+                    <div class="video-content">
+                        <h3 class="video-title-card">Getting Started with SwiftUI</h3>
+                        <p class="video-description">Learn the basics of SwiftUI development</p>
+                        <div class="video-meta">By John Smith • 15 min</div>
+                        <div class="video-actions">
+                            <button class="video-btn" onclick="playVideo('SwiftUI')">▶️ Play</button>
+                            <button class="share-btn" onclick="shareVideo('SwiftUI')">↗️</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumbnail">💻</div>
+                    <div class="video-content">
+                        <h3 class="video-title-card">Advanced iOS Development</h3>
+                        <p class="video-description">Master advanced iOS development techniques</p>
+                        <div class="video-meta">By Sarah Johnson • 25 min</div>
+                        <div class="video-actions">
+                            <button class="video-btn" onclick="playVideo('iOS Development')">▶️ Play</button>
+                            <button class="share-btn" onclick="shareVideo('iOS Development')">↗️</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumbnail">🚀</div>
+                    <div class="video-content">
+                        <h3 class="video-title-card">Flutter Performance Optimization</h3>
+                        <p class="video-description">Optimize your Flutter apps for better performance</p>
+                        <div class="video-meta">By Mike Chen • 20 min</div>
+                        <div class="video-actions">
+                            <button class="video-btn" onclick="playVideo('Flutter Performance')">▶️ Play</button>
+                            <button class="share-btn" onclick="shareVideo('Flutter Performance')">↗️</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-thumbnail">⚛️</div>
+                    <div class="video-content">
+                        <h3 class="video-title-card">React Native Best Practices</h3>
+                        <p class="video-description">Best practices for React Native development</p>
+                        <div class="video-meta">By Emily Davis • 18 min</div>
+                        <div class="video-actions">
+                            <button class="video-btn" onclick="playVideo('React Native')">▶️ Play</button>
+                            <button class="share-btn" onclick="shareVideo('React Native')">↗️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isPlaying = true; // AUTO-PLAYING BACKGROUND VIDEO - Starts playing automatically
+        
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            playPauseBtn.textContent = isPlaying ? '⏸️' : '▶️';
+        }
+        
+        function playVideo(title) {
+            alert(`Playing video: ${title}`);
+        }
+        
+        function shareVideo(title) {
+            alert(`Share video: ${title}`);
+        }
+        
+        // AUTO-PLAYING BACKGROUND VIDEO - Simulate auto-play behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            // Video starts playing automatically when page loads
+            console.log('Video is auto-playing');
+        });
+    </script>
+</body>
+</html>

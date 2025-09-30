@@ -34,7 +34,6 @@
         .search-section {
             margin-bottom: 30px;
         }
-        .label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
@@ -53,7 +52,6 @@
             font-size: 16px;
             box-sizing: border-box;
         }
-        .search-input:focus {
             outline: none;
             border-color: #007bff;
             box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
@@ -158,18 +156,14 @@
             color: #666;
             font-size: 14px;
         }
-        .accessibility-info {
             background-color: #e9ecef;
             padding: 20px;
             border-radius: 4px;
         }
-        .accessibility-info h3 {
             margin-top: 0;
         }
-        .accessibility-info ul {
             margin-bottom: 20px;
         }
-        .accessibility-info li {
             margin-bottom: 8px;
         }
     </style>
@@ -178,17 +172,14 @@
     <div class="main-content">
         <h1 class="title">Search Interface</h1>
         <p class="subtitle">Search for content using the input field below. Suggestions will appear as you type.</p>
-        
         <div class="search-section">
             <div class="input-wrapper">
-                <label for="search-input" class="label">Search for content:</label>
                 <input
                     type="text"
                     id="search-input"
                     class="search-input"
                     placeholder="Type to search..."
                 />
-                
                 <!-- Suggestions Dropdown -->
                 <div
                     id="suggestions-dropdown"
@@ -197,7 +188,6 @@
                     <!-- Suggestions will be populated by JavaScript -->
                 </div>
             </div>
-            
             <button
                 id="search-button"
                 class="search-button"
@@ -206,7 +196,6 @@
                 Search
             </button>
         </div>
-
         <!-- Results Area -->
         <div class="results-section">
             <h2>Search Results</h2>
@@ -225,8 +214,6 @@
             </div>
         </div>
     </div>
-
-
     <script>
         const mockData = [
             { id: 1, title: 'React Development Guide', category: 'Books', author: 'John Doe' },
@@ -238,13 +225,11 @@
             { id: 7, title: 'Angular Services', category: 'Tutorials', author: 'Eve Davis' },
             { id: 8, title: 'JavaScript ES6', category: 'Tutorials', author: 'Frank Miller' }
         ];
-
         let suggestions = [];
         let results = [];
         let isLoading = false;
         let showSuggestions = false;
         let activeSuggestionIndex = -1;
-
         const searchInput = document.getElementById('search-input');
         const searchButton = document.getElementById('search-button');
         const suggestionsDropdown = document.getElementById('suggestions-dropdown');
@@ -254,10 +239,8 @@
         const resultsGrid = document.getElementById('results-grid');
         const noResults = document.getElementById('no-results');
         const emptyState = document.getElementById('empty-state');
-
         function handleInput() {
             const query = searchInput.value;
-            
             if (query.length > 1) {
                 const filtered = mockData.filter(item =>
                     item.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -275,7 +258,6 @@
                 hideSuggestions();
             }
         }
-
         function updateSuggestions() {
             if (suggestions.length > 0) {
                 suggestionsDropdown.innerHTML = suggestions.map((suggestion, index) => `
@@ -293,34 +275,27 @@
                 hideSuggestions();
             }
         }
-
         function hideSuggestions() {
             suggestionsDropdown.classList.remove('show');
         }
-
         function handleSuggestionClick(suggestion) {
             searchInput.value = suggestion.title;
             hideSuggestions();
             handleSearch();
         }
-
         async function handleSearch() {
             if (isLoading) return;
-            
             const query = searchInput.value.trim();
             if (!query) return;
-
             isLoading = true;
             searchButton.disabled = true;
             searchButton.textContent = 'Searching...';
-            
             // Hide all result states
             loadingState.style.display = 'block';
             resultsContent.style.display = 'none';
             noResults.style.display = 'none';
             emptyState.style.display = 'none';
             hideSuggestions();
-
             // Simulate API call
             setTimeout(() => {
                 const filtered = mockData.filter(item =>
@@ -328,13 +303,11 @@
                     item.category.toLowerCase().includes(query.toLowerCase()) ||
                     item.author.toLowerCase().includes(query.toLowerCase())
                 );
-                
                 results = filtered;
                 isLoading = false;
                 searchButton.disabled = false;
                 searchButton.textContent = 'Search';
                 loadingState.style.display = 'none';
-
                 if (results.length > 0) {
                     resultsCount.textContent = `Found ${results.length} result${results.length !== 1 ? 's' : ''}`;
                     resultsGrid.innerHTML = results.map(result => `
@@ -345,15 +318,12 @@
                         </div>
                     `).join('');
                     resultsContent.style.display = 'block';
-                    
                 } else {
                     noResults.querySelector('.no-results-text').textContent = `No results found for "${query}"`;
                     noResults.style.display = 'block';
-                    
                 }
             }, 1000);
         }
-
         function handleKeyDown(e) {
             if (e.key === 'Enter') {
                 if (showSuggestions && activeSuggestionIndex >= 0) {
@@ -378,12 +348,10 @@
                 }
             }
         }
-
         // Event listeners
         searchInput.addEventListener('input', handleInput);
         searchInput.addEventListener('keydown', handleKeyDown);
         searchButton.addEventListener('click', handleSearch);
-
         // Update search button state
         searchInput.addEventListener('input', () => {
             searchButton.disabled = !searchInput.value.trim() || isLoading;

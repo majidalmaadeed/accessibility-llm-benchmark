@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder3.Cocoa.XIB" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="FormValidationWithoutAssociationViewController" customModule="AccessibilityApp" customModuleProvider="target">
+            <connections>
+                <outlet property="genericErrorLabel" destination="genericErrorLabel" id="genericErrorLabel"/>
+                <outlet property="genericErrorPanel" destination="genericErrorPanel" id="genericErrorPanel"/>
+                <outlet property="loginButton" destination="loginButton" id="loginButton"/>
+                <outlet property="passwordErrorLabel" destination="passwordErrorLabel" id="passwordErrorLabel"/>
+                <outlet property="passwordField" destination="passwordField" id="passwordField"/>
+                <outlet property="progressIndicator" destination="progressIndicator" id="progressIndicator"/>
+                <outlet property="usernameErrorLabel" destination="usernameErrorLabel" id="usernameErrorLabel"/>
+                <outlet property="usernameField" destination="usernameField" id="usernameField"/>
+                <outlet property="view" destination="view" id="view"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="view" customClass="NSView" id="view">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="700"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="0.0" verticalPageScroll="0.0" hasHorizontalScroller="NO" hasVerticalScroller="YES" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="scrollView">
+                    <rect key="frame" x="20" y="20" width="560" height="660"/>
+                    <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="clipView">
+                        <rect key="frame" x="0.0" y="0.0" width="560" height="660"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="mainStackView">
+                                <rect key="frame" x="0.0" y="0.0" width="560" height="640"/>
+                                <subviews>
+                                    <!-- Main Content Card -->
+                                    <box boxType="custom" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="mainCard">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="400"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="400" id="mainCardHeight"/>
+                                        </constraints>
+                                        <view key="contentView" id="mainCardContentView">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="400"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="cardStackView">
+                                                    <rect key="frame" x="30" y="30" width="500" height="340"/>
+                                                    <subviews>
+                                                        <!-- Title -->
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="titleLabel">
+                                                            <rect key="frame" x="0.0" y="0.0" width="500" height="32"/>
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Login Form" id="titleLabelCell">
+                                                                <font key="font" metaFont="system" size="24"/>
+                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        
+                                                        <!-- Description -->
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="descriptionLabel">
+                                                            <rect key="frame" x="0.0" y="32" width="500" height="18"/>
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Please enter your credentials to access your account." id="descriptionLabelCell">
+                                                                <font key="font" metaFont="system" size="16"/>
+                                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        
+                                                        <!-- Login Form -->
+                                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="formStackView">
+                                                            <rect key="frame" x="0.0" y="50" width="500" height="290"/>
+                                                            <subviews>
+                                                                <!-- Username Field -->
+                                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="usernameStackView">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="500" height="60"/>
+                                                                    <subviews>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="usernameLabel">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="500" height="18"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Username:" id="usernameLabelCell">
+                                                                                <font key="font" metaFont="system" size="16" weight="bold"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="usernameField">
+                                                                            <rect key="frame" x="0.0" y="18" width="500" height="22"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="" id="usernameFieldCell">
+                                                                                <font key="font" metaFont="system" size="16"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        
+                                                                        <!-- MISSING: Error message not associated with field -->
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="usernameErrorLabel">
+                                                                            <rect key="frame" x="0.0" y="40" width="500" height="15"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="" id="usernameErrorLabelCell">
+                                                                                <font key="font" metaFont="system" size="12" weight="bold"/>
+                                                                                <color key="textColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                
+                                                                <!-- Password Field -->
+                                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="passwordStackView">
+                                                                    <rect key="frame" x="0.0" y="60" width="500" height="60"/>
+                                                                    <subviews>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="passwordLabel">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="500" height="18"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Password:" id="passwordLabelCell">
+                                                                                <font key="font" metaFont="system" size="16" weight="bold"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        
+                                                                        <secureTextField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="passwordField">
+                                                                            <rect key="frame" x="0.0" y="18" width="500" height="22"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="" id="passwordFieldCell">
+                                                                                <font key="font" metaFont="system" size="16"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </secureTextField>
+                                                                        
+                                                                        <!-- MISSING: Error message not associated with field -->
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="passwordErrorLabel">
+                                                                            <rect key="frame" x="0.0" y="40" width="500" height="15"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="" id="passwordErrorLabelCell">
+                                                                                <font key="font" metaFont="system" size="12" weight="bold"/>
+                                                                                <color key="textColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                
+                                                                <!-- Generic Error Message - NOT ASSOCIATED WITH SPECIFIC FIELDS -->
+                                                                <box boxType="custom" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="genericErrorPanel">
+                                                                    <rect key="frame" x="0.0" y="120" width="500" height="40"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="40" id="genericErrorPanelHeight"/>
+                                                                    </constraints>
+                                                                    <view key="contentView" id="genericErrorPanelContentView">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="500" height="40"/>
+                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                        <subviews>
+                                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="genericErrorLabel">
+                                                                                <rect key="frame" x="10" y="12" width="480" height="16"/>
+                                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Please fill in all required fields." id="genericErrorLabelCell">
+                                                                                    <font key="font" metaFont="system" size="12" weight="bold"/>
+                                                                                    <color key="textColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                </textFieldCell>
+                                                                            </textField>
+                                                                        </subviews>
+                                                                        <constraints>
+                                                                            <constraint firstItem="genericErrorLabel" firstAttribute="leading" secondItem="genericErrorPanelContentView" secondAttribute="leading" constant="10" id="genericErrorLabelLeading"/>
+                                                                            <constraint firstItem="genericErrorLabel" firstAttribute="trailing" secondItem="genericErrorPanelContentView" secondAttribute="trailing" constant="-10" id="genericErrorLabelTrailing"/>
+                                                                            <constraint firstItem="genericErrorLabel" firstAttribute="centerY" secondItem="genericErrorPanelContentView" secondAttribute="centerY" id="genericErrorLabelCenterY"/>
+                                                                        </constraints>
+                                                                    </view>
+                                                                </box>
+                                                                
+                                                                <!-- Login Button -->
+                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="loginButton">
+                                                                    <rect key="frame" x="0.0" y="170" width="500" height="32"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="32" id="loginButtonHeight"/>
+                                                                    </constraints>
+                                                                    <buttonCell key="cell" type="push" title="Login" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="loginButtonCell">
+                                                                        <font key="font" metaFont="system" size="16" weight="bold"/>
+                                                                        <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <action selector="loginClicked" target="-2" id="loginButtonAction"/>
+                                                                    </connections>
+                                                                </button>
+                                                                
+                                                                <!-- Progress Indicator -->
+                                                                <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="progressIndicator">
+                                                                    <rect key="frame" x="0.0" y="202" width="16" height="16"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="16" id="progressIndicatorWidth"/>
+                                                                        <constraint firstAttribute="height" constant="16" id="progressIndicatorHeight"/>
+                                                                    </constraints>
+                                                                </progressIndicator>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                </stackView>
+                                                <constraints>
+                                                    <constraint firstItem="cardStackView" firstAttribute="leading" secondItem="mainCardContentView" secondAttribute="leading" constant="30" id="cardStackViewLeading"/>
+                                                    <constraint firstItem="cardStackView" firstAttribute="trailing" secondItem="mainCardContentView" secondAttribute="trailing" constant="-30" id="cardStackViewTrailing"/>
+                                                    <constraint firstItem="cardStackView" firstAttribute="top" secondItem="mainCardContentView" secondAttribute="top" constant="30" id="cardStackViewTop"/>
+                                                    <constraint firstItem="cardStackView" firstAttribute="bottom" secondItem="mainCardContentView" secondAttribute="bottom" constant="-30" id="cardStackViewBottom"/>
+                                                </constraints>
+                                            </view>
+                                        </box>
+                                        
+                                        <!-- Accessibility Information -->
+                                        <box boxType="custom" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="accessibilityInfoBox">
+                                            <rect key="frame" x="0.0" y="400" width="560" height="240"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="240" id="accessibilityInfoBoxHeight"/>
+                                            </constraints>
+                                            <view key="contentView" id="accessibilityInfoBoxContentView">
+                                                <rect key="frame" x="0.0" y="0.0" width="560" height="240"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="accessibilityInfoStackView">
+                                                        <rect key="frame" x="20" y="20" width="520" height="200"/>
+                                                        <subviews>
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="accessibilityIssuesTitle">
+                                                                <rect key="frame" x="0.0" y="0.0" width="520" height="18"/>
+                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Accessibility Issues:" id="accessibilityIssuesTitleCell">
+                                                                    <font key="font" metaFont="system" size="16" weight="bold"/>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                            
+                                                            <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="NO" usesFontPanel="YES" verticallyResizable="YES" autosizingMask="height" id="accessibilityIssuesText">
+                                                                <rect key="frame" x="0.0" y="18" width="520" height="80"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="80" id="accessibilityIssuesTextHeight"/>
+                                                                </constraints>
+                                                                <string key="string">• Missing accessibilityLabel: Error messages are not linked to input fields
+• No accessibilityHint: Input fields don't indicate validation state
+• Generic error: Generic error message doesn't specify which fields have issues
+• No accessibilityAnnouncement: Screen readers won't announce errors when they appear</string>
+                                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                <size key="minSize" width="520" height="80"/>
+                                                                <size key="maxSize" width="520" height="80"/>
+                                                                <font key="font" metaFont="system" size="12"/>
+                                                                <textContainer key="textContainer" sizeToFit="NO" widthInset="0.0" heightInset="0.0" lineFragmentPadding="0.0" allowsNonContiguousLayout="NO" containerSize="width=520.0, height=80.0" maximumNumberOfLines="0" lineBreakMode="0" baseWritingDirection="0"/>
+                                                            </textView>
+                                                            
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="howToFixTitle">
+                                                                <rect key="frame" x="0.0" y="98" width="520" height="18"/>
+                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="How to Fix:" id="howToFixTitleCell">
+                                                                    <font key="font" metaFont="system" size="16" weight="bold"/>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                            
+                                                            <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="NO" usesFontPanel="YES" verticallyResizable="YES" autosizingMask="height" id="howToFixText">
+                                                                <rect key="frame" x="0.0" y="116" width="520" height="84"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="84" id="howToFixTextHeight"/>
+                                                                </constraints>
+                                                                <string key="string">• Add accessibilityLabel to link error messages to fields
+• Add accessibilityHint to indicate required fields
+• Use specific error messages for each field
+• Add accessibilityAnnouncement for error announcements</string>
+                                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                <size key="minSize" width="520" height="84"/>
+                                                                <size key="maxSize" width="520" height="84"/>
+                                                                <font key="font" metaFont="system" size="12"/>
+                                                                <textContainer key="textContainer" sizeToFit="NO" widthInset="0.0" heightInset="0.0" lineFragmentPadding="0.0" allowsNonContiguousLayout="NO" containerSize="width=520.0, height=84.0" maximumNumberOfLines="0" lineBreakMode="0" baseWritingDirection="0"/>
+                                                            </textView>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <constraints>
+                                                        <constraint firstItem="accessibilityInfoStackView" firstAttribute="leading" secondItem="accessibilityInfoBoxContentView" secondAttribute="leading" constant="20" id="accessibilityInfoStackViewLeading"/>
+                                                        <constraint firstItem="accessibilityInfoStackView" firstAttribute="trailing" secondItem="accessibilityInfoBoxContentView" secondAttribute="trailing" constant="-20" id="accessibilityInfoStackViewTrailing"/>
+                                                        <constraint firstItem="accessibilityInfoStackView" firstAttribute="top" secondItem="accessibilityInfoBoxContentView" secondAttribute="top" constant="20" id="accessibilityInfoStackViewTop"/>
+                                                        <constraint firstItem="accessibilityInfoStackView" firstAttribute="bottom" secondItem="accessibilityInfoBoxContentView" secondAttribute="bottom" constant="-20" id="accessibilityInfoStackViewBottom"/>
+                                                    </constraints>
+                                                </view>
+                                            </box>
+                                        </subviews>
+                                    </stackView>
+                                    <constraints>
+                                        <constraint firstItem="mainCard" firstAttribute="leading" secondItem="mainStackView" secondAttribute="leading" id="mainCardLeading"/>
+                                        <constraint firstItem="mainCard" firstAttribute="trailing" secondItem="mainStackView" secondAttribute="trailing" id="mainCardTrailing"/>
+                                        <constraint firstItem="mainCard" firstAttribute="top" secondItem="mainStackView" secondAttribute="top" id="mainCardTop"/>
+                                        <constraint firstItem="accessibilityInfoBox" firstAttribute="leading" secondItem="mainStackView" secondAttribute="leading" id="accessibilityInfoBoxLeading"/>
+                                        <constraint firstItem="accessibilityInfoBox" firstAttribute="trailing" secondItem="mainStackView" secondAttribute="trailing" id="accessibilityInfoBoxTrailing"/>
+                                        <constraint firstItem="accessibilityInfoBox" firstAttribute="top" secondItem="mainCard" secondAttribute="bottom" constant="20" id="accessibilityInfoBoxTop"/>
+                                        <constraint firstItem="accessibilityInfoBox" firstAttribute="bottom" secondItem="mainStackView" secondAttribute="bottom" id="accessibilityInfoBoxBottom"/>
+                                    </constraints>
+                                </stackView>
+                                <constraints>
+                                    <constraint firstItem="mainStackView" firstAttribute="leading" secondItem="clipView" secondAttribute="leading" id="mainStackViewLeading"/>
+                                    <constraint firstItem="mainStackView" firstAttribute="trailing" secondItem="clipView" secondAttribute="trailing" id="mainStackViewTrailing"/>
+                                    <constraint firstItem="mainStackView" firstAttribute="top" secondItem="clipView" secondAttribute="top" id="mainStackViewTop"/>
+                                    <constraint firstItem="mainStackView" firstAttribute="bottom" secondItem="clipView" secondAttribute="bottom" id="mainStackViewBottom"/>
+                                </constraints>
+                            </clipView>
+                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="horizontalScroller">
+                                <rect key="frame" x="1" y="1" width="558" height="15"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </scroller>
+                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="verticalScroller">
+                                <rect key="frame" x="545" y="1" width="15" height="658"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </scroller>
+                            <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="contentView">
+                                <rect key="frame" x="0.0" y="0.0" width="560" height="660"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </clipView>
+                        </scrollView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="scrollView" firstAttribute="leading" secondItem="view" secondAttribute="leading" constant="20" id="scrollViewLeading"/>
+                        <constraint firstItem="scrollView" firstAttribute="trailing" secondItem="view" secondAttribute="trailing" constant="-20" id="scrollViewTrailing"/>
+                        <constraint firstItem="scrollView" firstAttribute="top" secondItem="view" secondAttribute="top" constant="20" id="scrollViewTop"/>
+                        <constraint firstItem="scrollView" firstAttribute="bottom" secondItem="view" secondAttribute="bottom" constant="-20" id="scrollViewBottom"/>
+                    </constraints>
+                </view>
+            </objects>
+        </document>

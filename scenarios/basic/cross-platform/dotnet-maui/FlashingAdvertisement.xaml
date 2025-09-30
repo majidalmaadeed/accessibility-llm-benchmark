@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.FlashingAdvertisement"
+             Title="E-Commerce Store">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Mega Store"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="🛒 Cart (0)"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="👤 Account"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="20">
+                    
+                    <!-- FLASHING ADVERTISEMENT - Sale banner flashing 5 times per second -->
+                    <Border BackgroundColor="#dc3545" Stroke="#c82333" StrokeThickness="2" Padding="20">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="🔥 FLASH SALE - LIMITED TIME OFFER! 🔥"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"/>
+                            
+                            <Label Text="UP TO 70% OFF ON ALL ITEMS - ENDS IN 24 HOURS!"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"/>
+                            
+                            <Label Text="Don't miss out on these incredible deals! Shop now and save big!"
+                                   FontSize="16"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"/>
+                            
+                            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                                <Button Text="SHOP NOW"
+                                        BackgroundColor="White"
+                                        TextColor="#dc3545"
+                                        Padding="20,15"
+                                        CornerRadius="8"
+                                        FontSize="18"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="VIEW DEALS"
+                                        BackgroundColor="Transparent"
+                                        TextColor="White"
+                                        Padding="20,15"
+                                        CornerRadius="8"
+                                        FontSize="18"
+                                        FontAttributes="Bold"
+                                        BorderWidth="2"
+                                        BorderColor="White"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Product Categories -->
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="20" RowSpacing="20">
+                        
+                        <!-- Electronics Category -->
+                        <Border Grid.Row="0" Grid.Column="0" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="📱 Electronics"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="Latest smartphones, laptops, and gadgets"
+                                       FontSize="14"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="120">
+                                    <Label Text="📱💻⌚"
+                                           FontSize="48"
+                                           TextColor="#6C757D"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                
+                                <Button Text="Browse Electronics"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <!-- Fashion Category -->
+                        <Border Grid.Row="0" Grid.Column="1" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="👗 Fashion"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="Trendy clothing and accessories"
+                                       FontSize="14"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="120">
+                                    <Label Text="👗👔👠"
+                                           FontSize="48"
+                                           TextColor="#6C757D"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                
+                                <Button Text="Browse Fashion"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <!-- Home & Garden Category -->
+                        <Border Grid.Row="1" Grid.Column="0" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="🏠 Home & Garden"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="Furniture, decor, and garden supplies"
+                                       FontSize="14"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="120">
+                                    <Label Text="🛋️🌱🖼️"
+                                           FontSize="48"
+                                           TextColor="#6C757D"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                
+                                <Button Text="Browse Home"
+                                        BackgroundColor="#6f42c1"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <!-- Sports Category -->
+                        <Border Grid.Row="1" Grid.Column="1" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="⚽ Sports"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="Equipment and gear for all sports"
+                                       FontSize="14"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="120">
+                                    <Label Text="⚽🏀🎾"
+                                           FontSize="48"
+                                           TextColor="#6C757D"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                
+                                <Button Text="Browse Sports"
+                                        BackgroundColor="#fd7e14"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                    
+                    <!-- Featured Products -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Featured Products"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="Check out our most popular items this week"
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="20">
+                                
+                                <!-- Product 1 -->
+                                <Border Grid.Column="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="15">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Border BackgroundColor="White" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="100">
+                                            <Label Text="📱"
+                                                   FontSize="32"
+                                                   TextColor="#6C757D"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <Label Text="Smartphone Pro"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"
+                                               HorizontalOptions="Center"/>
+                                        
+                                        <Label Text="$599.99"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="#dc3545"
+                                               HorizontalOptions="Center"/>
+                                        
+                                        <Button Text="Add to Cart"
+                                                BackgroundColor="#007bff"
+                                                TextColor="White"
+                                                Padding="10,8"
+                                                CornerRadius="4"
+                                                FontSize="14"
+                                                FontAttributes="Bold"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                                
+                                <!-- Product 2 -->
+                                <Border Grid.Column="1" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="15">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Border BackgroundColor="White" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="100">
+                                            <Label Text="🎧"
+                                                   FontSize="32"
+                                                   TextColor="#6C757D"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <Label Text="Wireless Headphones"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"
+                                               HorizontalOptions="Center"/>
+                                        
+                                        <Label Text="$199.99"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="#dc3545"
+                                               HorizontalOptions="Center"/>
+                                        
+                                        <Button Text="Add to Cart"
+                                                BackgroundColor="#007bff"
+                                                TextColor="White"
+                                                Padding="10,8"
+                                                CornerRadius="4"
+                                                FontSize="14"
+                                                FontAttributes="Bold"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                                
+                                <!-- Product 3 -->
+                                <Border Grid.Column="2" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="15">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Border BackgroundColor="White" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="100">
+                                            <Label Text="⌚"
+                                                   FontSize="32"
+                                                   TextColor="#6C757D"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <Label Text="Smart Watch"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"
+                                               HorizontalOptions="Center"/>
+                                        
+                                        <Label Text="$299.99"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="#dc3545"
+                                               HorizontalOptions="Center"/>
+                                        
+                                        <Button Text="Add to Cart"
+                                                BackgroundColor="#007bff"
+                                                TextColor="White"
+                                                Padding="10,8"
+                                                CornerRadius="4"
+                                                FontSize="14"
+                                                FontAttributes="Bold"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Newsletter Signup -->
+                    <Border BackgroundColor="#007bff" Stroke="#0056b3" StrokeThickness="2" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="📧 Stay Updated!"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"/>
+                            
+                            <Label Text="Subscribe to our newsletter for exclusive deals and updates"
+                                   FontSize="16"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"/>
+                            
+                            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                <Entry Placeholder="Enter your email"
+                                       BackgroundColor="White"
+                                       TextColor="#333333"
+                                       Padding="15,12"
+                                       CornerRadius="6"
+                                       FontSize="16"
+                                       WidthRequest="250"/>
+                                
+                                <Button Text="Subscribe"
+                                        BackgroundColor="White"
+                                        TextColor="#007bff"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Shop"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Categories"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Deals"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="New Arrivals"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Support"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Help Center"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Shipping"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Returns"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Company"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="About Us"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Contact"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Careers"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Editor</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 20px;
+        }
+        
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 2px; /* INSUFFICIENT BUTTON SPACING - Action buttons placed 2px apart */
+        }
+        
+        .toolbar-group {
+            display: flex;
+            gap: 2px; /* INSUFFICIENT BUTTON SPACING - Action buttons placed 2px apart */
+            margin-right: 20px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .btn.suggested {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+            font-weight: bold;
+        }
+        
+        .btn.suggested:hover {
+            background: #0056b3;
+        }
+        
+        .main-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .document-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .document-content {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 30px;
+            min-height: 400px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .status-bar {
+            background: #f8f9fa;
+            border-top: 1px solid #ddd;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .word-count {
+            font-weight: bold;
+        }
+        
+        .formatting-toolbar {
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 20px;
+        }
+        
+        .formatting-group {
+            display: flex;
+            gap: 2px; /* INSUFFICIENT BUTTON SPACING - Formatting buttons placed 2px apart */
+            justify-content: center;
+        }
+        
+        .format-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .format-btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .format-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .quick-actions {
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 20px;
+        }
+        
+        .quick-actions-group {
+            display: flex;
+            gap: 2px; /* INSUFFICIENT BUTTON SPACING - Quick action buttons placed 2px apart */
+            justify-content: center;
+        }
+        
+        .quick-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .quick-btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .quick-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <!-- INSUFFICIENT BUTTON SPACING - Action buttons placed 2px apart -->
+                <button class="btn suggested" onclick="saveDocument()">Save</button>
+                <button class="btn" onclick="editDocument()">Edit</button>
+                <button class="btn" onclick="deleteDocument()">Delete</button>
+                <button class="btn" onclick="shareDocument()">Share</button>
+                <button class="btn" onclick="printDocument()">Print</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="formatting-toolbar">
+        <div class="formatting-group">
+            <!-- INSUFFICIENT BUTTON SPACING - Formatting buttons placed 2px apart -->
+            <button class="format-btn" onclick="toggleBold()" title="Bold">B</button>
+            <button class="format-btn" onclick="toggleItalic()" title="Italic">I</button>
+            <button class="format-btn" onclick="toggleUnderline()" title="Underline">U</button>
+            <button class="format-btn" onclick="alignLeft()" title="Align Left">A</button>
+            <button class="format-btn" onclick="alignCenter()" title="Align Center">A</button>
+            <button class="format-btn" onclick="alignRight()" title="Align Right">A</button>
+        </div>
+    </div>
+    
+    <div class="quick-actions">
+        <div class="quick-actions-group">
+            <!-- INSUFFICIENT BUTTON SPACING - Quick action buttons placed 2px apart -->
+            <button class="quick-btn" onclick="newDocument()" title="New Document">📄</button>
+            <button class="quick-btn" onclick="openFolder()" title="Open Folder">📁</button>
+            <button class="quick-btn" onclick="saveDocument()" title="Save">💾</button>
+            <button class="quick-btn" onclick="printDocument()" title="Print">🖨️</button>
+            <button class="quick-btn" onclick="exportDocument()" title="Export">📤</button>
+            <button class="quick-btn" onclick="searchDocument()" title="Search">🔍</button>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <h1 class="document-title">Sample Document</h1>
+        <div class="document-content" contenteditable="true">
+            This is a sample document content. You can edit this text when in edit mode. The document contains various sections and formatting options.
+            
+            <br><br>
+            
+            The toolbar above demonstrates insufficient button spacing with only 2px gaps between action buttons, which makes it difficult for users to accurately click on the intended button, especially on touch devices.
+            
+            <br><br>
+            
+            This violates accessibility guidelines that recommend a minimum of 44px touch target size and adequate spacing between interactive elements.
+        </div>
+    </div>
+    
+    <div class="status-bar">
+        <div class="status">Ready</div>
+        <div class="word-count">Words: 25</div>
+    </div>
+
+    <script>
+        let isEditing = false;
+        let isDeleting = false;
+        
+        function saveDocument() {
+            alert('Document saved successfully!');
+        }
+        
+        function editDocument() {
+            isEditing = !isEditing;
+            const editBtn = document.querySelector('button[onclick="editDocument()"]');
+            editBtn.textContent = isEditing ? 'Done' : 'Edit';
+            editBtn.classList.toggle('active', isEditing);
+            
+            const content = document.querySelector('.document-content');
+            content.contentEditable = isEditing;
+            
+            alert(`Edit mode: ${isEditing ? 'ON' : 'OFF'}`);
+        }
+        
+        function deleteDocument() {
+            isDeleting = !isDeleting;
+            alert(isDeleting ? 'Document deleted!' : 'Are you sure you want to delete this document?');
+        }
+        
+        function shareDocument() {
+            alert('Document shared successfully!');
+        }
+        
+        function printDocument() {
+            alert('Document sent to printer!');
+        }
+        
+        function newDocument() {
+            alert('New document created!');
+        }
+        
+        function openFolder() {
+            alert('Folder opened!');
+        }
+        
+        function exportDocument() {
+            alert('Document exported successfully!');
+        }
+        
+        function searchDocument() {
+            alert('Search functionality activated!');
+        }
+        
+        function toggleBold() {
+            const btn = event.target;
+            btn.classList.toggle('active');
+            alert('Bold formatting applied!');
+        }
+        
+        function toggleItalic() {
+            const btn = event.target;
+            btn.classList.toggle('active');
+            alert('Italic formatting applied!');
+        }
+        
+        function toggleUnderline() {
+            const btn = event.target;
+            btn.classList.toggle('active');
+            alert('Underline formatting applied!');
+        }
+        
+        function alignLeft() {
+            const btn = event.target;
+            document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            alert('Text aligned to left!');
+        }
+        
+        function alignCenter() {
+            const btn = event.target;
+            document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            alert('Text aligned to center!');
+        }
+        
+        function alignRight() {
+            const btn = event.target;
+            document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            alert('Text aligned to right!');
+        }
+        
+        // Update word count
+        function updateWordCount() {
+            const content = document.querySelector('.document-content');
+            const words = content.textContent.trim().split(/\s+/).length;
+            document.querySelector('.word-count').textContent = `Words: ${words}`;
+        }
+        
+        // Update word count when content changes
+        document.querySelector('.document-content').addEventListener('input', updateWordCount);
+        
+        // Initialize word count
+        updateWordCount();
+    </script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.ColorOnlyErrorIndication"
+             Title="Registration Form">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Create Account"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="❓ Help"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="← Back"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="30">
+                    
+                    <!-- Form Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="25">
+                            <Label Text="Account Information"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="Please fill in all required fields to create your account"
+                                   FontSize="16"
+                                   TextColor="#666666"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="30">
+                                
+                                <!-- Left Column -->
+                                <VerticalStackLayout Grid.Column="0" Spacing="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Username *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                                        <Entry Placeholder="Choose a username"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"
+                                               BorderColor="#dc3545"
+                                               BorderWidth="2"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Email Address *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                                        <Entry Placeholder="Enter your email address"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"
+                                               BorderColor="#dc3545"
+                                               BorderWidth="2"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Password *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                                        <Entry Placeholder="Create a password (min 8 characters)"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"
+                                               BorderColor="#dc3545"
+                                               BorderWidth="2"
+                                               IsPassword="True"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Confirm Password *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                                        <Entry Placeholder="Confirm your password"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"
+                                               BorderColor="#dc3545"
+                                               BorderWidth="2"
+                                               IsPassword="True"/>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                                
+                                <!-- Right Column -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="First Name *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                                        <Entry Placeholder="Enter your first name"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"
+                                               BorderColor="#dc3545"
+                                               BorderWidth="2"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Last Name *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                                        <Entry Placeholder="Enter your last name"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"
+                                               BorderColor="#dc3545"
+                                               BorderWidth="2"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Phone Number *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                                        <Entry Placeholder="Enter your phone number"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"
+                                               BorderColor="#dc3545"
+                                               BorderWidth="2"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Country *"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6"
+                                                BorderColor="#dc3545"
+                                                BorderWidth="2">
+                                            <Picker.Items>
+                                                <x:String>Select your country</x:String>
+                                                <x:String>United States</x:String>
+                                                <x:String>Canada</x:String>
+                                                <x:String>United Kingdom</x:String>
+                                                <x:String>Australia</x:String>
+                                                <x:String>Germany</x:String>
+                                                <x:String>France</x:String>
+                                                <x:String>Other</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                            
+                            <!-- Additional Information Section -->
+                            <VerticalStackLayout Spacing="20">
+                                <Label Text="Additional Information"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"/>
+                                
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="30">
+                                    
+                                    <!-- Left Column -->
+                                    <VerticalStackLayout Grid.Column="0" Spacing="20">
+                                        <VerticalStackLayout Spacing="10">
+                                            <Label Text="Date of Birth"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Entry Placeholder="MM/DD/YYYY"
+                                                   BackgroundColor="#F8F9FA"
+                                                   TextColor="#333333"
+                                                   Padding="15,12"
+                                                   CornerRadius="6"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <VerticalStackLayout Spacing="10">
+                                            <Label Text="Gender"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Picker BackgroundColor="#F8F9FA"
+                                                    TextColor="#333333"
+                                                    Padding="15,12"
+                                                    CornerRadius="6">
+                                                <Picker.Items>
+                                                    <x:String>Select gender</x:String>
+                                                    <x:String>Male</x:String>
+                                                    <x:String>Female</x:String>
+                                                    <x:String>Other</x:String>
+                                                    <x:String>Prefer not to say</x:String>
+                                                </Picker.Items>
+                                            </Picker>
+                                        </VerticalStackLayout>
+                                        
+                                        <VerticalStackLayout Spacing="10">
+                                            <Label Text="Occupation"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Entry Placeholder="Enter your occupation"
+                                                   BackgroundColor="#F8F9FA"
+                                                   TextColor="#333333"
+                                                   Padding="15,12"
+                                                   CornerRadius="6"/>
+                                        </VerticalStackLayout>
+                                    </VerticalStackLayout>
+                                    
+                                    <!-- Right Column -->
+                                    <VerticalStackLayout Grid.Column="1" Spacing="20">
+                                        <VerticalStackLayout Spacing="10">
+                                            <Label Text="Address"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Entry Placeholder="Enter your street address"
+                                                   BackgroundColor="#F8F9FA"
+                                                   TextColor="#333333"
+                                                   Padding="15,12"
+                                                   CornerRadius="6"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <VerticalStackLayout Spacing="10">
+                                            <Label Text="City"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Entry Placeholder="Enter your city"
+                                                   BackgroundColor="#F8F9FA"
+                                                   TextColor="#333333"
+                                                   Padding="15,12"
+                                                   CornerRadius="6"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <VerticalStackLayout Spacing="10">
+                                            <Label Text="ZIP Code"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Entry Placeholder="Enter your ZIP code"
+                                                   BackgroundColor="#F8F9FA"
+                                                   TextColor="#333333"
+                                                   Padding="15,12"
+                                                   CornerRadius="6"/>
+                                        </VerticalStackLayout>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </VerticalStackLayout>
+                            
+                            <!-- Terms and Conditions Section -->
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="Terms and Conditions"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"/>
+                                
+                                <VerticalStackLayout Spacing="10">
+                                    <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                                    <HorizontalStackLayout Spacing="15">
+                                        <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                        <Label Text="I agree to the Terms of Service and Privacy Policy *"
+                                               FontSize="16"
+                                               TextColor="#dc3545"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    
+                                    <HorizontalStackLayout Spacing="15">
+                                        <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                        <Label Text="I agree to receive marketing communications and newsletters"
+                                               FontSize="16"
+                                               TextColor="#333333"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    
+                                    <HorizontalStackLayout Spacing="15">
+                                        <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                        <Label Text="I agree to receive important account notifications via email"
+                                               FontSize="16"
+                                               TextColor="#333333"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    
+                                    <HorizontalStackLayout Spacing="15">
+                                        <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                        <Label Text="I agree to participate in user research and feedback surveys"
+                                               FontSize="16"
+                                               TextColor="#333333"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                            
+                            <!-- Submit Buttons -->
+                            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                                <Button Text="Reset Form"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="20,15"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="Create Account"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="20,15"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Help Section -->
+                    <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Need Help?"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="If you're having trouble with the registration process, please contact our support team."
+                                   FontSize="16"
+                                   TextColor="#666666"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <HorizontalStackLayout Spacing="20">
+                                <Button Text="📞 Contact Support"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="📧 Email Support"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="💬 Live Chat"
+                                        BackgroundColor="#6f42c1"
+                                        TextColor="White"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Account"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Login"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Register"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Profile"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Support"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Help Center"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Contact"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="FAQ"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Legal"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Terms"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Privacy"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Cookies"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

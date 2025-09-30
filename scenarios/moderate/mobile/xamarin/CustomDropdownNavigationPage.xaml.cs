@@ -3,16 +3,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
-
-namespace AccessibilityApp
 {
-    public partial class CustomDropdownNavigationPage : ContentPage, INotifyPropertyChanged
     {
         private bool _isOpen;
         private string _selectedValue = "all";
         private string _selectedText = "All Categories";
         private int _currentIndex = 0;
-
         public bool IsOpen
         {
             get => _isOpen;
@@ -22,7 +18,6 @@ namespace AccessibilityApp
                 OnPropertyChanged();
             }
         }
-
         public string SelectedValue
         {
             get => _selectedValue;
@@ -33,7 +28,6 @@ namespace AccessibilityApp
                 OnPropertyChanged(nameof(FilteredProducts));
             }
         }
-
         public string SelectedText
         {
             get => _selectedText;
@@ -43,7 +37,6 @@ namespace AccessibilityApp
                 OnPropertyChanged();
             }
         }
-
         public int CurrentIndex
         {
             get => _currentIndex;
@@ -53,10 +46,8 @@ namespace AccessibilityApp
                 OnPropertyChanged();
             }
         }
-
         public ObservableCollection<Option> Options { get; set; }
         public ObservableCollection<Product> FilteredProducts { get; set; }
-
         private readonly Dictionary<string, List<Product>> _products = new Dictionary<string, List<Product>>
         {
             ["all"] = new List<Product>
@@ -85,14 +76,11 @@ namespace AccessibilityApp
                 new Product { Name = "Garden Tools", Category = "Home & Garden" }
             }
         };
-
-        public CustomDropdownNavigationPage()
         {
             InitializeComponent();
             InitializeData();
             BindingContext = this;
         }
-
         private void InitializeData()
         {
             Options = new ObservableCollection<Option>
@@ -103,19 +91,15 @@ namespace AccessibilityApp
                 new Option { Value = "books", Text = "Books", IsSelected = false },
                 new Option { Value = "home", Text = "Home & Garden", IsSelected = false }
             };
-
             UpdateFilteredProducts();
         }
-
         private void OnDropdownButtonClicked(object sender, System.EventArgs e)
         {
             ToggleDropdown();
         }
-
         private void ToggleDropdown()
         {
             IsOpen = !IsOpen;
-            
             // Update button appearance
             if (IsOpen)
             {
@@ -126,7 +110,6 @@ namespace AccessibilityApp
                 DropdownButton.BorderColor = Color.FromHex("#DDDDDD");
             }
         }
-
         private void OnOptionSelected(object sender, SelectionChangedEventArgs e)
         {
             if (e.CurrentSelection.Count > 0 && e.CurrentSelection[0] is Option selectedOption)
@@ -134,26 +117,19 @@ namespace AccessibilityApp
                 SelectOption(selectedOption.Value, selectedOption.Text, Options.IndexOf(selectedOption));
             }
         }
-
         private void SelectOption(string value, string text, int index)
         {
             SelectedValue = value;
             SelectedText = text;
             CurrentIndex = index;
-
             // Update selection state
             foreach (var option in Options)
             {
                 option.IsSelected = option.Value == value;
             }
-
             ToggleDropdown();
             UpdateFilteredProducts();
-
-            // Announce selection change for accessibility
-            DependencyService.Get<IAccessibilityService>()?.Announce($"Selected {text}");
         }
-
         private void UpdateFilteredProducts()
         {
             if (_products.ContainsKey(SelectedValue))
@@ -166,21 +142,17 @@ namespace AccessibilityApp
             }
             OnPropertyChanged(nameof(FilteredProducts));
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
     public class Option : INotifyPropertyChanged
     {
         private string _value;
         private string _text;
         private bool _isSelected;
-
         public string Value
         {
             get => _value;
@@ -190,7 +162,6 @@ namespace AccessibilityApp
                 OnPropertyChanged();
             }
         }
-
         public string Text
         {
             get => _text;
@@ -200,7 +171,6 @@ namespace AccessibilityApp
                 OnPropertyChanged();
             }
         }
-
         public bool IsSelected
         {
             get => _isSelected;
@@ -210,20 +180,16 @@ namespace AccessibilityApp
                 OnPropertyChanged();
             }
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
     public class Product : INotifyPropertyChanged
     {
         private string _name;
         private string _category;
-
         public string Name
         {
             get => _name;
@@ -233,7 +199,6 @@ namespace AccessibilityApp
                 OnPropertyChanged();
             }
         }
-
         public string Category
         {
             get => _category;
@@ -243,17 +208,12 @@ namespace AccessibilityApp
                 OnPropertyChanged();
             }
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-    public interface IAccessibilityService
     {
-        void Announce(string message);
     }
 }

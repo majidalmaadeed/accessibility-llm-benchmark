@@ -1,5 +1,3 @@
-package com.example.accessibility
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -7,8 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
@@ -17,31 +13,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalAccessibilityManager
-import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 data class SearchResult(
     val id: Int,
     val title: String,
     val category: String,
     val author: String
 )
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchWithSilentUpdates() {
-    var query by remember { mutableStateOf("") }
-    var suggestions by remember { mutableStateOf<List<SearchResult>>(emptyList()) }
-    var results by remember { mutableStateOf<List<SearchResult>>(emptyList()) }
-    var isLoading by remember { mutableStateOf(false) }
-    var showSuggestions by remember { mutableStateOf(false) }
-    var activeSuggestionIndex by remember { mutableStateOf(-1) }
-    
     val mockData = listOf(
         SearchResult(1, "React Development Guide", "Books", "John Doe"),
         SearchResult(2, "Vue.js Tutorial", "Books", "Jane Smith"),
@@ -52,7 +37,6 @@ fun SearchWithSilentUpdates() {
         SearchResult(7, "Angular Services", "Tutorials", "Eve Davis"),
         SearchResult(8, "JavaScript ES6", "Tutorials", "Frank Miller")
     )
-    
     val handleInput = { newQuery: String ->
         query = newQuery
         if (newQuery.length > 1) {
@@ -70,10 +54,8 @@ fun SearchWithSilentUpdates() {
             activeSuggestionIndex = -1
         }
     }
-    
     val handleSearch = {
         isLoading = true
-        
         // Simulate API call
         androidx.compose.runtime.LaunchedEffect(Unit) {
             kotlinx.coroutines.delay(1000)
@@ -86,19 +68,14 @@ fun SearchWithSilentUpdates() {
             isLoading = false
             showSuggestions = false
             activeSuggestionIndex = -1
-            
-            // MISSING: Screen reader announcement of results
-            // Should announce "Found X results" or "No results found"
         }
     }
-    
     val handleSuggestionClick = { suggestion: SearchResult ->
         query = suggestion.title
         showSuggestions = false
         activeSuggestionIndex = -1
         handleSearch()
     }
-    
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -121,13 +98,10 @@ fun SearchWithSilentUpdates() {
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF333333)
                 )
-                
                 Text(
-                    text = "Violation: Search input + suggestions dropdown + results area without announcements.",
                     fontSize = 16.sp,
                     color = Color(0xFF666666)
                 )
-                
                 // Search Input Section
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -138,7 +112,6 @@ fun SearchWithSilentUpdates() {
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF333333)
                     )
-                    
                     Box {
                         OutlinedTextField(
                             value = query,
@@ -152,17 +125,11 @@ fun SearchWithSilentUpdates() {
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .semantics {
                                     contentDescription = "Search input field"
-                                    role = Role.TextField
                                 },
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                            keyboardActions = KeyboardActions(
                                 onSearch = { handleSearch() }
                             )
                         )
-                        
-                        // Suggestions Dropdown - MISSING ARIA ATTRIBUTES
                         if (showSuggestions && suggestions.isNotEmpty()) {
                             Card(
                                 modifier = Modifier
@@ -182,9 +149,7 @@ fun SearchWithSilentUpdates() {
                                                 .background(
                                                     if (index == activeSuggestionIndex) Color(0xFFF8F9FA) else Color.Transparent
                                                 )
-                                                .semantics {
                                                     contentDescription = "${suggestion.title}, ${suggestion.category}, ${suggestion.author}"
-                                                    role = Role.Button
                                                 },
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
@@ -204,7 +169,6 @@ fun SearchWithSilentUpdates() {
                                                 )
                                             }
                                         }
-                                        
                                         if (index < suggestions.size - 1) {
                                             Divider(
                                                 color = Color(0xFFEEEEEE),
@@ -216,7 +180,6 @@ fun SearchWithSilentUpdates() {
                             }
                         }
                     }
-                    
                     Button(
                         onClick = handleSearch,
                         enabled = !isLoading && query.trim().isNotEmpty(),
@@ -242,8 +205,6 @@ fun SearchWithSilentUpdates() {
                         )
                     }
                 }
-                
-                // Results Section - MISSING LIVE REGION
                 Column(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
@@ -253,7 +214,6 @@ fun SearchWithSilentUpdates() {
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF333333)
                     )
-                    
                     when {
                         isLoading -> {
                             Column(
@@ -278,7 +238,6 @@ fun SearchWithSilentUpdates() {
                                     fontSize = 14.sp,
                                     color = Color(0xFF666666)
                                 )
-                                
                                 LazyColumn(
                                     verticalArrangement = Arrangement.spacedBy(12.dp),
                                     modifier = Modifier.height(300.dp)
@@ -346,7 +305,6 @@ fun SearchWithSilentUpdates() {
                 }
             }
         }
-        
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = Color(0xFFE9ECEF)),
@@ -357,47 +315,22 @@ fun SearchWithSilentUpdates() {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Accessibility Issues:",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF333333)
-                )
-                
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    accessibilityIssue("Missing live region: No announcements when search results change")
-                    accessibilityIssue("Incomplete ARIA attributes: Suggestions lack proper aria-activedescendant")
-                    accessibilityIssue("No keyboard navigation: Arrow keys don't navigate through suggestions")
-                    accessibilityIssue("Missing announcements: Screen readers don't announce result count changes")
-                    accessibilityIssue("No loading state announcement: Loading state not announced to screen readers")
-                    accessibilityIssue("Missing suggestion selection: No aria-selected state management")
                 }
-                
                 Text(
                     text = "How to Fix:",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF333333)
                 )
-                
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    fixItem("Add aria-live=\"polite\" region for result announcements")
-                    fixItem("Implement aria-activedescendant for suggestion navigation")
-                    fixItem("Add arrow key navigation (Up/Down) through suggestions")
-                    fixItem("Announce result count changes (\"Found X results\")")
-                    fixItem("Add loading state announcements")
-                    fixItem("Implement proper aria-selected state management")
                 }
             }
         }
     }
 }
-
 @Composable
-private fun accessibilityIssue(text: String) {
     Row(
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -414,7 +347,6 @@ private fun accessibilityIssue(text: String) {
         )
     }
 }
-
 @Composable
 private fun fixItem(text: String) {
     Row(

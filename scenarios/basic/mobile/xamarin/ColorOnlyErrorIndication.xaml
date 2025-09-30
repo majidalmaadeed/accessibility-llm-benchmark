@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityTest.ColorOnlyErrorIndication"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="User Registration">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="24" Spacing="24">
+                <!-- Header -->
+                <StackLayout HorizontalOptions="Center" Spacing="8">
+                    <Label Text="Create Account" 
+                           FontSize="28" 
+                           FontAttributes="Bold" />
+                    <Label Text="Join our platform today" 
+                           FontSize="16" 
+                           TextColor="Gray" />
+                </StackLayout>
+                
+                <!-- Registration Form -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="24" 
+                       HasShadow="True">
+                    <StackLayout Spacing="20">
+                        <!-- First Name -->
+                        <StackLayout Spacing="8">
+                            <Label Text="First Name *" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Entry x:Name="FirstNameEntry" 
+                                   Placeholder="Enter your first name" 
+                                   FontSize="16" 
+                                   TextChanged="OnFirstNameTextChanged" />
+                        </StackLayout>
+                        
+                        <!-- Last Name -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Last Name *" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Entry x:Name="LastNameEntry" 
+                                   Placeholder="Enter your last name" 
+                                   FontSize="16" 
+                                   TextChanged="OnLastNameTextChanged" />
+                        </StackLayout>
+                        
+                        <!-- Email -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Email Address *" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Entry x:Name="EmailEntry" 
+                                   Placeholder="Enter your email" 
+                                   FontSize="16" 
+                                   Keyboard="Email" 
+                                   TextChanged="OnEmailTextChanged" />
+                        </StackLayout>
+                        
+                        <!-- Password -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Password *" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Entry x:Name="PasswordEntry" 
+                                   Placeholder="Create a password" 
+                                   FontSize="16" 
+                                   IsPassword="True" 
+                                   TextChanged="OnPasswordTextChanged" />
+                        </StackLayout>
+                        
+                        <!-- Confirm Password -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Confirm Password *" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Entry x:Name="ConfirmPasswordEntry" 
+                                   Placeholder="Confirm your password" 
+                                   FontSize="16" 
+                                   IsPassword="True" 
+                                   TextChanged="OnConfirmPasswordTextChanged" />
+                        </StackLayout>
+                        
+                        <!-- Phone Number -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Phone Number" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <Entry x:Name="PhoneEntry" 
+                                   Placeholder="Enter your phone number" 
+                                   FontSize="16" 
+                                   Keyboard="Telephone" 
+                                   TextChanged="OnPhoneTextChanged" />
+                        </StackLayout>
+                        
+                        <!-- Date of Birth -->
+                        <StackLayout Spacing="8">
+                            <Label Text="Date of Birth *" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <DatePicker x:Name="DateOfBirthPicker" 
+                                        DateSelected="OnDateOfBirthSelected" />
+                        </StackLayout>
+                        
+                        <!-- Terms and Conditions -->
+                        <StackLayout Spacing="8">
+                            <StackLayout Orientation="Horizontal" Spacing="12">
+                                <CheckBox x:Name="TermsCheckBox" 
+                                          CheckedChanged="OnTermsCheckedChanged" />
+                                <Label Text="I agree to the Terms and Conditions" 
+                                       FontSize="14" 
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                        </StackLayout>
+                        
+                        <!-- Newsletter Subscription -->
+                        <StackLayout Spacing="8">
+                            <StackLayout Orientation="Horizontal" Spacing="12">
+                                <CheckBox x:Name="NewsletterCheckBox" 
+                                          CheckedChanged="OnNewsletterCheckedChanged" />
+                                <Label Text="Subscribe to our newsletter" 
+                                       FontSize="14" 
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Action Buttons -->
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="16" 
+                             HorizontalOptions="Center">
+                    <Button Text="Cancel" 
+                            BackgroundColor="Transparent" 
+                            TextColor="Gray" 
+                            FontSize="16" 
+                            Padding="24,12" 
+                            BorderColor="Gray" 
+                            BorderWidth="1" 
+                            CornerRadius="8" 
+                            Clicked="OnCancelClicked" />
+                    <Button Text="Create Account" 
+                            BackgroundColor="Blue" 
+                            TextColor="White" 
+                            FontSize="16" 
+                            Padding="24,12" 
+                            CornerRadius="8" 
+                            Clicked="OnCreateAccountClicked" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

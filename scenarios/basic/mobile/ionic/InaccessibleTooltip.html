@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Builder</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .form-container {
+            padding: 24px;
+        }
+        
+        .form-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .help-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            background: lightblue;
+            color: blue;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            /* INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible */
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: black;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            z-index: 1000;
+            display: none;
+            max-width: 200px;
+        }
+        
+        .tooltip.show {
+            display: block;
+        }
+        
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .switch {
+            width: 50px;
+            height: 30px;
+            background: #ccc;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .switch.active {
+            background: blue;
+        }
+        
+        .switch-thumb {
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s;
+        }
+        
+        .switch.active .switch-thumb {
+            transform: translateX(20px);
+        }
+        
+        .switch-label {
+            font-size: 14px;
+            color: gray;
+        }
+        
+        .date-picker {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+        
+        .action-button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .cancel-button {
+            background: transparent;
+            color: gray;
+            border: 1px solid gray;
+        }
+        
+        .create-button {
+            background: blue;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Form Builder</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <div class="form-container">
+                <!-- Form Fields -->
+                <div class="form-section">
+                    <!-- Form Title -->
+                    <div class="form-group">
+                        <label class="form-label">Form Title *</label>
+                        <input type="text" class="form-input" placeholder="Enter form title">
+                    </div>
+                    
+                    <!-- Form Description -->
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" placeholder="Enter form description"></textarea>
+                    </div>
+                    
+                    <!-- Form Type -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            Form Type *
+                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                            <button class="help-icon" onclick="showTooltip(event, 'Select the type of form you want to create. This determines the default fields and settings.')">?</button>
+                        </label>
+                        <select class="form-select">
+                            <option value="">Select form type</option>
+                            <option value="survey">Survey</option>
+                            <option value="registration">Registration</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="application">Application</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Response Collection -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            Response Collection
+                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                            <button class="help-icon" onclick="showTooltip(event, 'Enable this to collect and store responses from form submissions. Disable for view-only forms.')">?</button>
+                        </label>
+                        <div class="switch-container">
+                            <div class="switch active" onclick="toggleSwitch(this)">
+                                <div class="switch-thumb"></div>
+                            </div>
+                            <span class="switch-label">Enable response collection for this form</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Privacy Settings -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            Privacy Settings
+                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                            <button class="help-icon" onclick="showTooltip(event, 'Choose who can access and submit this form. Public forms are accessible to everyone.')">?</button>
+                        </label>
+                        <select class="form-select">
+                            <option value="">Select privacy level</option>
+                            <option value="public">Public</option>
+                            <option value="internal">Internal</option>
+                            <option value="private">Private</option>
+                            <option value="confidential">Confidential</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Submission Deadline -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            Submission Deadline
+                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                            <button class="help-icon" onclick="showTooltip(event, 'Set a deadline for form submissions. After this date, the form will be closed for new responses.')">?</button>
+                        </label>
+                        <input type="date" class="date-picker">
+                    </div>
+                    
+                    <!-- Email Notifications -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            Email Notifications
+                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                            <button class="help-icon" onclick="showTooltip(event, 'Receive email alerts when someone submits a response to your form.')">?</button>
+                        </label>
+                        <div class="switch-container">
+                            <div class="switch active" onclick="toggleSwitch(this)">
+                                <div class="switch-thumb"></div>
+                            </div>
+                            <span class="switch-label">Send email notifications for form submissions</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Options -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            Advanced Options
+                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                            <button class="help-icon" onclick="showTooltip(event, 'Enable advanced customization features like custom validation rules, conditional logic, and API integration.')">?</button>
+                        </label>
+                        <div class="switch-container">
+                            <div class="switch" onclick="toggleSwitch(this)">
+                                <div class="switch-thumb"></div>
+                            </div>
+                            <span class="switch-label">Enable advanced form customization options</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-button cancel-button" onclick="cancelForm()">Cancel</button>
+                    <button class="action-button create-button" onclick="createForm()">Create Form</button>
+                </div>
+            </div>
+            
+            <!-- Tooltip -->
+            <div class="tooltip" id="tooltip"></div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        function showTooltip(event, text) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.textContent = text;
+            tooltip.classList.add('show');
+            
+            // Position tooltip
+            const rect = event.target.getBoundingClientRect();
+            tooltip.style.left = rect.left + 'px';
+            tooltip.style.top = (rect.bottom + 5) + 'px';
+            
+            // Hide tooltip after 3 seconds
+            setTimeout(() => {
+                tooltip.classList.remove('show');
+            }, 3000);
+        }
+        
+        function toggleSwitch(switchElement) {
+            switchElement.classList.toggle('active');
+        }
+        
+        function cancelForm() {
+            alert('Form creation cancelled.');
+        }
+        
+        function createForm() {
+            alert('Form created successfully!');
+        }
+    </script>
+</body>
+</html>

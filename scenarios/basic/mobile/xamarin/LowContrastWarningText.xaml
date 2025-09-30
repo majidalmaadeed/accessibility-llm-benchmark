@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityTest.LowContrastWarningText"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Secure Dashboard">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="0">
+                <!-- Session Warning Banner - LOW CONTRAST WARNING TEXT -->
+                <Frame BackgroundColor="#F5F5F5" 
+                       CornerRadius="0" 
+                       Padding="16" 
+                       Margin="0" 
+                       IsVisible="{Binding ShowWarning}"
+                       HasShadow="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Warning Icon - LOW CONTRAST -->
+                        <Label Text="⚠️" 
+                               FontSize="20" 
+                               Grid.Column="0" 
+                               VerticalOptions="Center"
+                               // LOW CONTRAST - Light gray icon on light background
+                               TextColor="#9E9E9E" />
+                        
+                        <!-- Warning Content -->
+                        <StackLayout Grid.Column="1" Margin="12,0,0,0">
+                            <Label Text="Session Timeout Warning" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   // LOW CONTRAST - Light gray text on light background
+                                   TextColor="#757575" />
+                            <Label Text="{Binding WarningMessage}" 
+                                   FontSize="14"
+                                   // LOW CONTRAST - Very light gray text on light background
+                                   TextColor="#BDBDBD" />
+                        </StackLayout>
+                        
+                        <!-- Action Buttons - LOW CONTRAST -->
+                        <StackLayout Grid.Column="2" 
+                                     Orientation="Horizontal" 
+                                     Spacing="8">
+                            <Button Text="Extend" 
+                                    BackgroundColor="Transparent" 
+                                    TextColor="#90CAF9" 
+                                    FontSize="14"
+                                    Clicked="OnExtendSessionClicked" />
+                            <Button Text="Logout" 
+                                    BackgroundColor="Transparent" 
+                                    TextColor="#EF9A9A" 
+                                    FontSize="14"
+                                    Clicked="OnLogoutClicked" />
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+                
+                <!-- Main Content -->
+                <StackLayout Padding="20" Spacing="24">
+                    <!-- Dashboard Header -->
+                    <Frame BackgroundColor="White" 
+                           CornerRadius="12" 
+                           Padding="20" 
+                           HasShadow="True">
+                        <StackLayout Spacing="16">
+                            <Label Text="Welcome back!" 
+                                   FontSize="24" 
+                                   FontAttributes="Bold" />
+                            <Label Text="Your session is active and secure" 
+                                   FontSize="16" 
+                                   TextColor="Gray" />
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <Label Text="⏰" FontSize="20" />
+                                <Label Text="{Binding SessionTimeLeft}" 
+                                       FontSize="14" 
+                                       TextColor="Gray" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                    
+                    <!-- Quick Actions -->
+                    <Label Text="Quick Actions" 
+                           FontSize="20" 
+                           FontAttributes="Bold" />
+                    
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Action Cards -->
+                        <Frame Grid.Row="0" Grid.Column="0" 
+                               BackgroundColor="White" 
+                               CornerRadius="12" 
+                               Padding="16" 
+                               Margin="0,0,8,8"
+                               HasShadow="True">
+                            <StackLayout HorizontalOptions="Center" Spacing="8">
+                                <Label Text="📊" FontSize="32" />
+                                <Label Text="View Reports" 
+                                       FontSize="14" 
+                                       FontAttributes="Bold" 
+                                       HorizontalOptions="Center" />
+                            </StackLayout>
+                        </Frame>
+                        
+                        <Frame Grid.Row="0" Grid.Column="1" 
+                               BackgroundColor="White" 
+                               CornerRadius="12" 
+                               Padding="16" 
+                               Margin="8,0,0,8"
+                               HasShadow="True">
+                            <StackLayout HorizontalOptions="Center" Spacing="8">
+                                <Label Text="👥" FontSize="32" />
+                                <Label Text="Manage Users" 
+                                       FontSize="14" 
+                                       FontAttributes="Bold" 
+                                       HorizontalOptions="Center" />
+                            </StackLayout>
+                        </Frame>
+                        
+                        <Frame Grid.Row="1" Grid.Column="0" 
+                               BackgroundColor="White" 
+                               CornerRadius="12" 
+                               Padding="16" 
+                               Margin="0,8,8,0"
+                               HasShadow="True">
+                            <StackLayout HorizontalOptions="Center" Spacing="8">
+                                <Label Text="⚙️" FontSize="32" />
+                                <Label Text="Settings" 
+                                       FontSize="14" 
+                                       FontAttributes="Bold" 
+                                       HorizontalOptions="Center" />
+                            </StackLayout>
+                        </Frame>
+                        
+                        <Frame Grid.Row="1" Grid.Column="1" 
+                               BackgroundColor="White" 
+                               CornerRadius="12" 
+                               Padding="16" 
+                               Margin="8,8,0,0"
+                               HasShadow="True">
+                            <StackLayout HorizontalOptions="Center" Spacing="8">
+                                <Label Text="❓" FontSize="32" />
+                                <Label Text="Help & Support" 
+                                       FontSize="14" 
+                                       FontAttributes="Bold" 
+                                       HorizontalOptions="Center" />
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                    
+                    <!-- Recent Activity -->
+                    <Label Text="Recent Activity" 
+                           FontSize="20" 
+                           FontAttributes="Bold" />
+                    
+                    <StackLayout Spacing="12">
+                        <Frame BackgroundColor="White" 
+                               CornerRadius="8" 
+                               Padding="16" 
+                               HasShadow="False">
+                            <StackLayout Orientation="Horizontal" Spacing="12">
+                                <Label Text="🟢" FontSize="16" />
+                                <StackLayout>
+                                    <Label Text="User logged in" 
+                                           FontSize="14" 
+                                           FontAttributes="Bold" />
+                                    <Label Text="2 minutes ago" 
+                                           FontSize="12" 
+                                           TextColor="Gray" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                        
+                        <Frame BackgroundColor="White" 
+                               CornerRadius="8" 
+                               Padding="16" 
+                               HasShadow="False">
+                            <StackLayout Orientation="Horizontal" Spacing="12">
+                                <Label Text="📊" FontSize="16" />
+                                <StackLayout>
+                                    <Label Text="Report generated" 
+                                           FontSize="14" 
+                                           FontAttributes="Bold" />
+                                    <Label Text="15 minutes ago" 
+                                           FontSize="12" 
+                                           TextColor="Gray" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                        
+                        <Frame BackgroundColor="White" 
+                               CornerRadius="8" 
+                               Padding="16" 
+                               HasShadow="False">
+                            <StackLayout Orientation="Horizontal" Spacing="12">
+                                <Label Text="⚙️" FontSize="16" />
+                                <StackLayout>
+                                    <Label Text="Settings updated" 
+                                           FontSize="14" 
+                                           FontAttributes="Bold" />
+                                    <Label Text="1 hour ago" 
+                                           FontSize="12" 
+                                           TextColor="Gray" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

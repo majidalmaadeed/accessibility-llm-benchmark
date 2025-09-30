@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityTest.AutoPlayingBackgroundVideo"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="TechCorp">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="0">
+                <!-- Hero Section with Auto-playing Background Video -->
+                <Frame BackgroundColor="Black" 
+                       CornerRadius="0" 
+                       Padding="0" 
+                       HeightRequest="500"
+                       HasShadow="False">
+                    <Grid>
+                        <!-- Background Video - AUTOPLAYS WITHOUT USER CONTROL -->
+                        <Image Source="https://via.placeholder.com/800x500" 
+                               Aspect="AspectFill" />
+                        
+                        <!-- Video Overlay -->
+                        <BoxView Color="Black" Opacity="0.3" />
+                        
+                        <!-- Hero Content -->
+                        <StackLayout HorizontalOptions="Center" 
+                                     VerticalOptions="Center" 
+                                     Spacing="16" 
+                                     Padding="32">
+                            <Label Text="Revolutionary Technology" 
+                                   FontSize="36" 
+                                   FontAttributes="Bold" 
+                                   TextColor="White" 
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Experience the future today" 
+                                   FontSize="20" 
+                                   TextColor="White" 
+                                   Opacity="0.7" 
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Discover cutting-edge solutions that transform how you work and live." 
+                                   FontSize="16" 
+                                   TextColor="White" 
+                                   Opacity="0.7" 
+                                   HorizontalTextAlignment="Center" />
+                            
+                            <StackLayout Orientation="Horizontal" 
+                                         Spacing="16" 
+                                         HorizontalOptions="Center" 
+                                         Margin="0,32,0,0">
+                                <Button Text="Learn More" 
+                                        BackgroundColor="Blue" 
+                                        TextColor="White" 
+                                        FontSize="18" 
+                                        Padding="32,16" 
+                                        CornerRadius="8" />
+                                <Button Text="⏸️ Pause" 
+                                        BackgroundColor="Transparent" 
+                                        TextColor="White" 
+                                        FontSize="16" 
+                                        Padding="24,16" 
+                                        BorderColor="White" 
+                                        BorderWidth="1" 
+                                        CornerRadius="8" />
+                            </StackLayout>
+                        </StackLayout>
+                        
+                        <!-- Slide Indicators -->
+                        <StackLayout Orientation="Horizontal" 
+                                     HorizontalOptions="Center" 
+                                     VerticalOptions="End" 
+                                     Margin="0,0,0,20">
+                            <Frame BackgroundColor="White" 
+                                   CornerRadius="6" 
+                                   Padding="0" 
+                                   WidthRequest="12" 
+                                   HeightRequest="12" 
+                                   Margin="6,0"
+                                   HasShadow="False" />
+                            <Frame BackgroundColor="White" 
+                                   Opacity="0.4" 
+                                   CornerRadius="6" 
+                                   Padding="0" 
+                                   WidthRequest="12" 
+                                   HeightRequest="12" 
+                                   Margin="6,0"
+                                   HasShadow="False" />
+                            <Frame BackgroundColor="White" 
+                                   Opacity="0.4" 
+                                   CornerRadius="6" 
+                                   Padding="0" 
+                                   WidthRequest="12" 
+                                   HeightRequest="12" 
+                                   Margin="6,0"
+                                   HasShadow="False" />
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+                
+                <!-- Features Section -->
+                <StackLayout BackgroundColor="LightGray" 
+                             Padding="32" 
+                             Spacing="32">
+                    <StackLayout HorizontalOptions="Center" Spacing="8">
+                        <Label Text="Why Choose Us" 
+                               FontSize="28" 
+                               FontAttributes="Bold" 
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="Powerful features designed to accelerate your success" 
+                               FontSize="16" 
+                               TextColor="Gray" 
+                               HorizontalTextAlignment="Center" />
+                    </StackLayout>
+                    
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Feature Cards -->
+                        <Frame Grid.Row="0" Grid.Column="0" 
+                               BackgroundColor="White" 
+                               CornerRadius="12" 
+                               Padding="24" 
+                               Margin="0,0,8,8"
+                               HasShadow="True">
+                            <StackLayout HorizontalOptions="Center" Spacing="16">
+                                <Label Text="🚀" FontSize="32" />
+                                <Label Text="Fast Performance" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" 
+                                       HorizontalTextAlignment="Center" />
+                                <Label Text="Lightning-fast processing and response times" 
+                                       FontSize="14" 
+                                       TextColor="Gray" 
+                                       HorizontalTextAlignment="Center" />
+                            </StackLayout>
+                        </Frame>
+                        
+                        <Frame Grid.Row="0" Grid.Column="1" 
+                               BackgroundColor="White" 
+                               CornerRadius="12" 
+                               Padding="24" 
+                               Margin="8,0,0,8"
+                               HasShadow="True">
+                            <StackLayout HorizontalOptions="Center" Spacing="16">
+                                <Label Text="🔒" FontSize="32" />
+                                <Label Text="Secure & Reliable" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" 
+                                       HorizontalTextAlignment="Center" />
+                                <Label Text="Enterprise-grade security and 99.9% uptime" 
+                                       FontSize="14" 
+                                       TextColor="Gray" 
+                                       HorizontalTextAlignment="Center" />
+                            </StackLayout>
+                        </Frame>
+                        
+                        <Frame Grid.Row="1" Grid.Column="0" 
+                               BackgroundColor="White" 
+                               CornerRadius="12" 
+                               Padding="24" 
+                               Margin="0,8,8,0"
+                               HasShadow="True">
+                            <StackLayout HorizontalOptions="Center" Spacing="16">
+                                <Label Text="📱" FontSize="32" />
+                                <Label Text="Mobile Ready" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" 
+                                       HorizontalTextAlignment="Center" />
+                                <Label Text="Optimized for all devices and screen sizes" 
+                                       FontSize="14" 
+                                       TextColor="Gray" 
+                                       HorizontalTextAlignment="Center" />
+                            </StackLayout>
+                        </Frame>
+                        
+                        <Frame Grid.Row="1" Grid.Column="1" 
+                               BackgroundColor="White" 
+                               CornerRadius="12" 
+                               Padding="24" 
+                               Margin="8,8,0,0"
+                               HasShadow="True">
+                            <StackLayout HorizontalOptions="Center" Spacing="16">
+                                <Label Text="⚡" FontSize="32" />
+                                <Label Text="Easy Integration" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" 
+                                       HorizontalTextAlignment="Center" />
+                                <Label Text="Simple APIs and comprehensive documentation" 
+                                       FontSize="14" 
+                                       TextColor="Gray" 
+                                       HorizontalTextAlignment="Center" />
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                </StackLayout>
+                
+                <!-- Stats Section -->
+                <StackLayout BackgroundColor="Blue" 
+                             Padding="32" 
+                             Spacing="32">
+                    <Label Text="Trusted by Thousands" 
+                           FontSize="24" 
+                           FontAttributes="Bold" 
+                           TextColor="White" 
+                           HorizontalTextAlignment="Center" />
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackLayout Grid.Column="0" HorizontalOptions="Center">
+                            <Label Text="10K+" 
+                                   FontSize="32" 
+                                   FontAttributes="Bold" 
+                                   TextColor="White" 
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Active Users" 
+                                   FontSize="14" 
+                                   TextColor="White" 
+                                   Opacity="0.7" 
+                                   HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                        
+                        <StackLayout Grid.Column="1" HorizontalOptions="Center">
+                            <Label Text="99.9%" 
+                                   FontSize="32" 
+                                   FontAttributes="Bold" 
+                                   TextColor="White" 
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Uptime" 
+                                   FontSize="14" 
+                                   TextColor="White" 
+                                   Opacity="0.7" 
+                                   HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                        
+                        <StackLayout Grid.Column="2" HorizontalOptions="Center">
+                            <Label Text="24/7" 
+                                   FontSize="32" 
+                                   FontAttributes="Bold" 
+                                   TextColor="White" 
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Support" 
+                                   FontSize="14" 
+                                   TextColor="White" 
+                                   Opacity="0.7" 
+                                   HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                        
+                        <StackLayout Grid.Column="3" HorizontalOptions="Center">
+                            <Label Text="50+" 
+                                   FontSize="32" 
+                                   FontAttributes="Bold" 
+                                   TextColor="White" 
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Countries" 
+                                   FontSize="14" 
+                                   TextColor="White" 
+                                   Opacity="0.7" 
+                                   HorizontalTextAlignment="Center" />
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+                
+                <!-- CTA Section -->
+                <StackLayout BackgroundColor="White" 
+                             Padding="48" 
+                             Spacing="32">
+                    <StackLayout HorizontalOptions="Center" Spacing="16">
+                        <Label Text="Ready to Get Started?" 
+                               FontSize="28" 
+                               FontAttributes="Bold" 
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="Join thousands of satisfied customers and transform your business today." 
+                               FontSize="16" 
+                               TextColor="Gray" 
+                               HorizontalTextAlignment="Center" />
+                    </StackLayout>
+                    
+                    <StackLayout Orientation="Horizontal" 
+                                 Spacing="16" 
+                                 HorizontalOptions="Center">
+                        <Button Text="Start Free Trial" 
+                                BackgroundColor="Blue" 
+                                TextColor="White" 
+                                FontSize="18" 
+                                Padding="32,16" 
+                                CornerRadius="8" />
+                        <Button Text="Contact Sales" 
+                                BackgroundColor="Transparent" 
+                                TextColor="Blue" 
+                                FontSize="18" 
+                                Padding="32,16" 
+                                BorderColor="Blue" 
+                                BorderWidth="1" 
+                                CornerRadius="8" />
+                    </StackLayout>
+                </StackLayout>
+                
+                <!-- Footer -->
+                <StackLayout BackgroundColor="DarkGray" 
+                             Padding="32" 
+                             Spacing="16">
+                    <Label Text="© 2024 TechCorp. All rights reserved." 
+                           FontSize="14" 
+                           TextColor="White" 
+                           Opacity="0.7" 
+                           HorizontalTextAlignment="Center" />
+                    
+                    <StackLayout Orientation="Horizontal" 
+                                 Spacing="16" 
+                                 HorizontalOptions="Center">
+                        <Button Text="Privacy Policy" 
+                                BackgroundColor="Transparent" 
+                                TextColor="White" 
+                                Opacity="0.7" 
+                                FontSize="14" />
+                        <Button Text="Terms of Service" 
+                                BackgroundColor="Transparent" 
+                                TextColor="White" 
+                                Opacity="0.7" 
+                                FontSize="14" />
+                        <Button Text="Support" 
+                                BackgroundColor="Transparent" 
+                                TextColor="White" 
+                                Opacity="0.7" 
+                                FontSize="14" />
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

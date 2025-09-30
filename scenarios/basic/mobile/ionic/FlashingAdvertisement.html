@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electronics Store</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .flash-banner {
+            background: red;
+            padding: 16px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            /* FLASHING ADVERTISEMENT - FLASHING 5 TIMES PER SECOND */
+            animation: flash 0.2s infinite alternate;
+        }
+        
+        @keyframes flash {
+            0% { background-color: red; }
+            100% { background-color: orange; }
+        }
+        
+        .banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .flash-icon {
+            font-size: 24px;
+        }
+        
+        .flash-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .flash-subtitle {
+            font-size: 18px;
+        }
+        
+        .flash-count {
+            font-size: 12px;
+            font-weight: bold;
+            background: white;
+            opacity: 0.2;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+        
+        .pause-button {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .products-section {
+            padding: 16px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .products-found {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 16px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image-container {
+            position: relative;
+            height: 200px;
+            background: lightgray;
+            overflow: hidden;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: red;
+            color: white;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .out-of-stock {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .product-info {
+            padding: 12px;
+        }
+        
+        .product-name {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .stars {
+            font-size: 12px;
+        }
+        
+        .rating-text {
+            font-size: 10px;
+            color: gray;
+        }
+        
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .current-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: green;
+        }
+        
+        .original-price {
+            font-size: 12px;
+            color: gray;
+            text-decoration: line-through;
+        }
+        
+        .save-badge {
+            background: green;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .add-to-cart {
+            flex: 1;
+            background: blue;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            padding: 8px;
+            cursor: pointer;
+        }
+        
+        .add-to-cart:disabled {
+            background: gray;
+            cursor: not-allowed;
+        }
+        
+        .wishlist-button, .share-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .wishlist-button {
+            background: lightgray;
+            color: gray;
+        }
+        
+        .share-button {
+            background: lightgray;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Electronics Store</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <!-- FLASHING ADVERTISEMENT - FLASHING 5 TIMES PER SECOND -->
+            <div class="flash-banner" id="flashBanner">
+                <div class="banner-content">
+                    <span class="flash-icon">🔥</span>
+                    <span class="flash-title">FLASH SALE!</span>
+                    <span class="flash-subtitle">Up to 50% OFF!</span>
+                    <span class="flash-count" id="flashCount">Flashes: 0</span>
+                    <button class="pause-button" onclick="toggleFlash()">⏸️</button>
+                </div>
+            </div>
+            
+            <div class="products-section">
+                <h2 class="section-title">All Products</h2>
+                <p class="products-found">6 products found</p>
+                
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://via.placeholder.com/200x200" alt="" class="product-image">
+                            <div class="discount-badge">33% OFF</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Wireless Headphones</div>
+                            <div class="rating">
+                                <span class="stars">⭐⭐⭐⭐☆</span>
+                                <span class="rating-text">4.5</span>
+                            </div>
+                            <div class="price-container">
+                                <span class="current-price">$99.99</span>
+                                <span class="original-price">$149.99</span>
+                                <span class="save-badge">Save $50</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-cart" onclick="addToCart('Wireless Headphones')">Add to Cart</button>
+                                <button class="wishlist-button" onclick="toggleWishlist(this)">♡</button>
+                                <button class="share-button" onclick="shareProduct('Wireless Headphones')">↗️</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://via.placeholder.com/200x200" alt="" class="product-image">
+                            <div class="discount-badge">25% OFF</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Smart Watch</div>
+                            <div class="rating">
+                                <span class="stars">⭐⭐⭐⭐⭐</span>
+                                <span class="rating-text">4.8</span>
+                            </div>
+                            <div class="price-container">
+                                <span class="current-price">$299.99</span>
+                                <span class="original-price">$399.99</span>
+                                <span class="save-badge">Save $100</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-cart" onclick="addToCart('Smart Watch')">Add to Cart</button>
+                                <button class="wishlist-button" onclick="toggleWishlist(this)">♡</button>
+                                <button class="share-button" onclick="shareProduct('Smart Watch')">↗️</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://via.placeholder.com/200x200" alt="" class="product-image">
+                            <div class="discount-badge">20% OFF</div>
+                            <div class="out-of-stock">Out of Stock</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Bluetooth Speaker</div>
+                            <div class="rating">
+                                <span class="stars">⭐⭐⭐⭐☆</span>
+                                <span class="rating-text">4.3</span>
+                            </div>
+                            <div class="price-container">
+                                <span class="current-price">$79.99</span>
+                                <span class="original-price">$99.99</span>
+                                <span class="save-badge">Save $20</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="add-to-cart" disabled>Add to Cart</button>
+                                <button class="wishlist-button" onclick="toggleWishlist(this)">♡</button>
+                                <button class="share-button" onclick="shareProduct('Bluetooth Speaker')">↗️</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        let flashCount = 0;
+        let isFlashing = true;
+        
+        function updateFlashCount() {
+            if (isFlashing) {
+                flashCount++;
+                document.getElementById('flashCount').textContent = `Flashes: ${flashCount}`;
+            }
+        }
+        
+        function toggleFlash() {
+            isFlashing = !isFlashing;
+            const banner = document.getElementById('flashBanner');
+            const button = event.target;
+            
+            if (isFlashing) {
+                banner.style.animation = 'flash 0.2s infinite alternate';
+                button.textContent = '⏸️';
+            } else {
+                banner.style.animation = 'none';
+                button.textContent = '▶️';
+            }
+        }
+        
+        function addToCart(productName) {
+            alert(`Added ${productName} to cart`);
+        }
+        
+        function toggleWishlist(button) {
+            if (button.textContent === '♡') {
+                button.textContent = '♥';
+                button.style.color = 'red';
+            } else {
+                button.textContent = '♡';
+                button.style.color = 'gray';
+            }
+        }
+        
+        function shareProduct(productName) {
+            alert(`Sharing ${productName}`);
+        }
+        
+        // Update flash count every 200ms (5 times per second)
+        setInterval(updateFlashCount, 200);
+    </script>
+</body>
+</html>

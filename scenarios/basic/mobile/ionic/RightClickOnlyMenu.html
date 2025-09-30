@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Manager</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .toolbar {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .toolbar-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .toolbar-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .toolbar-button.new {
+            background: lightblue;
+            color: blue;
+        }
+        
+        .toolbar-button.file {
+            background: lightgreen;
+            color: green;
+        }
+        
+        .toolbar-button.upload {
+            background: lightorange;
+            color: orange;
+        }
+        
+        .toolbar-button.search {
+            background: lightgray;
+            color: gray;
+        }
+        
+        .breadcrumb {
+            background: lightgray;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .breadcrumb-icon {
+            font-size: 16px;
+        }
+        
+        .breadcrumb-item {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .breadcrumb-separator {
+            font-size: 14px;
+            color: gray;
+        }
+        
+        .file-list {
+            background: white;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            gap: 12px;
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        
+        .file-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid gray;
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: gray;
+        }
+        
+        .file-checkbox.checked {
+            background: blue;
+            color: white;
+        }
+        
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .file-icon.document {
+            background: lightblue;
+            color: blue;
+        }
+        
+        .file-icon.spreadsheet {
+            background: lightgreen;
+            color: green;
+        }
+        
+        .file-icon.pdf {
+            background: lightpink;
+            color: pink;
+        }
+        
+        .file-icon.design {
+            background: lightyellow;
+            color: orange;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .file-details {
+            font-size: 12px;
+            color: gray;
+            line-height: 1.4;
+        }
+        
+        .file-type {
+            font-size: 12px;
+            color: gray;
+            margin-right: 12px;
+        }
+        
+        .more-button {
+            font-size: 20px;
+            color: gray;
+            background: lightgray;
+            border: none;
+            border-radius: 10px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .context-menu {
+            position: fixed;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 0;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .context-menu.visible {
+            display: block;
+        }
+        
+        .context-menu-item {
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            color: black;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .context-menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .context-menu-item:hover {
+            background: #f5f5f5;
+        }
+        
+        .context-menu-item.delete {
+            color: red;
+            font-weight: bold;
+        }
+        
+        .summary-footer {
+            background: white;
+            padding: 16px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .total-files {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sort-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>File Manager</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="toolbar-buttons">
+                    <button class="toolbar-button new" onclick="newFolder()">📁</button>
+                    <button class="toolbar-button file" onclick="newFile()">📄</button>
+                    <button class="toolbar-button upload" onclick="uploadFile()">📤</button>
+                    <button class="toolbar-button search" onclick="searchFiles()">🔍</button>
+                </div>
+            </div>
+            
+            <!-- Breadcrumb Navigation -->
+            <div class="breadcrumb">
+                <span class="breadcrumb-icon">📁</span>
+                <span class="breadcrumb-item">Home</span>
+                <span class="breadcrumb-separator">></span>
+                <span class="breadcrumb-item">Documents</span>
+                <span class="breadcrumb-separator">></span>
+                <span class="breadcrumb-item">Projects</span>
+            </div>
+            
+            <!-- File List -->
+            <div class="file-list">
+                <div class="file-item">
+                    <button class="file-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon document">📄</div>
+                    <div class="file-info">
+                        <div class="file-name">Project Proposal.docx</div>
+                        <div class="file-details">
+                            Document • 2.4 MB • 2024-01-20<br>
+                            By John Smith • Engineering
+                        </div>
+                    </div>
+                    <span class="file-type">Document</span>
+                    <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via long press -->
+                    <button class="more-button" onclick="showContextMenu(event)">⋯</button>
+                </div>
+                
+                <div class="file-item">
+                    <button class="file-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon spreadsheet">📊</div>
+                    <div class="file-info">
+                        <div class="file-name">Budget Report.xlsx</div>
+                        <div class="file-details">
+                            Spreadsheet • 1.8 MB • 2024-01-19<br>
+                            By Sarah Johnson • Finance
+                        </div>
+                    </div>
+                    <span class="file-type">Spreadsheet</span>
+                    <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via long press -->
+                    <button class="more-button" onclick="showContextMenu(event)">⋯</button>
+                </div>
+                
+                <div class="file-item">
+                    <button class="file-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon pdf">📕</div>
+                    <div class="file-info">
+                        <div class="file-name">Meeting Notes.pdf</div>
+                        <div class="file-details">
+                            PDF • 856 KB • 2024-01-18<br>
+                            By Mike Chen • Marketing
+                        </div>
+                    </div>
+                    <span class="file-type">PDF</span>
+                    <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via long press -->
+                    <button class="more-button" onclick="showContextMenu(event)">⋯</button>
+                </div>
+                
+                <div class="file-item">
+                    <button class="file-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon design">🎨</div>
+                    <div class="file-info">
+                        <div class="file-name">Design Mockups.sketch</div>
+                        <div class="file-details">
+                            Design • 15.2 MB • 2024-01-17<br>
+                            By Emily Davis • Design
+                        </div>
+                    </div>
+                    <span class="file-type">Design</span>
+                    <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via long press -->
+                    <button class="more-button" onclick="showContextMenu(event)">⋯</button>
+                </div>
+                
+                <div class="file-item">
+                    <button class="file-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon document">📄</div>
+                    <div class="file-info">
+                        <div class="file-name">Contract Template.docx</div>
+                        <div class="file-details">
+                            Document • 1.2 MB • 2024-01-16<br>
+                            By David Wilson • Legal
+                        </div>
+                    </div>
+                    <span class="file-type">Document</span>
+                    <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via long press -->
+                    <button class="more-button" onclick="showContextMenu(event)">⋯</button>
+                </div>
+                
+                <div class="file-item">
+                    <button class="file-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon pdf">📕</div>
+                    <div class="file-info">
+                        <div class="file-name">User Research.pdf</div>
+                        <div class="file-details">
+                            PDF • 3.1 MB • 2024-01-15<br>
+                            By Lisa Brown • Research
+                        </div>
+                    </div>
+                    <span class="file-type">PDF</span>
+                    <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via long press -->
+                    <button class="more-button" onclick="showContextMenu(event)">⋯</button>
+                </div>
+            </div>
+            
+            <!-- Summary Footer -->
+            <div class="summary-footer">
+                <div class="total-files">Total Files: 6</div>
+                <div class="sort-info">
+                    <span>Sort by: Name</span>
+                    <span>↓</span>
+                </div>
+            </div>
+            
+            <!-- Context Menu - RIGHT-CLICK ONLY MENU -->
+            <div class="context-menu" id="contextMenu">
+                <button class="context-menu-item" onclick="openFile()">📂 Open</button>
+                <button class="context-menu-item" onclick="copyFile()">📋 Copy</button>
+                <button class="context-menu-item" onclick="renameFile()">✏️ Rename</button>
+                <button class="context-menu-item" onclick="shareFile()">📤 Share</button>
+                <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via long press -->
+                <button class="context-menu-item delete" onclick="deleteFile()">🗑️ Delete</button>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        let selectedCount = 0;
+        
+        function toggleSelection(checkbox) {
+            if (checkbox.textContent === '☐') {
+                checkbox.textContent = '☑';
+                checkbox.classList.add('checked');
+                selectedCount++;
+            } else {
+                checkbox.textContent = '☐';
+                checkbox.classList.remove('checked');
+                selectedCount--;
+            }
+        }
+        
+        function showContextMenu(event) {
+            const contextMenu = document.getElementById('contextMenu');
+            contextMenu.style.left = event.pageX + 'px';
+            contextMenu.style.top = event.pageY + 'px';
+            contextMenu.classList.add('visible');
+            
+            // Hide context menu when clicking elsewhere
+            document.addEventListener('click', hideContextMenu);
+        }
+        
+        function hideContextMenu() {
+            const contextMenu = document.getElementById('contextMenu');
+            contextMenu.classList.remove('visible');
+            document.removeEventListener('click', hideContextMenu);
+        }
+        
+        function openFile() {
+            hideContextMenu();
+            alert('Opening file...');
+        }
+        
+        function copyFile() {
+            hideContextMenu();
+            alert('File copied to clipboard!');
+        }
+        
+        function renameFile() {
+            hideContextMenu();
+            alert('Opening rename dialog...');
+        }
+        
+        function shareFile() {
+            hideContextMenu();
+            alert('Opening share options...');
+        }
+        
+        function deleteFile() {
+            hideContextMenu();
+            alert('File deleted!');
+        }
+        
+        function newFolder() {
+            alert('Creating new folder...');
+        }
+        
+        function newFile() {
+            alert('Creating new file...');
+        }
+        
+        function uploadFile() {
+            alert('Opening file picker...');
+        }
+        
+        function searchFiles() {
+            alert('Opening search...');
+        }
+    </script>
+</body>
+</html>

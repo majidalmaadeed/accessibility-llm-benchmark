@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.MissingImageAltText"
+             Title="E-Commerce Catalog">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Electronics Store"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="🛒 Cart (0)"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="👤 Account"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Product Grid -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto" ColumnSpacing="20" RowSpacing="20">
+                    
+                    <!-- Product 1 -->
+                    <Border Grid.Row="0" Grid.Column="0" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                        <Grid RowDefinitions="Auto,*,Auto,Auto">
+                            <!-- MISSING IMAGE ALT TEXT - Product image without alternative text -->
+                            <Border Grid.Row="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="150">
+                                <Label Text="📱"
+                                       FontSize="48"
+                                       TextColor="#6C757D"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            
+                            <Label Grid.Row="1" 
+                                   Text="Smartphone Pro Max"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"
+                                   Margin="0,15,0,5"/>
+                            
+                            <Label Grid.Row="2" 
+                                   Text="Latest smartphone with advanced features"
+                                   FontSize="14"
+                                   TextColor="#666666"
+                                   Margin="0,0,0,10"/>
+                            
+                            <Label Grid.Row="3" 
+                                   Text="$999.99"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#007bff"
+                                   Margin="0,0,0,15"/>
+                            
+                            <HorizontalStackLayout Grid.Row="4" Spacing="10">
+                                <Button Text="Add to Cart"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="Details"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="♡"
+                                        BackgroundColor="#dc3545"
+                                        TextColor="White"
+                                        Padding="8,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        WidthRequest="40"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Product 2 -->
+                    <Border Grid.Row="0" Grid.Column="1" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                        <Grid RowDefinitions="Auto,*,Auto,Auto">
+                            <!-- MISSING IMAGE ALT TEXT - Product image without alternative text -->
+                            <Border Grid.Row="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="150">
+                                <Label Text="🎧"
+                                       FontSize="48"
+                                       TextColor="#6C757D"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            
+                            <Label Grid.Row="1" 
+                                   Text="Wireless Headphones"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"
+                                   Margin="0,15,0,5"/>
+                            
+                            <Label Grid.Row="2" 
+                                   Text="Premium noise-canceling headphones"
+                                   FontSize="14"
+                                   TextColor="#666666"
+                                   Margin="0,0,0,10"/>
+                            
+                            <Label Grid.Row="3" 
+                                   Text="$299.99"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#007bff"
+                                   Margin="0,0,0,15"/>
+                            
+                            <HorizontalStackLayout Grid.Row="4" Spacing="10">
+                                <Button Text="Add to Cart"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="Details"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="♡"
+                                        BackgroundColor="#dc3545"
+                                        TextColor="White"
+                                        Padding="8,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        WidthRequest="40"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Product 3 -->
+                    <Border Grid.Row="0" Grid.Column="2" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                        <Grid RowDefinitions="Auto,*,Auto,Auto">
+                            <!-- MISSING IMAGE ALT TEXT - Product image without alternative text -->
+                            <Border Grid.Row="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="150">
+                                <Label Text="💻"
+                                       FontSize="48"
+                                       TextColor="#6C757D"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            
+                            <Label Grid.Row="1" 
+                                   Text="Gaming Laptop"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"
+                                   Margin="0,15,0,5"/>
+                            
+                            <Label Grid.Row="2" 
+                                   Text="High-performance gaming laptop"
+                                   FontSize="14"
+                                   TextColor="#666666"
+                                   Margin="0,0,0,10"/>
+                            
+                            <Label Grid.Row="3" 
+                                   Text="$1,599.99"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#007bff"
+                                   Margin="0,0,0,15"/>
+                            
+                            <HorizontalStackLayout Grid.Row="4" Spacing="10">
+                                <Button Text="Add to Cart"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="Details"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="♡"
+                                        BackgroundColor="#dc3545"
+                                        TextColor="White"
+                                        Padding="8,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        WidthRequest="40"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Product 4 -->
+                    <Border Grid.Row="1" Grid.Column="0" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                        <Grid RowDefinitions="Auto,*,Auto,Auto">
+                            <!-- MISSING IMAGE ALT TEXT - Product image without alternative text -->
+                            <Border Grid.Row="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="150">
+                                <Label Text="⌚"
+                                       FontSize="48"
+                                       TextColor="#6C757D"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            
+                            <Label Grid.Row="1" 
+                                   Text="Smart Watch"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"
+                                   Margin="0,15,0,5"/>
+                            
+                            <Label Grid.Row="2" 
+                                   Text="Fitness tracking smartwatch"
+                                   FontSize="14"
+                                   TextColor="#666666"
+                                   Margin="0,0,0,10"/>
+                            
+                            <Label Grid.Row="3" 
+                                   Text="$399.99"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#007bff"
+                                   Margin="0,0,0,15"/>
+                            
+                            <HorizontalStackLayout Grid.Row="4" Spacing="10">
+                                <Button Text="Add to Cart"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="Details"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="♡"
+                                        BackgroundColor="#dc3545"
+                                        TextColor="White"
+                                        Padding="8,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        WidthRequest="40"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Product 5 -->
+                    <Border Grid.Row="1" Grid.Column="1" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                        <Grid RowDefinitions="Auto,*,Auto,Auto">
+                            <!-- MISSING IMAGE ALT TEXT - Product image without alternative text -->
+                            <Border Grid.Row="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="150">
+                                <Label Text="📱"
+                                       FontSize="48"
+                                       TextColor="#6C757D"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            
+                            <Label Grid.Row="1" 
+                                   Text="Tablet Pro"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"
+                                   Margin="0,15,0,5"/>
+                            
+                            <Label Grid.Row="2" 
+                                   Text="Professional tablet for work"
+                                   FontSize="14"
+                                   TextColor="#666666"
+                                   Margin="0,0,0,10"/>
+                            
+                            <Label Grid.Row="3" 
+                                   Text="$799.99"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#007bff"
+                                   Margin="0,0,0,15"/>
+                            
+                            <HorizontalStackLayout Grid.Row="4" Spacing="10">
+                                <Button Text="Add to Cart"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="Details"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="♡"
+                                        BackgroundColor="#dc3545"
+                                        TextColor="White"
+                                        Padding="8,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        WidthRequest="40"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Product 6 -->
+                    <Border Grid.Row="1" Grid.Column="2" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                        <Grid RowDefinitions="Auto,*,Auto,Auto">
+                            <!-- MISSING IMAGE ALT TEXT - Product image without alternative text -->
+                            <Border Grid.Row="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="150">
+                                <Label Text="🔊"
+                                       FontSize="48"
+                                       TextColor="#6C757D"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            
+                            <Label Grid.Row="1" 
+                                   Text="Bluetooth Speaker"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"
+                                   Margin="0,15,0,5"/>
+                            
+                            <Label Grid.Row="2" 
+                                   Text="Portable wireless speaker"
+                                   FontSize="14"
+                                   TextColor="#666666"
+                                   Margin="0,0,0,10"/>
+                            
+                            <Label Grid.Row="3" 
+                                   Text="$149.99"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#007bff"
+                                   Margin="0,0,0,15"/>
+                            
+                            <HorizontalStackLayout Grid.Row="4" Spacing="10">
+                                <Button Text="Add to Cart"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="Details"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="8,16"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                                
+                                <Button Text="♡"
+                                        BackgroundColor="#dc3545"
+                                        TextColor="White"
+                                        Padding="8,12"
+                                        CornerRadius="4"
+                                        FontSize="16"
+                                        WidthRequest="40"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="About"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Our Mission"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Team"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Careers"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Support"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Help Center"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Contact Us"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Documentation"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Legal"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Privacy Policy"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Terms of Service"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Cookie Policy"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.StatusByShapeOnly"
+             Title="Document Management">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Document Center"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="📤 Upload"
+                                BackgroundColor="#28a745"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="🔍 Search"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="⚙️ Settings"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="20">
+                    
+                    <!-- Document Statistics -->
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="15">
+                        <Border Grid.Column="0" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="📄"
+                                       FontSize="32"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="Total Documents"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="1,247"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#007bff"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <Border Grid.Column="1" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="⏳"
+                                       FontSize="32"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="Pending Review"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="23"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#ffc107"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <Border Grid.Column="2" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="✅"
+                                       FontSize="32"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="Approved"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="1,156"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#28a745"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <Border Grid.Column="3" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="❌"
+                                       FontSize="32"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="Rejected"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                <Label Text="68"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#dc3545"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                    
+                    <!-- Document List -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Recent Documents"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="Manage and review your document submissions"
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <!-- Document Items -->
+                            <VerticalStackLayout Spacing="15">
+                                
+                                <!-- Document 1 -->
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="20">
+                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="15">
+                                        <Border Grid.Column="0" BackgroundColor="#007bff" StrokeThickness="0" Padding="15" CornerRadius="8">
+                                            <Label Text="📄"
+                                                   FontSize="24"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                            <Label Text="Project Proposal - Q4 2024"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Submitted by: John Smith • Department: Engineering • Date: 2024-01-15"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="This document outlines the proposed engineering projects for Q4 2024, including budget estimates and timeline..."
+                                                   FontSize="14"
+                                                   TextColor="#333333"
+                                                   LineBreakMode="WordWrap"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <!-- STATUS BY SHAPE ONLY - Document approval status indicated only by circle vs square shape -->
+                                        <Border Grid.Column="2" BackgroundColor="#28a745" StrokeThickness="0" Padding="15" CornerRadius="50">
+                                            <Label Text="●"
+                                                   FontSize="20"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <VerticalStackLayout Grid.Column="3" Spacing="10">
+                                            <Button Text="View"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="12,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <Button Text="Download"
+                                                    BackgroundColor="#6c757d"
+                                                    TextColor="White"
+                                                    Padding="12,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                                
+                                <!-- Document 2 -->
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="20">
+                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="15">
+                                        <Border Grid.Column="0" BackgroundColor="#ffc107" StrokeThickness="0" Padding="15" CornerRadius="8">
+                                            <Label Text="📊"
+                                                   FontSize="24"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                            <Label Text="Financial Report - December 2023"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Submitted by: Sarah Johnson • Department: Finance • Date: 2024-01-12"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="Monthly financial report covering revenue, expenses, and profit margins for December 2023..."
+                                                   FontSize="14"
+                                                   TextColor="#333333"
+                                                   LineBreakMode="WordWrap"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <!-- STATUS BY SHAPE ONLY - Document approval status indicated only by circle vs square shape -->
+                                        <Border Grid.Column="2" BackgroundColor="#ffc107" StrokeThickness="0" Padding="15" CornerRadius="4">
+                                            <Label Text="■"
+                                                   FontSize="20"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <VerticalStackLayout Grid.Column="3" Spacing="10">
+                                            <Button Text="View"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="12,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <Button Text="Download"
+                                                    BackgroundColor="#6c757d"
+                                                    TextColor="White"
+                                                    Padding="12,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                                
+                                <!-- Document 3 -->
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="20">
+                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="15">
+                                        <Border Grid.Column="0" BackgroundColor="#dc3545" StrokeThickness="0" Padding="15" CornerRadius="8">
+                                            <Label Text="📋"
+                                                   FontSize="24"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                            <Label Text="HR Policy Update - Remote Work"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Submitted by: Mike Davis • Department: HR • Date: 2024-01-10"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="Updated policy document regarding remote work arrangements and guidelines for employees..."
+                                                   FontSize="14"
+                                                   TextColor="#333333"
+                                                   LineBreakMode="WordWrap"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <!-- STATUS BY SHAPE ONLY - Document approval status indicated only by circle vs square shape -->
+                                        <Border Grid.Column="2" BackgroundColor="#28a745" StrokeThickness="0" Padding="15" CornerRadius="50">
+                                            <Label Text="●"
+                                                   FontSize="20"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <VerticalStackLayout Grid.Column="3" Spacing="10">
+                                            <Button Text="View"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="12,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <Button Text="Download"
+                                                    BackgroundColor="#6c757d"
+                                                    TextColor="White"
+                                                    Padding="12,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                                
+                                <!-- Document 4 -->
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="20">
+                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="15">
+                                        <Border Grid.Column="0" BackgroundColor="#6c757d" StrokeThickness="0" Padding="15" CornerRadius="8">
+                                            <Label Text="📝"
+                                                   FontSize="24"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                            <Label Text="Marketing Campaign Brief"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Submitted by: Emily Wilson • Department: Marketing • Date: 2024-01-08"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="Comprehensive brief for the upcoming product launch campaign including target audience and messaging..."
+                                                   FontSize="14"
+                                                   TextColor="#333333"
+                                                   LineBreakMode="WordWrap"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <!-- STATUS BY SHAPE ONLY - Document approval status indicated only by circle vs square shape -->
+                                        <Border Grid.Column="2" BackgroundColor="#ffc107" StrokeThickness="0" Padding="15" CornerRadius="4">
+                                            <Label Text="■"
+                                                   FontSize="20"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <VerticalStackLayout Grid.Column="3" Spacing="10">
+                                            <Button Text="View"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="12,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <Button Text="Download"
+                                                    BackgroundColor="#6c757d"
+                                                    TextColor="White"
+                                                    Padding="12,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                                
+                                <!-- Document 5 -->
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="20">
+                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="15">
+                                        <Border Grid.Column="0" BackgroundColor="#17a2b8" StrokeThickness="0" Padding="15" CornerRadius="8">
+                                            <Label Text="📈"
+                                                   FontSize="24"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                            <Label Text="Sales Performance Analysis"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Submitted by: David Brown • Department: Sales • Date: 2024-01-05"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="Detailed analysis of sales performance for the past quarter with recommendations for improvement..."
+                                                   FontSize="14"
+                                                   TextColor="#333333"
+                                                   LineBreakMode="WordWrap"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <!-- STATUS BY SHAPE ONLY - Document approval status indicated only by circle vs square shape -->
+                                        <Border Grid.Column="2" BackgroundColor="#dc3545" StrokeThickness="0" Padding="15" CornerRadius="50">
+                                            <Label Text="●"
+                                                   FontSize="20"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        
+                                        <VerticalStackLayout Grid.Column="3" Spacing="10">
+                                            <Button Text="View"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="12,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <Button Text="Download"
+                                                    BackgroundColor="#6c757d"
+                                                    TextColor="White"
+                                                    Padding="12,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </VerticalStackLayout>
+                            
+                            <!-- Legend -->
+                            <Border BackgroundColor="#E9ECEF" Stroke="#DEE2E6" StrokeThickness="1" Padding="20">
+                                <VerticalStackLayout Spacing="10">
+                                    <Label Text="Status Legend"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"/>
+                                    
+                                    <HorizontalStackLayout Spacing="20">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Border BackgroundColor="#28a745" StrokeThickness="0" Padding="10" CornerRadius="50">
+                                                <Label Text="●"
+                                                       FontSize="16"
+                                                       TextColor="White"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"/>
+                                            </Border>
+                                            <Label Text="Approved"
+                                                   FontSize="14"
+                                                   TextColor="#333333"
+                                                   VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Border BackgroundColor="#ffc107" StrokeThickness="0" Padding="10" CornerRadius="4">
+                                                <Label Text="■"
+                                                       FontSize="16"
+                                                       TextColor="White"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"/>
+                                            </Border>
+                                            <Label Text="Pending"
+                                                   FontSize="14"
+                                                   TextColor="#333333"
+                                                   VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Border BackgroundColor="#dc3545" StrokeThickness="0" Padding="10" CornerRadius="50">
+                                                <Label Text="●"
+                                                       FontSize="16"
+                                                       TextColor="White"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"/>
+                                            </Border>
+                                            <Label Text="Rejected"
+                                                   FontSize="14"
+                                                   TextColor="#333333"
+                                                   VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                            
+                            <!-- Pagination -->
+                            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                                <Button Text="Previous"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="15,10"
+                                        CornerRadius="6"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="1"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="15,10"
+                                        CornerRadius="6"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="2"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#007bff"
+                                        Padding="15,10"
+                                        CornerRadius="6"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        BorderWidth="1"
+                                        BorderColor="#007bff"/>
+                                
+                                <Button Text="3"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#007bff"
+                                        Padding="15,10"
+                                        CornerRadius="6"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        BorderWidth="1"
+                                        BorderColor="#007bff"/>
+                                
+                                <Button Text="Next"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="15,10"
+                                        CornerRadius="6"
+                                        FontSize="14"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Documents"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Upload"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Review"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Archive"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Management"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Approval"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Workflow"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Reports"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="System"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Settings"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Help"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Support"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

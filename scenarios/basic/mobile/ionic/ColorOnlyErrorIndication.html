@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .form-container {
+            padding: 24px;
+        }
+        
+        .form-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input.error {
+            /* COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border */
+            border-color: red;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            height: 100px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-textarea.error {
+            /* COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border */
+            border-color: red;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-select.error {
+            /* COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border */
+            border-color: red;
+        }
+        
+        .date-picker {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .date-picker.error {
+            /* COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border */
+            border-color: red;
+        }
+        
+        .checkbox-group {
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+        
+        .checkbox.error {
+            /* COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border */
+            border-color: red;
+        }
+        
+        .checkbox-label {
+            font-size: 16px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+        
+        .action-button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .cancel-button {
+            background: transparent;
+            color: gray;
+            border: 1px solid gray;
+        }
+        
+        .create-button {
+            background: blue;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Create Account</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <div class="form-container">
+                <!-- Form Fields -->
+                <div class="form-section">
+                    <!-- First Name -->
+                    <div class="form-group">
+                        <label class="form-label">First Name *</label>
+                        <input type="text" class="form-input" id="firstName" placeholder="Enter your first name" onblur="validateFirstName()">
+                    </div>
+                    
+                    <!-- Last Name -->
+                    <div class="form-group">
+                        <label class="form-label">Last Name *</label>
+                        <input type="text" class="form-input" id="lastName" placeholder="Enter your last name" onblur="validateLastName()">
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label class="form-label">Email Address *</label>
+                        <input type="email" class="form-input" id="email" placeholder="Enter your email" onblur="validateEmail()">
+                    </div>
+                    
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label class="form-label">Password *</label>
+                        <input type="password" class="form-input" id="password" placeholder="Create a password" onblur="validatePassword()">
+                    </div>
+                    
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password *</label>
+                        <input type="password" class="form-input" id="confirmPassword" placeholder="Confirm your password" onblur="validateConfirmPassword()">
+                    </div>
+                    
+                    <!-- Phone Number -->
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" id="phone" placeholder="Enter your phone number" onblur="validatePhone()">
+                    </div>
+                    
+                    <!-- Date of Birth -->
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth *</label>
+                        <input type="date" class="date-picker" id="dateOfBirth" onchange="validateDateOfBirth()">
+                    </div>
+                    
+                    <!-- Terms and Conditions -->
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="checkbox" id="terms" onchange="validateTerms()">
+                            <label class="checkbox-label" for="terms">I agree to the Terms and Conditions</label>
+                        </div>
+                    </div>
+                    
+                    <!-- Newsletter Subscription -->
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="checkbox" id="newsletter">
+                            <label class="checkbox-label" for="newsletter">Subscribe to our newsletter</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-button cancel-button" onclick="cancelRegistration()">Cancel</button>
+                    <button class="action-button create-button" onclick="createAccount()">Create Account</button>
+                </div>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        function validateFirstName() {
+            const input = document.getElementById('firstName');
+            if (input.value.trim() === '') {
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        }
+        
+        function validateLastName() {
+            const input = document.getElementById('lastName');
+            if (input.value.trim() === '') {
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        }
+        
+        function validateEmail() {
+            const input = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (input.value.trim() === '' || !emailRegex.test(input.value)) {
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        }
+        
+        function validatePassword() {
+            const input = document.getElementById('password');
+            if (input.value.trim() === '' || input.value.length < 8) {
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        }
+        
+        function validateConfirmPassword() {
+            const input = document.getElementById('confirmPassword');
+            const password = document.getElementById('password').value;
+            if (input.value.trim() === '' || input.value !== password) {
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        }
+        
+        function validatePhone() {
+            const input = document.getElementById('phone');
+            if (input.value.trim() !== '' && input.value.length < 10) {
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        }
+        
+        function validateDateOfBirth() {
+            const input = document.getElementById('dateOfBirth');
+            const today = new Date();
+            const birthDate = new Date(input.value);
+            const age = today.getFullYear() - birthDate.getFullYear();
+            
+            if (age < 13) {
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        }
+        
+        function validateTerms() {
+            const input = document.getElementById('terms');
+            if (!input.checked) {
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        }
+        
+        function cancelRegistration() {
+            alert('Registration cancelled.');
+        }
+        
+        function createAccount() {
+            alert('Account created successfully!');
+        }
+    </script>
+</body>
+</html>

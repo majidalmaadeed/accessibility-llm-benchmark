@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Scheduler</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .form-container {
+            padding: 20px;
+        }
+        
+        .form-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .date-picker-widget {
+            background: lightgray;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 8px;
+        }
+        
+        .widget-title {
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        
+        .month-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            background: blue;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .month-year {
+            font-size: 16px;
+            font-weight: bold;
+            width: 120px;
+            text-align: center;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .day-header {
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            padding: 8px 0;
+        }
+        
+        .calendar-day {
+            background: transparent;
+            border: none;
+            font-size: 12px;
+            color: gray;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .calendar-day:hover {
+            background: lightblue;
+        }
+        
+        .time-selection {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .time-label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .time-picker {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .time-separator {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .widget-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .widget-button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .cancel-button {
+            background: gray;
+            color: white;
+            border: none;
+        }
+        
+        .ok-button {
+            background: blue;
+            color: white;
+            border: none;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+        
+        .action-button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .cancel-action {
+            background: transparent;
+            color: gray;
+            border: 1px solid gray;
+        }
+        
+        .create-action {
+            background: blue;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Schedule Event</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <div class="form-container">
+                <!-- Event Form -->
+                <div class="form-section">
+                    <!-- Event Title -->
+                    <div class="form-group">
+                        <label class="form-label">Event Title *</label>
+                        <input type="text" class="form-input" placeholder="Enter event title">
+                    </div>
+                    
+                    <!-- Event Description -->
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" placeholder="Enter event description"></textarea>
+                    </div>
+                    
+                    <!-- Event Date and Time -->
+                    <div class="form-group">
+                        <label class="form-label">Event Date & Time *</label>
+                        
+                        <!-- KEYBOARD TRAP IN WIDGET - Custom date picker that traps keyboard focus inside -->
+                        <div class="date-picker-widget">
+                            <div class="widget-title">Select Date and Time</div>
+                            
+                            <!-- Date Selection -->
+                            <div class="month-navigation">
+                                <button class="nav-button" onclick="previousMonth()">←</button>
+                                <div class="month-year" id="monthYear">January 2024</div>
+                                <button class="nav-button" onclick="nextMonth()">→</button>
+                            </div>
+                            
+                            <!-- Calendar Grid -->
+                            <div class="calendar-grid">
+                                <div class="day-header">S</div>
+                                <div class="day-header">M</div>
+                                <div class="day-header">T</div>
+                                <div class="day-header">W</div>
+                                <div class="day-header">T</div>
+                                <div class="day-header">F</div>
+                                <div class="day-header">S</div>
+                                
+                                <!-- Calendar Days - KEYBOARD TRAP IN WIDGET -->
+                                <button class="calendar-day" onclick="selectDate(this)">1</button>
+                                <button class="calendar-day" onclick="selectDate(this)">2</button>
+                                <button class="calendar-day" onclick="selectDate(this)">3</button>
+                                <button class="calendar-day" onclick="selectDate(this)">4</button>
+                                <button class="calendar-day" onclick="selectDate(this)">5</button>
+                                <button class="calendar-day" onclick="selectDate(this)">6</button>
+                                <button class="calendar-day" onclick="selectDate(this)">7</button>
+                                
+                                <button class="calendar-day" onclick="selectDate(this)">8</button>
+                                <button class="calendar-day" onclick="selectDate(this)">9</button>
+                                <button class="calendar-day" onclick="selectDate(this)">10</button>
+                                <button class="calendar-day" onclick="selectDate(this)">11</button>
+                                <button class="calendar-day" onclick="selectDate(this)">12</button>
+                                <button class="calendar-day" onclick="selectDate(this)">13</button>
+                                <button class="calendar-day" onclick="selectDate(this)">14</button>
+                                
+                                <button class="calendar-day" onclick="selectDate(this)">15</button>
+                                <button class="calendar-day" onclick="selectDate(this)">16</button>
+                                <button class="calendar-day" onclick="selectDate(this)">17</button>
+                                <button class="calendar-day" onclick="selectDate(this)">18</button>
+                                <button class="calendar-day" onclick="selectDate(this)">19</button>
+                                <button class="calendar-day" onclick="selectDate(this)">20</button>
+                                <button class="calendar-day" onclick="selectDate(this)">21</button>
+                                
+                                <button class="calendar-day" onclick="selectDate(this)">22</button>
+                                <button class="calendar-day" onclick="selectDate(this)">23</button>
+                                <button class="calendar-day" onclick="selectDate(this)">24</button>
+                                <button class="calendar-day" onclick="selectDate(this)">25</button>
+                                <button class="calendar-day" onclick="selectDate(this)">26</button>
+                                <button class="calendar-day" onclick="selectDate(this)">27</button>
+                                <button class="calendar-day" onclick="selectDate(this)">28</button>
+                                
+                                <button class="calendar-day" onclick="selectDate(this)">29</button>
+                                <button class="calendar-day" onclick="selectDate(this)">30</button>
+                                <button class="calendar-day" onclick="selectDate(this)">31</button>
+                            </div>
+                            
+                            <!-- Time Selection -->
+                            <div class="time-selection">
+                                <span class="time-label">Time:</span>
+                                <select class="time-picker" id="hourPicker">
+                                    <option value="00">00</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                </select>
+                                <span class="time-separator">:</span>
+                                <select class="time-picker" id="minutePicker">
+                                    <option value="00">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Action Buttons - KEYBOARD TRAP IN WIDGET -->
+                            <div class="widget-actions">
+                                <button class="widget-button cancel-button" onclick="cancelDateSelection()">Cancel</button>
+                                <button class="widget-button ok-button" onclick="confirmDateSelection()">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Event Location -->
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-input" placeholder="Enter event location">
+                    </div>
+                    
+                    <!-- Event Type -->
+                    <div class="form-group">
+                        <label class="form-label">Event Type</label>
+                        <select class="form-select">
+                            <option value="">Select event type</option>
+                            <option value="meeting">Meeting</option>
+                            <option value="conference">Conference</option>
+                            <option value="workshop">Workshop</option>
+                            <option value="social">Social</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-button cancel-action" onclick="cancelEvent()">Cancel</button>
+                    <button class="action-button create-action" onclick="createEvent()">Create Event</button>
+                </div>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        function previousMonth() {
+            alert('Previous month selected');
+        }
+        
+        function nextMonth() {
+            alert('Next month selected');
+        }
+        
+        function selectDate(button) {
+            alert(`Date ${button.textContent} selected`);
+        }
+        
+        function cancelDateSelection() {
+            alert('Date selection cancelled');
+        }
+        
+        function confirmDateSelection() {
+            alert('Date confirmed');
+        }
+        
+        function cancelEvent() {
+            alert('Event creation cancelled');
+        }
+        
+        function createEvent() {
+            alert('Event created successfully!');
+        }
+    </script>
+</body>
+</html>

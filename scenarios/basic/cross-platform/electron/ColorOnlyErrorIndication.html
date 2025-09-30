@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Registration</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .header-subtitle {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ff0000; /* COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border */
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #ff0000; /* COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border */
+        }
+        
+        .form-input::placeholder {
+            color: #999;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .form-note {
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .form-note a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .form-note a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon">👤</div>
+            <h1 class="header-title">Create Account</h1>
+            <p class="header-subtitle">Please fill out the form below</p>
+        </div>
+        
+        <form>
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                <input type="text" class="form-input" placeholder="Enter your full name" id="nameInput">
+                <div class="error-message" id="nameError">Please enter your full name</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                <input type="email" class="form-input" placeholder="Enter your email" id="emailInput">
+                <div class="error-message" id="emailError">Please enter a valid email address</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                <input type="password" class="form-input" placeholder="Enter your password" id="passwordInput">
+                <div class="error-message" id="passwordError">Password must be at least 8 characters</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Confirm Password</label>
+                <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                <input type="password" class="form-input" placeholder="Confirm your password" id="confirmPasswordInput">
+                <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                <input type="tel" class="form-input" placeholder="Enter your phone number" id="phoneInput">
+                <div class="error-message" id="phoneError">Please enter a valid phone number</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">ZIP Code</label>
+                <!-- COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border -->
+                <input type="text" class="form-input" placeholder="Enter your ZIP code" id="zipInput">
+                <div class="error-message" id="zipError">Please enter a valid ZIP code</div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" onclick="createAccount()">Create Account</button>
+                <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+            </div>
+        </form>
+        
+        <div class="form-note">
+            By creating an account, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+        </div>
+    </div>
+
+    <script>
+        function createAccount() {
+            // Simulate form validation
+            const fields = [
+                { id: 'nameInput', errorId: 'nameError', message: 'Please enter your full name' },
+                { id: 'emailInput', errorId: 'emailError', message: 'Please enter a valid email address' },
+                { id: 'passwordInput', errorId: 'passwordError', message: 'Password must be at least 8 characters' },
+                { id: 'confirmPasswordInput', errorId: 'confirmPasswordError', message: 'Passwords do not match' },
+                { id: 'phoneInput', errorId: 'phoneError', message: 'Please enter a valid phone number' },
+                { id: 'zipInput', errorId: 'zipError', message: 'Please enter a valid ZIP code' }
+            ];
+            
+            let hasErrors = false;
+            
+            fields.forEach(field => {
+                const input = document.getElementById(field.id);
+                const error = document.getElementById(field.errorId);
+                
+                if (!input.value.trim()) {
+                    // COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border
+                    input.style.borderColor = '#ff0000';
+                    error.classList.add('show');
+                    hasErrors = true;
+                } else {
+                    input.style.borderColor = '#ff0000'; // Still red to show the issue
+                    error.classList.remove('show');
+                }
+            });
+            
+            if (hasErrors) {
+                alert('Please fix the errors in the form');
+            } else {
+                alert('Account created successfully!');
+            }
+        }
+        
+        function clearForm() {
+            const inputs = document.querySelectorAll('.form-input');
+            const errors = document.querySelectorAll('.error-message');
+            
+            inputs.forEach(input => {
+                input.value = '';
+                // COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border
+                input.style.borderColor = '#ff0000';
+            });
+            
+            errors.forEach(error => {
+                error.classList.remove('show');
+            });
+        }
+        
+        // Add input event listeners to hide errors when user starts typing
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('input', function() {
+                const errorId = this.id.replace('Input', 'Error');
+                const error = document.getElementById(errorId);
+                if (error) {
+                    error.classList.remove('show');
+                }
+                // COLOR-ONLY ERROR INDICATION - Invalid form field marked only with red border
+                this.style.borderColor = '#ff0000';
+            });
+        });
+    </script>
+</body>
+</html>

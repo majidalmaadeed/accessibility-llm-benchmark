@@ -1,13 +1,11 @@
 <script>
   import { onMount } from 'svelte';
-
   let query = '';
   let suggestions = [];
   let results = [];
   let isLoading = false;
   let showSuggestions = false;
   let activeSuggestionIndex = -1;
-
   const mockData = [
     { id: 1, title: 'React Development Guide', category: 'Books', author: 'John Doe' },
     { id: 2, title: 'Vue.js Tutorial', category: 'Books', author: 'Jane Smith' },
@@ -18,7 +16,6 @@
     { id: 7, title: 'Angular Services', category: 'Tutorials', author: 'Eve Davis' },
     { id: 8, title: 'JavaScript ES6', category: 'Tutorials', author: 'Frank Miller' }
   ];
-
   function handleInput() {
     if (query.length > 1) {
       const filtered = mockData.filter(item =>
@@ -35,10 +32,8 @@
       activeSuggestionIndex = -1;
     }
   }
-
   function handleSearch() {
     isLoading = true;
-    
     // Simulate API call
     setTimeout(() => {
       const filtered = mockData.filter(item =>
@@ -50,19 +45,14 @@
       isLoading = false;
       showSuggestions = false;
       activeSuggestionIndex = -1;
-      
-      // MISSING: Screen reader announcement of results
-      // Should announce "Found X results" or "No results found"
     }, 1000);
   }
-
   function handleSuggestionClick(suggestion) {
     query = suggestion.title;
     showSuggestions = false;
     activeSuggestionIndex = -1;
     handleSearch();
   }
-
   function handleKeyDown(e) {
     if (e.key === 'Enter') {
       if (showSuggestions && activeSuggestionIndex >= 0) {
@@ -86,164 +76,38 @@
       }
     }
   }
-
   onMount(() => {
     // Component initialization
   });
 </script>
-
-<div class="search-container">
-  <div class="main-content">
-    <h1>Search Interface</h1>
-    <p>Search for content using the input field below. Suggestions will appear as you type.</p>
-    
-    <div class="search-section">
-      <div class="search-input-container">
-        <label for="search-input" class="search-label">
-          Search for content:
-        </label>
-        <div class="input-wrapper">
-          <input
-            id="search-input"
-            bind:value={query}
-            type="text"
-            placeholder="Type to search..."
-            on:keydown={handleKeyDown}
-            on:input={handleInput}
-            class="search-input"
-            aria-expanded={showSuggestions}
-            aria-haspopup="listbox"
-            aria-autocomplete="list"
-            aria-activedescendant={showSuggestions ? `suggestion-${activeSuggestionIndex}` : undefined}
-          />
-          
-          <!-- Suggestions Dropdown - MISSING ARIA ATTRIBUTES -->
-          {#if showSuggestions && suggestions.length > 0}
-            <div
-              class="suggestions-dropdown"
-              role="listbox"
-              aria-label="Search suggestions"
-            >
-              {#each suggestions as suggestion, index (suggestion.id)}
-                <div
-                  id="suggestion-{index}"
-                  on:click={() => handleSuggestionClick(suggestion)}
-                  class="suggestion-item"
-                  class:active={index === activeSuggestionIndex}
-                  role="option"
-                  aria-selected={index === activeSuggestionIndex}
-                >
-                  <div class="suggestion-title">{suggestion.title}</div>
-                  <div class="suggestion-meta">{suggestion.category} • {suggestion.author}</div>
-                </div>
-              {/each}
-            </div>
-          {/if}
-        </div>
-      </div>
-      
-      <button
-        on:click={handleSearch}
-        disabled={isLoading || !query.trim()}
-        class="search-button"
-        class:loading={isLoading}
-      >
-        {isLoading ? 'Searching...' : 'Search'}
-      </button>
-    </div>
-
-    <!-- Results Area - MISSING LIVE REGION -->
-    <div class="results-section">
-      <h2>Search Results</h2>
-      {#if isLoading}
-        <div class="loading-state">
-          <div class="loading-text">Searching...</div>
-        </div>
-      {:else if results.length > 0}
-        <div class="results-content">
-          <div class="results-count">
-            Found {results.length} result{results.length !== 1 ? 's' : ''}
-          </div>
-          <div class="results-grid">
-            {#each results as result (result.id)}
-              <div class="result-card">
-                <h3 class="result-title">{result.title}</h3>
-                <p class="result-category">Category: {result.category}</p>
-                <p class="result-author">Author: {result.author}</p>
-              </div>
-            {/each}
-          </div>
-        </div>
-      {:else if query}
-        <div class="no-results">
-          <div class="no-results-text">No results found for "{query}"</div>
-        </div>
-      {:else}
-        <div class="empty-state">
-          <div class="empty-text">Enter a search term to find content</div>
-        </div>
-      {/if}
-    </div>
-  </div>
-
-  <div class="accessibility-info">
-    <h3>Accessibility Issues:</h3>
-    <ul>
-      <li><strong>Missing live region:</strong> No announcements when search results change</li>
-      <li><strong>Incomplete ARIA attributes:</strong> Suggestions lack proper aria-activedescendant</li>
-      <li><strong>No keyboard navigation:</strong> Arrow keys don't navigate through suggestions</li>
-      <li><strong>Missing announcements:</strong> Screen readers don't announce result count changes</li>
-      <li><strong>No loading state announcement:</strong> Loading state not announced to screen readers</li>
-      <li><strong>Missing suggestion selection:</strong> No aria-selected state management</li>
-    </ul>
-    
-    <h3>How to Fix:</h3>
-    <ul>
-      <li>Add <code>aria-live="polite"</code> region for result announcements</li>
-      <li>Implement <code>aria-activedescendant</code> for suggestion navigation</li>
-      <li>Add arrow key navigation (Up/Down) through suggestions</li>
-      <li>Announce result count changes ("Found X results")</li>
-      <li>Add loading state announcements</li>
-      <li>Implement proper <code>aria-selected</code> state management</li>
-    </ul>
-  </div>
 </div>
-
 <style>
   .search-container {
-    font-family: Arial, sans-serif;
     max-width: 800px;
     margin: 50px auto;
     padding: 20px;
     background-color: #f5f5f5;
   }
-
   .main-content {
     background: white;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   }
-
   .search-section {
     margin-bottom: 30px;
   }
-
   .search-input-container {
     margin-bottom: 20px;
   }
-
-  .search-label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
     color: #333;
   }
-
   .input-wrapper {
     position: relative;
   }
-
   .search-input {
     width: 100%;
     padding: 12px 16px;
@@ -252,13 +116,10 @@
     font-size: 16px;
     box-sizing: border-box;
   }
-
-  .search-input:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
   }
-
   .suggestions-dropdown {
     position: absolute;
     top: 100%;
@@ -273,33 +134,27 @@
     max-height: 200px;
     overflow-y: auto;
   }
-
   .suggestion-item {
     padding: 12px 16px;
     cursor: pointer;
     border-bottom: 1px solid #eee;
     font-size: 14px;
   }
-
   .suggestion-item:hover,
   .suggestion-item.active {
     background-color: #f8f9fa;
   }
-
   .suggestion-item:last-child {
     border-bottom: none;
   }
-
   .suggestion-title {
     font-weight: bold;
     color: #333;
   }
-
   .suggestion-meta {
     color: #666;
     font-size: 12px;
   }
-
   .search-button {
     background-color: #007bff;
     color: white;
@@ -309,83 +164,65 @@
     font-size: 16px;
     cursor: pointer;
   }
-
   .search-button:hover:not(:disabled) {
     background-color: #0056b3;
   }
-
   .search-button:disabled,
   .search-button.loading {
     background-color: #6c757d;
     cursor: not-allowed;
   }
-
   .results-section h2 {
     margin-top: 0;
     color: #333;
   }
-
   .loading-state,
   .no-results,
   .empty-state {
     text-align: center;
     padding: 20px;
   }
-
   .loading-text,
   .no-results-text,
   .empty-text {
     font-size: 18px;
     color: #666;
   }
-
   .results-count {
     margin-bottom: 16px;
     font-size: 14px;
     color: #666;
   }
-
   .results-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 16px;
   }
-
   .result-card {
     background: #f8f9fa;
     padding: 16px;
     border-radius: 4px;
     border: 1px solid #ddd;
   }
-
   .result-title {
     margin: 0 0 8px 0;
     color: #333;
   }
-
   .result-category,
   .result-author {
     margin: 0 0 4px 0;
     color: #666;
     font-size: 14px;
   }
-
-  .accessibility-info {
     margin-top: 30px;
     padding: 20px;
     background-color: #e9ecef;
     border-radius: 4px;
   }
-
-  .accessibility-info h3 {
     margin-top: 0;
   }
-
-  .accessibility-info ul {
     margin-bottom: 20px;
   }
-
-  .accessibility-info li {
     margin-bottom: 8px;
   }
 </style>

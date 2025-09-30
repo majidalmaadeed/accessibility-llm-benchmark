@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder3.Cocoa.XIB" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ModalWithoutFocusManagementViewController" customModule="AccessibilityApp" customModuleProvider="target">
+            <connections>
+                <outlet property="cancelButton" destination="cancelButton" id="cancelButton"/>
+                <outlet property="closeModalButton" destination="closeModalButton" id="closeModalButton"/>
+                <outlet property="languageComboBox" destination="languageComboBox" id="languageComboBox"/>
+                <outlet property="modalOverlay" destination="modalOverlay" id="modalOverlay"/>
+                <outlet property="modalWindow" destination="modalWindow" id="modalWindow"/>
+                <outlet property="notificationsComboBox" destination="notificationsComboBox" id="notificationsComboBox"/>
+                <outlet property="openModalButton" destination="openModalButton" id="openModalButton"/>
+                <outlet property="saveButton" destination="saveButton" id="saveButton"/>
+                <outlet property="themeComboBox" destination="themeComboBox" id="themeComboBox"/>
+                <outlet property="view" destination="view" id="view"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="view" customClass="NSView" id="view">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="700"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="0.0" verticalPageScroll="0.0" hasHorizontalScroller="NO" hasVerticalScroller="YES" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="scrollView">
+                    <rect key="frame" x="20" y="20" width="560" height="660"/>
+                    <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="clipView">
+                        <rect key="frame" x="0.0" y="0.0" width="560" height="660"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="mainStackView">
+                                <rect key="frame" x="0.0" y="0.0" width="560" height="640"/>
+                                <subviews>
+                                    <!-- Main Content Card -->
+                                    <box boxType="custom" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="mainCard">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="300"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="300" id="mainCardHeight"/>
+                                        </constraints>
+                                        <view key="contentView" id="mainCardContentView">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="300"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="cardStackView">
+                                                    <rect key="frame" x="30" y="30" width="500" height="240"/>
+                                                    <subviews>
+                                                        <!-- Title -->
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="titleLabel">
+                                                            <rect key="frame" x="0.0" y="0.0" width="500" height="32"/>
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Settings Modal" id="titleLabelCell">
+                                                                <font key="font" metaFont="system" size="24"/>
+                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        
+                                                        <!-- Description -->
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="descriptionLabel">
+                                                            <rect key="frame" x="0.0" y="32" width="500" height="18"/>
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Configure your application settings using the modal below." id="descriptionLabelCell">
+                                                                <font key="font" metaFont="system" size="16"/>
+                                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        
+                                                        <!-- Open Modal Button -->
+                                                        <button translatesAutoresizingMaskIntoConstraints="NO" id="openModalButton">
+                                                            <rect key="frame" x="0.0" y="50" width="200" height="32"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="32" id="openModalButtonHeight"/>
+                                                            </constraints>
+                                                            <buttonCell key="cell" type="push" title="Open Settings Modal" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="openModalButtonCell">
+                                                                <font key="font" metaFont="system" size="16" weight="bold"/>
+                                                                <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <action selector="openModalClicked" target="-2" id="openModalButtonAction"/>
+                                                            </connections>
+                                                        </button>
+                                                        
+                                                        <!-- Description -->
+                                                        <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="NO" usesFontPanel="YES" verticallyResizable="YES" autosizingMask="height" id="descriptionTextView">
+                                                            <rect key="frame" x="0.0" y="82" width="500" height="40"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="40" id="descriptionTextViewHeight"/>
+                                                            </constraints>
+                                                            <string key="string">This page demonstrates a modal dialog that violates accessibility guidelines by not managing focus properly.
+
+When the modal opens, focus should be trapped inside it and returned to the trigger button when closed.</string>
+                                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            <size key="minSize" width="500" height="40"/>
+                                                            <size key="maxSize" width="500" height="40"/>
+                                                            <font key="font" metaFont="system" size="12"/>
+                                                            <textContainer key="textContainer" sizeToFit="NO" widthInset="0.0" heightInset="0.0" lineFragmentPadding="0.0" allowsNonContiguousLayout="NO" containerSize="width=500.0, height=40.0" maximumNumberOfLines="0" lineBreakMode="0" baseWritingDirection="0"/>
+                                                        </textView>
+                                                    </subviews>
+                                                </stackView>
+                                                <constraints>
+                                                    <constraint firstItem="cardStackView" firstAttribute="leading" secondItem="mainCardContentView" secondAttribute="leading" constant="30" id="cardStackViewLeading"/>
+                                                    <constraint firstItem="cardStackView" firstAttribute="trailing" secondItem="mainCardContentView" secondAttribute="trailing" constant="-30" id="cardStackViewTrailing"/>
+                                                    <constraint firstItem="cardStackView" firstAttribute="top" secondItem="mainCardContentView" secondAttribute="top" constant="30" id="cardStackViewTop"/>
+                                                    <constraint firstItem="cardStackView" firstAttribute="bottom" secondItem="mainCardContentView" secondAttribute="bottom" constant="-30" id="cardStackViewBottom"/>
+                                                </constraints>
+                                            </view>
+                                        </box>
+                                        
+                                        <!-- Modal Overlay -->
+                                        <view translatesAutoresizingMaskIntoConstraints="NO" id="modalOverlay">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="640"/>
+                                            <subviews>
+                                                <box boxType="custom" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="modalBox">
+                                                    <rect key="frame" x="30" y="120" width="500" height="400"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="500" id="modalBoxWidth"/>
+                                                        <constraint firstAttribute="height" constant="400" id="modalBoxHeight"/>
+                                                    </constraints>
+                                                    <view key="contentView" id="modalBoxContentView">
+                                                        <rect key="frame" x="0.0" y="0.0" width="500" height="400"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="modalStackView">
+                                                                <rect key="frame" x="30" y="30" width="440" height="340"/>
+                                                                <subviews>
+                                                                    <!-- Modal Header -->
+                                                                    <stackView distribution="fill" orientation="horizontal" alignment="center" spacing="0" translatesAutoresizingMaskIntoConstraints="NO" id="modalHeaderStackView">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="440" height="32"/>
+                                                                        <subviews>
+                                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="modalTitleLabel">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="400" height="32"/>
+                                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Settings" id="modalTitleLabelCell">
+                                                                                    <font key="font" metaFont="system" size="24"/>
+                                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                </textFieldCell>
+                                                                            </textField>
+                                                                            
+                                                                            <button translatesAutoresizingMaskIntoConstraints="NO" id="closeModalButton">
+                                                                                <rect key="frame" x="400" y="0.0" width="40" height="32"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="width" constant="40" id="closeModalButtonWidth"/>
+                                                                                    <constraint firstAttribute="height" constant="32" id="closeModalButtonHeight"/>
+                                                                                </constraints>
+                                                                                <buttonCell key="cell" type="push" title="×" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="closeModalButtonCell">
+                                                                                    <font key="font" metaFont="system" size="24"/>
+                                                                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                                                                </buttonCell>
+                                                                                <connections>
+                                                                                    <action selector="closeModalClicked" target="-2" id="closeModalButtonAction"/>
+                                                                                </connections>
+                                                                            </button>
+                                                                        </subviews>
+                                                                    </stackView>
+                                                                    
+                                                                    <!-- Settings Form -->
+                                                                    <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="settingsFormStackView">
+                                                                        <rect key="frame" x="0.0" y="32" width="440" height="200"/>
+                                                                        <subviews>
+                                                                            <!-- Theme Setting -->
+                                                                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="themeStackView">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="440" height="50"/>
+                                                                                <subviews>
+                                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="themeLabel">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="440" height="18"/>
+                                                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Theme:" id="themeLabelCell">
+                                                                                            <font key="font" metaFont="system" size="16" weight="bold"/>
+                                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                        </textFieldCell>
+                                                                                    </textField>
+                                                                                    
+                                                                                    <comboBox horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="themeComboBox">
+                                                                                        <rect key="frame" x="0.0" y="18" width="440" height="26"/>
+                                                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Select theme" objectValue="Light" id="themeComboBoxCell">
+                                                                                            <font key="font" metaFont="system" size="16"/>
+                                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                        </comboBoxCell>
+                                                                                    </comboBox>
+                                                                                </subviews>
+                                                                            </stackView>
+                                                                            
+                                                                            <!-- Language Setting -->
+                                                                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="languageStackView">
+                                                                                <rect key="frame" x="0.0" y="50" width="440" height="50"/>
+                                                                                <subviews>
+                                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="languageLabel">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="440" height="18"/>
+                                                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Language:" id="languageLabelCell">
+                                                                                            <font key="font" metaFont="system" size="16" weight="bold"/>
+                                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                        </textFieldCell>
+                                                                                    </textField>
+                                                                                    
+                                                                                    <comboBox horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="languageComboBox">
+                                                                                        <rect key="frame" x="0.0" y="18" width="440" height="26"/>
+                                                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Select language" objectValue="English" id="languageComboBoxCell">
+                                                                                            <font key="font" metaFont="system" size="16"/>
+                                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                        </comboBoxCell>
+                                                                                    </comboBox>
+                                                                                </subviews>
+                                                                            </stackView>
+                                                                            
+                                                                            <!-- Notifications Setting -->
+                                                                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="notificationsStackView">
+                                                                                <rect key="frame" x="0.0" y="100" width="440" height="50"/>
+                                                                                <subviews>
+                                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="notificationsLabel">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="440" height="18"/>
+                                                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Email Notifications:" id="notificationsLabelCell">
+                                                                                            <font key="font" metaFont="system" size="16" weight="bold"/>
+                                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                        </textFieldCell>
+                                                                                    </textField>
+                                                                                    
+                                                                                    <comboBox horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="notificationsComboBox">
+                                                                                        <rect key="frame" x="0.0" y="18" width="440" height="26"/>
+                                                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Select notifications" objectValue="All" id="notificationsComboBoxCell">
+                                                                                            <font key="font" metaFont="system" size="16"/>
+                                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                        </comboBoxCell>
+                                                                                    </comboBox>
+                                                                                </subviews>
+                                                                            </stackView>
+                                                                            
+                                                                            <!-- Modal Actions -->
+                                                                            <stackView distribution="fill" orientation="horizontal" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="modalActionsStackView">
+                                                                                <rect key="frame" x="0.0" y="150" width="440" height="32"/>
+                                                                                <subviews>
+                                                                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="cancelButton">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="32"/>
+                                                                                        <constraints>
+                                                                                            <constraint firstAttribute="width" constant="100" id="cancelButtonWidth"/>
+                                                                                            <constraint firstAttribute="height" constant="32" id="cancelButtonHeight"/>
+                                                                                        </constraints>
+                                                                                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cancelButtonCell">
+                                                                                            <font key="font" metaFont="system" size="16"/>
+                                                                                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                                                                        </buttonCell>
+                                                                                        <connections>
+                                                                                            <action selector="cancelClicked" target="-2" id="cancelButtonAction"/>
+                                                                                        </connections>
+                                                                                    </button>
+                                                                                    
+                                                                                    <spacerView translatesAutoresizingMaskIntoConstraints="NO" id="spacerView">
+                                                                                        <rect key="frame" x="100" y="0.0" width="240" height="32"/>
+                                                                                    </spacerView>
+                                                                                    
+                                                                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="saveButton">
+                                                                                        <rect key="frame" x="340" y="0.0" width="100" height="32"/>
+                                                                                        <constraints>
+                                                                                            <constraint firstAttribute="width" constant="100" id="saveButtonWidth"/>
+                                                                                            <constraint firstAttribute="height" constant="32" id="saveButtonHeight"/>
+                                                                                        </constraints>
+                                                                                        <buttonCell key="cell" type="push" title="Save Settings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="saveButtonCell">
+                                                                                            <font key="font" metaFont="system" size="16"/>
+                                                                                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                                                                        </buttonCell>
+                                                                                        <connections>
+                                                                                            <action selector="saveClicked" target="-2" id="saveButtonAction"/>
+                                                                                        </connections>
+                                                                                    </button>
+                                                                                </subviews>
+                                                                            </stackView>
+                                                                        </subviews>
+                                                                    </stackView>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <constraints>
+                                                                <constraint firstItem="modalStackView" firstAttribute="leading" secondItem="modalBoxContentView" secondAttribute="leading" constant="30" id="modalStackViewLeading"/>
+                                                                <constraint firstItem="modalStackView" firstAttribute="trailing" secondItem="modalBoxContentView" secondAttribute="trailing" constant="-30" id="modalStackViewTrailing"/>
+                                                                <constraint firstItem="modalStackView" firstAttribute="top" secondItem="modalBoxContentView" secondAttribute="top" constant="30" id="modalStackViewTop"/>
+                                                                <constraint firstItem="modalStackView" firstAttribute="bottom" secondItem="modalBoxContentView" secondAttribute="bottom" constant="-30" id="modalStackViewBottom"/>
+                                                            </constraints>
+                                                        </view>
+                                                    </box>
+                                                    <constraints>
+                                                        <constraint firstItem="modalBox" firstAttribute="centerX" secondItem="modalOverlay" secondAttribute="centerX" id="modalBoxCenterX"/>
+                                                        <constraint firstItem="modalBox" firstAttribute="centerY" secondItem="modalOverlay" secondAttribute="centerY" id="modalBoxCenterY"/>
+                                                    </constraints>
+                                                </subviews>
+                                            </view>
+                                            
+                                            <!-- Accessibility Information -->
+                                            <box boxType="custom" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="accessibilityInfoBox">
+                                                <rect key="frame" x="0.0" y="300" width="560" height="240"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="240" id="accessibilityInfoBoxHeight"/>
+                                                </constraints>
+                                                <view key="contentView" id="accessibilityInfoBoxContentView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="560" height="240"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="accessibilityInfoStackView">
+                                                            <rect key="frame" x="20" y="20" width="520" height="200"/>
+                                                            <subviews>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="accessibilityIssuesTitle">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="520" height="18"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Accessibility Issues:" id="accessibilityIssuesTitleCell">
+                                                                        <font key="font" metaFont="system" size="16" weight="bold"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                
+                                                                <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="NO" usesFontPanel="YES" verticallyResizable="YES" autosizingMask="height" id="accessibilityIssuesText">
+                                                                    <rect key="frame" x="0.0" y="18" width="520" height="80"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="80" id="accessibilityIssuesTextHeight"/>
+                                                                    </constraints>
+                                                                    <string key="string">• No focus trap: Tab key can move focus outside the modal
+• No initial focus: Focus doesn't move to the modal when it opens
+• No focus return: Focus doesn't return to trigger button when modal closes
+• Missing accessibilityRole: No role='dialog' or accessibilityModal
+• Escape key not handled: Modal doesn't close when Escape is pressed</string>
+                                                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    <size key="minSize" width="520" height="80"/>
+                                                                    <size key="maxSize" width="520" height="80"/>
+                                                                    <font key="font" metaFont="system" size="12"/>
+                                                                    <textContainer key="textContainer" sizeToFit="NO" widthInset="0.0" heightInset="0.0" lineFragmentPadding="0.0" allowsNonContiguousLayout="NO" containerSize="width=520.0, height=80.0" maximumNumberOfLines="0" lineBreakMode="0" baseWritingDirection="0"/>
+                                                                </textView>
+                                                                
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="howToFixTitle">
+                                                                    <rect key="frame" x="0.0" y="98" width="520" height="18"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="How to Fix:" id="howToFixTitleCell">
+                                                                        <font key="font" metaFont="system" size="16" weight="bold"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                
+                                                                <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="NO" usesFontPanel="YES" verticallyResizable="YES" autosizingMask="height" id="howToFixText">
+                                                                    <rect key="frame" x="0.0" y="116" width="520" height="84"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="84" id="howToFixTextHeight"/>
+                                                                    </constraints>
+                                                                    <string key="string">• Add accessibilityRole(.dialog) and accessibilityModal(true)
+• Implement focus trap to keep focus within modal
+• Set initial focus to first focusable element in modal
+• Return focus to trigger button when modal closes
+• Handle Escape key to close modal</string>
+                                                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    <size key="minSize" width="520" height="84"/>
+                                                                    <size key="maxSize" width="520" height="84"/>
+                                                                    <font key="font" metaFont="system" size="12"/>
+                                                                    <textContainer key="textContainer" sizeToFit="NO" widthInset="0.0" heightInset="0.0" lineFragmentPadding="0.0" allowsNonContiguousLayout="NO" containerSize="width=520.0, height=84.0" maximumNumberOfLines="0" lineBreakMode="0" baseWritingDirection="0"/>
+                                                                </textView>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <constraints>
+                                                            <constraint firstItem="accessibilityInfoStackView" firstAttribute="leading" secondItem="accessibilityInfoBoxContentView" secondAttribute="leading" constant="20" id="accessibilityInfoStackViewLeading"/>
+                                                            <constraint firstItem="accessibilityInfoStackView" firstAttribute="trailing" secondItem="accessibilityInfoBoxContentView" secondAttribute="trailing" constant="-20" id="accessibilityInfoStackViewTrailing"/>
+                                                            <constraint firstItem="accessibilityInfoStackView" firstAttribute="top" secondItem="accessibilityInfoBoxContentView" secondAttribute="top" constant="20" id="accessibilityInfoStackViewTop"/>
+                                                            <constraint firstItem="accessibilityInfoStackView" firstAttribute="bottom" secondItem="accessibilityInfoBoxContentView" secondAttribute="bottom" constant="-20" id="accessibilityInfoStackViewBottom"/>
+                                                        </constraints>
+                                                    </view>
+                                                </box>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="mainCard" firstAttribute="leading" secondItem="mainStackView" secondAttribute="leading" id="mainCardLeading"/>
+                                                <constraint firstItem="mainCard" firstAttribute="trailing" secondItem="mainStackView" secondAttribute="trailing" id="mainCardTrailing"/>
+                                                <constraint firstItem="mainCard" firstAttribute="top" secondItem="mainStackView" secondAttribute="top" id="mainCardTop"/>
+                                                <constraint firstItem="accessibilityInfoBox" firstAttribute="leading" secondItem="mainStackView" secondAttribute="leading" id="accessibilityInfoBoxLeading"/>
+                                                <constraint firstItem="accessibilityInfoBox" firstAttribute="trailing" secondItem="mainStackView" secondAttribute="trailing" id="accessibilityInfoBoxTrailing"/>
+                                                <constraint firstItem="accessibilityInfoBox" firstAttribute="top" secondItem="mainCard" secondAttribute="bottom" constant="20" id="accessibilityInfoBoxTop"/>
+                                                <constraint firstItem="accessibilityInfoBox" firstAttribute="bottom" secondItem="mainStackView" secondAttribute="bottom" id="accessibilityInfoBoxBottom"/>
+                                            </constraints>
+                                        </subviews>
+                                    </stackView>
+                                    <constraints>
+                                        <constraint firstItem="mainStackView" firstAttribute="leading" secondItem="clipView" secondAttribute="leading" id="mainStackViewLeading"/>
+                                        <constraint firstItem="mainStackView" firstAttribute="trailing" secondItem="clipView" secondAttribute="trailing" id="mainStackViewTrailing"/>
+                                        <constraint firstItem="mainStackView" firstAttribute="top" secondItem="clipView" secondAttribute="top" id="mainStackViewTop"/>
+                                        <constraint firstItem="mainStackView" firstAttribute="bottom" secondItem="clipView" secondAttribute="bottom" id="mainStackViewBottom"/>
+                                    </constraints>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="horizontalScroller">
+                                    <rect key="frame" x="1" y="1" width="558" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="verticalScroller">
+                                    <rect key="frame" x="545" y="1" width="15" height="658"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="contentView">
+                                    <rect key="frame" x="0.0" y="0.0" width="560" height="660"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </clipView>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="scrollView" firstAttribute="leading" secondItem="view" secondAttribute="leading" constant="20" id="scrollViewLeading"/>
+                            <constraint firstItem="scrollView" firstAttribute="trailing" secondItem="view" secondAttribute="trailing" constant="-20" id="scrollViewTrailing"/>
+                            <constraint firstItem="scrollView" firstAttribute="top" secondItem="view" secondAttribute="top" constant="20" id="scrollViewTop"/>
+                            <constraint firstItem="scrollView" firstAttribute="bottom" secondItem="view" secondAttribute="bottom" constant="-20" id="scrollViewBottom"/>
+                        </constraints>
+                    </view>
+                </objects>
+            </document>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 const ProgressIndicatorGaps = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
@@ -7,55 +6,40 @@ const ProgressIndicatorGaps = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadSpeed, setUploadSpeed] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(0);
-
   const simulateUpload = () => {
     setIsUploading(true);
     setUploadStatus('uploading');
     setUploadProgress(0);
     setUploadSpeed(0);
     setTimeRemaining(0);
-
     const interval = setInterval(() => {
       setUploadProgress(prev => {
         const newProgress = prev + Math.random() * 10;
-        
         if (newProgress >= 100) {
           clearInterval(interval);
           setIsUploading(false);
           setUploadStatus('completed');
           setUploadSpeed(0);
           setTimeRemaining(0);
-          
-          // MISSING: Screen reader announcement of completion
-          // Should announce "Upload completed successfully"
-          
           return 100;
         }
-        
         // Simulate varying upload speed
         const speed = Math.random() * 2 + 0.5; // 0.5-2.5 MB/s
         setUploadSpeed(speed);
-        
         // Calculate time remaining
         const remaining = (100 - newProgress) / (speed * 10); // Rough calculation
         setTimeRemaining(Math.max(0, remaining));
-        
         return newProgress;
       });
     }, 200);
   };
-
   const cancelUpload = () => {
     setIsUploading(false);
     setUploadStatus('idle');
     setUploadProgress(0);
     setUploadSpeed(0);
     setTimeRemaining(0);
-    
-    // MISSING: Screen reader announcement of cancellation
-    // Should announce "Upload cancelled"
   };
-
   const resetUpload = () => {
     setUploadStatus('idle');
     setUploadProgress(0);
@@ -63,14 +47,12 @@ const ProgressIndicatorGaps = () => {
     setUploadSpeed(0);
     setTimeRemaining(0);
   };
-
   const handleFileSelect = (e) => {
     const files = Array.from(e.target.files);
     setSelectedFiles(files);
     setUploadStatus('idle');
     setUploadProgress(0);
   };
-
   const formatFileSize = (bytes) => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -78,14 +60,12 @@ const ProgressIndicatorGaps = () => {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
-
   const formatTime = (seconds) => {
     if (seconds < 60) return `${Math.round(seconds)}s`;
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.round(seconds % 60);
     return `${minutes}m ${remainingSeconds}s`;
   };
-
   const getStatusMessage = () => {
     switch (uploadStatus) {
       case 'uploading':
@@ -98,21 +78,15 @@ const ProgressIndicatorGaps = () => {
         return 'Ready to upload';
     }
   };
-
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '800px', margin: '50px auto', padding: '20px', backgroundColor: '#f5f5f5' }}>
       <div style={{ background: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
         <h1>File Upload</h1>
         <p>Upload files and track their progress using the interface below.</p>
-        
         {/* File Selection */}
         <div style={{ marginBottom: '30px' }}>
           <h2 style={{ marginBottom: '20px', color: '#333' }}>Upload Files</h2>
-          
           <div style={{ marginBottom: '20px' }}>
-            <label htmlFor="file-input" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
               Select files to upload:
-            </label>
             <input
               type="file"
               id="file-input"
@@ -127,7 +101,6 @@ const ProgressIndicatorGaps = () => {
               }}
             />
           </div>
-
           {selectedFiles.length > 0 && (
             <div style={{ marginBottom: '20px' }}>
               <h3 style={{ marginBottom: '10px', color: '#333' }}>Selected Files:</h3>
@@ -153,7 +126,6 @@ const ProgressIndicatorGaps = () => {
             </div>
           )}
         </div>
-
         {/* Upload Controls */}
         <div style={{ marginBottom: '30px' }}>
           <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
@@ -172,7 +144,6 @@ const ProgressIndicatorGaps = () => {
             >
               {isUploading ? 'Uploading...' : 'Start Upload'}
             </button>
-            
             {isUploading && (
               <button
                 onClick={cancelUpload}
@@ -189,7 +160,6 @@ const ProgressIndicatorGaps = () => {
                 Cancel Upload
               </button>
             )}
-            
             {uploadStatus === 'completed' && (
               <button
                 onClick={resetUpload}
@@ -208,13 +178,11 @@ const ProgressIndicatorGaps = () => {
             )}
           </div>
         </div>
-
-        {/* Progress Indicator - MISSING PROPER ARIA ATTRIBUTES */}
+        {}
         {(isUploading || uploadStatus === 'completed') && (
           <div style={{ marginBottom: '30px' }}>
             <h3 style={{ marginBottom: '15px', color: '#333' }}>Upload Progress</h3>
-            
-            {/* Status Message - MISSING LIVE REGION */}
+            {}
             <div
               style={{
                 marginBottom: '15px',
@@ -225,13 +193,10 @@ const ProgressIndicatorGaps = () => {
                 color: uploadStatus === 'completed' ? '#155724' : '#0c5460',
                 fontWeight: '500'
               }}
-              role="status"
-              aria-live="polite"
             >
               {getStatusMessage()}
             </div>
-
-            {/* Progress Bar - MISSING PROPER ARIA ATTRIBUTES */}
+            {}
             <div style={{ marginBottom: '15px' }}>
               <div
                 style={{
@@ -242,11 +207,6 @@ const ProgressIndicatorGaps = () => {
                   overflow: 'hidden',
                   position: 'relative'
                 }}
-                role="progressbar"
-                aria-valuenow={Math.round(uploadProgress)}
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-label="Upload progress"
               >
                 <div
                   style={{
@@ -272,7 +232,6 @@ const ProgressIndicatorGaps = () => {
                 </div>
               </div>
             </div>
-
             {/* Upload Details */}
             {isUploading && (
               <div style={{ 
@@ -298,7 +257,6 @@ const ProgressIndicatorGaps = () => {
             )}
           </div>
         )}
-
         {/* Instructions */}
         <div style={{ 
           marginTop: '30px', 
@@ -318,30 +276,9 @@ const ProgressIndicatorGaps = () => {
           </ul>
         </div>
       </div>
-
       <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#e9ecef', borderRadius: '4px' }}>
-        <h3>Accessibility Issues:</h3>
-        <ul>
-          <li><strong>Missing progress announcements:</strong> Screen readers don't announce progress updates</li>
-          <li><strong>No live region:</strong> Status changes not announced to screen readers</li>
-          <li><strong>Missing ARIA attributes:</strong> Progress bar lacks proper aria-valuenow, aria-valuemin, aria-valuemax</li>
-          <li><strong>No completion announcement:</strong> Upload completion not announced to screen readers</li>
-          <li><strong>Missing error handling:</strong> Error states not properly communicated</li>
-          <li><strong>No keyboard access:</strong> Progress information not accessible via keyboard</li>
-        </ul>
-        
-        <h3>How to Fix:</h3>
-        <ul>
-          <li>Add <code>role="progressbar"</code> with proper aria-valuenow attributes</li>
-          <li>Use <code>aria-live="polite"</code> for status updates</li>
-          <li>Add <code>aria-live="assertive"</code> for completion/error states</li>
-          <li>Implement <code>aria-atomic="true"</code> for complete status announcements</li>
-          <li>Provide keyboard-accessible progress information</li>
-          <li>Add <code>aria-label</code> with descriptive progress information</li>
-        </ul>
       </div>
     </div>
   );
 };
-
 export default ProgressIndicatorGaps;

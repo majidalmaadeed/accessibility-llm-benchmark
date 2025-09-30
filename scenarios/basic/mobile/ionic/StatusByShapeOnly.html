@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .filter-tabs {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tab-button {
+            background: transparent;
+            border: none;
+            padding: 16px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab-button.active {
+            color: blue;
+            font-weight: bold;
+            border-bottom-color: blue;
+        }
+        
+        .tab-button:not(.active) {
+            color: gray;
+        }
+        
+        .bulk-actions {
+            background: lightblue;
+            padding: 16px;
+            display: none;
+        }
+        
+        .bulk-actions.visible {
+            display: block;
+        }
+        
+        .selected-count {
+            font-size: 14px;
+            font-weight: bold;
+            color: blue;
+            margin-bottom: 12px;
+        }
+        
+        .bulk-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .bulk-button {
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        
+        .bulk-button.reject {
+            background: red;
+        }
+        
+        .bulk-button.download {
+            background: blue;
+        }
+        
+        .documents-list {
+            background: white;
+        }
+        
+        .document-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            gap: 12px;
+        }
+        
+        .document-item:last-child {
+            border-bottom: none;
+        }
+        
+        .selection-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid gray;
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: gray;
+        }
+        
+        .selection-checkbox.checked {
+            background: blue;
+            color: white;
+        }
+        
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            background: lightblue;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: blue;
+        }
+        
+        .document-info {
+            flex: 1;
+        }
+        
+        .document-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .document-details {
+            font-size: 12px;
+            color: gray;
+            line-height: 1.4;
+        }
+        
+        .status-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            margin-right: 8px;
+            /* STATUS BY SHAPE ONLY - No text labels, only shapes */
+        }
+        
+        .status-approved {
+            background: green;
+            /* Circle for approved */
+        }
+        
+        .status-pending {
+            background: orange;
+            /* Square for pending */
+        }
+        
+        .status-rejected {
+            background: red;
+            /* Circle for rejected (same as approved!) */
+        }
+        
+        .document-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-button {
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            color: gray;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .summary-footer {
+            background: white;
+            padding: 16px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .total-documents {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sort-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Document Management</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="tab-button active">All Documents</button>
+                <button class="tab-button">● Approved</button>
+                <button class="tab-button">■ Pending</button>
+                <button class="tab-button">● Rejected</button>
+            </div>
+            
+            <!-- Bulk Actions -->
+            <div class="bulk-actions" id="bulkActions">
+                <div class="selected-count" id="selectedCount">0 document(s) selected</div>
+                <div class="bulk-buttons">
+                    <button class="bulk-button" onclick="approveSelected()">Approve</button>
+                    <button class="bulk-button reject" onclick="rejectSelected()">Reject</button>
+                    <button class="bulk-button download" onclick="downloadSelected()">Download</button>
+                </div>
+            </div>
+            
+            <!-- Documents List -->
+            <div class="documents-list">
+                <div class="document-item">
+                    <button class="selection-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon">📄</div>
+                    <div class="document-info">
+                        <div class="document-name">Project Proposal.docx</div>
+                        <div class="document-details">
+                            Document • 2.4 MB • 2024-01-20<br>
+                            By John Smith • Engineering
+                        </div>
+                    </div>
+                    <!-- STATUS BY SHAPE ONLY - No text labels, only shapes -->
+                    <div class="status-icon status-approved"></div>
+                    <div class="document-actions">
+                        <button class="action-button" onclick="viewDocument('Project Proposal.docx')">👁️</button>
+                        <button class="action-button" onclick="editDocument('Project Proposal.docx')">✏️</button>
+                    </div>
+                </div>
+                
+                <div class="document-item">
+                    <button class="selection-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon">📊</div>
+                    <div class="document-info">
+                        <div class="document-name">Budget Report.xlsx</div>
+                        <div class="document-details">
+                            Spreadsheet • 1.8 MB • 2024-01-19<br>
+                            By Sarah Johnson • Finance
+                        </div>
+                    </div>
+                    <!-- STATUS BY SHAPE ONLY - No text labels, only shapes -->
+                    <div class="status-icon status-pending"></div>
+                    <div class="document-actions">
+                        <button class="action-button" onclick="viewDocument('Budget Report.xlsx')">👁️</button>
+                        <button class="action-button" onclick="editDocument('Budget Report.xlsx')">✏️</button>
+                    </div>
+                </div>
+                
+                <div class="document-item">
+                    <button class="selection-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon">📕</div>
+                    <div class="document-info">
+                        <div class="document-name">Meeting Notes.pdf</div>
+                        <div class="document-details">
+                            PDF • 856 KB • 2024-01-18<br>
+                            By Mike Chen • Marketing
+                        </div>
+                    </div>
+                    <!-- STATUS BY SHAPE ONLY - No text labels, only shapes -->
+                    <div class="status-icon status-rejected"></div>
+                    <div class="document-actions">
+                        <button class="action-button" onclick="viewDocument('Meeting Notes.pdf')">👁️</button>
+                        <button class="action-button" onclick="editDocument('Meeting Notes.pdf')">✏️</button>
+                    </div>
+                </div>
+                
+                <div class="document-item">
+                    <button class="selection-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon">🎨</div>
+                    <div class="document-info">
+                        <div class="document-name">Design Mockups.sketch</div>
+                        <div class="document-details">
+                            Design • 15.2 MB • 2024-01-17<br>
+                            By Emily Davis • Design
+                        </div>
+                    </div>
+                    <!-- STATUS BY SHAPE ONLY - No text labels, only shapes -->
+                    <div class="status-icon status-approved"></div>
+                    <div class="document-actions">
+                        <button class="action-button" onclick="viewDocument('Design Mockups.sketch')">👁️</button>
+                        <button class="action-button" onclick="editDocument('Design Mockups.sketch')">✏️</button>
+                    </div>
+                </div>
+                
+                <div class="document-item">
+                    <button class="selection-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon">📄</div>
+                    <div class="document-info">
+                        <div class="document-name">Contract Template.docx</div>
+                        <div class="document-details">
+                            Document • 1.2 MB • 2024-01-16<br>
+                            By David Wilson • Legal
+                        </div>
+                    </div>
+                    <!-- STATUS BY SHAPE ONLY - No text labels, only shapes -->
+                    <div class="status-icon status-pending"></div>
+                    <div class="document-actions">
+                        <button class="action-button" onclick="viewDocument('Contract Template.docx')">👁️</button>
+                        <button class="action-button" onclick="editDocument('Contract Template.docx')">✏️</button>
+                    </div>
+                </div>
+                
+                <div class="document-item">
+                    <button class="selection-checkbox" onclick="toggleSelection(this)">☐</button>
+                    <div class="file-icon">📕</div>
+                    <div class="document-info">
+                        <div class="document-name">User Research.pdf</div>
+                        <div class="document-details">
+                            PDF • 3.1 MB • 2024-01-15<br>
+                            By Lisa Brown • Research
+                        </div>
+                    </div>
+                    <!-- STATUS BY SHAPE ONLY - No text labels, only shapes -->
+                    <div class="status-icon status-rejected"></div>
+                    <div class="document-actions">
+                        <button class="action-button" onclick="viewDocument('User Research.pdf')">👁️</button>
+                        <button class="action-button" onclick="editDocument('User Research.pdf')">✏️</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Summary Footer -->
+            <div class="summary-footer">
+                <div class="total-documents">Total Documents: 6</div>
+                <div class="sort-info">
+                    <span>Sort by: Name</span>
+                    <span>↓</span>
+                </div>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        let selectedCount = 0;
+        
+        function toggleSelection(checkbox) {
+            if (checkbox.textContent === '☐') {
+                checkbox.textContent = '☑';
+                checkbox.classList.add('checked');
+                selectedCount++;
+            } else {
+                checkbox.textContent = '☐';
+                checkbox.classList.remove('checked');
+                selectedCount--;
+            }
+            
+            updateBulkActions();
+        }
+        
+        function updateBulkActions() {
+            const bulkActions = document.getElementById('bulkActions');
+            const selectedCountElement = document.getElementById('selectedCount');
+            
+            if (selectedCount > 0) {
+                bulkActions.classList.add('visible');
+                selectedCountElement.textContent = `${selectedCount} document(s) selected`;
+            } else {
+                bulkActions.classList.remove('visible');
+            }
+        }
+        
+        function approveSelected() {
+            alert('Approving selected documents');
+        }
+        
+        function rejectSelected() {
+            alert('Rejecting selected documents');
+        }
+        
+        function downloadSelected() {
+            alert('Downloading selected documents');
+        }
+        
+        function viewDocument(name) {
+            alert(`Viewing ${name}`);
+        }
+        
+        function editDocument(name) {
+            alert(`Editing ${name}`);
+        }
+    </script>
+</body>
+</html>

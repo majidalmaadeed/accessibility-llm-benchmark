@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .warning-banner {
+            background: #F5F5F5;
+            padding: 16px;
+            margin: 0;
+        }
+        
+        .warning-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .warning-icon {
+            font-size: 20px;
+            /* LOW CONTRAST - Light gray icon on light background */
+            color: #9E9E9E;
+        }
+        
+        .warning-text {
+            flex: 1;
+        }
+        
+        .warning-title {
+            font-size: 16px;
+            font-weight: bold;
+            /* LOW CONTRAST - Light gray text on light background */
+            color: #757575;
+            margin-bottom: 4px;
+        }
+        
+        .warning-message {
+            font-size: 14px;
+            /* LOW CONTRAST - Very light gray text on light background */
+            color: #BDBDBD;
+        }
+        
+        .warning-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .warning-button {
+            background: transparent;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            /* LOW CONTRAST - Light blue text on light background */
+            color: #90CAF9;
+        }
+        
+        .warning-button.logout {
+            /* LOW CONTRAST - Light red text on light background */
+            color: #EF9A9A;
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .dashboard-header {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+        }
+        
+        .welcome-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .welcome-subtitle {
+            font-size: 16px;
+            color: gray;
+            margin-bottom: 16px;
+        }
+        
+        .session-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .session-icon {
+            font-size: 20px;
+        }
+        
+        .session-text {
+            font-size: 14px;
+            color: gray;
+        }
+        
+        .quick-actions {
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .action-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .action-title {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .recent-activity {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            font-size: 16px;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .activity-time {
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Secure Dashboard</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <!-- Session Warning Banner - LOW CONTRAST WARNING TEXT -->
+            <div class="warning-banner" id="warningBanner">
+                <div class="warning-content">
+                    <!-- Warning Icon - LOW CONTRAST -->
+                    <span class="warning-icon">⚠️</span>
+                    
+                    <!-- Warning Content -->
+                    <div class="warning-text">
+                        <div class="warning-title">Session Timeout Warning</div>
+                        <div class="warning-message" id="warningMessage">Your session will expire in 5 minutes. Please save your work and extend your session to continue.</div>
+                    </div>
+                    
+                    <!-- Action Buttons - LOW CONTRAST -->
+                    <div class="warning-actions">
+                        <button class="warning-button" onclick="extendSession()">Extend</button>
+                        <button class="warning-button logout" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="main-content">
+                <!-- Dashboard Header -->
+                <div class="dashboard-header">
+                    <h1 class="welcome-title">Welcome back!</h1>
+                    <p class="welcome-subtitle">Your session is active and secure</p>
+                    <div class="session-info">
+                        <span class="session-icon">⏰</span>
+                        <span class="session-text" id="sessionTimeLeft">5 minutes remaining</span>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h2 class="section-title">Quick Actions</h2>
+                    <div class="actions-grid">
+                        <div class="action-card">
+                            <div class="action-icon">📊</div>
+                            <div class="action-title">View Reports</div>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">👥</div>
+                            <div class="action-title">Manage Users</div>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">⚙️</div>
+                            <div class="action-title">Settings</div>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">❓</div>
+                            <div class="action-title">Help & Support</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <h2 class="section-title">Recent Activity</h2>
+                    
+                    <div class="activity-item">
+                        <span class="activity-icon">🟢</span>
+                        <div class="activity-content">
+                            <div class="activity-title">User logged in</div>
+                            <div class="activity-time">2 minutes ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <span class="activity-icon">📊</span>
+                        <div class="activity-content">
+                            <div class="activity-title">Report generated</div>
+                            <div class="activity-time">15 minutes ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <span class="activity-icon">⚙️</span>
+                        <div class="activity-content">
+                            <div class="activity-title">Settings updated</div>
+                            <div class="activity-time">1 hour ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        let sessionTimeLeft = 5;
+        let warningInterval;
+        
+        function startSessionTimer() {
+            warningInterval = setInterval(() => {
+                sessionTimeLeft--;
+                document.getElementById('sessionTimeLeft').textContent = `${sessionTimeLeft} minutes remaining`;
+                document.getElementById('warningMessage').textContent = `Your session will expire in ${sessionTimeLeft} minutes. Please save your work and extend your session to continue.`;
+                
+                if (sessionTimeLeft <= 0) {
+                    clearInterval(warningInterval);
+                    document.getElementById('warningBanner').style.display = 'none';
+                    alert('Your session has expired due to inactivity. Please log in again to continue.');
+                }
+            }, 60000); // Update every minute
+        }
+        
+        function extendSession() {
+            sessionTimeLeft = 30;
+            document.getElementById('sessionTimeLeft').textContent = `${sessionTimeLeft} minutes remaining`;
+            document.getElementById('warningBanner').style.display = 'none';
+            alert('Your session has been extended to 30 minutes.');
+        }
+        
+        function logout() {
+            clearInterval(warningInterval);
+            document.getElementById('warningBanner').style.display = 'none';
+            alert('You have been logged out successfully.');
+        }
+        
+        // Start the session timer when the page loads
+        window.addEventListener('load', startSessionTimer);
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            <!-- Main Content Card -->
+            <Frame BackgroundColor="#f8f9fa" 
+                   BorderColor="#dee2e6" 
+                   CornerRadius="8" 
+                   Padding="30">
+                <StackLayout Spacing="20">
+                    <!-- Title -->
+                           FontSize="24" 
+                           FontAttributes="Bold" 
+                           TextColor="#333333" />
+                    <!-- Description -->
+                           FontSize="16" 
+                           TextColor="#666666" />
+                    <!-- Login Form -->
+                    <StackLayout Spacing="20">
+                        <!-- Username Field -->
+                        <StackLayout Spacing="5">
+                                   FontAttributes="Bold" 
+                                   TextColor="#333333" />
+                            <Entry x:Name="UsernameEntry" 
+                                   Placeholder="Enter username" 
+                                   TextChanged="OnUsernameChanged" />
+                                   Text="" 
+                                   TextColor="#dc3545" 
+                                   FontAttributes="Bold" 
+                                   FontSize="14" 
+                                   IsVisible="False" />
+                        </StackLayout>
+                        <!-- Password Field -->
+                        <StackLayout Spacing="5">
+                                   FontAttributes="Bold" 
+                                   TextColor="#333333" />
+                            <Entry x:Name="PasswordEntry" 
+                                   Placeholder="Enter password" 
+                                   IsPassword="True" 
+                                   TextChanged="OnPasswordChanged" />
+                                   Text="" 
+                                   TextColor="#dc3545" 
+                                   FontAttributes="Bold" 
+                                   FontSize="14" 
+                                   IsVisible="False" />
+                        </StackLayout>
+                        <!-- Generic Error Message - NOT ASSOCIATED WITH SPECIFIC FIELDS -->
+                        <Frame x:Name="GenericErrorFrame" 
+                               BackgroundColor="#f8d7da" 
+                               BorderColor="#f5c6cb" 
+                               CornerRadius="4" 
+                               Padding="15" 
+                               IsVisible="False">
+                            <StackLayout Orientation="Horizontal" Spacing="10">
+                                       TextColor="#dc3545" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold" />
+                                       Text="Please fill in all required fields." 
+                                       TextColor="#dc3545" 
+                                       FontAttributes="Bold" 
+                                       FontSize="12" />
+                            </StackLayout>
+                        </Frame>
+                        <!-- Login Button -->
+                        <Button x:Name="LoginButton" 
+                                Text="Login" 
+                                BackgroundColor="#007bff" 
+                                TextColor="White" 
+                                FontSize="16" 
+                                FontAttributes="Bold" 
+                                CornerRadius="4" 
+                                Padding="15" 
+                                Clicked="OnLoginClicked" />
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="#e9ecef" 
+                   BorderColor="#dee2e6" 
+                   CornerRadius="4" 
+                   Padding="20">
+                <StackLayout Spacing="15">
+                           FontSize="12" 
+                           TextColor="#666666" />
+                    <!-- How to Fix -->
+                           FontSize="16" 
+                           FontAttributes="Bold" 
+                           TextColor="#333333" />
+                           FontSize="12" 
+                           TextColor="#666666" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

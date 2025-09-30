@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.InaccessibleTooltip"
+             Title="Contact Form">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Contact Us"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="❓ Help"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="← Back"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="30">
+                    
+                    <!-- Form Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="25">
+                            <Label Text="Get in Touch"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="We'd love to hear from you. Send us a message and we'll respond as soon as possible."
+                                   FontSize="16"
+                                   TextColor="#666666"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="30">
+                                
+                                <!-- Left Column -->
+                                <VerticalStackLayout Grid.Column="0" Spacing="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label Text="Full Name *"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                            <Button Text="?"
+                                                    BackgroundColor="#F8F9FA"
+                                                    TextColor="#666666"
+                                                    Padding="8,8"
+                                                    CornerRadius="15"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"
+                                                    WidthRequest="30"
+                                                    HeightRequest="30"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <Entry Placeholder="Enter your full name"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label Text="Email Address *"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                            <Button Text="?"
+                                                    BackgroundColor="#F8F9FA"
+                                                    TextColor="#666666"
+                                                    Padding="8,8"
+                                                    CornerRadius="15"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"
+                                                    WidthRequest="30"
+                                                    HeightRequest="30"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <Entry Placeholder="Enter your email address"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label Text="Phone Number"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                            <Button Text="?"
+                                                    BackgroundColor="#F8F9FA"
+                                                    TextColor="#666666"
+                                                    Padding="8,8"
+                                                    CornerRadius="15"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"
+                                                    WidthRequest="30"
+                                                    HeightRequest="30"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <Entry Placeholder="Enter your phone number"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label Text="Company"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                            <Button Text="?"
+                                                    BackgroundColor="#F8F9FA"
+                                                    TextColor="#666666"
+                                                    Padding="8,8"
+                                                    CornerRadius="15"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"
+                                                    WidthRequest="30"
+                                                    HeightRequest="30"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <Entry Placeholder="Enter your company name"
+                                               BackgroundColor="#F8F9FA"
+                                               TextColor="#333333"
+                                               Padding="15,12"
+                                               CornerRadius="6"/>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                                
+                                <!-- Right Column -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label Text="Subject *"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                            <Button Text="?"
+                                                    BackgroundColor="#F8F9FA"
+                                                    TextColor="#666666"
+                                                    Padding="8,8"
+                                                    CornerRadius="15"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"
+                                                    WidthRequest="30"
+                                                    HeightRequest="30"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>General Inquiry</x:String>
+                                                <x:String>Technical Support</x:String>
+                                                <x:String>Sales Question</x:String>
+                                                <x:String>Partnership</x:String>
+                                                <x:String>Feedback</x:String>
+                                                <x:String>Other</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label Text="Priority"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                            <Button Text="?"
+                                                    BackgroundColor="#F8F9FA"
+                                                    TextColor="#666666"
+                                                    Padding="8,8"
+                                                    CornerRadius="15"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"
+                                                    WidthRequest="30"
+                                                    HeightRequest="30"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>Low</x:String>
+                                                <x:String>Medium</x:String>
+                                                <x:String>High</x:String>
+                                                <x:String>Urgent</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label Text="Department"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                            <Button Text="?"
+                                                    BackgroundColor="#F8F9FA"
+                                                    TextColor="#666666"
+                                                    Padding="8,8"
+                                                    CornerRadius="15"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"
+                                                    WidthRequest="30"
+                                                    HeightRequest="30"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>Sales</x:String>
+                                                <x:String>Support</x:String>
+                                                <x:String>Marketing</x:String>
+                                                <x:String>Development</x:String>
+                                                <x:String>HR</x:String>
+                                                <x:String>Other</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label Text="Country"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                            <Button Text="?"
+                                                    BackgroundColor="#F8F9FA"
+                                                    TextColor="#666666"
+                                                    Padding="8,8"
+                                                    CornerRadius="15"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"
+                                                    WidthRequest="30"
+                                                    HeightRequest="30"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>United States</x:String>
+                                                <x:String>Canada</x:String>
+                                                <x:String>United Kingdom</x:String>
+                                                <x:String>Australia</x:String>
+                                                <x:String>Germany</x:String>
+                                                <x:String>France</x:String>
+                                                <x:String>Other</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                            
+                            <!-- Message Section -->
+                            <VerticalStackLayout Spacing="10">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label Text="Message *"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"/>
+                                    
+                                    <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                                    <Button Text="?"
+                                            BackgroundColor="#F8F9FA"
+                                            TextColor="#666666"
+                                            Padding="8,8"
+                                            CornerRadius="15"
+                                            FontSize="14"
+                                            FontAttributes="Bold"
+                                            WidthRequest="30"
+                                            HeightRequest="30"/>
+                                </HorizontalStackLayout>
+                                
+                                <Editor Placeholder="Enter your message here..."
+                                        BackgroundColor="#F8F9FA"
+                                        TextColor="#333333"
+                                        Padding="15,12"
+                                        CornerRadius="6"
+                                        HeightRequest="150"
+                                        FontSize="16"/>
+                            </VerticalStackLayout>
+                            
+                            <!-- Additional Options -->
+                            <VerticalStackLayout Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="I agree to the Terms of Service and Privacy Policy"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                    <Label Text="Subscribe to our newsletter for updates and promotions"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Send me a copy of this message"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            
+                            <!-- Submit Button -->
+                            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                                <Button Text="Reset Form"
+                                        BackgroundColor="#6c757d"
+                                        TextColor="White"
+                                        Padding="20,15"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                                
+                                <Button Text="Send Message"
+                                        BackgroundColor="#007bff"
+                                        TextColor="White"
+                                        Padding="20,15"
+                                        CornerRadius="6"
+                                        FontSize="16"
+                                        FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Contact Information Section -->
+                    <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Other Ways to Reach Us"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="30">
+                                
+                                <!-- Contact Methods -->
+                                <VerticalStackLayout Grid.Column="0" Spacing="15">
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="📧"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="Email"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="info@company.com"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="support@company.com"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                    </HorizontalStackLayout>
+                                    
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="📞"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="Phone"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="+1 (555) 123-4567"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="+1 (555) 987-6543"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                    </HorizontalStackLayout>
+                                    
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="📍"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="Address"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="123 Business Street"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="Suite 100, New York, NY 10001"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                                
+                                <!-- Business Hours -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="15">
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="🕒"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="Business Hours"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Monday - Friday: 9:00 AM - 6:00 PM"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="Saturday: 10:00 AM - 4:00 PM"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="Sunday: Closed"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                    </HorizontalStackLayout>
+                                    
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="💬"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="Live Chat"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Available 24/7"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="Average response: 2 minutes"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                    </HorizontalStackLayout>
+                                    
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="📱"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="Social Media"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="@company_official"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                            
+                                            <Label Text="Follow us for updates"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Contact"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Email"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Phone"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Address"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Support"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Help Center"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Live Chat"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="FAQ"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Company"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="About Us"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Careers"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Privacy"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

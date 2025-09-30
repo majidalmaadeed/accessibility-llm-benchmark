@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 const ToastNotificationIssues = () => {
   const [toasts, setToasts] = useState([]);
   const [nextId, setNextId] = useState(1);
-
   const addToast = (type, message, duration = 5000) => {
     const id = nextId;
     const newToast = {
@@ -13,45 +11,33 @@ const ToastNotificationIssues = () => {
       duration,
       timestamp: new Date()
     };
-    
     setToasts(prev => [...prev, newToast]);
     setNextId(prev => prev + 1);
-
     // Auto-dismiss after duration
     setTimeout(() => {
       removeToast(id);
     }, duration);
-
-    // MISSING: Screen reader announcement
-    // Should announce the toast message to screen readers
   };
-
   const removeToast = (id) => {
     setToasts(prev => prev.filter(toast => toast.id !== id));
   };
-
   const handleSuccess = () => {
     addToast('success', 'Your changes have been saved successfully!');
   };
-
   const handleError = () => {
     addToast('error', 'An error occurred while processing your request.');
   };
-
   const handleWarning = () => {
     addToast('warning', 'Please review your input before continuing.');
   };
-
   const handleInfo = () => {
     addToast('info', 'New features are now available in your dashboard.');
   };
-
   const handleKeyDown = (e, toastId) => {
     if (e.key === 'Escape') {
       removeToast(toastId);
     }
   };
-
   const getToastStyles = (type) => {
     const baseStyles = {
       padding: '16px 20px',
@@ -67,7 +53,6 @@ const ToastNotificationIssues = () => {
       maxWidth: '400px',
       animation: 'slideIn 0.3s ease-out'
     };
-
     const typeStyles = {
       success: {
         background: '#d4edda',
@@ -90,10 +75,8 @@ const ToastNotificationIssues = () => {
         color: '#0c5460'
       }
     };
-
     return { ...baseStyles, ...typeStyles[type] };
   };
-
   const getIcon = (type) => {
     const icons = {
       success: '✓',
@@ -103,13 +86,10 @@ const ToastNotificationIssues = () => {
     };
     return icons[type] || 'ℹ';
   };
-
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '800px', margin: '50px auto', padding: '20px', backgroundColor: '#f5f5f5' }}>
       <div style={{ background: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
         <h1>Toast Notifications</h1>
         <p>View notifications and alerts using the system below.</p>
-        
         {/* Action Buttons */}
         <div style={{ marginBottom: '30px' }}>
           <h2 style={{ marginBottom: '20px', color: '#333' }}>Trigger Notifications</h2>
@@ -128,7 +108,6 @@ const ToastNotificationIssues = () => {
             >
               Show Success Toast
             </button>
-            
             <button
               onClick={handleError}
               style={{
@@ -143,7 +122,6 @@ const ToastNotificationIssues = () => {
             >
               Show Error Toast
             </button>
-            
             <button
               onClick={handleWarning}
               style={{
@@ -158,7 +136,6 @@ const ToastNotificationIssues = () => {
             >
               Show Warning Toast
             </button>
-            
             <button
               onClick={handleInfo}
               style={{
@@ -175,7 +152,6 @@ const ToastNotificationIssues = () => {
             </button>
           </div>
         </div>
-
         {/* Toast Container */}
         <div style={{ marginBottom: '30px' }}>
           <h3 style={{ marginBottom: '15px', color: '#333' }}>Active Notifications</h3>
@@ -187,8 +163,7 @@ const ToastNotificationIssues = () => {
             </div>
           )}
         </div>
-
-        {/* Toast Notifications - MISSING PROPER ARIA ATTRIBUTES */}
+        {}
         <div
           style={{
             position: 'fixed',
@@ -198,16 +173,11 @@ const ToastNotificationIssues = () => {
             maxHeight: '80vh',
             overflowY: 'auto'
           }}
-          aria-live="polite"
-          aria-label="Notifications"
         >
           {toasts.map((toast) => (
             <div
               key={toast.id}
               style={getToastStyles(toast.type)}
-              role="alert"
-              aria-live="polite"
-              tabIndex={0}
               onKeyDown={(e) => handleKeyDown(e, toast.id)}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -216,13 +186,11 @@ const ToastNotificationIssues = () => {
                     fontSize: '18px',
                     fontWeight: 'bold'
                   }}
-                  aria-hidden="true"
                 >
                   {getIcon(toast.type)}
                 </span>
                 <span>{toast.message}</span>
               </div>
-              
               <button
                 onClick={() => removeToast(toast.id)}
                 style={{
@@ -235,14 +203,12 @@ const ToastNotificationIssues = () => {
                   color: 'inherit',
                   opacity: '0.7'
                 }}
-                aria-label={`Dismiss ${toast.type} notification`}
               >
                 ×
               </button>
             </div>
           ))}
         </div>
-
         {/* Instructions */}
         <div style={{ 
           marginTop: '30px', 
@@ -257,33 +223,11 @@ const ToastNotificationIssues = () => {
             <li>Click any button above to trigger a notification</li>
             <li>Notifications auto-dismiss after 5 seconds</li>
             <li>Click the × button to dismiss manually</li>
-            <li>Press Escape key to dismiss focused notification</li>
           </ul>
         </div>
       </div>
-
       <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#e9ecef', borderRadius: '4px' }}>
-        <h3>Accessibility Issues:</h3>
-        <ul>
-          <li><strong>Missing announcements:</strong> Screen readers don't announce new toast notifications</li>
-          <li><strong>No focus management:</strong> Focus doesn't move to new notifications</li>
-          <li><strong>Missing ARIA attributes:</strong> No proper role or live region attributes</li>
-          <li><strong>No keyboard navigation:</strong> Can't navigate between multiple toasts</li>
-          <li><strong>Missing dismiss announcements:</strong> Screen readers don't announce when toasts are dismissed</li>
-          <li><strong>No priority indication:</strong> Critical notifications not distinguished from informational ones</li>
-        </ul>
-        
-        <h3>How to Fix:</h3>
-        <ul>
-          <li>Add <code>role="alert"</code> for important notifications</li>
-          <li>Use <code>aria-live="polite"</code> for non-critical updates</li>
-          <li>Implement <code>aria-live="assertive"</code> for urgent notifications</li>
-          <li>Add <code>aria-atomic="true"</code> for complete message announcements</li>
-          <li>Provide keyboard navigation between multiple toasts</li>
-          <li>Announce dismiss actions to screen readers</li>
-        </ul>
       </div>
-
       <style>
         {`
           @keyframes slideIn {
@@ -301,5 +245,4 @@ const ToastNotificationIssues = () => {
     </div>
   );
 };
-
 export default ToastNotificationIssues;

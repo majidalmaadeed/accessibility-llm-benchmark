@@ -6,7 +6,6 @@
     <title>Settings Modal</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
@@ -30,7 +29,6 @@
         .open-modal-btn:hover {
             background-color: #0056b3;
         }
-        
         /* Modal Styles */
         .modal-overlay {
             display: none;
@@ -88,7 +86,6 @@
         .form-group {
             margin-bottom: 20px;
         }
-        .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
@@ -129,8 +126,6 @@
         .btn-secondary:hover {
             background-color: #545b62;
         }
-        
-        .accessibility-info {
             margin-top: 30px;
             padding: 20px;
             background-color: #e9ecef;
@@ -142,16 +137,13 @@
     <div class="main-content">
         <h1>Settings Modal</h1>
         <p>Configure your application settings using the modal below.</p>
-        
         <button class="open-modal-btn" onclick="openModal()">
             Open Settings Modal
         </button>
-        
         <p style="margin-top: 20px;">
             Click the button below to open the settings modal and configure your preferences.
         </p>
     </div>
-
     <!-- Modal -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
@@ -161,28 +153,22 @@
                     ×
                 </button>
             </div>
-            
             <form>
                 <div class="form-group">
-                    <label for="theme">Theme:</label>
                     <select id="theme" name="theme">
                         <option value="light">Light</option>
                         <option value="dark">Dark</option>
                         <option value="auto">Auto</option>
                     </select>
                 </div>
-                
                 <div class="form-group">
-                    <label for="language">Language:</label>
                     <select id="language" name="language">
                         <option value="en">English</option>
                         <option value="es">Spanish</option>
                         <option value="fr">French</option>
                     </select>
                 </div>
-                
                 <div class="form-group">
-                    <label for="notifications">Email Notifications:</label>
                     <select id="notifications" name="notifications">
                         <option value="all">All</option>
                         <option value="important">Important Only</option>
@@ -190,7 +176,6 @@
                     </select>
                 </div>
             </form>
-            
             <div class="modal-actions">
                 <button type="button" class="btn btn-secondary" onclick="closeModal()">
                     Cancel
@@ -201,35 +186,26 @@
             </div>
         </div>
     </div>
-
-
     <script>
         let previousActiveElement = null;
-
         function openModal() {
             const modal = document.getElementById('modalOverlay');
             modal.classList.add('show');
-            
             previousActiveElement = document.activeElement;
         }
-
         function closeModal() {
             const modal = document.getElementById('modalOverlay');
             modal.classList.remove('show');
-            
         }
-
         function closeModalOnOverlay(event) {
             if (event.target === event.currentTarget) {
                 closeModal();
             }
         }
-
         function saveSettings() {
             alert('Settings saved!');
             closeModal();
         }
-
         // Handle escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {

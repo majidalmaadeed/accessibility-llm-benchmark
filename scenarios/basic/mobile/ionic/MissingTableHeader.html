@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Directory</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .search-section {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .sort-picker {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .employee-list {
+            background: white;
+        }
+        
+        .employee-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            gap: 12px;
+        }
+        
+        .employee-item:last-child {
+            border-bottom: none;
+        }
+        
+        .avatar {
+            width: 32px;
+            height: 32px;
+            background: lightblue;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: blue;
+        }
+        
+        .employee-info {
+            flex: 1;
+        }
+        
+        .employee-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .employee-details {
+            font-size: 12px;
+            color: gray;
+            line-height: 1.4;
+        }
+        
+        .employee-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-button {
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            color: gray;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            margin-top: 4px;
+            display: inline-block;
+        }
+        
+        .status-active {
+            background: green;
+        }
+        
+        .status-pending {
+            background: orange;
+        }
+        
+        .status-inactive {
+            background: red;
+        }
+        
+        .summary-footer {
+            background: white;
+            padding: 16px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .total-employees {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .sort-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Employee Directory</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <!-- Search and Filter Bar -->
+            <div class="search-section">
+                <input type="text" class="search-input" placeholder="Search employees...">
+                <select class="sort-picker">
+                    <option value="name">Sort by Name</option>
+                    <option value="department">Sort by Department</option>
+                    <option value="position">Sort by Position</option>
+                    <option value="salary">Sort by Salary</option>
+                    <option value="startDate">Sort by Start Date</option>
+                    <option value="status">Sort by Status</option>
+                </select>
+            </div>
+            
+            <!-- Data Table - MISSING TABLE HEADER -->
+            <div class="employee-list">
+                <div class="employee-item">
+                    <div class="avatar">JS</div>
+                    <div class="employee-info">
+                        <div class="employee-name">John Smith</div>
+                        <div class="employee-details">
+                            Engineering • Senior Developer<br>
+                            $95,000 • 2022-01-15<br>
+                            john.smith@company.com • +1 (555) 123-4567
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    <div class="employee-actions">
+                        <button class="action-button" onclick="viewEmployee('John Smith')">👁️</button>
+                        <button class="action-button" onclick="editEmployee('John Smith')">✏️</button>
+                    </div>
+                </div>
+                
+                <div class="employee-item">
+                    <div class="avatar">SJ</div>
+                    <div class="employee-info">
+                        <div class="employee-name">Sarah Johnson</div>
+                        <div class="employee-details">
+                            Marketing • Marketing Manager<br>
+                            $78,000 • 2021-08-22<br>
+                            sarah.johnson@company.com • +1 (555) 234-5678
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    <div class="employee-actions">
+                        <button class="action-button" onclick="viewEmployee('Sarah Johnson')">👁️</button>
+                        <button class="action-button" onclick="editEmployee('Sarah Johnson')">✏️</button>
+                    </div>
+                </div>
+                
+                <div class="employee-item">
+                    <div class="avatar">MC</div>
+                    <div class="employee-info">
+                        <div class="employee-name">Mike Chen</div>
+                        <div class="employee-details">
+                            Sales • Sales Director<br>
+                            $120,000 • 2020-03-10<br>
+                            mike.chen@company.com • +1 (555) 345-6789
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    <div class="employee-actions">
+                        <button class="action-button" onclick="viewEmployee('Mike Chen')">👁️</button>
+                        <button class="action-button" onclick="editEmployee('Mike Chen')">✏️</button>
+                    </div>
+                </div>
+                
+                <div class="employee-item">
+                    <div class="avatar">ED</div>
+                    <div class="employee-info">
+                        <div class="employee-name">Emily Davis</div>
+                        <div class="employee-details">
+                            HR • HR Specialist<br>
+                            $65,000 • 2023-02-01<br>
+                            emily.davis@company.com • +1 (555) 456-7890
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    <div class="employee-actions">
+                        <button class="action-button" onclick="viewEmployee('Emily Davis')">👁️</button>
+                        <button class="action-button" onclick="editEmployee('Emily Davis')">✏️</button>
+                    </div>
+                </div>
+                
+                <div class="employee-item">
+                    <div class="avatar">DW</div>
+                    <div class="employee-info">
+                        <div class="employee-name">David Wilson</div>
+                        <div class="employee-details">
+                            Finance • Financial Analyst<br>
+                            $72,000 • 2022-11-05<br>
+                            david.wilson@company.com • +1 (555) 567-8901
+                        </div>
+                        <span class="status-badge status-pending">On Leave</span>
+                    </div>
+                    <div class="employee-actions">
+                        <button class="action-button" onclick="viewEmployee('David Wilson')">👁️</button>
+                        <button class="action-button" onclick="editEmployee('David Wilson')">✏️</button>
+                    </div>
+                </div>
+                
+                <div class="employee-item">
+                    <div class="avatar">LB</div>
+                    <div class="employee-info">
+                        <div class="employee-name">Lisa Brown</div>
+                        <div class="employee-details">
+                            Engineering • Junior Developer<br>
+                            $55,000 • 2023-06-12<br>
+                            lisa.brown@company.com • +1 (555) 678-9012
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    <div class="employee-actions">
+                        <button class="action-button" onclick="viewEmployee('Lisa Brown')">👁️</button>
+                        <button class="action-button" onclick="editEmployee('Lisa Brown')">✏️</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Summary Footer -->
+            <div class="summary-footer">
+                <div class="total-employees">Total Employees: 6</div>
+                <div class="sort-info">
+                    <span>Sort by: Name</span>
+                    <span>↓</span>
+                </div>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        function viewEmployee(name) {
+            alert(`Viewing ${name}`);
+        }
+        
+        function editEmployee(name) {
+            alert(`Editing ${name}`);
+        }
+    </script>
+</body>
+</html>

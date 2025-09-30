@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .video-container {
+            position: relative;
+            background: black;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 250px;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .play-button {
+            font-size: 40px;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            /* MISSING: No accessible name or label for screen readers */
+        }
+        
+        .video-title {
+            position: absolute;
+            bottom: 60px;
+            left: 16px;
+            right: 16px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .progress-container {
+            position: absolute;
+            bottom: 20px;
+            left: 16px;
+            right: 16px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: red;
+            width: 30%;
+        }
+        
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            color: white;
+            font-size: 12px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 16px;
+        }
+        
+        .control-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            /* MISSING: No accessible name */
+        }
+        
+        .play-pause {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background: blue;
+            color: white;
+            font-size: 28px;
+        }
+        
+        .other-controls {
+            background: lightgray;
+            color: gray;
+        }
+        
+        .video-list {
+            margin-top: 20px;
+        }
+        
+        .video-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .video-thumbnail {
+            width: 120px;
+            height: 80px;
+            background: lightgray;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .thumbnail-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            /* MISSING: No accessible name */
+        }
+        
+        .duration-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: black;
+            opacity: 0.8;
+            color: white;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .video-info {
+            flex: 1;
+        }
+        
+        .video-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .video-description {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 8px;
+        }
+        
+        .video-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Video Player</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <div class="video-container">
+                <img src="https://via.placeholder.com/400x250" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                
+                <div class="video-overlay">
+                    <!-- UNLABELED MEDIA BUTTON - Video play button using only emoji icon without accessible name -->
+                    <button class="play-button" onclick="togglePlayPause()">▶️</button>
+                </div>
+                
+                <div class="video-title">Flutter Development Tutorial</div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="time-display">
+                        <span>2:15</span>
+                        <span>7:30</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="control-button other-controls" onclick="previousVideo()">⏮️</button>
+                <button class="control-button play-pause" onclick="togglePlayPause()">⏸️</button>
+                <button class="control-button other-controls" onclick="nextVideo()">⏭️</button>
+                <button class="control-button other-controls" onclick="toggleVolume()">🔊</button>
+                <button class="control-button other-controls" onclick="toggleFullscreen()">⛶</button>
+            </div>
+            
+            <div class="video-list">
+                <h2>Recommended Videos</h2>
+                
+                <div class="video-item">
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/120x80" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        <button class="thumbnail-play" onclick="playVideo('Introduction to Flutter Development')">▶️</button>
+                        <div class="duration-badge">15:30</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-name">Introduction to Flutter Development</div>
+                        <div class="video-description">Learn the basics of Flutter development with this comprehensive tutorial.</div>
+                        <div class="video-stats">
+                            <span>👁️ 125K</span>
+                            <span>⏱️ 15:30</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/120x80" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        <button class="thumbnail-play" onclick="playVideo('Advanced State Management')">▶️</button>
+                        <div class="duration-badge">22:15</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-name">Advanced State Management</div>
+                        <div class="video-description">Master state management patterns in Flutter applications.</div>
+                        <div class="video-stats">
+                            <span>👁️ 89K</span>
+                            <span>⏱️ 22:15</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/120x80" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        <button class="thumbnail-play" onclick="playVideo('Building Responsive UIs')">▶️</button>
+                        <div class="duration-badge">18:45</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-name">Building Responsive UIs</div>
+                        <div class="video-description">Create beautiful responsive user interfaces for all screen sizes.</div>
+                        <div class="video-stats">
+                            <span>👁️ 156K</span>
+                            <span>⏱️ 18:45</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/120x80" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        <button class="thumbnail-play" onclick="playVideo('Flutter Performance Optimization')">▶️</button>
+                        <div class="duration-badge">25:20</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-name">Flutter Performance Optimization</div>
+                        <div class="video-description">Optimize your Flutter apps for better performance and user experience.</div>
+                        <div class="video-stats">
+                            <span>👁️ 67K</span>
+                            <span>⏱️ 25:20</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        let isPlaying = false;
+        
+        function togglePlayPause() {
+            isPlaying = !isPlaying;
+            const playButton = document.querySelector('.play-button');
+            const playPauseButton = document.querySelector('.play-pause');
+            
+            if (isPlaying) {
+                playButton.textContent = '⏸️';
+                playPauseButton.textContent = '⏸️';
+            } else {
+                playButton.textContent = '▶️';
+                playPauseButton.textContent = '▶️';
+            }
+        }
+        
+        function previousVideo() {
+            alert('Playing previous video');
+        }
+        
+        function nextVideo() {
+            alert('Playing next video');
+        }
+        
+        function toggleVolume() {
+            alert('Volume control opened');
+        }
+        
+        function toggleFullscreen() {
+            alert('Entering fullscreen mode');
+        }
+        
+        function playVideo(videoName) {
+            alert(`Playing: ${videoName}`);
+        }
+    </script>
+</body>
+</html>

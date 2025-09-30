@@ -1,0 +1,185 @@
+<Page
+    x:Class="AccessibilityTest.FlashingAdvertisement"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AccessibilityTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <!-- FLASHING ADVERTISEMENT - FLASHING 5 TIMES PER SECOND -->
+        <Storyboard x:Key="FlashAnimation" RepeatBehavior="Forever">
+            <ColorAnimation Storyboard.TargetName="FlashBackground" 
+                           Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                           From="Red" To="Orange" Duration="0:0:0.2"/>
+        </Storyboard>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- FLASHING ADVERTISEMENT - FLASHING 5 TIMES PER SECOND -->
+        <Border Grid.Row="0" x:Name="FlashBackground" Background="Red" Padding="16">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="🔥" FontSize="24" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <TextBlock Text="FLASH SALE!" FontSize="24" FontWeight="Bold" Foreground="White" 
+                           VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <TextBlock Text="Up to 50% OFF!" FontSize="18" Foreground="White" 
+                           VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <TextBlock x:Name="FlashCount" Text="Flashes: 0" FontSize="12" FontWeight="Bold" 
+                           Foreground="White" VerticalAlignment="Center" Margin="0,0,12,0" 
+                           Background="#20000000" Padding="4,8" CornerRadius="12"/>
+                <Button Content="⏸️" FontSize="20" Background="Transparent" Foreground="White" 
+                        BorderThickness="0" Click="ToggleFlash_Click"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Products Section -->
+        <ScrollViewer Grid.Row="1" Padding="20">
+            <StackPanel>
+                <TextBlock Text="All Products" FontSize="24" FontWeight="Bold" Margin="0,0,0,8"/>
+                <TextBlock Text="6 products found" FontSize="14" Foreground="Gray" Margin="0,0,0,16"/>
+                
+                <ItemsControl>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    
+                    <ItemsControl.Items>
+                        <!-- Product 1 -->
+                        <Border Background="White" CornerRadius="8" Margin="8" Padding="16" 
+                                Shadow="{ThemeResource CardShadow}">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <Border Grid.Row="0" Background="LightGray" Height="200" Width="200" 
+                                            CornerRadius="4" Margin="0,0,0,12">
+                                        <Image Source="https://via.placeholder.com/200x200" 
+                                               Stretch="Uniform"/>
+                                    </Border>
+                                    
+                                    <StackPanel Grid.Row="1">
+                                        <TextBlock Text="Wireless Headphones" FontSize="16" FontWeight="Bold" 
+                                                   Margin="0,0,0,8"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <TextBlock Text="⭐⭐⭐⭐☆" FontSize="12" Margin="0,0,8,0"/>
+                                            <TextBlock Text="4.5" FontSize="12" Foreground="Gray"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <TextBlock Text="$99.99" FontSize="18" FontWeight="Bold" 
+                                                       Foreground="Green" Margin="0,0,8,0"/>
+                                            <TextBlock Text="$149.99" FontSize="14" Foreground="Gray" 
+                                                       TextDecorations="Strikethrough"/>
+                                            <Border Background="Green" CornerRadius="4" Padding="2,6" Margin="8,0,0,0">
+                                                <TextBlock Text="Save $50" FontSize="10" FontWeight="Bold" 
+                                                           Foreground="White"/>
+                                            </Border>
+                                        </StackPanel>
+                                        <Button Content="Add to Cart" Background="Blue" Foreground="White" 
+                                                Padding="12,8" Click="AddToCart_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Product 2 -->
+                        <Border Background="White" CornerRadius="8" Margin="8" Padding="16" 
+                                Shadow="{ThemeResource CardShadow}">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <Border Grid.Row="0" Background="LightGray" Height="200" Width="200" 
+                                            CornerRadius="4" Margin="0,0,0,12">
+                                        <Image Source="https://via.placeholder.com/200x200" 
+                                               Stretch="Uniform"/>
+                                    </Border>
+                                    
+                                    <StackPanel Grid.Row="1">
+                                        <TextBlock Text="Smart Watch" FontSize="16" FontWeight="Bold" 
+                                                   Margin="0,0,0,8"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <TextBlock Text="⭐⭐⭐⭐⭐" FontSize="12" Margin="0,0,8,0"/>
+                                            <TextBlock Text="4.8" FontSize="12" Foreground="Gray"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <TextBlock Text="$299.99" FontSize="18" FontWeight="Bold" 
+                                                       Foreground="Green" Margin="0,0,8,0"/>
+                                            <TextBlock Text="$399.99" FontSize="14" Foreground="Gray" 
+                                                       TextDecorations="Strikethrough"/>
+                                            <Border Background="Green" CornerRadius="4" Padding="2,6" Margin="8,0,0,0">
+                                                <TextBlock Text="Save $100" FontSize="10" FontWeight="Bold" 
+                                                           Foreground="White"/>
+                                            </Border>
+                                        </StackPanel>
+                                        <Button Content="Add to Cart" Background="Blue" Foreground="White" 
+                                                Padding="12,8" Click="AddToCart_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Product 3 -->
+                        <Border Background="White" CornerRadius="8" Margin="8" Padding="16" 
+                                Shadow="{ThemeResource CardShadow}">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <Border Grid.Row="0" Background="LightGray" Height="200" Width="200" 
+                                            CornerRadius="4" Margin="0,0,0,12">
+                                        <Image Source="https://via.placeholder.com/200x200" 
+                                               Stretch="Uniform"/>
+                                        <Border Background="#B0000000" CornerRadius="4" 
+                                                VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="Out of Stock" FontSize="12" FontWeight="Bold" 
+                                                       Foreground="White" Padding="8"/>
+                                        </Border>
+                                    </Border>
+                                    
+                                    <StackPanel Grid.Row="1">
+                                        <TextBlock Text="Bluetooth Speaker" FontSize="16" FontWeight="Bold" 
+                                                   Margin="0,0,0,8"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <TextBlock Text="⭐⭐⭐⭐☆" FontSize="12" Margin="0,0,8,0"/>
+                                            <TextBlock Text="4.3" FontSize="12" Foreground="Gray"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <TextBlock Text="$79.99" FontSize="18" FontWeight="Bold" 
+                                                       Foreground="Green" Margin="0,0,8,0"/>
+                                            <TextBlock Text="$99.99" FontSize="14" Foreground="Gray" 
+                                                       TextDecorations="Strikethrough"/>
+                                            <Border Background="Green" CornerRadius="4" Padding="2,6" Margin="8,0,0,0">
+                                                <TextBlock Text="Save $20" FontSize="10" FontWeight="Bold" 
+                                                           Foreground="White"/>
+                                            </Border>
+                                        </StackPanel>
+                                        <Button Content="Add to Cart" Background="Gray" Foreground="White" 
+                                                Padding="12,8" IsEnabled="False"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </ItemsControl.Items>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

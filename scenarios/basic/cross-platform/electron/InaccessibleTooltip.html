@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .header-subtitle {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        .help-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            background: #f8f9fa;
+            color: #666;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .help-btn:hover {
+            background: #e9ecef;
+            color: #333;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+        
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon">📝</div>
+            <h1 class="header-title">Contact Form</h1>
+            <p class="header-subtitle">Please fill out the form below</p>
+        </div>
+        
+        <form>
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <div class="input-group">
+                    <input type="text" class="form-input" placeholder="Enter your full name" id="nameInput">
+                    <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                    <div class="tooltip">
+                        <button type="button" class="help-btn" onclick="showHelp('name')">?</button>
+                        <span class="tooltiptext">Enter your full legal name</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <div class="input-group">
+                    <input type="email" class="form-input" placeholder="Enter your email" id="emailInput">
+                    <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                    <div class="tooltip">
+                        <button type="button" class="help-btn" onclick="showHelp('email')">?</button>
+                        <span class="tooltiptext">Enter a valid email address</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <div class="input-group">
+                    <input type="tel" class="form-input" placeholder="Enter your phone number" id="phoneInput">
+                    <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                    <div class="tooltip">
+                        <button type="button" class="help-btn" onclick="showHelp('phone')">?</button>
+                        <span class="tooltiptext">Include country code if international</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Street Address</label>
+                <div class="input-group">
+                    <input type="text" class="form-input" placeholder="Enter your street address" id="addressInput">
+                    <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                    <div class="tooltip">
+                        <button type="button" class="help-btn" onclick="showHelp('address')">?</button>
+                        <span class="tooltiptext">Include apartment or suite number</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">City</label>
+                <div class="input-group">
+                    <input type="text" class="form-input" placeholder="Enter your city" id="cityInput">
+                    <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                    <div class="tooltip">
+                        <button type="button" class="help-btn" onclick="showHelp('city')">?</button>
+                        <span class="tooltiptext">Enter the city name</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">ZIP Code</label>
+                <div class="input-group">
+                    <input type="text" class="form-input" placeholder="Enter your ZIP code" id="zipInput">
+                    <!-- INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible -->
+                    <div class="tooltip">
+                        <button type="button" class="help-btn" onclick="showHelp('zip')">?</button>
+                        <span class="tooltiptext">Enter 5-digit ZIP code</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Submit Form</button>
+                <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function showHelp(fieldName) {
+            // INACCESSIBLE TOOLTIP - Help icon shows tooltip on hover only, not keyboard accessible
+            // This function is called when the help button is clicked, but the tooltip is not accessible via keyboard
+            const helpMessages = {
+                'name': 'Enter your full legal name as it appears on official documents.',
+                'email': 'Enter a valid email address where we can reach you.',
+                'phone': 'Include country code if international. Example: +1 (555) 123-4567',
+                'address': 'Include apartment or suite number if applicable.',
+                'city': 'Enter the city name where you reside.',
+                'zip': 'Enter your 5-digit ZIP code or postal code.'
+            };
+            
+            alert(helpMessages[fieldName] || 'Help information not available.');
+        }
+        
+        function submitForm() {
+            alert('Form submitted successfully!');
+        }
+        
+        function clearForm() {
+            document.getElementById('nameInput').value = '';
+            document.getElementById('emailInput').value = '';
+            document.getElementById('phoneInput').value = '';
+            document.getElementById('addressInput').value = '';
+            document.getElementById('cityInput').value = '';
+            document.getElementById('zipInput').value = '';
+        }
+        
+        // Add keyboard support for help buttons (this makes them accessible)
+        document.querySelectorAll('.help-btn').forEach(btn => {
+            btn.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const fieldName = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    showHelp(fieldName);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

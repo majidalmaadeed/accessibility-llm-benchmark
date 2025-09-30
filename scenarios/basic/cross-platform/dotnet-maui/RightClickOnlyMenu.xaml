@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.RightClickOnlyMenu"
+             Title="File Manager">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="File Manager"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="📁 New Folder"
+                                BackgroundColor="#28a745"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="📄 New File"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="⚙️ Settings"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="30">
+                    
+                    <!-- Navigation Breadcrumb -->
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="🏠 Home"
+                                BackgroundColor="#F8F9FA"
+                                TextColor="#333333"
+                                Padding="10,8"
+                                CornerRadius="4"
+                                FontSize="14"
+                                FontAttributes="Bold"/>
+                        
+                        <Label Text=">"
+                               FontSize="16"
+                               TextColor="#666666"
+                               VerticalOptions="Center"/>
+                        
+                        <Button Text="Documents"
+                                BackgroundColor="#F8F9FA"
+                                TextColor="#333333"
+                                Padding="10,8"
+                                CornerRadius="4"
+                                FontSize="14"
+                                FontAttributes="Bold"/>
+                        
+                        <Label Text=">"
+                               FontSize="16"
+                               TextColor="#666666"
+                               VerticalOptions="Center"/>
+                        
+                        <Button Text="Projects"
+                                BackgroundColor="#F8F9FA"
+                                TextColor="#333333"
+                                Padding="10,8"
+                                CornerRadius="4"
+                                FontSize="14"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                    
+                    <!-- File List Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Project Files"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="Right-click on any file to access options"
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <!-- File List -->
+                            <VerticalStackLayout Spacing="10">
+                                
+                                <!-- File Item 1 -->
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="15">
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="📄"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="project-proposal.docx"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Modified: 2 hours ago • Size: 2.3 MB"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                                            <Button Text="Open"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via right-click -->
+                                            <Button Text="⋮"
+                                                    BackgroundColor="#6c757d"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                
+                                <!-- File Item 2 -->
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="15">
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="📊"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="budget-analysis.xlsx"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Modified: 1 day ago • Size: 1.8 MB"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                                            <Button Text="Open"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via right-click -->
+                                            <Button Text="⋮"
+                                                    BackgroundColor="#6c757d"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                
+                                <!-- File Item 3 -->
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="15">
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="🎨"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="design-mockup.psd"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Modified: 3 days ago • Size: 15.2 MB"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                                            <Button Text="Open"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via right-click -->
+                                            <Button Text="⋮"
+                                                    BackgroundColor="#6c757d"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                
+                                <!-- File Item 4 -->
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="15">
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="📋"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="meeting-notes.txt"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Modified: 1 week ago • Size: 0.5 MB"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                                            <Button Text="Open"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via right-click -->
+                                            <Button Text="⋮"
+                                                    BackgroundColor="#6c757d"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
+                                </Border>
+                                
+                                <!-- File Item 5 -->
+                                <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="15">
+                                    <HorizontalStackLayout Spacing="15">
+                                        <Label Text="📁"
+                                               FontSize="20"
+                                               VerticalOptions="Center"/>
+                                        
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="archive-folder"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
+                                            
+                                            <Label Text="Modified: 2 weeks ago • 12 items"
+                                                   FontSize="14"
+                                                   TextColor="#666666"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                                            <Button Text="Open"
+                                                    BackgroundColor="#007bff"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                            
+                                            <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via right-click -->
+                                            <Button Text="⋮"
+                                                    BackgroundColor="#6c757d"
+                                                    TextColor="White"
+                                                    Padding="10,8"
+                                                    CornerRadius="4"
+                                                    FontSize="14"
+                                                    FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+                            
+                            <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via right-click -->
+                            <Border BackgroundColor="#FFF3CD" Stroke="#FFEAA7" StrokeThickness="2" Padding="20">
+                                <VerticalStackLayout Spacing="15">
+                                    <Label Text="⚠️ Context Menu Notice"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="#856404"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Some file operations are only available through right-click context menus. This includes essential functions like delete, rename, and properties."
+                                           FontSize="16"
+                                           TextColor="#856404"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                    
+                                    <Label Text="Right-click on any file above to access the full menu of options."
+                                           FontSize="14"
+                                           TextColor="#856404"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Quick Actions Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Quick Actions"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="20">
+                                <VerticalStackLayout Grid.Column="0" Spacing="10">
+                                    <Button Text="📤 Upload Files"
+                                            BackgroundColor="#28a745"
+                                            TextColor="White"
+                                            Padding="15,12"
+                                            CornerRadius="6"
+                                            FontSize="16"
+                                            FontAttributes="Bold"/>
+                                    
+                                    <Label Text="Upload new files to this folder"
+                                           FontSize="14"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                </VerticalStackLayout>
+                                
+                                <VerticalStackLayout Grid.Column="1" Spacing="10">
+                                    <Button Text="📁 New Folder"
+                                            BackgroundColor="#007bff"
+                                            TextColor="White"
+                                            Padding="15,12"
+                                            CornerRadius="6"
+                                            FontSize="16"
+                                            FontAttributes="Bold"/>
+                                    
+                                    <Label Text="Create a new folder"
+                                           FontSize="14"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                </VerticalStackLayout>
+                                
+                                <VerticalStackLayout Grid.Column="2" Spacing="10">
+                                    <Button Text="🔍 Search"
+                                            BackgroundColor="#6c757d"
+                                            TextColor="White"
+                                            Padding="15,12"
+                                            CornerRadius="6"
+                                            FontSize="16"
+                                            FontAttributes="Bold"/>
+                                    
+                                    <Label Text="Search for files and folders"
+                                           FontSize="14"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Recent Activity Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Recent Activity"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <VerticalStackLayout Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="📄"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="Created project-proposal.docx"
+                                               FontSize="16"
+                                               TextColor="#333333"/>
+                                        
+                                        <Label Text="2 hours ago"
+                                               FontSize="14"
+                                               TextColor="#666666"/>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="📊"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="Modified budget-analysis.xlsx"
+                                               FontSize="16"
+                                               TextColor="#333333"/>
+                                        
+                                        <Label Text="1 day ago"
+                                               FontSize="14"
+                                               TextColor="#666666"/>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="📁"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="Created archive-folder"
+                                               FontSize="16"
+                                               TextColor="#333333"/>
+                                        
+                                        <Label Text="2 weeks ago"
+                                               FontSize="14"
+                                               TextColor="#666666"/>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Files"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Upload"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Download"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Share"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Organization"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Folders"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Tags"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Search"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Settings"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Preferences"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Storage"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Help"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

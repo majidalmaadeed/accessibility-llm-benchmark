@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.SilentLoadingState"
+             Title="Data Dashboard">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Data Dashboard"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="🔄 Refresh"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="📊 Export"
+                                BackgroundColor="#28a745"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="⚙️ Settings"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="20">
+                    
+                    <!-- SILENT LOADING STATE - Content spinner without screen reader announcement -->
+                    <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Loading Data"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"
+                                   HorizontalOptions="Center"/>
+                            
+                            <!-- SILENT LOADING STATE - Content spinner without screen reader announcement -->
+                            <Label Text="⏳"
+                                   FontSize="48"
+                                   TextColor="#6C757D"
+                                   HorizontalOptions="Center"/>
+                            
+                            <Label Text="Please wait while we load your data..."
+                                   FontSize="16"
+                                   TextColor="#666666"
+                                   HorizontalOptions="Center"/>
+                            
+                            <!-- SILENT LOADING STATE - Content spinner without screen reader announcement -->
+                            <ProgressBar Progress="0.65"
+                                        BackgroundColor="#DEE2E6"
+                                        ProgressColor="#007bff"
+                                        HeightRequest="8"
+                                        CornerRadius="4"/>
+                            
+                            <Label Text="65% Complete"
+                                   FontSize="14"
+                                   TextColor="#666666"
+                                   HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Statistics Cards -->
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="15">
+                        <Border Grid.Column="0" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="📊"
+                                       FontSize="32"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="Total Users"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="12,547"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#007bff"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <Border Grid.Column="1" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="✅"
+                                       FontSize="32"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="Active Sessions"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="3,421"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#28a745"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <Border Grid.Column="2" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="📈"
+                                       FontSize="32"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="Revenue"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="$45,678"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#ffc107"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        
+                        <Border Grid.Column="3" BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="⚠️"
+                                       FontSize="32"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="Alerts"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="7"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#dc3545"
+                                       HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                    
+                    <!-- Data Table Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Recent Activity"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="Latest user activities and system events"
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <!-- SILENT LOADING STATE - Content spinner without screen reader announcement -->
+                            <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="20">
+                                <VerticalStackLayout Spacing="10">
+                                    <Label Text="⏳ Loading activity data..."
+                                       FontSize="16"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"/>
+                                    
+                                    <!-- SILENT LOADING STATE - Content spinner without screen reader announcement -->
+                                    <Label Text="⏳"
+                                           FontSize="24"
+                                           TextColor="#6C757D"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Please wait..."
+                                       FontSize="14"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+                            
+                            <!-- Sample Activity Items -->
+                            <VerticalStackLayout Spacing="10">
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="🔐"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <Label Text="User john.doe@example.com logged in successfully"
+                                           FontSize="14"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <Label Text="2 minutes ago"
+                                           FontSize="12"
+                                           TextColor="#666666"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="📊"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <Label Text="New data export completed"
+                                           FontSize="14"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <Label Text="5 minutes ago"
+                                           FontSize="12"
+                                           TextColor="#666666"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="⚠️"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <Label Text="System maintenance scheduled"
+                                           FontSize="14"
+                                           TextColor="#dc3545"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <Label Text="1 hour ago"
+                                           FontSize="12"
+                                           TextColor="#666666"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <Label Text="✅"
+                                           FontSize="16"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <Label Text="Backup completed successfully"
+                                           FontSize="14"
+                                           TextColor="#28a745"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <Label Text="2 hours ago"
+                                           FontSize="12"
+                                           TextColor="#666666"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Charts Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Performance Metrics"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Label Text="Visual representation of key performance indicators"
+                                   FontSize="16"
+                                   TextColor="#666666"/>
+                            
+                            <!-- SILENT LOADING STATE - Content spinner without screen reader announcement -->
+                            <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="30">
+                                <VerticalStackLayout Spacing="15">
+                                    <Label Text="📊 Generating Charts"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                    
+                                    <!-- SILENT LOADING STATE - Content spinner without screen reader announcement -->
+                                    <Label Text="⏳"
+                                           FontSize="36"
+                                           TextColor="#6C757D"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Processing data and creating visualizations..."
+                                       FontSize="16"
+                                       TextColor="#666666"
+                                       HorizontalOptions="Center"
+                                       LineBreakMode="WordWrap"/>
+                                    
+                                    <!-- SILENT LOADING STATE - Content spinner without screen reader announcement -->
+                                    <ProgressBar Progress="0.45"
+                                                BackgroundColor="#DEE2E6"
+                                                ProgressColor="#007bff"
+                                                HeightRequest="6"
+                                                CornerRadius="3"/>
+                                    
+                                    <Label Text="45% Complete"
+                                           FontSize="14"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+                            
+                            <!-- Chart Placeholders -->
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                                <Border Grid.Column="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="200">
+                                    <Label Text="📈 Line Chart Placeholder"
+                                           FontSize="16"
+                                           TextColor="#6C757D"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                
+                                <Border Grid.Column="1" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="200">
+                                    <Label Text="📊 Bar Chart Placeholder"
+                                           FontSize="16"
+                                           TextColor="#6C757D"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- SILENT LOADING STATE - Content spinner without screen reader announcement -->
+                    <Border BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Synchronizing Data"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"
+                                   HorizontalOptions="Center"/>
+                            
+                            <Label Text="Updating information from external sources..."
+                                   FontSize="16"
+                                   TextColor="#666666"
+                                   HorizontalOptions="Center"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <!-- SILENT LOADING STATE - Content spinner without screen reader announcement -->
+                            <Label Text="⏳"
+                                   FontSize="32"
+                                   TextColor="#6C757D"
+                                   HorizontalOptions="Center"/>
+                            
+                            <Label Text="This may take a few moments"
+                                   FontSize="14"
+                                   TextColor="#666666"
+                                   HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Dashboard"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Overview"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Analytics"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Reports"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Data"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Import"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Export"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Sync"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="System"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Status"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Logs"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Settings"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

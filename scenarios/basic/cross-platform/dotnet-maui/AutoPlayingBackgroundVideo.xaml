@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.AutoPlayingBackgroundVideo"
+             Title="Marketing Landing Page">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="InnovateTech Solutions"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="📞 Contact"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="ℹ️ About"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="0">
+                <VerticalStackLayout Spacing="0">
+                    
+                    <!-- HERO SECTION WITH AUTOPLAYING BACKGROUND VIDEO - Hero section video autoplays without user control -->
+                    <Border BackgroundColor="#000000" StrokeThickness="0" HeightRequest="500">
+                        <Grid>
+                            <!-- AUTOPLAYING BACKGROUND VIDEO - Hero section video autoplays without user control -->
+                            <Border BackgroundColor="#1a1a1a" StrokeThickness="0" Padding="0">
+                                <Label Text="🎬 AUTOPLAYING VIDEO BACKGROUND - Product demonstration video playing automatically without user control or pause options"
+                                       FontSize="16"
+                                       TextColor="#FFFFFF"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       LineBreakMode="WordWrap"
+                                       BackgroundColor="#333333"
+                                       Padding="20"/>
+                            </Border>
+                            
+                            <!-- Overlay Content -->
+                            <VerticalStackLayout Spacing="20" Padding="40" VerticalOptions="Center">
+                                <Label Text="Transform Your Business"
+                                       FontSize="36"
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="Cutting-edge technology solutions for modern enterprises"
+                                       FontSize="20"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
+                                    <Button Text="Get Started"
+                                            BackgroundColor="#007bff"
+                                            TextColor="White"
+                                            Padding="25,15"
+                                            CornerRadius="8"
+                                            FontSize="18"
+                                            FontAttributes="Bold"/>
+                                    
+                                    <Button Text="Watch Demo"
+                                            BackgroundColor="Transparent"
+                                            TextColor="White"
+                                            Padding="25,15"
+                                            CornerRadius="8"
+                                            FontSize="18"
+                                            FontAttributes="Bold"
+                                            BorderWidth="2"
+                                            BorderColor="White"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Features Section -->
+                    <VerticalStackLayout Spacing="30" Padding="40" BackgroundColor="White">
+                        <Label Text="Why Choose Us?"
+                               FontSize="32"
+                               FontAttributes="Bold"
+                               TextColor="#333333"
+                               HorizontalOptions="Center"/>
+                        
+                        <Label Text="We provide innovative solutions that drive business growth and efficiency"
+                               FontSize="18"
+                               TextColor="#666666"
+                               HorizontalOptions="Center"
+                               LineBreakMode="WordWrap"/>
+                        
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="30" RowSpacing="30">
+                            
+                            <!-- Feature 1 -->
+                            <Border Grid.Column="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="30">
+                                <VerticalStackLayout Spacing="15">
+                                    <Label Text="🚀"
+                                           FontSize="48"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Fast Implementation"
+                                           FontSize="20"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Get your solutions up and running quickly with our streamlined implementation process"
+                                           FontSize="16"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                </VerticalStackLayout>
+                            </Border>
+                            
+                            <!-- Feature 2 -->
+                            <Border Grid.Column="1" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="30">
+                                <VerticalStackLayout Spacing="15">
+                                    <Label Text="🔒"
+                                           FontSize="48"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Secure & Reliable"
+                                           FontSize="20"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Enterprise-grade security and 99.9% uptime guarantee for your peace of mind"
+                                           FontSize="16"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                </VerticalStackLayout>
+                            </Border>
+                            
+                            <!-- Feature 3 -->
+                            <Border Grid.Column="2" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="30">
+                                <VerticalStackLayout Spacing="15">
+                                    <Label Text="📈"
+                                           FontSize="48"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Scalable Solutions"
+                                           FontSize="20"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Grow with confidence knowing our solutions scale with your business needs"
+                                           FontSize="16"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                    
+                    <!-- AUTOPLAYING BACKGROUND VIDEO - Hero section video autoplays without user control -->
+                    <Border BackgroundColor="#000000" StrokeThickness="0" HeightRequest="300">
+                        <Grid>
+                            <!-- AUTOPLAYING BACKGROUND VIDEO - Hero section video autoplays without user control -->
+                            <Border BackgroundColor="#1a1a1a" StrokeThickness="0" Padding="0">
+                                <Label Text="🎬 AUTOPLAYING VIDEO - Customer testimonials and case studies playing automatically in background"
+                                       FontSize="16"
+                                       TextColor="#FFFFFF"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       LineBreakMode="WordWrap"
+                                       BackgroundColor="#333333"
+                                       Padding="20"/>
+                            </Border>
+                            
+                            <!-- Overlay Content -->
+                            <VerticalStackLayout Spacing="15" Padding="40" VerticalOptions="Center">
+                                <Label Text="Trusted by 10,000+ Companies"
+                                       FontSize="28"
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="See what our customers have to say about our solutions"
+                                       FontSize="16"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <Button Text="View Case Studies"
+                                        BackgroundColor="#28a745"
+                                        TextColor="White"
+                                        Padding="25,15"
+                                        CornerRadius="8"
+                                        FontSize="18"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Services Section -->
+                    <VerticalStackLayout Spacing="30" Padding="40" BackgroundColor="White">
+                        <Label Text="Our Services"
+                               FontSize="32"
+                               FontAttributes="Bold"
+                               TextColor="#333333"
+                               HorizontalOptions="Center"/>
+                        
+                        <Label Text="Comprehensive technology solutions tailored to your business needs"
+                               FontSize="18"
+                               TextColor="#666666"
+                               HorizontalOptions="Center"
+                               LineBreakMode="WordWrap"/>
+                        
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="30" RowSpacing="30">
+                            
+                            <!-- Service 1 -->
+                            <Border Grid.Column="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="25">
+                                <VerticalStackLayout Spacing="15">
+                                    <Label Text="💻"
+                                           FontSize="40"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Custom Software Development"
+                                           FontSize="20"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Tailored software solutions built specifically for your business requirements and workflows"
+                                           FontSize="16"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                    
+                                    <Button Text="Learn More"
+                                            BackgroundColor="#007bff"
+                                            TextColor="White"
+                                            Padding="20,12"
+                                            CornerRadius="6"
+                                            FontSize="16"
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+                            
+                            <!-- Service 2 -->
+                            <Border Grid.Column="1" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="25">
+                                <VerticalStackLayout Spacing="15">
+                                    <Label Text="☁️"
+                                           FontSize="40"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Cloud Migration & Management"
+                                           FontSize="20"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Seamless migration to cloud platforms with ongoing management and optimization services"
+                                           FontSize="16"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                    
+                                    <Button Text="Learn More"
+                                            BackgroundColor="#28a745"
+                                            TextColor="White"
+                                            Padding="20,12"
+                                            CornerRadius="6"
+                                            FontSize="16"
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+                            
+                            <!-- Service 3 -->
+                            <Border Grid.Column="0" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="25">
+                                <VerticalStackLayout Spacing="15">
+                                    <Label Text="🔧"
+                                           FontSize="40"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="IT Consulting & Support"
+                                           FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333"
+                                       HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Expert guidance and ongoing support to optimize your IT infrastructure and operations"
+                                           FontSize="16"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                    
+                                    <Button Text="Learn More"
+                                            BackgroundColor="#6f42c1"
+                                            TextColor="White"
+                                            Padding="20,12"
+                                            CornerRadius="6"
+                                            FontSize="16"
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+                            
+                            <!-- Service 4 -->
+                            <Border Grid.Column="1" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="1" Padding="25">
+                                <VerticalStackLayout Spacing="15">
+                                    <Label Text="📊"
+                                           FontSize="40"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Data Analytics & AI"
+                                           FontSize="20"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"
+                                           HorizontalOptions="Center"/>
+                                    
+                                    <Label Text="Harness the power of data with advanced analytics and artificial intelligence solutions"
+                                           FontSize="16"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Center"
+                                           LineBreakMode="WordWrap"/>
+                                    
+                                    <Button Text="Learn More"
+                                            BackgroundColor="#fd7e14"
+                                            TextColor="White"
+                                            Padding="20,12"
+                                            CornerRadius="6"
+                                            FontSize="16"
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                    
+                    <!-- AUTOPLAYING BACKGROUND VIDEO - Hero section video autoplays without user control -->
+                    <Border BackgroundColor="#000000" StrokeThickness="0" HeightRequest="250">
+                        <Grid>
+                            <!-- AUTOPLAYING BACKGROUND VIDEO - Hero section video autoplays without user control -->
+                            <Border BackgroundColor="#1a1a1a" StrokeThickness="0" Padding="0">
+                                <Label Text="🎬 AUTOPLAYING VIDEO - Company culture and team showcase playing automatically"
+                                       FontSize="16"
+                                       TextColor="#FFFFFF"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       LineBreakMode="WordWrap"
+                                       BackgroundColor="#333333"
+                                       Padding="20"/>
+                            </Border>
+                            
+                            <!-- Overlay Content -->
+                            <VerticalStackLayout Spacing="15" Padding="40" VerticalOptions="Center">
+                                <Label Text="Ready to Get Started?"
+                                       FontSize="28"
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"/>
+                                
+                                <Label Text="Join thousands of satisfied customers who trust our solutions"
+                                       FontSize="16"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"
+                                       LineBreakMode="WordWrap"/>
+                                
+                                <Button Text="Contact Us Today"
+                                        BackgroundColor="#dc3545"
+                                        TextColor="White"
+                                        Padding="30,18"
+                                        CornerRadius="8"
+                                        FontSize="20"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Services"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Development"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Consulting"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Support"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Company"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="About Us"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Careers"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Contact"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Resources"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Documentation"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Blog"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Help Center"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

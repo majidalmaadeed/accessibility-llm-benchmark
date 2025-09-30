@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .loading-section {
+            background: white;
+            padding: 32px;
+            text-align: center;
+            display: none;
+        }
+        
+        .loading-section.visible {
+            display: block;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid blue;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 16px;
+            color: gray;
+            margin-bottom: 16px;
+        }
+        
+        .progress-bar {
+            width: 200px;
+            height: 4px;
+            background: #f3f3f3;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 auto 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: blue;
+            width: 60%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 14px;
+            color: gray;
+        }
+        
+        .main-content {
+            display: none;
+        }
+        
+        .main-content.visible {
+            display: block;
+        }
+        
+        .dashboard-header {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .welcome-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .welcome-subtitle {
+            font-size: 16px;
+            color: gray;
+            margin-bottom: 16px;
+        }
+        
+        .session-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .session-icon {
+            font-size: 20px;
+        }
+        
+        .session-text {
+            font-size: 14px;
+            color: gray;
+        }
+        
+        .quick-actions {
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .action-title {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .recent-activity {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            font-size: 16px;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .activity-time {
+            font-size: 12px;
+            color: gray;
+        }
+        
+        .refresh-button {
+            background: blue;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            padding: 12px 24px;
+            cursor: pointer;
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Analytics Dashboard</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <!-- Loading State - SILENT LOADING STATE -->
+            <div class="loading-section visible" id="loadingSection">
+                <!-- SILENT LOADING STATE - Content spinner without screen reader announcement -->
+                <div class="loading-spinner"></div>
+                
+                <div class="loading-text">Loading data...</div>
+                
+                <!-- Progress Bar -->
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                
+                <div class="progress-text" id="progressText">60% complete</div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="main-content" id="mainContent">
+                <div class="dashboard-header">
+                    <h1 class="welcome-title">Welcome back!</h1>
+                    <p class="welcome-subtitle">Your session is active and secure</p>
+                    <div class="session-info">
+                        <span class="session-icon">⏰</span>
+                        <span class="session-text">5 minutes remaining</span>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h2 class="section-title">Quick Actions</h2>
+                    <div class="actions-grid">
+                        <div class="action-card">
+                            <div class="action-icon">📊</div>
+                            <div class="action-title">View Reports</div>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">👥</div>
+                            <div class="action-title">Manage Users</div>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">⚙️</div>
+                            <div class="action-title">Settings</div>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-icon">❓</div>
+                            <div class="action-title">Help & Support</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <h2 class="section-title">Recent Activity</h2>
+                    
+                    <div class="activity-item">
+                        <span class="activity-icon">🟢</span>
+                        <div class="activity-content">
+                            <div class="activity-title">User logged in</div>
+                            <div class="activity-time">2 minutes ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <span class="activity-icon">📊</span>
+                        <div class="activity-content">
+                            <div class="activity-title">Report generated</div>
+                            <div class="activity-time">15 minutes ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <span class="activity-icon">⚙️</span>
+                        <div class="activity-content">
+                            <div class="activity-title">Settings updated</div>
+                            <div class="activity-time">1 hour ago</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="refresh-button" onclick="refreshData()">Refresh Data</button>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        let progress = 0;
+        let loadingInterval;
+        
+        function startLoading() {
+            loadingInterval = setInterval(() => {
+                progress += 2;
+                document.getElementById('progressFill').style.width = progress + '%';
+                document.getElementById('progressText').textContent = progress + '% complete';
+                
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    setTimeout(() => {
+                        document.getElementById('loadingSection').classList.remove('visible');
+                        document.getElementById('mainContent').classList.add('visible');
+                    }, 500);
+                }
+            }, 100);
+        }
+        
+        function refreshData() {
+            document.getElementById('mainContent').classList.remove('visible');
+            document.getElementById('loadingSection').classList.add('visible');
+            progress = 0;
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('progressText').textContent = '0% complete';
+            startLoading();
+        }
+        
+        // Start loading when page loads
+        window.addEventListener('load', startLoading);
+    </script>
+</body>
+</html>

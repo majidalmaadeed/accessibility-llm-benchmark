@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-
 class SearchWithSilentUpdates extends StatefulWidget {
   const SearchWithSilentUpdates({Key? key}) : super(key: key);
-
   @override
   State<SearchWithSilentUpdates> createState() => _SearchWithSilentUpdatesState();
 }
-
 class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
   final TextEditingController _searchController = TextEditingController();
   List<SearchResult> _suggestions = [];
@@ -14,7 +11,6 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
   bool _isLoading = false;
   bool _showSuggestions = false;
   int _activeSuggestionIndex = -1;
-
   final List<SearchResult> _mockData = [
     SearchResult(id: 1, title: 'React Development Guide', category: 'Books', author: 'John Doe'),
     SearchResult(id: 2, title: 'Vue.js Tutorial', category: 'Books', author: 'Jane Smith'),
@@ -25,19 +21,16 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
     SearchResult(id: 7, title: 'Angular Services', category: 'Tutorials', author: 'Eve Davis'),
     SearchResult(id: 8, title: 'JavaScript ES6', category: 'Tutorials', author: 'Frank Miller'),
   ];
-
   @override
   void initState() {
     super.initState();
     _searchController.addListener(_handleInput);
   }
-
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
-
   void _handleInput() {
     final query = _searchController.text;
     if (query.length > 1) {
@@ -45,7 +38,6 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
           item.title.toLowerCase().contains(query.toLowerCase()) ||
           item.category.toLowerCase().contains(query.toLowerCase()) ||
           item.author.toLowerCase().contains(query.toLowerCase())).toList();
-      
       setState(() {
         _suggestions = filtered.take(5).toList();
         _showSuggestions = true;
@@ -59,31 +51,24 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
       });
     }
   }
-
   void _handleSearch() async {
     setState(() {
       _isLoading = true;
     });
-
     // Simulate API call
     await Future.delayed(const Duration(seconds: 1));
-    
     final query = _searchController.text;
     final filtered = _mockData.where((item) =>
         item.title.toLowerCase().contains(query.toLowerCase()) ||
         item.category.toLowerCase().contains(query.toLowerCase()) ||
         item.author.toLowerCase().contains(query.toLowerCase())).toList();
-    
     setState(() {
       _results = filtered;
       _isLoading = false;
       _showSuggestions = false;
       _activeSuggestionIndex = -1;
     });
-    
-    // Should announce "Found X results" or "No results found"
   }
-
   void _handleSuggestionClick(SearchResult suggestion) {
     _searchController.text = suggestion.title;
     setState(() {
@@ -92,7 +77,6 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
     });
     _handleSearch();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,13 +102,11 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Violation: Search input + suggestions dropdown + results area without announcements.',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: const Color(0xFF666666),
                       ),
                     ),
                     const SizedBox(height: 30),
-                    
                     // Search Input Section
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +119,6 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        
                         Stack(
                           children: [
                             TextField(
@@ -150,8 +131,6 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
                               onSubmitted: (_) => _handleSearch(),
                               textInputAction: TextInputAction.search,
                             ),
-                            
-                            // Suggestions Dropdown - MISSING ARIA ATTRIBUTES
                             if (_showSuggestions && _suggestions.isNotEmpty)
                               Positioned(
                                 top: 60,
@@ -200,9 +179,7 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
                               ),
                           ],
                         ),
-                        
                         const SizedBox(height: 20),
-                        
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -230,10 +207,7 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
                         ),
                       ],
                     ),
-                    
                     const SizedBox(height: 30),
-                    
-                    // Results Section - MISSING LIVE REGION
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -245,7 +219,6 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        
                         if (_isLoading)
                           const Center(
                             child: Column(
@@ -345,22 +318,18 @@ class _SearchWithSilentUpdatesState extends State<SearchWithSilentUpdates> {
                 ),
               ),
             ),
-            
             const SizedBox(height: 20),
-            
           ],
         ),
       ),
     );
   }
 }
-
 class SearchResult {
   final int id;
   final String title;
   final String category;
   final String author;
-
   SearchResult({
     required this.id,
     required this.title,

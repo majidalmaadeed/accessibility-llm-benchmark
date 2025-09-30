@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
-namespace AccessibilityApp
 {
     public partial class SearchWithSilentUpdatesWindow : Window
     {
@@ -14,14 +12,11 @@ namespace AccessibilityApp
         private List<SearchResult> suggestions;
         private List<SearchResult> results;
         private bool isLoading = false;
-
         public SearchWithSilentUpdatesWindow()
         {
             InitializeComponent();
             InitializeMockData();
-            SetupAccessibility();
         }
-
         private void InitializeMockData()
         {
             mockData = new List<SearchResult>
@@ -36,26 +31,18 @@ namespace AccessibilityApp
                 new SearchResult { Id = 8, Title = "JavaScript ES6", Category = "Tutorials", Author = "Frank Miller" }
             };
         }
-
-        private void SetupAccessibility()
         {
-            // MISSING: Proper accessibility setup
-            // Should set up ARIA attributes, live regions, and keyboard navigation
         }
-
         private void OnSearchInputChanged(object sender, TextChangedEventArgs e)
         {
             var query = SearchInput.Text;
-            
             if (query.Length > 1)
             {
                 var filtered = mockData.Where(item =>
                     item.Title.ToLower().Contains(query.ToLower()) ||
                     item.Category.ToLower().Contains(query.ToLower()) ||
                     item.Author.ToLower().Contains(query.ToLower())).ToList();
-
                 suggestions = filtered.Take(5).ToList();
-                
                 SuggestionsList.ItemsSource = suggestions;
                 SuggestionsList.Visibility = suggestions.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             }
@@ -65,11 +52,9 @@ namespace AccessibilityApp
                 SuggestionsList.ItemsSource = null;
                 SuggestionsList.Visibility = Visibility.Collapsed;
             }
-
             // Update search button state
             SearchButton.IsEnabled = !string.IsNullOrWhiteSpace(query) && !isLoading;
         }
-
         private void OnSearchInputKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -116,9 +101,7 @@ namespace AccessibilityApp
                 }
                 e.Handled = true;
             }
-            // MISSING: Proper keyboard navigation for suggestions
         }
-
         private void OnSuggestionSelected(object sender, SelectionChangedEventArgs e)
         {
             if (SuggestionsList.SelectedItem is SearchResult selectedSuggestion)
@@ -128,67 +111,50 @@ namespace AccessibilityApp
                 PerformSearch();
             }
         }
-
         private void OnSearchButtonClicked(object sender, RoutedEventArgs e)
         {
             PerformSearch();
         }
-
         private async void PerformSearch()
         {
             if (isLoading) return;
-
             var query = SearchInput.Text.Trim();
             if (string.IsNullOrEmpty(query)) return;
-
             isLoading = true;
             SearchButton.IsEnabled = false;
             SearchButton.Content = "Searching...";
-
             // Hide all result panels
             LoadingPanel.Visibility = Visibility.Visible;
             ResultsCount.Visibility = Visibility.Collapsed;
             ResultsList.Visibility = Visibility.Collapsed;
             NoResultsPanel.Visibility = Visibility.Collapsed;
             EmptyPanel.Visibility = Visibility.Collapsed;
-
             // Simulate API call
             await Task.Delay(1000);
-
             var filtered = mockData.Where(item =>
                 item.Title.ToLower().Contains(query.ToLower()) ||
                 item.Category.ToLower().Contains(query.ToLower()) ||
                 item.Author.ToLower().Contains(query.ToLower())).ToList();
-
             results = filtered;
-
             // Update UI
             LoadingPanel.Visibility = Visibility.Collapsed;
             SearchButton.Content = "Search";
             SearchButton.IsEnabled = true;
             isLoading = false;
-
             if (results.Count > 0)
             {
                 ResultsCount.Text = $"Found {results.Count} result{(results.Count == 1 ? "" : "s")}";
                 ResultsCount.Visibility = Visibility.Visible;
                 ResultsList.ItemsSource = results;
                 ResultsList.Visibility = Visibility.Visible;
-                
-                // MISSING: Screen reader announcement of results
-                // Should announce "Found X results"
             }
             else
             {
                 NoResultsText.Text = $"No results found for \"{query}\"";
                 NoResultsPanel.Visibility = Visibility.Visible;
-                
-                // MISSING: Screen reader announcement of no results
-                // Should announce "No results found"
             }
         }
     }
-
     public class SearchResult
     {
         public int Id { get; set; }

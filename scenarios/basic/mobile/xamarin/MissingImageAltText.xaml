@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityTest.MissingImageAltText"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="TechStore">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="20" Spacing="20">
+                <!-- Header -->
+                <StackLayout HorizontalOptions="Center" Spacing="8">
+                    <Label Text="TechStore" FontSize="28" FontAttributes="Bold" />
+                    <Label Text="Discover amazing tech products" FontSize="16" TextColor="Gray" />
+                </StackLayout>
+                
+                <!-- Category Filter -->
+                <ScrollView Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal" Spacing="12">
+                        <Button Text="All" BackgroundColor="Blue" TextColor="White" CornerRadius="20" Padding="16,8" />
+                        <Button Text="Electronics" BackgroundColor="LightGray" TextColor="Black" CornerRadius="20" Padding="16,8" />
+                        <Button Text="Wearables" BackgroundColor="LightGray" TextColor="Black" CornerRadius="20" Padding="16,8" />
+                        <Button Text="Audio" BackgroundColor="LightGray" TextColor="Black" CornerRadius="20" Padding="16,8" />
+                        <Button Text="Accessories" BackgroundColor="LightGray" TextColor="Black" CornerRadius="20" Padding="16,8" />
+                    </StackLayout>
+                </ScrollView>
+                
+                <!-- Products Grid -->
+                <CollectionView ItemsSource="{Binding Products}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="White" 
+                                   CornerRadius="12" 
+                                   Padding="0" 
+                                   Margin="0,0,0,16"
+                                   HasShadow="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="200" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    
+                                    <!-- Product Image Container -->
+                                    <Frame Grid.Row="0" 
+                                           BackgroundColor="LightGray" 
+                                           CornerRadius="12,12,0,0" 
+                                           Padding="0"
+                                           HasShadow="False">
+                                        <Grid>
+                                            <!-- Product Image - MISSING IMAGE ALT TEXT -->
+                                            <Image Source="{Binding Image}" 
+                                                   Aspect="AspectFill" 
+                                                   Grid.Row="0"
+                                                   // MISSING: No semantic label or alt text for screen readers
+                                                   />
+                                            
+                                            <!-- Discount Badge -->
+                                            <Frame BackgroundColor="Red" 
+                                                   CornerRadius="4" 
+                                                   Padding="6,2" 
+                                                   HorizontalOptions="Start" 
+                                                   VerticalOptions="Start" 
+                                                   Margin="8,8,0,0"
+                                                   HasShadow="False">
+                                                <Label Text="{Binding DiscountText}" 
+                                                       TextColor="White" 
+                                                       FontSize="10" 
+                                                       FontAttributes="Bold" />
+                                            </Frame>
+                                            
+                                            <!-- Out of Stock Overlay -->
+                                            <Frame BackgroundColor="Black" 
+                                                   Opacity="0.7" 
+                                                   CornerRadius="12,12,0,0" 
+                                                   HorizontalOptions="Fill" 
+                                                   VerticalOptions="Fill"
+                                                   IsVisible="{Binding IsOutOfStock}"
+                                                   HasShadow="False">
+                                                <Label Text="Out of Stock" 
+                                                       TextColor="White" 
+                                                       FontSize="14" 
+                                                       FontAttributes="Bold" 
+                                                       HorizontalOptions="Center" 
+                                                       VerticalOptions="Center" />
+                                            </Frame>
+                                            
+                                            <!-- Wishlist Button -->
+                                            <Button Text="♡" 
+                                                    FontSize="16" 
+                                                    BackgroundColor="White" 
+                                                    Opacity="0.9" 
+                                                    TextColor="Gray" 
+                                                    WidthRequest="32" 
+                                                    HeightRequest="32" 
+                                                    CornerRadius="16" 
+                                                    HorizontalOptions="End" 
+                                                    VerticalOptions="Start" 
+                                                    Margin="0,8,8,0"
+                                                    Clicked="OnWishlistClicked"
+                                                    // MISSING: No accessible name
+                                                    />
+                                        </Grid>
+                                    </Frame>
+                                    
+                                    <!-- Product Info -->
+                                    <StackLayout Grid.Row="1" Padding="12">
+                                        <!-- Product Name -->
+                                        <Label Text="{Binding Name}" 
+                                               FontSize="14" 
+                                               FontAttributes="Bold" 
+                                               MaxLines="2" />
+                                        
+                                        <!-- Rating -->
+                                        <StackLayout Orientation="Horizontal" Spacing="4" Margin="0,4,0,0">
+                                            <Label Text="⭐" FontSize="12" />
+                                            <Label Text="⭐" FontSize="12" />
+                                            <Label Text="⭐" FontSize="12" />
+                                            <Label Text="⭐" FontSize="12" />
+                                            <Label Text="☆" FontSize="12" />
+                                            <Label Text="{Binding Rating}" FontSize="10" TextColor="Gray" />
+                                        </StackLayout>
+                                        
+                                        <!-- Price -->
+                                        <StackLayout Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+                                            <Label Text="{Binding Price}" 
+                                                   FontSize="16" 
+                                                   FontAttributes="Bold" 
+                                                   TextColor="Green" />
+                                            <Label Text="{Binding OriginalPrice}" 
+                                                   FontSize="12" 
+                                                   TextColor="Gray" 
+                                                   IsVisible="{Binding HasOriginalPrice}" />
+                                        </StackLayout>
+                                        
+                                        <!-- Add to Cart Button -->
+                                        <Button Text="Add to Cart" 
+                                                BackgroundColor="Blue" 
+                                                TextColor="White" 
+                                                CornerRadius="6" 
+                                                FontSize="12" 
+                                                Margin="0,8,0,0"
+                                                IsEnabled="{Binding InStock}"
+                                                Clicked="OnAddToCartClicked" />
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            <!-- Main Content Card -->
+            <Frame BackgroundColor="#f8f9fa" 
+                   BorderColor="#dee2e6" 
+                   CornerRadius="8" 
+                   Padding="30">
+                <StackLayout Spacing="20">
+                    <!-- Title -->
+                           FontSize="24" 
+                           FontAttributes="Bold" 
+                           TextColor="#333333" />
+                    <!-- Description -->
+                           FontSize="16" 
+                           TextColor="#666666" />
+                    <StackLayout Spacing="0">
+                                     Orientation="Horizontal" 
+                                     Spacing="2" />
+                        <Frame BackgroundColor="White" 
+                               BorderColor="#dee2e6" 
+                               CornerRadius="0,0,8,8" 
+                               Padding="30">
+                                           FontSize="20" 
+                                           FontAttributes="Bold" 
+                                           TextColor="#333333" />
+                                    <StackLayout Spacing="20" Margin="0,20,0,0">
+                                        <CheckBox x:Name="AutoStartCheck" 
+                                                  Content="Start application on system startup" />
+                                        <CheckBox x:Name="NotificationsCheck" 
+                                                  Content="Enable desktop notifications" />
+                                        <CheckBox x:Name="UpdatesCheck" 
+                                                  Content="Automatically check for updates" />
+                                        <StackLayout Spacing="8">
+                                                   FontAttributes="Bold" 
+                                                   TextColor="#333333" />
+                                            <Picker x:Name="ThemePicker" 
+                                                    ItemsSource="{Binding ThemeOptions}" 
+                                                    SelectedIndex="0" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                                           FontSize="20" 
+                                           FontAttributes="Bold" 
+                                           TextColor="#333333" />
+                                    <StackLayout Spacing="20" Margin="0,20,0,0">
+                                        <CheckBox x:Name="TwoFactorCheck" 
+                                                  Content="Enable two-factor authentication" />
+                                        <CheckBox x:Name="BiometricCheck" 
+                                                  Content="Use biometric authentication" />
+                                        <CheckBox x:Name="SessionTimeoutCheck" 
+                                                  Content="Enable session timeout" />
+                                        <StackLayout Spacing="8">
+                                                   FontAttributes="Bold" 
+                                                   TextColor="#333333" />
+                                            <Entry x:Name="TimeoutEntry" 
+                                                   Text="30" 
+                                                   WidthRequest="100" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                                           FontSize="20" 
+                                           FontAttributes="Bold" 
+                                           TextColor="#333333" />
+                                    <StackLayout Spacing="20" Margin="0,20,0,0">
+                                        <CheckBox x:Name="AnalyticsCheck" 
+                                                  Content="Allow usage analytics" />
+                                        <CheckBox x:Name="CrashReportsCheck" 
+                                                  Content="Send crash reports" />
+                                        <CheckBox x:Name="LocationCheck" 
+                                                  Content="Allow location access" />
+                                        <StackLayout Spacing="8">
+                                                   FontAttributes="Bold" 
+                                                   TextColor="#333333" />
+                                            <Entry x:Name="RetentionEntry" 
+                                                   Text="90" 
+                                                   WidthRequest="100" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                                           FontSize="20" 
+                                           FontAttributes="Bold" 
+                                           TextColor="#333333" />
+                                    <StackLayout Spacing="20" Margin="0,20,0,0">
+                                        <CheckBox x:Name="DebugModeCheck" 
+                                                  Content="Enable debug mode" />
+                                        <CheckBox x:Name="VerboseLoggingCheck" 
+                                                  Content="Enable verbose logging" />
+                                        <CheckBox x:Name="ExperimentalFeaturesCheck" 
+                                                  Content="Enable experimental features" />
+                                        <StackLayout Spacing="8">
+                                                   FontAttributes="Bold" 
+                                                   TextColor="#333333" />
+                                            <Picker x:Name="LogLevelPicker" 
+                                                    ItemsSource="{Binding LogLevelOptions}" 
+                                                    SelectedIndex="2" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="#e9ecef" 
+                   BorderColor="#dee2e6" 
+                   CornerRadius="4" 
+                   Padding="20">
+                <StackLayout Spacing="15">
+                           FontSize="16" 
+                           FontAttributes="Bold" 
+                           TextColor="#333333" />
+                           FontSize="12" 
+                           TextColor="#666666" />
+                    <!-- How to Fix -->
+                           FontSize="16" 
+                           FontAttributes="Bold" 
+                           TextColor="#333333" />
+                           FontSize="12" 
+                           TextColor="#666666" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

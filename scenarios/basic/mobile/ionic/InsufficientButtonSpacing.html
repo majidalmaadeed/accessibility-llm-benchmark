@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action Center</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+        .app-container {
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .app-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .app-subtitle {
+            font-size: 16px;
+            color: gray;
+        }
+        
+        .quick-actions {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            /* INSUFFICIENT BUTTON SPACING - Only 2px apart instead of minimum 44px */
+            gap: 2px;
+            margin-bottom: 16px;
+        }
+        
+        .action-button {
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            padding: 12px 16px;
+            cursor: pointer;
+        }
+        
+        .action-button.edit {
+            background: blue;
+        }
+        
+        .action-button.delete {
+            background: red;
+        }
+        
+        .action-button.share {
+            background: orange;
+        }
+        
+        .action-button.copy {
+            background: gray;
+        }
+        
+        .action-button.move {
+            background: purple;
+        }
+        
+        .action-button.archive {
+            background: teal;
+        }
+        
+        .action-button.export {
+            background: brown;
+        }
+        
+        .document-actions {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .document-buttons {
+            display: flex;
+            justify-content: center;
+            /* INSUFFICIENT BUTTON SPACING - Only 2px apart */
+            gap: 2px;
+        }
+        
+        .document-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .document-button.new {
+            background: lightblue;
+            color: blue;
+        }
+        
+        .document-button.folder {
+            background: lightgreen;
+            color: green;
+        }
+        
+        .document-button.search {
+            background: lightyellow;
+            color: orange;
+        }
+        
+        .document-button.settings {
+            background: lightgray;
+            color: gray;
+        }
+        
+        .media-controls {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .media-buttons {
+            display: flex;
+            justify-content: center;
+            /* INSUFFICIENT BUTTON SPACING - Only 2px apart */
+            gap: 2px;
+        }
+        
+        .media-button {
+            border: none;
+            border-radius: 25px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .media-button.previous {
+            width: 50px;
+            height: 50px;
+            background: lightgray;
+            color: gray;
+        }
+        
+        .media-button.play-pause {
+            width: 60px;
+            height: 60px;
+            background: blue;
+            color: white;
+            font-size: 24px;
+        }
+        
+        .media-button.next {
+            width: 50px;
+            height: 50px;
+            background: lightgray;
+            color: gray;
+        }
+        
+        .media-button.shuffle {
+            width: 50px;
+            height: 50px;
+            background: lightgray;
+            color: gray;
+        }
+        
+        .media-button.repeat {
+            width: 50px;
+            height: 50px;
+            background: lightgray;
+            color: gray;
+        }
+        
+        .navigation-actions {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            /* INSUFFICIENT BUTTON SPACING - Only 2px apart */
+            gap: 2px;
+        }
+        
+        .nav-button {
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            border: none;
+            background: lightblue;
+            color: blue;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title>Action Center</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+            <div class="app-container">
+                <!-- Header -->
+                <div class="header">
+                    <h1 class="app-title">Action Center</h1>
+                    <p class="app-subtitle">Manage your tasks and actions</p>
+                </div>
+                
+                <!-- Quick Actions - INSUFFICIENT BUTTON SPACING -->
+                <div class="quick-actions">
+                    <h2 class="section-title">Quick Actions</h2>
+                    
+                    <!-- INSUFFICIENT BUTTON SPACING - Only 2px apart instead of minimum 44px -->
+                    <div class="action-buttons">
+                        <button class="action-button" onclick="saveAction()">Save</button>
+                        <button class="action-button edit" onclick="editAction()">Edit</button>
+                        <button class="action-button delete" onclick="deleteAction()">Delete</button>
+                        <button class="action-button share" onclick="shareAction()">Share</button>
+                    </div>
+                    
+                    <!-- Another row with insufficient spacing -->
+                    <div class="action-buttons">
+                        <button class="action-button copy" onclick="copyAction()">Copy</button>
+                        <button class="action-button move" onclick="moveAction()">Move</button>
+                        <button class="action-button archive" onclick="archiveAction()">Archive</button>
+                        <button class="action-button export" onclick="exportAction()">Export</button>
+                    </div>
+                </div>
+                
+                <!-- Document Actions -->
+                <div class="document-actions">
+                    <h2 class="section-title">Document Actions</h2>
+                    
+                    <!-- INSUFFICIENT BUTTON SPACING - Only 2px apart -->
+                    <div class="document-buttons">
+                        <button class="document-button new" onclick="newDocument()">📄</button>
+                        <button class="document-button folder" onclick="openFolder()">📁</button>
+                        <button class="document-button search" onclick="searchAction()">🔍</button>
+                        <button class="document-button settings" onclick="settingsAction()">⚙️</button>
+                    </div>
+                </div>
+                
+                <!-- Media Controls -->
+                <div class="media-controls">
+                    <h2 class="section-title">Media Controls</h2>
+                    
+                    <!-- INSUFFICIENT BUTTON SPACING - Only 2px apart -->
+                    <div class="media-buttons">
+                        <button class="media-button previous" onclick="previousTrack()">⏮️</button>
+                        <button class="media-button play-pause" onclick="playPause()">⏸️</button>
+                        <button class="media-button next" onclick="nextTrack()">⏭️</button>
+                        <button class="media-button shuffle" onclick="shuffleMode()">🔀</button>
+                        <button class="media-button repeat" onclick="repeatMode()">🔁</button>
+                    </div>
+                </div>
+                
+                <!-- Navigation Actions -->
+                <div class="navigation-actions">
+                    <h2 class="section-title">Navigation</h2>
+                    
+                    <!-- INSUFFICIENT BUTTON SPACING - Only 2px apart -->
+                    <div class="navigation-buttons">
+                        <button class="nav-button" onclick="goBack()">←</button>
+                        <button class="nav-button" onclick="goUp()">↑</button>
+                        <button class="nav-button" onclick="goForward()">→</button>
+                        <button class="nav-button" onclick="goDown()">↓</button>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+    </ion-app>
+    
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    
+    <script>
+        function saveAction() {
+            alert('Document saved successfully!');
+        }
+        
+        function editAction() {
+            alert('Opening edit mode...');
+        }
+        
+        function deleteAction() {
+            alert('Item deleted!');
+        }
+        
+        function shareAction() {
+            alert('Opening share options...');
+        }
+        
+        function copyAction() {
+            alert('Item copied to clipboard!');
+        }
+        
+        function moveAction() {
+            alert('Opening move dialog...');
+        }
+        
+        function archiveAction() {
+            alert('Item archived!');
+        }
+        
+        function exportAction() {
+            alert('Opening export options...');
+        }
+        
+        function newDocument() {
+            alert('Creating new document...');
+        }
+        
+        function openFolder() {
+            alert('Opening folder browser...');
+        }
+        
+        function searchAction() {
+            alert('Opening search...');
+        }
+        
+        function settingsAction() {
+            alert('Opening settings...');
+        }
+        
+        function previousTrack() {
+            alert('Playing previous track...');
+        }
+        
+        function playPause() {
+            alert('Toggling playback...');
+        }
+        
+        function nextTrack() {
+            alert('Playing next track...');
+        }
+        
+        function shuffleMode() {
+            alert('Toggling shuffle mode...');
+        }
+        
+        function repeatMode() {
+            alert('Toggling repeat mode...');
+        }
+        
+        function goBack() {
+            alert('Going back...');
+        }
+        
+        function goUp() {
+            alert('Moving up...');
+        }
+        
+        function goForward() {
+            alert('Moving forward...');
+        }
+        
+        function goDown() {
+            alert('Moving down...');
+        }
+    </script>
+</body>
+</html>

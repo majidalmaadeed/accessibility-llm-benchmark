@@ -1,0 +1,197 @@
+<Page
+    x:Class="AccessibilityTest.AutoPlayingBackgroundVideo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AccessibilityTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="500"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Hero Section with Auto-playing Background Video -->
+        <Border Grid.Row="0" Background="Black">
+            <Grid>
+                <!-- Background Video - AUTOPLAYS WITHOUT USER CONTROL -->
+                <MediaElement x:Name="BackgroundVideo" Source="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" 
+                              Stretch="UniformToFill" AutoPlay="True" IsMuted="True" 
+                              MediaEnded="BackgroundVideo_MediaEnded"/>
+                
+                <!-- Video Overlay -->
+                <Border Background="#80000000" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="Revolutionary Technology" FontSize="36" FontWeight="Bold" 
+                                   Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+                        <TextBlock Text="Experience the future today" FontSize="20" 
+                                   Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,16" 
+                                   Opacity="0.7"/>
+                        <TextBlock Text="Discover cutting-edge solutions that transform how you work and live." 
+                                   FontSize="16" Foreground="White" HorizontalAlignment="Center" 
+                                   Margin="0,0,0,32" Opacity="0.7" TextWrapping="Wrap"/>
+                        
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Learn More" Background="Blue" Foreground="White" 
+                                    Padding="24,16" FontSize="18" Margin="0,0,16,0" Click="LearnMore_Click"/>
+                            <Button Content="⏸️ Pause" Background="Transparent" Foreground="White" 
+                                    Padding="24,16" FontSize="18" BorderBrush="White" BorderThickness="1" 
+                                    Click="PauseVideo_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Slide Indicators -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom" Margin="0,0,0,20">
+                    <Ellipse Width="12" Height="12" Fill="White" Margin="0,0,12,0"/>
+                    <Ellipse Width="12" Height="12" Fill="White" Opacity="0.4" Margin="0,0,12,0"/>
+                    <Ellipse Width="12" Height="12" Fill="White" Opacity="0.4"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        
+        <!-- Features Section -->
+        <ScrollViewer Grid.Row="1" Padding="32" Background="LightGray">
+            <StackPanel>
+                <StackPanel HorizontalAlignment="Center" Margin="0,0,0,32">
+                    <TextBlock Text="Why Choose Us" FontSize="28" FontWeight="Bold" 
+                               HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                    <TextBlock Text="Powerful features designed to accelerate your success" 
+                               FontSize="16" Foreground="Gray" HorizontalAlignment="Center"/>
+                </StackPanel>
+                
+                <UniformGrid Columns="4">
+                    <Border Background="White" CornerRadius="8" Padding="16" Margin="0,0,8,8" 
+                            Shadow="{ThemeResource CardShadow}">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="🚀" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                            <TextBlock Text="Fast Performance" FontSize="14" FontWeight="Bold" 
+                                       HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                            <TextBlock Text="Lightning-fast processing and response times" 
+                                       FontSize="12" Foreground="Gray" HorizontalAlignment="Center" 
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border Background="White" CornerRadius="8" Padding="16" Margin="0,0,8,8" 
+                            Shadow="{ThemeResource CardShadow}">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="🔒" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                            <TextBlock Text="Secure & Reliable" FontSize="14" FontWeight="Bold" 
+                                       HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                            <TextBlock Text="Enterprise-grade security and 99.9% uptime" 
+                                       FontSize="12" Foreground="Gray" HorizontalAlignment="Center" 
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border Background="White" CornerRadius="8" Padding="16" Margin="0,0,8,8" 
+                            Shadow="{ThemeResource CardShadow}">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="📱" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                            <TextBlock Text="Mobile Ready" FontSize="14" FontWeight="Bold" 
+                                       HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                            <TextBlock Text="Optimized for all devices and screen sizes" 
+                                       FontSize="12" Foreground="Gray" HorizontalAlignment="Center" 
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border Background="White" CornerRadius="8" Padding="16" Margin="0,0,0,8" 
+                            Shadow="{ThemeResource CardShadow}">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="⚡" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                            <TextBlock Text="Easy Integration" FontSize="14" FontWeight="Bold" 
+                                       HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                            <TextBlock Text="Simple APIs and comprehensive documentation" 
+                                       FontSize="12" Foreground="Gray" HorizontalAlignment="Center" 
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+                
+                <!-- Stats Section -->
+                <Border Background="Blue" CornerRadius="8" Padding="32" Margin="0,32,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Trusted by Thousands" FontSize="24" FontWeight="Bold" 
+                                   Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,32"/>
+                        
+                        <UniformGrid Columns="4">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="10K+" FontSize="32" FontWeight="Bold" 
+                                           Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                <TextBlock Text="Active Users" FontSize="14" Foreground="White" 
+                                           HorizontalAlignment="Center" Opacity="0.7"/>
+                            </StackPanel>
+                            
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="99.9%" FontSize="32" FontWeight="Bold" 
+                                           Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                <TextBlock Text="Uptime" FontSize="14" Foreground="White" 
+                                           HorizontalAlignment="Center" Opacity="0.7"/>
+                            </StackPanel>
+                            
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="24/7" FontSize="32" FontWeight="Bold" 
+                                           Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                <TextBlock Text="Support" FontSize="14" Foreground="White" 
+                                           HorizontalAlignment="Center" Opacity="0.7"/>
+                            </StackPanel>
+                            
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="50+" FontSize="32" FontWeight="Bold" 
+                                           Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                <TextBlock Text="Countries" FontSize="14" Foreground="White" 
+                                           HorizontalAlignment="Center" Opacity="0.7"/>
+                            </StackPanel>
+                        </UniformGrid>
+                    </StackPanel>
+                </Border>
+                
+                <!-- CTA Section -->
+                <Border Background="White" CornerRadius="8" Padding="48" Margin="0,32,0,0" 
+                        Shadow="{ThemeResource CardShadow}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="Ready to Get Started?" FontSize="28" FontWeight="Bold" 
+                                   HorizontalAlignment="Center" Margin="0,0,0,16"/>
+                        <TextBlock Text="Join thousands of satisfied customers and transform your business today." 
+                                   FontSize="16" Foreground="Gray" HorizontalAlignment="Center" 
+                                   Margin="0,0,0,32" TextWrapping="Wrap"/>
+                        
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Start Free Trial" Background="Blue" Foreground="White" 
+                                    Padding="24,16" FontSize="18" Margin="0,0,16,0" Click="StartTrial_Click"/>
+                            <Button Content="Contact Sales" Background="Transparent" Foreground="Blue" 
+                                    Padding="24,16" FontSize="18" BorderBrush="Blue" BorderThickness="1" 
+                                    Click="ContactSales_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Footer -->
+                <Border Background="DarkGray" CornerRadius="8" Padding="32" Margin="0,32,0,0">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="© 2024 TechCorp. All rights reserved." FontSize="14" 
+                                   Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,16" 
+                                   Opacity="0.7"/>
+                        
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Privacy Policy" Background="Transparent" Foreground="White" 
+                                    Opacity="0.7" FontSize="14" BorderThickness="0" Margin="0,0,16,0" 
+                                    Click="PrivacyPolicy_Click"/>
+                            <Button Content="Terms of Service" Background="Transparent" Foreground="White" 
+                                    Opacity="0.7" FontSize="14" BorderThickness="0" Margin="0,0,16,0" 
+                                    Click="TermsOfService_Click"/>
+                            <Button Content="Support" Background="Transparent" Foreground="White" 
+                                    Opacity="0.7" FontSize="14" BorderThickness="0" Click="Support_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

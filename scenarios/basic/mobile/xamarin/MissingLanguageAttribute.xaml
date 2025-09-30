@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="AccessibilityTest.MissingLanguageAttribute"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Multilingual App">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="32" Spacing="24" HorizontalOptions="Center">
+                <!-- App Logo -->
+                <StackLayout HorizontalOptions="Center" Spacing="16">
+                    <Frame BackgroundColor="Blue" 
+                           CornerRadius="20" 
+                           Padding="20" 
+                           WidthRequest="80" 
+                           HeightRequest="80">
+                        <Label Text="🌐" 
+                               FontSize="40" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center" />
+                    </Frame>
+                    
+                    <!-- Welcome Text - Mixed English/French without lang attributes -->
+                    <Label Text="Welcome to our app! Bienvenue dans notre application!" 
+                           FontSize="24" 
+                           FontAttributes="Bold" 
+                           HorizontalTextAlignment="Center" />
+                    
+                    <!-- Subtitle - Mixed languages -->
+                    <Label Text="Please sign in to continue. Veuillez vous connecter pour continuer." 
+                           FontSize="16" 
+                           TextColor="Gray" 
+                           HorizontalTextAlignment="Center" />
+                </StackLayout>
+                
+                <!-- Language Selection -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="16" 
+                       HasShadow="True">
+                    <StackLayout Spacing="16">
+                        <Label Text="Select Language / Choisir la langue:" 
+                               FontSize="16" 
+                               FontAttributes="Bold" />
+                        
+                        <Picker x:Name="LanguagePicker" 
+                                Title="Choose Language">
+                            <Picker.Items>
+                                <x:String>🇺🇸 English</x:String>
+                                <x:String>🇫🇷 Français</x:String>
+                                <x:String>🇪🇸 Español</x:String>
+                                <x:String>🇩🇪 Deutsch</x:String>
+                                <x:String>🇮🇹 Italiano</x:String>
+                                <x:String>🇵🇹 Português</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Login Form -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="12" 
+                       Padding="24" 
+                       HasShadow="True">
+                    <StackLayout Spacing="16">
+                        <!-- Email Field -->
+                        <Entry Placeholder="Email / Courriel" 
+                               Keyboard="Email" />
+                        
+                        <!-- Password Field -->
+                        <Entry Placeholder="Password / Mot de passe" 
+                               IsPassword="True" />
+                        
+                        <!-- Login Button -->
+                        <Button Text="Sign In / Se connecter" 
+                                BackgroundColor="Blue" 
+                                TextColor="White" 
+                                FontSize="16" 
+                                Clicked="OnLoginClicked" />
+                        
+                        <!-- Forgot Password -->
+                        <Button Text="Forgot Password? / Mot de passe oublié?" 
+                                BackgroundColor="Transparent" 
+                                TextColor="Blue" 
+                                FontSize="14" 
+                                Clicked="OnForgotPasswordClicked" />
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

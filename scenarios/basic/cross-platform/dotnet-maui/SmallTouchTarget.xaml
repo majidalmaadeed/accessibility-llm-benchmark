@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.SmallTouchTarget"
+             Title="Social Media Feed">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Social Feed"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="🔍 Search"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="➕ Post"
+                                BackgroundColor="#28a745"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Feed Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="20">
+                    
+                    <!-- Post 1 -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15">
+                            <!-- User Info -->
+                            <HorizontalStackLayout Grid.Row="0" Spacing="15">
+                                <Border BackgroundColor="#007bff" StrokeThickness="0" Padding="15" CornerRadius="25">
+                                    <Label Text="JD"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="John Doe"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"/>
+                                    <Label Text="2 hours ago"
+                                           FontSize="12"
+                                           TextColor="#666666"/>
+                                </VerticalStackLayout>
+                                
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="📤"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="5"
+                                            CornerRadius="4"
+                                            FontSize="16"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="♡"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="5"
+                                            CornerRadius="4"
+                                            FontSize="16"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="💬"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="5"
+                                            CornerRadius="4"
+                                            FontSize="16"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                            
+                            <!-- Post Content -->
+                            <Label Grid.Row="1" 
+                                   Text="Just finished an amazing hike in the mountains! The views were absolutely breathtaking. Nature never fails to amaze me. 🏔️ #hiking #nature #adventure"
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <!-- Post Image Placeholder -->
+                            <Border Grid.Row="2" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="200">
+                                <Label Text="📷 Mountain View"
+                                       FontSize="48"
+                                       TextColor="#6C757D"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            
+                            <!-- Action Buttons -->
+                            <HorizontalStackLayout Grid.Row="3" Spacing="20">
+                                <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                <Button Text="👍 Like"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#666666"
+                                        Padding="8,4"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        WidthRequest="60"
+                                        HeightRequest="20"/>
+                                
+                                <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                <Button Text="💬 Comment"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#666666"
+                                        Padding="8,4"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        WidthRequest="80"
+                                        HeightRequest="20"/>
+                                
+                                <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                <Button Text="📤 Share"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#666666"
+                                        Padding="8,4"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        WidthRequest="60"
+                                        HeightRequest="20"/>
+                                
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="5">
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="🔗"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="2"
+                                            CornerRadius="4"
+                                            FontSize="12"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="📌"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="2"
+                                            CornerRadius="4"
+                                            FontSize="12"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="⚙️"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="2"
+                                            CornerRadius="4"
+                                            FontSize="12"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Post 2 -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15">
+                            <!-- User Info -->
+                            <HorizontalStackLayout Grid.Row="0" Spacing="15">
+                                <Border BackgroundColor="#28a745" StrokeThickness="0" Padding="15" CornerRadius="25">
+                                    <Label Text="SM"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="Sarah Miller"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"/>
+                                    <Label Text="4 hours ago"
+                                           FontSize="12"
+                                           TextColor="#666666"/>
+                                </VerticalStackLayout>
+                                
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="📤"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="5"
+                                            CornerRadius="4"
+                                            FontSize="16"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="♡"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="5"
+                                            CornerRadius="4"
+                                            FontSize="16"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="💬"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="5"
+                                            CornerRadius="4"
+                                            FontSize="16"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                            
+                            <!-- Post Content -->
+                            <Label Grid.Row="1" 
+                                   Text="Working on a new project and loving the creative process! Sometimes the best ideas come when you least expect them. 💡 #creativity #work #inspiration"
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <!-- Action Buttons -->
+                            <HorizontalStackLayout Grid.Row="2" Spacing="20">
+                                <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                <Button Text="👍 Like"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#666666"
+                                        Padding="8,4"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        WidthRequest="60"
+                                        HeightRequest="20"/>
+                                
+                                <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                <Button Text="💬 Comment"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#666666"
+                                        Padding="8,4"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        WidthRequest="80"
+                                        HeightRequest="20"/>
+                                
+                                <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                <Button Text="📤 Share"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#666666"
+                                        Padding="8,4"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        WidthRequest="60"
+                                        HeightRequest="20"/>
+                                
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="5">
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="🔗"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="2"
+                                            CornerRadius="4"
+                                            FontSize="12"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="📌"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="2"
+                                            CornerRadius="4"
+                                            FontSize="12"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="⚙️"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="2"
+                                            CornerRadius="4"
+                                            FontSize="12"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Post 3 -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="20">
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="15">
+                            <!-- User Info -->
+                            <HorizontalStackLayout Grid.Row="0" Spacing="15">
+                                <Border BackgroundColor="#dc3545" StrokeThickness="0" Padding="15" CornerRadius="25">
+                                    <Label Text="MJ"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="Mike Johnson"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"/>
+                                    <Label Text="6 hours ago"
+                                           FontSize="12"
+                                           TextColor="#666666"/>
+                                </VerticalStackLayout>
+                                
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="📤"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="5"
+                                            CornerRadius="4"
+                                            FontSize="16"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="♡"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="5"
+                                            CornerRadius="4"
+                                            FontSize="16"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="💬"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="5"
+                                            CornerRadius="4"
+                                            FontSize="16"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                            
+                            <!-- Post Content -->
+                            <Label Grid.Row="1" 
+                                   Text="Just tried a new recipe and it turned out amazing! Cooking is such a therapeutic activity. Here's the recipe if anyone wants to try it: [link] 🍳 #cooking #recipe #food"
+                                   FontSize="16"
+                                   TextColor="#333333"
+                                   LineBreakMode="WordWrap"/>
+                            
+                            <!-- Post Image Placeholder -->
+                            <Border Grid.Row="2" BackgroundColor="#F8F9FA" Stroke="#DEE2E6" StrokeThickness="2" StrokeDashArray="5,5" HeightRequest="150">
+                                <Label Text="🍽️ Delicious Meal"
+                                       FontSize="32"
+                                       TextColor="#6C757D"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            
+                            <!-- Action Buttons -->
+                            <HorizontalStackLayout Grid.Row="3" Spacing="20">
+                                <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                <Button Text="👍 Like"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#666666"
+                                        Padding="8,4"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        WidthRequest="60"
+                                        HeightRequest="20"/>
+                                
+                                <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                <Button Text="💬 Comment"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#666666"
+                                        Padding="8,4"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        WidthRequest="80"
+                                        HeightRequest="20"/>
+                                
+                                <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                <Button Text="📤 Share"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#666666"
+                                        Padding="8,4"
+                                        CornerRadius="4"
+                                        FontSize="14"
+                                        WidthRequest="60"
+                                        HeightRequest="20"/>
+                                
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="5">
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="🔗"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="2"
+                                            CornerRadius="4"
+                                            FontSize="12"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="📌"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="2"
+                                            CornerRadius="4"
+                                            FontSize="12"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                    
+                                    <!-- SMALL TOUCH TARGET - Social share button only 20x20px -->
+                                    <Button Text="⚙️"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#666666"
+                                            Padding="2"
+                                            CornerRadius="4"
+                                            FontSize="12"
+                                            WidthRequest="20"
+                                            HeightRequest="20"/>
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Navigation"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Home"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Explore"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Notifications"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Social"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Messages"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Groups"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Events"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Account"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Profile"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Settings"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Help"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>

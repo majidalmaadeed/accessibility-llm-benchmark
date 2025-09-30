@@ -1,0 +1,114 @@
+<Window x:Class="AccessibilityTest.SmallTouchTarget"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Social Feed" Height="600" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Tab Navigation -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="White">
+            <Button Content="Following" Background="Transparent" BorderThickness="0" 
+                    FontSize="16" Padding="20,16" BorderBrush="Blue" BorderThickness="0,0,0,2"/>
+            <Button Content="Discover" Background="Transparent" BorderThickness="0" 
+                    FontSize="16" Padding="20,16" Foreground="Gray"/>
+            <Button Content="Trending" Background="Transparent" BorderThickness="0" 
+                    FontSize="16" Padding="20,16" Foreground="Gray"/>
+        </StackPanel>
+        
+        <!-- Posts Feed -->
+        <ScrollViewer Grid.Row="1" Padding="16">
+            <StackPanel>
+                <!-- Post 1 -->
+                <Border Background="White" CornerRadius="8" Margin="0,0,0,16" Padding="16" 
+                        Effect="{StaticResource {x:Static SystemParameters.DropShadowKey}}">
+                    <StackPanel>
+                        <!-- Post Header -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <Ellipse Width="40" Height="40" Fill="LightBlue" Margin="0,0,12,0"/>
+                            <StackPanel>
+                                <TextBlock Text="john_doe" FontSize="16" FontWeight="Bold" Margin="0,0,0,2"/>
+                                <TextBlock Text="2h" FontSize="12" Foreground="Gray"/>
+                            </StackPanel>
+                            <!-- SMALL TOUCH TARGET - Only 20x20px on mobile interface -->
+                            <Button Content="⋯" FontSize="20" Background="LightGray" Width="20" Height="20" 
+                                    HorizontalAlignment="Right" Margin="0,0,0,0" Click="MoreOptions_Click"/>
+                        </StackPanel>
+                        
+                        <!-- Post Image -->
+                        <Image Source="https://via.placeholder.com/400x300" Height="300" Width="400" 
+                               Stretch="Uniform" Margin="0,0,0,12"/>
+                        
+                        <!-- Post Actions -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                            <Button Content="♡" FontSize="16" Background="Transparent" Width="20" Height="20" 
+                                    Margin="0,0,16,0" Click="ToggleLike_Click"/>
+                            <Button Content="💬" FontSize="16" Background="Transparent" Width="20" Height="20" 
+                                    Margin="0,0,16,0" Click="OpenComments_Click"/>
+                            <Button Content="↗️" FontSize="16" Background="Transparent" Width="20" Height="20" 
+                                    Margin="0,0,16,0" Click="SharePost_Click"/>
+                            <Button Content="🔖" FontSize="16" Background="LightGray" Width="20" Height="20" 
+                                    HorizontalAlignment="Right" Click="ToggleBookmark_Click"/>
+                        </StackPanel>
+                        
+                        <TextBlock Text="42 likes" FontSize="14" FontWeight="Bold" Margin="0,0,0,8"/>
+                        
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBlock Text="john_doe" FontSize="14" FontWeight="Bold" Margin="0,0,8,0"/>
+                            <TextBlock Text="Beautiful sunset from my hike today! 🏔️ #nature #photography" FontSize="14"/>
+                        </StackPanel>
+                        
+                        <TextBlock Text="View all 8 comments" FontSize="12" Foreground="Gray"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Post 2 -->
+                <Border Background="White" CornerRadius="8" Margin="0,0,0,16" Padding="16" 
+                        Effect="{StaticResource {x:Static SystemParameters.DropShadowKey}}">
+                    <StackPanel>
+                        <!-- Post Header -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <Ellipse Width="40" Height="40" Fill="LightGreen" Margin="0,0,12,0"/>
+                            <StackPanel>
+                                <TextBlock Text="sarah_j" FontSize="16" FontWeight="Bold" Margin="0,0,0,2"/>
+                                <TextBlock Text="4h" FontSize="12" Foreground="Gray"/>
+                            </StackPanel>
+                            <!-- SMALL TOUCH TARGET - Only 20x20px on mobile interface -->
+                            <Button Content="⋯" FontSize="20" Background="LightGray" Width="20" Height="20" 
+                                    HorizontalAlignment="Right" Margin="0,0,0,0" Click="MoreOptions_Click"/>
+                        </StackPanel>
+                        
+                        <!-- Post Image -->
+                        <Image Source="https://via.placeholder.com/400x300" Height="300" Width="400" 
+                               Stretch="Uniform" Margin="0,0,0,12"/>
+                        
+                        <!-- Post Actions -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <!-- SMALL TOUCH TARGET - Only 20x20px -->
+                            <Button Content="♡" FontSize="16" Background="Transparent" Width="20" Height="20" 
+                                    Margin="0,0,16,0" Click="ToggleLike_Click"/>
+                            <Button Content="💬" FontSize="16" Background="Transparent" Width="20" Height="20" 
+                                    Margin="0,0,16,0" Click="OpenComments_Click"/>
+                            <Button Content="↗️" FontSize="16" Background="Transparent" Width="20" Height="20" 
+                                    Margin="0,0,16,0" Click="SharePost_Click"/>
+                            <Button Content="🔖" FontSize="16" Background="LightGray" Width="20" Height="20" 
+                                    HorizontalAlignment="Right" Click="ToggleBookmark_Click"/>
+                        </StackPanel>
+                        
+                        <TextBlock Text="28 likes" FontSize="14" FontWeight="Bold" Margin="0,0,0,8"/>
+                        
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBlock Text="sarah_j" FontSize="14" FontWeight="Bold" Margin="0,0,8,0"/>
+                            <TextBlock Text="Just finished reading an amazing book! Highly recommend it to everyone." FontSize="14"/>
+                        </StackPanel>
+                        
+                        <TextBlock Text="View all 12 comments" FontSize="12" Foreground="Gray"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

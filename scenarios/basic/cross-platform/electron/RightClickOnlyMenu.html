@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Manager</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 20px;
+        }
+        
+        .toolbar {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .toolbar-btn {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .toolbar-btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .main-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .file-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .file-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .file-icon {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .file-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+        
+        .file-details {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .file-size {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .file-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .file-card:hover .file-actions {
+            opacity: 1;
+        }
+        
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            color: #666;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .context-menu {
+            position: fixed;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 8px 0;
+            z-index: 1000;
+            display: none;
+            min-width: 150px;
+        }
+        
+        .context-menu.show {
+            display: block;
+        }
+        
+        .context-menu-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            transition: background-color 0.2s;
+        }
+        
+        .context-menu-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .context-menu-item.danger {
+            color: #dc3545;
+        }
+        
+        .context-menu-item.danger:hover {
+            background: #f8d7da;
+        }
+        
+        .context-menu-separator {
+            height: 1px;
+            background: #eee;
+            margin: 4px 0;
+        }
+        
+        .status-bar {
+            background: #f8f9fa;
+            border-top: 1px solid #ddd;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .selected-item {
+            font-weight: bold;
+        }
+        
+        .status-text {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="toolbar">
+            <button class="toolbar-btn" onclick="newFolder()" title="New Folder">📁</button>
+            <button class="toolbar-btn" onclick="newFile()" title="New File">📄</button>
+            <button class="toolbar-btn" onclick="uploadFiles()" title="Upload">📤</button>
+            <button class="toolbar-btn" onclick="downloadFiles()" title="Download">📥</button>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <h1 class="section-title">Files</h1>
+        <div class="files-grid" id="filesGrid">
+            <div class="file-card" data-file="document.pdf" onclick="viewFile('document.pdf')" oncontextmenu="showContextMenu(event, 'document.pdf')">
+                <div class="file-actions">
+                    <button class="action-btn" onclick="viewFile('document.pdf')" title="View">👁️</button>
+                    <button class="action-btn" onclick="editFile('document.pdf')" title="Edit">✏️</button>
+                    <button class="action-btn" onclick="downloadFile('document.pdf')" title="Download">📤</button>
+                </div>
+                <div class="file-icon">📄</div>
+                <div class="file-name">document.pdf</div>
+                <div class="file-details">PDF • 2.5 MB</div>
+                <div class="file-size">Modified 2 hours ago</div>
+            </div>
+            
+            <div class="file-card" data-file="Projects" onclick="viewFile('Projects')" oncontextmenu="showContextMenu(event, 'Projects')">
+                <div class="file-actions">
+                    <button class="action-btn" onclick="viewFile('Projects')" title="View">👁️</button>
+                    <button class="action-btn" onclick="editFile('Projects')" title="Edit">✏️</button>
+                    <button class="action-btn" onclick="downloadFile('Projects')" title="Download">📤</button>
+                </div>
+                <div class="file-icon">📁</div>
+                <div class="file-name">Projects</div>
+                <div class="file-details">Folder • 15 items</div>
+                <div class="file-size">Modified 1 day ago</div>
+            </div>
+            
+            <div class="file-card" data-file="image.jpg" onclick="viewFile('image.jpg')" oncontextmenu="showContextMenu(event, 'image.jpg')">
+                <div class="file-actions">
+                    <button class="action-btn" onclick="viewFile('image.jpg')" title="View">👁️</button>
+                    <button class="action-btn" onclick="editFile('image.jpg')" title="Edit">✏️</button>
+                    <button class="action-btn" onclick="downloadFile('image.jpg')" title="Download">📤</button>
+                </div>
+                <div class="file-icon">🖼️</div>
+                <div class="file-name">image.jpg</div>
+                <div class="file-details">JPEG • 1.2 MB</div>
+                <div class="file-size">Modified 3 hours ago</div>
+            </div>
+            
+            <div class="file-card" data-file="spreadsheet.xlsx" onclick="viewFile('spreadsheet.xlsx')" oncontextmenu="showContextMenu(event, 'spreadsheet.xlsx')">
+                <div class="file-actions">
+                    <button class="action-btn" onclick="viewFile('spreadsheet.xlsx')" title="View">👁️</button>
+                    <button class="action-btn" onclick="editFile('spreadsheet.xlsx')" title="Edit">✏️</button>
+                    <button class="action-btn" onclick="downloadFile('spreadsheet.xlsx')" title="Download">📤</button>
+                </div>
+                <div class="file-icon">📊</div>
+                <div class="file-name">spreadsheet.xlsx</div>
+                <div class="file-details">Excel • 850 KB</div>
+                <div class="file-size">Modified 1 day ago</div>
+            </div>
+            
+            <div class="file-card" data-file="audio.mp3" onclick="viewFile('audio.mp3')" oncontextmenu="showContextMenu(event, 'audio.mp3')">
+                <div class="file-actions">
+                    <button class="action-btn" onclick="viewFile('audio.mp3')" title="View">👁️</button>
+                    <button class="action-btn" onclick="editFile('audio.mp3')" title="Edit">✏️</button>
+                    <button class="action-btn" onclick="downloadFile('audio.mp3')" title="Download">📤</button>
+                </div>
+                <div class="file-icon">🎵</div>
+                <div class="file-name">audio.mp3</div>
+                <div class="file-details">MP3 • 4.2 MB</div>
+                <div class="file-size">Modified 2 days ago</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="status-bar">
+        <div class="selected-item" id="selectedItem">No item selected</div>
+        <div class="status-text">Ready</div>
+    </div>
+    
+    <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via right-click -->
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" onclick="contextOpen()">Open</div>
+        <div class="context-menu-item" onclick="contextRename()">Rename</div>
+        <div class="context-menu-item" onclick="contextCopy()">Copy</div>
+        <div class="context-menu-item" onclick="contextMove()">Move</div>
+        <div class="context-menu-separator"></div>
+        <!-- RIGHT-CLICK ONLY MENU - Essential delete option only available via right-click -->
+        <div class="context-menu-item danger" onclick="contextDelete()">Delete</div>
+    </div>
+
+    <script>
+        let selectedFile = null;
+        let contextMenuVisible = false;
+        
+        function showContextMenu(event, fileName) {
+            event.preventDefault();
+            selectedFile = fileName;
+            
+            const contextMenu = document.getElementById('contextMenu');
+            contextMenu.style.display = 'block';
+            contextMenu.style.left = event.pageX + 'px';
+            contextMenu.style.top = event.pageY + 'px';
+            contextMenu.classList.add('show');
+            contextMenuVisible = true;
+            
+            // Update selected item display
+            document.getElementById('selectedItem').textContent = `Selected: ${fileName}`;
+        }
+        
+        function hideContextMenu() {
+            const contextMenu = document.getElementById('contextMenu');
+            contextMenu.classList.remove('show');
+            contextMenu.style.display = 'none';
+            contextMenuVisible = false;
+        }
+        
+        function contextOpen() {
+            if (selectedFile) {
+                viewFile(selectedFile);
+            }
+            hideContextMenu();
+        }
+        
+        function contextRename() {
+            if (selectedFile) {
+                const newName = prompt(`Rename "${selectedFile}" to:`, selectedFile);
+                if (newName && newName !== selectedFile) {
+                    alert(`File renamed from "${selectedFile}" to "${newName}"`);
+                }
+            }
+            hideContextMenu();
+        }
+        
+        function contextCopy() {
+            if (selectedFile) {
+                alert(`File "${selectedFile}" copied to clipboard`);
+            }
+            hideContextMenu();
+        }
+        
+        function contextMove() {
+            if (selectedFile) {
+                alert(`File "${selectedFile}" moved to new location`);
+            }
+            hideContextMenu();
+        }
+        
+        function contextDelete() {
+            // RIGHT-CLICK ONLY MENU - Essential delete option only available via right-click
+            if (selectedFile) {
+                if (confirm(`Are you sure you want to delete "${selectedFile}"? This action cannot be undone.`)) {
+                    alert(`File "${selectedFile}" has been deleted.`);
+                    // Remove the file card from the grid
+                    const fileCard = document.querySelector(`[data-file="${selectedFile}"]`);
+                    if (fileCard) {
+                        fileCard.remove();
+                    }
+                }
+            }
+            hideContextMenu();
+        }
+        
+        function viewFile(fileName) {
+            selectedFile = fileName;
+            document.getElementById('selectedItem').textContent = `Selected: ${fileName}`;
+            alert(`Viewing file: ${fileName}`);
+        }
+        
+        function editFile(fileName) {
+            selectedFile = fileName;
+            document.getElementById('selectedItem').textContent = `Selected: ${fileName}`;
+            alert(`Editing file: ${fileName}`);
+        }
+        
+        function downloadFile(fileName) {
+            selectedFile = fileName;
+            document.getElementById('selectedItem').textContent = `Selected: ${fileName}`;
+            alert(`Downloading file: ${fileName}`);
+        }
+        
+        function newFolder() {
+            alert('New folder created!');
+        }
+        
+        function newFile() {
+            alert('New file created!');
+        }
+        
+        function uploadFiles() {
+            alert('Upload functionality activated!');
+        }
+        
+        function downloadFiles() {
+            alert('Download functionality activated!');
+        }
+        
+        // Hide context menu when clicking elsewhere
+        document.addEventListener('click', function(event) {
+            if (contextMenuVisible && !event.target.closest('.context-menu')) {
+                hideContextMenu();
+            }
+        });
+        
+        // Hide context menu on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && contextMenuVisible) {
+                hideContextMenu();
+            }
+        });
+        
+        // Prevent default context menu on the entire page
+        document.addEventListener('contextmenu', function(event) {
+            if (!event.target.closest('.file-card')) {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

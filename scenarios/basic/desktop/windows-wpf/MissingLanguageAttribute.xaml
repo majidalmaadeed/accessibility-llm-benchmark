@@ -1,0 +1,68 @@
+<Window x:Class="AccessibilityTest.MissingLanguageAttribute"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Multilingual App" Height="600" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <Border Grid.Row="0" Background="White" Padding="32">
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="🌐" FontSize="80" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+                <!-- Welcome Text - Mixed English/French without lang attributes -->
+                <TextBlock Text="Welcome to our app! Bienvenue dans notre application!" 
+                           FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                <TextBlock Text="Please sign in to continue. Veuillez vous connecter pour continuer." 
+                           FontSize="16" Foreground="Gray" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Language Selection -->
+        <Border Grid.Row="0" Background="White" Padding="16" VerticalAlignment="Bottom">
+            <StackPanel>
+                <TextBlock Text="Select Language / Choisir la langue:" FontSize="16" FontWeight="Bold" 
+                           Margin="0,0,0,16"/>
+                <ComboBox Width="200" HorizontalAlignment="Left">
+                    <ComboBoxItem Content="🇺🇸 English" IsSelected="True"/>
+                    <ComboBoxItem Content="🇫🇷 Français"/>
+                    <ComboBoxItem Content="🇪🇸 Español"/>
+                    <ComboBoxItem Content="🇩🇪 Deutsch"/>
+                    <ComboBoxItem Content="🇮🇹 Italiano"/>
+                    <ComboBoxItem Content="🇵🇹 Português"/>
+                </ComboBox>
+            </StackPanel>
+        </Border>
+        
+        <!-- Login Form -->
+        <Border Grid.Row="1" Background="White" CornerRadius="8" Padding="48" Margin="20" 
+                Effect="{StaticResource {x:Static SystemParameters.DropShadowKey}}">
+            <StackPanel>
+                <TextBlock Text="Login Form" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" 
+                           Margin="0,0,0,32"/>
+                
+                <!-- Email Field -->
+                <StackPanel Margin="0,0,0,16">
+                    <TextBlock Text="Email / Courriel" FontSize="16" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <TextBox Padding="12" FontSize="16" Text="Enter your email"/>
+                </StackPanel>
+                
+                <!-- Password Field -->
+                <StackPanel Margin="0,0,0,16">
+                    <TextBlock Text="Password / Mot de passe" FontSize="16" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <PasswordBox Padding="12" FontSize="16"/>
+                </StackPanel>
+                
+                <!-- Action Buttons -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,32,0,0">
+                    <Button Content="Sign In / Se connecter" Background="Blue" Foreground="White" 
+                            Padding="24,12" FontSize="16" Margin="0,0,16,0" Click="SignIn_Click"/>
+                    <Button Content="Forgot Password? / Mot de passe oublié?" Background="Transparent" 
+                            Foreground="Blue" Padding="24,12" FontSize="14" Click="ForgotPassword_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
