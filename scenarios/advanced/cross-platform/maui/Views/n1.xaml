@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="UIComponents.Views.CalendarPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Calendar Application">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            
+            <Label Text="Calendar Application" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <Frame Padding="15" HasShadow="True" CornerRadius="10">
+                <StackLayout Spacing="10">
+                    <Label Text="Events" FontSize="18" FontAttributes="Bold" />
+                    
+                    <ListView x:Name="EventsListView" HeightRequest="400">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10" ColumnDefinitions="*,*,*" RowDefinitions="Auto">
+                                        <Label Grid.Column="0" Text="{Binding Title}" FontSize="14" />
+                                        <Label Grid.Column="1" Text="{Binding Date}" FontSize="14" />
+                                        <Label Grid.Column="2" Text="{Binding Time}" FontSize="14" />
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    
+                    <Button Text="Add Event" Clicked="OnAddEventClicked" />
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

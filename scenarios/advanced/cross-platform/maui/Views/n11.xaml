@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="UIComponents.Views.WizardPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Multi-Step Wizard">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            
+            <Label Text="Multi-Step Wizard" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <ProgressBar x:Name="WizardProgress" 
+                         Progress="0.2" 
+                         ProgressColor="{StaticResource Primary}" />
+
+            <Label x:Name="StepLabel" 
+                   Text="Step 1 of 5: Personal Information" 
+                   FontSize="16" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <Frame Padding="20" HasShadow="True" CornerRadius="10">
+                <StackLayout Spacing="15">
+                    
+                    <Label Text="Personal Information" FontSize="18" FontAttributes="Bold" />
+                    
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+                        
+                        <Label Grid.Row="0" Grid.Column="0" Text="First Name:" VerticalOptions="Center" />
+                        <Entry Grid.Row="0" Grid.Column="1" x:Name="FirstNameEntry" Placeholder="Enter first name" />
+                        
+                        <Label Grid.Row="1" Grid.Column="0" Text="Last Name:" VerticalOptions="Center" />
+                        <Entry Grid.Row="1" Grid.Column="1" x:Name="LastNameEntry" Placeholder="Enter last name" />
+                        
+                        <Label Grid.Row="2" Grid.Column="0" Text="Email:" VerticalOptions="Center" />
+                        <Entry Grid.Row="2" Grid.Column="1" x:Name="EmailEntry" Placeholder="Enter email" Keyboard="Email" />
+                        
+                        <Label Grid.Row="3" Grid.Column="0" Text="Phone:" VerticalOptions="Center" />
+                        <Entry Grid.Row="3" Grid.Column="1" x:Name="PhoneEntry" Placeholder="Enter phone" Keyboard="Telephone" />
+                        
+                    </Grid>
+                    
+                </StackLayout>
+            </Frame>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button Grid.Column="0" Text="Previous" Clicked="OnPreviousClicked" IsEnabled="False" />
+                <Button Grid.Column="1" Text="Next" Clicked="OnNextClicked" />
+            </Grid>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

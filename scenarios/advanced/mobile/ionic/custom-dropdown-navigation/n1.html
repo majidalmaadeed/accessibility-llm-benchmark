@@ -1,0 +1,78 @@
+<ion-content class="custom-dropdown-navigation">
+  <div class="main-container">
+    
+    <!-- Main Content Card -->
+    <ion-card class="main-content">
+      <ion-card-content>
+        
+        <!-- Title -->
+        <h1 class="title">Product Filter</h1>
+        
+        
+        <!-- Filter Section -->
+        <div class="filter-section">
+          <label class="filter-label">Filter by Category:</label>
+          
+          <!-- Custom Dropdown -->
+          <div class="custom-dropdown">
+            <ion-button 
+              (click)="toggleDropdown()"
+              [class.open]="isOpen"
+              class="dropdown-trigger"
+              fill="outline"
+              size="default">
+              <span class="dropdown-text">{{ selectedText }}</span>
+              <ion-icon 
+                [name]="isOpen ? 'chevron-up' : 'chevron-down'" 
+                class="dropdown-arrow">
+              </ion-icon>
+            </ion-button>
+            
+            <ion-list 
+              *ngIf="isOpen" 
+              class="dropdown-menu"
+              role="listbox"
+              aria-labelledby="category-filter-label">
+              <ion-item 
+                *ngFor="let option of options; let i = index"
+                (click)="selectOption(option.value, option.text, i)"
+                [class.selected]="selectedValue === option.value"
+                class="dropdown-option"
+                role="option"
+                [attr.aria-selected]="selectedValue === option.value">
+                <ion-label>{{ option.text }}</ion-label>
+                <ion-icon 
+                  *ngIf="selectedValue === option.value" 
+                  name="checkmark" 
+                  color="primary">
+                </ion-icon>
+              </ion-item>
+            </ion-list>
+          </div>
+        </div>
+        
+        <!-- Results Section -->
+        <div class="results-section">
+          <h2 class="results-title">Filtered Results</h2>
+          
+          <ion-grid class="results-grid">
+            <ion-row>
+              <ion-col 
+                size="6" 
+                *ngFor="let product of filteredProducts">
+                <ion-card class="result-card">
+                  <ion-card-content>
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-category">{{ product.category }}</p>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+</ion-content>

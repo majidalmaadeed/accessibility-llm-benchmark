@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 1px solid #ddd;
+            padding: 0;
+        }
+        
+        .tabs {
+            display: flex;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        
+        .tab.active {
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .tab:hover:not(.active) {
+            background: #f8f9fa;
+        }
+        
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .settings-section {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .setting-group {
+            margin-bottom: 25px;
+        }
+        
+        .setting-label {
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .setting-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .setting-input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        .setting-select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .setting-select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .toggle-switch.active {
+            background: #007bff;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+        
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(26px);
+        }
+        
+        .toggle-label {
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="header">
+        <div class="tabs">
+            <button class="tab active">General</button>
+            <button class="tab">Privacy</button>
+            <button class="tab">Security</button>
+            <button class="tab">Notifications</button>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="settings-section">
+            <h2 class="section-title">General Settings</h2>
+            
+            <div class="setting-group">
+                <label class="setting-label">Language</label>
+                <select class="setting-select" id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="it">Italian</option>
+                    <option value="pt">Portuguese</option>
+                </select>
+            </div>
+            
+            <div class="setting-group">
+                <label class="setting-label">Theme</label>
+                <select class="setting-select" id="themeSelect">
+                    <option value="system">System</option>
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
+            
+            <div class="setting-group">
+                <div class="toggle-group">
+                    <div class="toggle-switch active" id="autoSaveToggle" onclick="toggleAutoSave()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <label class="toggle-label">Auto-save</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h2 class="section-title">Privacy Settings</h2>
+            
+            <div class="setting-group">
+                <div class="toggle-group">
+                    <div class="toggle-switch" id="dataCollectionToggle" onclick="toggleDataCollection()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <label class="toggle-label">Data Collection</label>
+                </div>
+            </div>
+            
+            <div class="setting-group">
+                <div class="toggle-group">
+                    <div class="toggle-switch active" id="analyticsToggle" onclick="toggleAnalytics()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <label class="toggle-label">Analytics</label>
+                </div>
+            </div>
+            
+            <div class="setting-group">
+                <div class="toggle-group">
+                    <div class="toggle-switch active" id="crashReportsToggle" onclick="toggleCrashReports()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <label class="toggle-label">Crash Reports</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h2 class="section-title">Security Settings</h2>
+            
+            <div class="setting-group">
+                <div class="toggle-group">
+                    <div class="toggle-switch active" id="twoFactorToggle" onclick="toggleTwoFactor()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <label class="toggle-label">Two-Factor Authentication</label>
+                </div>
+            </div>
+            
+            <div class="setting-group">
+                <div class="toggle-group">
+                    <div class="toggle-switch" id="biometricToggle" onclick="toggleBiometric()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <label class="toggle-label">Biometric Login</label>
+                </div>
+            </div>
+            
+            <div class="setting-group">
+                <label class="setting-label">Session Timeout</label>
+                <select class="setting-select" id="sessionTimeoutSelect">
+                    <option value="5">5 minutes</option>
+                    <option value="15" selected>15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">1 hour</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h2 class="section-title">Notification Settings</h2>
+            
+            <div class="setting-group">
+                <div class="toggle-group">
+                    <div class="toggle-switch active" id="pushNotificationsToggle" onclick="togglePushNotifications()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <label class="toggle-label">Push Notifications</label>
+                </div>
+            </div>
+            
+            <div class="setting-group">
+                <div class="toggle-group">
+                    <div class="toggle-switch" id="emailNotificationsToggle" onclick="toggleEmailNotifications()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <label class="toggle-label">Email Notifications</label>
+                </div>
+            </div>
+            
+            <div class="setting-group">
+                <div class="toggle-group">
+                    <div class="toggle-switch" id="smsNotificationsToggle" onclick="toggleSmsNotifications()">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <label class="toggle-label">SMS Notifications</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
+            <button class="btn btn-secondary" onclick="resetToDefaults()">Reset to Defaults</button>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                const tabName = this.textContent;
+                alert(`Switched to ${tabName} tab`);
+            });
+        });
+        
+        // Toggle switch functionality
+        function toggleSwitch(elementId) {
+            const toggle = document.getElementById(elementId);
+            toggle.classList.toggle('active');
+            return toggle.classList.contains('active');
+        }
+        
+        function toggleAutoSave() {
+            const isActive = toggleSwitch('autoSaveToggle');
+            console.log('Auto-save:', isActive);
+        }
+        
+        function toggleDataCollection() {
+            const isActive = toggleSwitch('dataCollectionToggle');
+            console.log('Data Collection:', isActive);
+        }
+        
+        function toggleAnalytics() {
+            const isActive = toggleSwitch('analyticsToggle');
+            console.log('Analytics:', isActive);
+        }
+        
+        function toggleCrashReports() {
+            const isActive = toggleSwitch('crashReportsToggle');
+            console.log('Crash Reports:', isActive);
+        }
+        
+        function toggleTwoFactor() {
+            const isActive = toggleSwitch('twoFactorToggle');
+            console.log('Two-Factor Authentication:', isActive);
+        }
+        
+        function toggleBiometric() {
+            const isActive = toggleSwitch('biometricToggle');
+            console.log('Biometric Login:', isActive);
+        }
+        
+        function togglePushNotifications() {
+            const isActive = toggleSwitch('pushNotificationsToggle');
+            console.log('Push Notifications:', isActive);
+        }
+        
+        function toggleEmailNotifications() {
+            const isActive = toggleSwitch('emailNotificationsToggle');
+            console.log('Email Notifications:', isActive);
+        }
+        
+        function toggleSmsNotifications() {
+            const isActive = toggleSwitch('smsNotificationsToggle');
+            console.log('SMS Notifications:', isActive);
+        }
+        
+        function saveSettings() {
+            alert('Your settings have been saved successfully!');
+        }
+        
+        function resetToDefaults() {
+            if (confirm('Are you sure you want to reset all settings to their default values?')) {
+                // Reset all toggles to default state
+                document.getElementById('autoSaveToggle').classList.add('active');
+                document.getElementById('dataCollectionToggle').classList.remove('active');
+                document.getElementById('analyticsToggle').classList.add('active');
+                document.getElementById('crashReportsToggle').classList.add('active');
+                document.getElementById('twoFactorToggle').classList.add('active');
+                document.getElementById('biometricToggle').classList.remove('active');
+                document.getElementById('pushNotificationsToggle').classList.add('active');
+                document.getElementById('emailNotificationsToggle').classList.remove('active');
+                document.getElementById('smsNotificationsToggle').classList.remove('active');
+                
+                // Reset selects to default values
+                document.getElementById('languageSelect').value = 'en';
+                document.getElementById('themeSelect').value = 'system';
+                document.getElementById('sessionTimeoutSelect').value = '15';
+                
+                alert('Settings reset to defaults!');
+            }
+        }
+    </script>
+</body>
+</html>

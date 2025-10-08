@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AccessibilityScenarios.MissingPageTitle"
+             Title="Settings">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+            <!-- Header -->
+            <Border Grid.Row="0" BackgroundColor="#FFFFFF" Padding="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Settings"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#333333"
+                           VerticalOptions="Center"/>
+                    
+                    <HorizontalStackLayout Grid.Column="1" Spacing="15">
+                        <Button Text="❓ Help"
+                                BackgroundColor="#6c757d"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        
+                        <Button Text="← Back"
+                                BackgroundColor="#007bff"
+                                TextColor="White"
+                                Padding="15,10"
+                                CornerRadius="6"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            
+            <!-- Main Content -->
+            <ScrollView Grid.Row="1" Padding="20">
+                <VerticalStackLayout Spacing="20">
+                    
+                    
+                    <!-- General Settings Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="General Settings"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="30">
+                                
+                                <!-- Left Column -->
+                                <VerticalStackLayout Grid.Column="0" Spacing="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Language"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>English</x:String>
+                                                <x:String>Spanish</x:String>
+                                                <x:String>French</x:String>
+                                                <x:String>German</x:String>
+                                                <x:String>Italian</x:String>
+                                                <x:String>Portuguese</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Theme"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>System</x:String>
+                                                <x:String>Light</x:String>
+                                                <x:String>Dark</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Font Size"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Slider Minimum="10"
+                                                Maximum="24"
+                                                Value="14"
+                                                BackgroundColor="#F8F9FA"
+                                                ThumbColor="#007bff"
+                                                MinimumTrackColor="#007bff"
+                                                MaximumTrackColor="#DEE2E6"/>
+                                        
+                                        <Label Text="14px"
+                                               FontSize="14"
+                                               TextColor="#666666"
+                                               HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                                
+                                <!-- Right Column -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Time Zone"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>UTC-12:00</x:String>
+                                                <x:String>UTC-11:00</x:String>
+                                                <x:String>UTC-10:00</x:String>
+                                                <x:String>UTC-09:00</x:String>
+                                                <x:String>UTC-08:00</x:String>
+                                                <x:String>UTC-07:00</x:String>
+                                                <x:String>UTC-06:00</x:String>
+                                                <x:String>UTC-05:00</x:String>
+                                                <x:String>UTC-04:00</x:String>
+                                                <x:String>UTC-03:00</x:String>
+                                                <x:String>UTC-02:00</x:String>
+                                                <x:String>UTC-01:00</x:String>
+                                                <x:String>UTC+00:00</x:String>
+                                                <x:String>UTC+01:00</x:String>
+                                                <x:String>UTC+02:00</x:String>
+                                                <x:String>UTC+03:00</x:String>
+                                                <x:String>UTC+04:00</x:String>
+                                                <x:String>UTC+05:00</x:String>
+                                                <x:String>UTC+06:00</x:String>
+                                                <x:String>UTC+07:00</x:String>
+                                                <x:String>UTC+08:00</x:String>
+                                                <x:String>UTC+09:00</x:String>
+                                                <x:String>UTC+10:00</x:String>
+                                                <x:String>UTC+11:00</x:String>
+                                                <x:String>UTC+12:00</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Date Format"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>MM/DD/YYYY</x:String>
+                                                <x:String>DD/MM/YYYY</x:String>
+                                                <x:String>YYYY-MM-DD</x:String>
+                                                <x:String>DD-MM-YYYY</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                    
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Currency"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#333333"/>
+                                        
+                                        <Picker BackgroundColor="#F8F9FA"
+                                                TextColor="#333333"
+                                                Padding="15,12"
+                                                CornerRadius="6">
+                                            <Picker.Items>
+                                                <x:String>USD ($)</x:String>
+                                                <x:String>EUR (€)</x:String>
+                                                <x:String>GBP (£)</x:String>
+                                                <x:String>JPY (¥)</x:String>
+                                                <x:String>CAD (C$)</x:String>
+                                                <x:String>AUD (A$)</x:String>
+                                            </Picker.Items>
+                                        </Picker>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Privacy Settings Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Privacy Settings"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <VerticalStackLayout Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Enable analytics tracking"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Allow cookies"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                    <Label Text="Share data with third parties"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Send usage reports"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                    <Label Text="Allow location tracking"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Notification Settings Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Notification Settings"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <VerticalStackLayout Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Email notifications"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Push notifications"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                    <Label Text="SMS notifications"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Marketing emails"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                    <Label Text="System updates"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Security Settings Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Security Settings"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <VerticalStackLayout Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Two-factor authentication"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Biometric login"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                    <Label Text="Remember login"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Session timeout"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                    <Label Text="Auto-login"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Advanced Settings Section -->
+                    <Border BackgroundColor="White" Stroke="#DDDDDD" StrokeThickness="1" Padding="25">
+                        <VerticalStackLayout Spacing="20">
+                            <Label Text="Advanced Settings"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#333333"/>
+                            
+                            <VerticalStackLayout Spacing="15">
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                    <Label Text="Developer mode"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Auto-updates"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                    <Label Text="Beta features"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="True" VerticalOptions="Center"/>
+                                    <Label Text="Error reporting"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                
+                                <HorizontalStackLayout Spacing="15">
+                                    <CheckBox IsChecked="False" VerticalOptions="Center"/>
+                                    <Label Text="Debug mode"
+                                           FontSize="16"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            
+            <!-- Footer -->
+            <Border Grid.Row="2" BackgroundColor="#333333" Padding="20">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Settings"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="General"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Privacy"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Security"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Notifications"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Email"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Push"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="SMS"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Advanced"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Developer"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Updates"
+                               FontSize="14"
+                               TextColor="#CCCCCC"
+                               Margin="0,0,0,8"/>
+                        <Label Text="Debug"
+                               FontSize="14"
+                               TextColor="#CCCCCC"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+

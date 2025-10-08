@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="UIComponents.Views.DashboardPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Dashboard Widget">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            
+            <Label Text="Dashboard Widget" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto" ColumnSpacing="10">
+                
+                <Frame Grid.Column="0" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Total Users" FontSize="16" FontAttributes="Bold" />
+                        <Label Text="1,234" FontSize="32" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Column="1" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Active Users" FontSize="16" FontAttributes="Bold" />
+                        <Label Text="567" FontSize="32" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Column="2" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Revenue" FontSize="16" FontAttributes="Bold" />
+                        <Label Text="$12,345" FontSize="32" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Column="3" Padding="15" HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Conversion" FontSize="16" FontAttributes="Bold" />
+                        <Label Text="3.2%" FontSize="32" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                    </StackLayout>
+                </Frame>
+
+            </Grid>
+
+            <Frame Padding="15" HasShadow="True" CornerRadius="10">
+                <StackLayout>
+                    <Label Text="Recent Activity" FontSize="18" FontAttributes="Bold" />
+                    <ListView x:Name="ActivityListView" HeightRequest="200">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10" ColumnDefinitions="*,*,*" RowDefinitions="Auto">
+                                        <Label Grid.Column="0" Text="{Binding Time}" FontSize="14" />
+                                        <Label Grid.Column="1" Text="{Binding User}" FontSize="14" />
+                                        <Label Grid.Column="2" Text="{Binding Action}" FontSize="14" />
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

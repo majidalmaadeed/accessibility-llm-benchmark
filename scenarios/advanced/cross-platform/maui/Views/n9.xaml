@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="UIComponents.Views.ShoppingCartPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Shopping Cart System">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            
+            <Label Text="Shopping Cart System" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <Frame Padding="15" HasShadow="True" CornerRadius="10">
+                <StackLayout Spacing="10">
+                    <Label Text="Cart Items" FontSize="18" FontAttributes="Bold" />
+                    
+                    <ListView x:Name="CartListView" HeightRequest="300">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="10" ColumnDefinitions="*,*,*,*" RowDefinitions="Auto">
+                                        <Label Grid.Column="0" Text="{Binding Name}" FontSize="14" />
+                                        <Label Grid.Column="1" Text="{Binding Price}" FontSize="14" />
+                                        <Label Grid.Column="2" Text="{Binding Quantity}" FontSize="14" />
+                                        <Button Grid.Column="3" Text="Remove" FontSize="12" Clicked="OnRemoveItemClicked" />
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    
+                    <Label x:Name="TotalLabel" Text="Total: $0.00" FontSize="18" FontAttributes="Bold" />
+                    
+                    <Button Text="Checkout" Clicked="OnCheckoutClicked" />
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

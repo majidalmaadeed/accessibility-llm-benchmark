@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="UIComponents.Views.DataTablePage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Data Table Complex">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            
+            <Label Text="Data Table Complex" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <!-- Search and Filters -->
+            <Frame Padding="15" HasShadow="True" CornerRadius="10">
+                <StackLayout Spacing="10">
+                    <Label Text="Search and Filters" FontSize="18" FontAttributes="Bold" />
+                    
+                    <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+                        
+                        <Entry Grid.Row="0" Grid.Column="0" 
+                               Placeholder="Search all columns..." 
+                               x:Name="SearchEntry" />
+                        
+                        <Picker Grid.Row="0" Grid.Column="1" 
+                                x:Name="CategoryPicker"
+                                Title="Category">
+                            <Picker.Items>
+                                <x:String>All</x:String>
+                                <x:String>Electronics</x:String>
+                                <x:String>Clothing</x:String>
+                                <x:String>Books</x:String>
+                                <x:String>Home</x:String>
+                                <x:String>Sports</x:String>
+                            </Picker.Items>
+                        </Picker>
+                        
+                        <Picker Grid.Row="0" Grid.Column="2" 
+                                x:Name="StatusPicker"
+                                Title="Status">
+                            <Picker.Items>
+                                <x:String>All</x:String>
+                                <x:String>Active</x:String>
+                                <x:String>Inactive</x:String>
+                                <x:String>Pending</x:String>
+                                <x:String>Completed</x:String>
+                            </Picker.Items>
+                        </Picker>
+                        
+                        <Label Grid.Row="1" Grid.Column="0" Text="Min Value:" VerticalOptions="Center" />
+                        <Entry Grid.Row="1" Grid.Column="1" 
+                               x:Name="MinValueEntry" 
+                               Placeholder="0" 
+                               Keyboard="Numeric" />
+                        
+                        <Label Grid.Row="1" Grid.Column="2" Text="Max Value:" VerticalOptions="Center" />
+                        <Entry Grid.Row="1" Grid.Column="2" 
+                               x:Name="MaxValueEntry" 
+                               Placeholder="10000" 
+                               Keyboard="Numeric" />
+                        
+                        <CheckBox Grid.Row="2" Grid.Column="0" 
+                                  x:Name="ActiveOnlyCheckBox" 
+                                  Content="Active Only" />
+                        
+                        <Button Grid.Row="2" Grid.Column="1" 
+                                Text="Apply Filters" 
+                                Clicked="OnApplyFiltersClicked" />
+                        
+                        <Button Grid.Row="2" Grid.Column="2" 
+                                Text="Reset" 
+                                Clicked="OnResetFiltersClicked" />
+                        
+                    </Grid>
+                </StackLayout>
+            </Frame>
+
+            <!-- Table Controls -->
+            <Frame Padding="15" HasShadow="True" CornerRadius="10">
+                <StackLayout Spacing="10">
+                    <Label Text="Table Controls" FontSize="18" FontAttributes="Bold" />
+                    
+                    <Grid ColumnDefinitions="*,*,*,*,*" RowDefinitions="Auto" ColumnSpacing="10">
+                        
+                        <Button Grid.Column="0" Text="Add Row" Clicked="OnAddRowClicked" />
+                        <Button Grid.Column="1" Text="Remove Selected" Clicked="OnRemoveRowClicked" />
+                        <Button Grid.Column="2" Text="Clear All" Clicked="OnClearAllClicked" />
+                        <Button Grid.Column="3" Text="Export" Clicked="OnExportClicked" />
+                        <Button Grid.Column="4" Text="Import" Clicked="OnImportClicked" />
+                        
+                    </Grid>
+                    
+                    <Label x:Name="RowCountLabel" Text="Rows: 0" FontSize="14" FontAttributes="Bold" />
+                </StackLayout>
+            </Frame>
+
+            <!-- Data Table -->
+            <Frame Padding="15" HasShadow="True" CornerRadius="10">
+                <StackLayout Spacing="10">
+                    <Label Text="Data Table" FontSize="18" FontAttributes="Bold" />
+                    
+                    <CollectionView x:Name="DataCollectionView" 
+                                    ItemsSource="{Binding DataItems}"
+                                    SelectionMode="Multiple"
+                                    HeightRequest="400">
+                        
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="10" ColumnDefinitions="60,200,120,100,100,120,80" RowDefinitions="Auto">
+                                    
+                                    <Label Grid.Column="0" Text="{Binding Id}" FontSize="14" />
+                                    <Label Grid.Column="1" Text="{Binding Name}" FontSize="14" />
+                                    <Label Grid.Column="2" Text="{Binding Category}" FontSize="14" />
+                                    <Label Grid.Column="3" Text="{Binding Status}" FontSize="14" />
+                                    <Label Grid.Column="4" Text="{Binding Value}" FontSize="14" />
+                                    <Label Grid.Column="5" Text="{Binding Date}" FontSize="14" />
+                                    <Label Grid.Column="6" Text="{Binding Active}" FontSize="14" />
+                                    
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        
+                        <CollectionView.Header>
+                            <Grid Padding="10" ColumnDefinitions="60,200,120,100,100,120,80" RowDefinitions="Auto" BackgroundColor="{StaticResource Gray200}">
+                                
+                                <Label Grid.Column="0" Text="ID" FontSize="14" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="Name" FontSize="14" FontAttributes="Bold" />
+                                <Label Grid.Column="2" Text="Category" FontSize="14" FontAttributes="Bold" />
+                                <Label Grid.Column="3" Text="Status" FontSize="14" FontAttributes="Bold" />
+                                <Label Grid.Column="4" Text="Value" FontSize="14" FontAttributes="Bold" />
+                                <Label Grid.Column="5" Text="Date" FontSize="14" FontAttributes="Bold" />
+                                <Label Grid.Column="6" Text="Active" FontSize="14" FontAttributes="Bold" />
+                                
+                            </Grid>
+                        </CollectionView.Header>
+                        
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>
